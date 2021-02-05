@@ -2,7 +2,7 @@
 	<view class="content">
 		<view class="indexconent">线索&客户</view>
 		<view class="indeximg">
-			<view class="index_n_img">
+			<view class="index_n_img" @click="addClue">
 				<image class="index_image" src="../../static/addmx.png" mode="aspectFit"></image>
 				<h4>新增线索</h4>
 			</view>
@@ -71,8 +71,11 @@
 
 		},
 		methods: {
-
-
+			addClue(){
+				uni.navigateTo({
+					url:"/pages/addclue/addclue"
+				})
+			}
 
 		}
 	}
