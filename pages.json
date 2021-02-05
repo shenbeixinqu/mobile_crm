@@ -20,10 +20,16 @@
 		}
 	],
 	"globalStyle": {
-		"navigationStyle":"custom",
+		"navigationStyle": "custom",
 		"navigationBarTextStyle": "black",
 		"navigationBarTitleText": "CRM",
 		"navigationBarBackgroundColor": "#4873c1",
 		"backgroundColor": "#ffffff"
+	},
+	"easycom": {
+		"autoscan": true,
+		"custom": {
+			"lb-picker": "@/components/lb-picker/index.vue"
+		}
 	}
 }

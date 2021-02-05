@@ -5,6 +5,10 @@ Vue.config.productionTip = false
 
 App.mpType = 'app'
 
+//多级联动
+import LbPicker from '@/components/lb-picker'
+Vue.component("lb-picker", LbPicker)
+
 // 底部footer
 import FootPart from '@/components/footer.vue'
 Vue.component('foot-part',FootPart)

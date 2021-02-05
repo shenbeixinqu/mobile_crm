@@ -1,11 +1,45 @@
 <template>
 	<view class="content">
+
 		<uni-drawer ref="drawer" mode="right" :width="drawWid">
 			<view style="padding:30rpx;">
 				标签
 			</view>
-		<view style="padding:30rpx;">
+			<view class="check_bj">
+				<checkbox-group class="check_box_k" @change="changeCheckbox">
+					<view v-for="item in checkboxData" :key="item.value" class="check_box">
+						<label>
+							<checkbox :value="String(item.value)" :checked="checkedArr.includes(String(item.value))" :class="{'checked':checkedArr.includes(String(item.value))}"></checkbox>
+							<text class="cketext">{{item.label}}</text>
+						</label>
+					</view>
+				</checkbox-group>
+			</view>
+			<view class="check_bj">
+				<checkbox-group class="check_box_k" @change="allChoose">
+					<label>
+						<checkbox value="all" :class="{'checked':allChecked}" :checked="allChecked?true:false"></checkbox> 全选
+					</label>
+				</checkbox-group>
+			</view>
+			<view style="padding:30rpx;">
 				地区
+			</view>
+			<view>
+				<view class="list-item" @tap="handleTap('picker2')">
+					<text class="sub-title">三级联动</text>
+					<view class="item-content">
+						<text class="item-title">绑定值:{{ JSON.stringify(value2) }}</text>
+						<view class="item-value">
+							<text class="item-label">{{ label2 }}</text>
+							<text v-if="!label2" class="item-placeholder">点我打开选择器</text>
+						</view>
+					</view>
+					<lb-picker ref="picker2" v-model="value2" mode="multiSelector" :list="list1" :level="3" :dataset="{ name: 'label2' }"
+					 @change="handleChange" @confirm="handleConfirm" @cancel="handleCancel">
+					</lb-picker>
+				</view>
+				<view class="grey-block"></view>
 			</view>
 			<view style="padding:30rpx;">
 				行业
@@ -58,6 +92,192 @@
 		},
 		data() {
 			return {
+				value1: [],
+				label1: '',
+
+				value2: [],
+				label2: '',
+
+				value3: ['2', '22', '223'],
+				label3: '',
+
+				value4: [],
+
+				list1: [{
+						label: '选项1',
+						value: '1',
+						children: [{
+								label: '选项11',
+								value: '11',
+								children: [{
+										label: '选项111',
+										value: '111'
+									},
+									{
+										label: '选项112',
+										value: '112'
+									},
+									{
+										label: '选项113',
+										value: '113'
+									}
+								]
+							},
+							{
+								label: '选项12',
+								value: '12',
+								children: [{
+										label: '选项121',
+										value: '121'
+									},
+									{
+										label: '选项122',
+										value: '122'
+									},
+									{
+										label: '选项123',
+										value: '123'
+									}
+								]
+							},
+							{
+								label: '选项13',
+								value: '13',
+								children: [{
+										label: '选项131',
+										value: '131'
+									},
+									{
+										label: '选项132',
+										value: '132'
+									},
+									{
+										label: '选项133',
+										value: '133'
+									}
+								]
+							}
+						]
+					},
+					{
+						label: '选项2',
+						value: '2',
+						children: [{
+								label: '选项21',
+								value: '21',
+								children: [{
+										label: '选项211',
+										value: '211'
+									},
+									{
+										label: '选项212',
+										value: '212'
+									},
+									{
+										label: '选项213',
+										value: '213'
+									}
+								]
+							},
+							{
+								label: '选项22',
+								value: '22',
+								children: [{
+										label: '选项221',
+										value: '221'
+									},
+									{
+										label: '选项222',
+										value: '222'
+									},
+									{
+										label: '选项223',
+										value: '223'
+									}
+								]
+							},
+							{
+								label: '选项23',
+								value: '23',
+								children: [{
+										label: '选项231',
+										value: '231'
+									},
+									{
+										label: '选项232',
+										value: '232'
+									},
+									{
+										label: '选项233',
+										value: '233'
+									}
+								]
+							}
+						]
+					},
+					{
+						label: '选项3',
+						value: '3',
+						children: [{
+								label: '选项31',
+								value: '31',
+								children: [{
+										label: '选项311',
+										value: '311'
+									},
+									{
+										label: '选项312',
+										value: '312'
+									},
+									{
+										label: '选项313',
+										value: '313'
+									}
+								]
+							},
+							{
+								label: '选项32',
+								value: '32',
+								children: [{
+										label: '选项321',
+										value: '321'
+									},
+									{
+										label: '选项322',
+										value: '322'
+									},
+									{
+										label: '选项323',
+										value: '323'
+									}
+								]
+							},
+							{
+								label: '选项33',
+								value: '33',
+								children: [{
+										label: '选项331',
+										value: '331'
+									},
+									{
+										label: '选项332',
+										value: '332'
+									},
+									{
+										label: '选项333',
+										value: '333'
+									}
+								]
+							}
+						]
+					}
+				],
+                list1:[],
+				list2: [],
+				isChecked: false,
+				checkboxData: [],
+				checkedArr: [], //复选框选中的值
+				allChecked: false, //是否全选
 				kword: '',
 				isAll: false,
 				nowPage: 1,
@@ -77,116 +297,187 @@
 		onLoad(options) {
 			this.getList();
 			this.tage();
+			this.locations();
 		},
 		methods: {
-			// 全选全不选
-			handleCheckAllTagChange() {
-				this.ktags = []
-				if (this.checkAllTag) {
-					Object.keys(this.tagsArr).map((item) => {
-						this.ktags.push(parseInt(item))
-					})
+			//三级联动
+			handleTap(picker) {
+				this.$refs[picker].show()
+			},
+			handleChange(e) {
+				console.log('change::', e)
+			},
+			handleConfirm(e) {
+				// 如果存在多个picker，可以在picker上设置dataset属性，confirm中获取，就能区分是哪个picker了
+				console.log('confirm::', e)
+				if (e) {
+					const name = e.dataset.name
+					const label = e.item.map(m => m.label).join('-')
+					if (name && label) {
+						this[name] = label
+					}
 				}
 			},
-			handleCheckedTagChange() {
-				this.checkAllTag = this.ktags.length === Object.keys(this.tagsArr).length
-			},
-			//抽屉
-			drawer() {
-				this.$refs.drawer.open();
-			},
-			//标签接口
-			tage() {
-				uni.request({
-					url: this.$burl + '/api/get_tags/' + this.usrid,
-					header: {
-						'Authorization': this.token
-					},
-					success: (res) => {
-						console.log("我是标签接口", res);
-						this.tagsArr = res.data.data.data;
-						console.log("我是标签接口", this.tagsArr);
-						
-
-					},
-					fail: (err) => {
-						//console.log(err)
+			handleCancel(e) {
+				console.log('cancel::', e)
+			}
+	,
+		checkboxChange(e) {
+			let values = e.detail.value;
+			if (values[0] == 1) {
+				this.isChecked = true;
+			} else {
+				this.isChecked = false;
+			}
+		},
+		// 多选复选框改变事件
+		changeCheckbox(e) {
+			this.checkedArr = e.detail.value;
+			// 如果选择的数组中有值，并且长度等于列表的长度，就是全选
+			if (this.checkedArr.length > 0 && this.checkedArr.length == this.checkboxData.length) {
+				this.allChecked = true;
+			} else {
+				this.allChecked = false;
+			}
+		},
+		// 全选事件
+		allChoose(e) {
+			let chooseItem = e.detail.value;
+			// 全选
+			if (chooseItem[0] == 'all') {
+				this.allChecked = true;
+				for (let item of this.checkboxData) {
+					let itemVal = String(item.value);
+					if (!this.checkedArr.includes(itemVal)) {
+						this.checkedArr.push(itemVal);
 					}
-				})
-			},
+				}
+			} else {
+				// 取消全选
+				this.allChecked = false;
+				this.checkedArr = [];
+			}
+		},
+
+		//抽屉
+		drawer() {
+			this.$refs.drawer.open();
+		},
+		//地址接口
+		locations() {
+			uni.request({
+				url: this.$burl + '/api/locations_cascade',
+				header: {
+					'Authorization': this.token
+				},
+				success: (res) => {
+					console.log("我地址接口", res.data.data);
+					this.list1=res.data.data.options;
+				},
+				fail: (err) => {
+					//console.log(err)
+				}
+			})
+		},
+		//标签接口
+		tage() {
+			uni.request({
+				url: this.$burl + '/api/get_tags/' + this.usrid,
+				header: {
+					'Authorization': this.token
+				},
+				success: (res) => {
+					let checklist = res.data.data.data;
+					console.log('checklist', checklist)
+					let arr = []
+					let key;
+					for (key in checklist) {
+						console.log(key);
+						this.checkboxData.push({
+							'value': checklist[key].id,
+							'label': checklist[key].tab
+						})
+					}
+					console.log(this.checkboxData);
+				},
+				fail: (err) => {
+					//console.log(err)
+				}
+			})
+		},
 
 
-			//列表接口
-			getList() {
-				uni.showLoading();
-				uni.request({
-					url: this.$burl + '/api/customer/clue/my',
-					header: {
-						'Authorization': this.token
-					},
-					data: {
-						// user_id: uni.getStorageSync('user_id'),
-						// type: '1'
-					},
+		//列表接口
+		getList() {
+			uni.showLoading();
+			uni.request({
+				url: this.$burl + '/api/customer/clue/my',
+				header: {
+					'Authorization': this.token
+				},
+				data: {
+					// user_id: uni.getStorageSync('user_id'),
+					// type: '1'
+				},
 
-					success: (res) => {
-						uni.hideLoading();
-						if (res.statusCode == 200) {
-							this.list = res.data.data.data;
-							if (this.list.length == 0) {
-								this.showxs = true;
-								uni.hideLoading();
-							} else {
-								this.showxs = false;
-							}
-							setTimeout(function() {
-								uni.hideLoading();
-							}, 1000)
+				success: (res) => {
+					uni.hideLoading();
+					if (res.statusCode == 200) {
+						this.list = res.data.data.data;
+						if (this.list.length == 0) {
+							this.showxs = true;
+							uni.hideLoading();
+						} else {
+							this.showxs = false;
 						}
-					},
-					fail: (err) => {
-						//console.log(err)
+						setTimeout(function() {
+							uni.hideLoading();
+						}, 1000)
 					}
-				})
-			},
-
-
-			// changeTab(v) {
-			// 	this.selectTab = v.id;
-			// 	this.dataList = [];
-			// 	this.isAll = false;
-			// 	this.nowPage = 1;
-			// 	this.getProData();
-			// },
-			getNextData() {
-				if (this.isAll) {
-					this.showToast('已加载全部');
-				} else {
-					this.nowPage++;
-					// this.getProData();
+				},
+				fail: (err) => {
+					//console.log(err)
 				}
-			},
-			//拨打电话
-			call_phone(item) {
-				uni.makePhoneCall({
-					phoneNumber: item.phone,
-					success: (res) => {
-						console.log('调用成功!')
-					},
-					// 失败回调
-					fail: (res) => {
-						console.log('调用失败!')
-						this.call_phone(); //重复调用一次
-					}
-				});
-			},
-			// 跳转详情页
-			goDetail(item) {
-				uni.navigateTo({
-					url: './pro_detail?id=' + item.id + '&path=' + this.from
-				});
-			},
-		}
+			})
+		},
+
+
+		// changeTab(v) {
+		// 	this.selectTab = v.id;
+		// 	this.dataList = [];
+		// 	this.isAll = false;
+		// 	this.nowPage = 1;
+		// 	this.getProData();
+		// },
+		getNextData() {
+			if (this.isAll) {
+				this.showToast('已加载全部');
+			} else {
+				this.nowPage++;
+				// this.getProData();
+			}
+		},
+		//拨打电话
+		call_phone(item) {
+			uni.makePhoneCall({
+				phoneNumber: item.phone,
+				success: (res) => {
+					console.log('调用成功!')
+				},
+				// 失败回调
+				fail: (res) => {
+					console.log('调用失败!')
+					this.call_phone(); //重复调用一次
+				}
+			});
+		},
+		// 跳转详情页
+		goDetail(item) {
+			uni.navigateTo({
+				url: './pro_detail?id=' + item.id + '&path=' + this.from
+			});
+		},
+	}
 	}
 </script>
 
@@ -334,7 +625,7 @@
 
 	.topview {
 		width: 96%;
-		margin-top:50rpx;
+		margin-top: 50rpx;
 		display: flex;
 		justify-content: flex-start;
 		align-items: center;
@@ -361,5 +652,104 @@
 	.tel-img {
 		width: 46upx;
 		height: 46upx;
+	}
+
+	.check_bj {
+		width: 100%;
+		display: flex;
+		justify-content: center;
+	}
+
+	.check_box_k {
+		width: 90%;
+		display: flex;
+		justify-content: flex-start;
+		flex-direction: row;
+		flex-wrap: wrap
+	}
+
+	.check_box {
+		margin-bottom: 10upx;
+		background: rgb(236, 245, 255);
+		width: 200rpx;
+		height: 50rpx;
+		display: flex;
+		margin-right: 10upx;
+		color: rgb(64, 158, 255);
+	}
+
+	.cketext {}
+
+	.list-item {
+		padding: 10px 15px;
+		/* #ifndef APP-NVUE */
+		display: flex;
+		flex-direction: column;
+		/* #endif */
+	}
+
+	.sub-title {
+		color: $uni-text-color-grey;
+		font-size: 12px;
+	}
+
+	.item-title {
+		font-size: 16px;
+	}
+
+	.item-content {
+		/* #ifndef APP-NVUE */
+		display: flex;
+		/* #endif */
+		flex-direction: row;
+		align-items: center;
+		justify-content: space-between;
+	}
+
+	.item-left {
+		font-size: 16px;
+		text-align: left;
+	}
+
+	.item-value {
+		/* #ifndef APP-NVUE */
+		display: flex;
+		/* #endif */
+		align-items: center;
+	}
+
+	.item-label {
+		font-size: 16px;
+	}
+
+	.item-placeholder {
+		color: $uni-text-color-grey;
+		font-size: 16px;
+	}
+
+	.tips {
+		color: $uni-color-error;
+		font-size: 12px;
+		padding-left: 16px;
+		padding-right: 16px;
+	}
+
+	.radio-group {
+		padding-bottom: 10px;
+		padding-left: 16px;
+		padding-right: 16px;
+	}
+
+	.flex-row-center {
+		/* #ifndef APP-NVUE */
+		display: flex;
+		/* #endif */
+		flex-direction: row;
+		align-items: center;
+	}
+
+	.grey-block {
+		height: 10px;
+		background-color: $uni-bg-color-grey;
 	}
 </style>
