@@ -3,14 +3,21 @@
 		{
 			"path": "pages/index/index",
 			"style": {
-				"navigationBarTitleText": "uni-app"
+				"navigationBarTitleText": "CRM"
+			}
+		},
+		{
+			"path": "pages/searchclue/searchclue",
+			"style": {
+				"navigationBarTitleText":"添加线索"
 			}
 		}
 	],
 	"globalStyle": {
+		"navigationStyle":"custom",
 		"navigationBarTextStyle": "black",
-		"navigationBarTitleText": "uni-app",
-		"navigationBarBackgroundColor": "#F8F8F8",
-		"backgroundColor": "#F8F8F8"
+		"navigationBarTitleText": "CRM",
+		"navigationBarBackgroundColor": "#4873c1",
+		"backgroundColor": "#ffffff"
 	}
 }
