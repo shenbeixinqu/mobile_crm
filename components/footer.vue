@@ -91,7 +91,7 @@
 			//线索
 			goClue() {
 				if(this.nowFoot!=4) {
-					uni.reLaunch({
+					uni.navigateTo({
 						url: '../searchclue/searchclue'
 					});
 					this.nowFoot = 4

@@ -9,6 +9,12 @@
 		{
 			"path": "pages/searchclue/searchclue",
 			"style": {
+				"navigationBarTitleText":"搜索线索"
+			}
+		},
+		{
+			"path": "pages/addclue/addclue",
+			"style": {
 				"navigationBarTitleText":"添加线索"
 			}
 		}
