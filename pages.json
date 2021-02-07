@@ -13,6 +13,12 @@
 			}
 		},
 		{
+			"path": "pages/myclue/myclue",
+			"style": {
+				"navigationBarTitleText":"我的线索"
+			}
+		},
+		{
 			"path": "pages/addclue/addclue",
 			"style": {
 				"navigationBarTitleText":"添加线索"
