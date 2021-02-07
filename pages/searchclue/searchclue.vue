@@ -3,6 +3,31 @@
 		<uni-drawer ref="drawer" mode="right" :width="drawWid">
 			<view class="wk_n">
 				<view class="chou_tit">
+
+					线索状态
+				</view>
+				<view class="check_bj">
+					<checkbox-group class="check_box_k" @change="changeCheckboxzt">
+						<view v-for="item in stagesArr" :key="item.value" class="check_box">
+							<label class="lable-box">
+								<checkbox :value="String(item.value)" :checked="checkedArrzt.includes(String(item.value))" :class="{'checked':checkedArrzt.includes(String(item.value))}"></checkbox>
+								<text class="cketext">{{item.label}}</text>
+							</label>
+						</view>
+					</checkbox-group>
+				</view>
+				<view class="check_bj">
+					<checkbox-group class="check_box_k" @change="allChoosezt">
+						<label class="lable-box">
+							<checkbox value="all" :class="{'checked':allChecked}" :checked="allChecked?true:false"></checkbox><text class="cketext"
+							 style="color:rgb(64, 158, 255);">全选</text>
+						</label>
+					</checkbox-group>
+				</view>
+			
+			
+			
+				<view class="chou_tit">
 					标签
 				</view>
 				<view class="check_bj">
@@ -61,15 +86,7 @@
 					</view>
 					<view class="grey-block"></view>
 				</view>
-				<view class="chou_tit">
-					来源
-				</view>
-				<view class="uni-list-cell-db">
-					<picker v-model="source_flag" @change="sourceChange" :value="source_flag" :range="sourceArray" range-key="name">
-						<view class="uni-input">{{sourceArray[source_flag].name}}</view>
-					</picker>
 
-				</view>
 				<view class="bottombtn">
 					<button type="primary" class="anbtn" @click="getList('search')">确定</button>
 					<button type="primary" class="anbtn" @click="clox()">重置</button>
@@ -80,38 +97,31 @@
 		<view class="topview">
 			<button type="primary" class="search-btn" @click="getList('search')"></button>
 			<input class="se-input" name="nickname" placeholder="请输入客户名称" v-model="kword" /><button type="primary" size="small"
-			 class="shai-btn" @click="drawer()">筛选</button></button> <button type="primary" size="small" class="shai-btn"@click="getList('search')">新增</button></view>
+			 class="shai-btn" @click="drawer()">筛选</button></button> <button type="primary" size="small" class="shai-btn" @click="getList('search')">新增</button></view>
 		<!-- 数据列表 -->
 		<view class="content">
-			<z-paging ref="paging" @query="queryList" :list.sync="dataList" style="height: calc(100% - 80rpx);">
-				<!-- 设置自定义emptyView组件，非必须。空数据时会自动展示空数据组件，不需要自己处理 -->
-				<empty-view slot="empty"></empty-view>
-				<!-- list数据，建议像下方这样在item外层套一个view，而非直接for循环item，因为slot插入有数量限制 -->
-				<view>
-					<view class="list-item" v-for="(item,index) in dataList" :key="index">
-						<view class="list-text" @tap="goDetail(item)">
-							<view class="list_tit">{{item.name}}</view>
-							<view class="tag_k" v-for="(user, i) in item.tags.data" :key="i">
-								{{user.t_tab}}
 
-							</view>
-						</view>
-						<view class="list-item-top">
-							<view class="list-dqk">
-								<view class="list-dq1" @tap="goDetail(item)">联系人：{{item.linkman.txt}}</view>
-								<view class="list-dq1" @tap="goDetail(item)">电话：{{item.phone}}</view>
-								<image class="tel-img" src="../../static/tel.png" mode="aspectFit" @tap="call_phone(item)"></image>
-							</view>
-							<view class="list-dq" @tap="goDetail(item)">到期时间：跟踪{{item.dt_link}} | 跟踪{{item.dt_track}}</view>
-							<view class="list-dq" @tap="goDetail(item)">审核状态：延期{{item.delay_status}} | 跟进{{item.audit_status}}</view>
-						</view>
-						<view class="list-item-bot">
-							<span @tap="pizhu(item)">填写批注</span> <span @tap="chufang(item)">申请出访</span> <span @tap="xiangqing(item)">详情</span>
-						</view>
+			<view class="list-item" v-for="(item,index) in dataList" :key="index">
+				<view class="list-text" @tap="goDetail(item)">
+					<view class="list_tit">{{item.name}}</view>
+					<view class="tag_k" v-for="(user, i) in item.tags.data" :key="i">
+						{{user.t_tab}}
 					</view>
+					<view class="hui">{{item.stage}}</view>
 				</view>
-			</z-paging>
+				<view class="list-item-top">
+					<view class="list-dqk">
+						<view class="list-dq1" @tap="goDetail(item)">地区：{{item.loc_lead}}</view>
+						<view class="list-dq1" @tap="goDetail(item)">行业：{{item.ind_lead}}</view>
+					</view>
+					<view class="list-dq" @tap="goDetail(item)">跟进人：{{item.track.txt[0]}}</view>
+				</view>
+				<view class="list-item-bot">
+					<span @tap="xiangqing(item)">跟进</span>
+				</view>
+			</view>
 		</view>
+	</view>
 	</view>
 </template>
 
@@ -138,7 +148,9 @@
 				source_flag: 0,
 				isChecked: false,
 				checkboxData: [],
+				checkboxDatazt: [],
 				checkedArr: [], //复选框选中的值
+				checkedArrzt: [], //状态复选框选中的值
 				allChecked: false, //是否全选
 				kword: '',
 				isAll: false,
@@ -152,6 +164,24 @@
 				// 全选全不选
 				ktags: '',
 				usrid: 2,
+				
+				stagesArr: [{
+						'value': 10,
+						'label': "线索"
+					},
+					{
+						'value': 20,
+						'label': "已跟进"
+					},
+					{
+						'value': 50,
+						'label': "客户"
+					},
+					{
+						'value': 90,
+						'label': "其他"
+					},
+				],
 				sourceArray: [{
 						name: "个人查找（公共资源)",
 						value: "1"
@@ -213,7 +243,7 @@
 						value: "15"
 					},
 				],
-				token: 'JWT eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE2MTI2NjM2NDIsImlhdCI6MTYxMjYyNzY0MiwiaXNzIjoiY3JtIiwiZGF0YSI6eyJpZCI6NTIsIm5hbWUiOiJcdTc2ZDhcdTUzZTRcdTZkNGJcdThiZDU1MiIsImV0b2tlbiI6ImV5SmhiR2NpT2lKSVV6STFOaUlzSW5SNWNDSTZJa3BYVkNKOS5leUoxYzJWeVgybGtJam8xTWl3aWFYTnpJam9pWlhKd0lpd2lhR1ZoWkdWeWN5STZleUpoYkdjaU9pSklVekkxTmlJc0luUjVjQ0k2SWtwWFZDSjlMQ0psZUhBaU9qRTJNVEkyTlRZek5ETXNJbWxoZENJNk1UWXhNall5TnpVME15d2lkWE5sY2w5dVlXMWxJam9pWEhVM05tUTRYSFUxTTJVMFhIVTJaRFJpWEhVNFltUTFOVElpZlEuOTVwMzlDbmd3RlpwX1A0TXc1amdrRjJNWHcwRjI3ZGRkTjI1MmdIU1czYyIsImNsb3VkX2lkIjoyLCJ1bl9pZCI6MiwidW5fbmFtZSI6Ilx1NmM4OFx1OTYzM1x1NzZkOFx1NTNlNCIsImRlX2lkIjoxMywiZGVfbmFtZSI6Ilx1NTkyN1x1NWUwMlx1NTczYVx1OTBlOCIsImRlcGFydHR5cGUiOjEwLCJwb3N0X25hbWUiOiJcdTYwM2JcdTc2ZDEiLCJsZXZlbCI6NzcsInN1cGVyX2lkIjoxNywia2EiOjAsImlwIjoiMjIzLjEwMS43MC4yMDIiLCJsYXN0dGltZSI6MTYxMjYyNzY0MCwicG9zdHMiOlt7ImlkIjowLCJkbmFtZSI6Ilx1NTkyN1x1NWUwMlx1NTczYVx1OTBlOCIsIm5hbWUiOiJcdTYwM2JcdTc2ZDEifSx7ImlkIjoxLCJkbmFtZSI6Ilx1NTkyN1x1NWI5ZVx1NjViZFx1OTBlOCIsIm5hbWUiOiJcdTYwM2JcdTc2ZDEifV0sInBvd2VycyI6IjE3NDI4ODE3OTg2MTA5ODc0MTg4NTc3Mjc3MzY3OTkxNTYxOTk0ODgzOTkzOTcwMjc1NDA4OTU3NDY5ODE3NzQyOTY1ODc0MzU5Mjc3MTcwMDg2NzU0NTE4NTQ0OTg5OTcyODk5ODAzMTI0MDA0NDA5NDQ1NTY0ODA2NTU1MjYzNjAyNTEzMzIzNzQxOTk2ODc1MjA3ODI2NzgyNjg5MTQ5NzY4MDQ1MTA3NjIzNzMwMjU2MTc2MjY3MTM5NDQzNDg3NzQ1ODA4NTgzMDEzNzA0OTkzMTgxNjQxNzM2NDMwOTc0MjQyNjM3NzA0MDc3MTA2NTM2MDQ1MDE2NzQ4OTc2Mzg0NTExMzc0MTg4NzQ2ODU3MzM3MTAwNjM5NTk1MzU0NDYxNzMxODQzMjQzMjA4ODc4MDI2ODM2NDY1MjQyNjUxMDYyNDQyNTEwODE2NDU2OTY3MTI2MDY0NzE5NDEzMTY2NDk1NzIyMTQ0MzQ2MTUzNzEwNDU5MzUxNDAzNjcyOTQzMjk5MzQ2NDk4NzA2MDczNTkzMTU3MzgwNTU5NjMzMDM3MjI0MjI1ODI1NDM4MDc4ODU3MjA5MzU5MzIzNDQ3ODE5MTUxNjY5NzIwMjUwODcxNzQ3NjAxNjE0OTI1ODcxNDI5MjEyMDUxNTQzNjE5OTE1NjM0MTcyMjU4NjU5Nzk4Njg1MDA0NTAyMzM1MTQxNDMzMDY4Mzc2Mzc4NDM4NjQ2NDc1NDE3NzY3MTk2MDA5NTg5MTM1NTQyMzgxMjY0ODgwMTgwNDY3NjQ3Njc3NzYzNjQxMDcyNTkzMzgwMDU4Nzc1ODI5MDE3NDUwMTQzNTUzOTcyNDYwMDMyOTAwNzM3NTkxNjYzNzE2MDA4MDUzMzA5NjEzMTg3MjI0MDU5MTE0NTM1MzUyMzgwMDA5MzMyMTIyNjI5NjY5ODI1Mzg3MDg4Mzg1NzAwNjE5NDc3Nzk0NTY4MjcyMjk3NTAwNzExNTc3OTE5NDk3MDYyMDg2MTk2NjY5MTgwODg4OTA1NTc4ODk3OTA1NTIxNzQ3Mjc2MzUxNjEyMTUyNDgxOTc1NTU4ODE4NzY1NzcxNDk3MTUyNTQxNTUzNDg3ODU1Njg3MDAwNTE4NDg4NTg5MDY0MzE1MjU4MjAxMzkwMDc5NDE3NTg0ODA1NjQxNjc3NzY4MjExMDMxODQwNzgwMjI4NjgxMjk1NTYzMjU4NDg5MzcwMDUwNTU2In19.Lyn5tVDn3Aj0WPCF1xP0nAR-JAzI-VL7LgsNXItkhBg'
+				token: 'JWT eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE2MTI3MTgwNDcsImlhdCI6MTYxMjY4MjA0NywiaXNzIjoiY3JtIiwiZGF0YSI6eyJpZCI6NTIsIm5hbWUiOiJcdTc2ZDhcdTUzZTRcdTZkNGJcdThiZDU1MiIsImV0b2tlbiI6ImV5SmhiR2NpT2lKSVV6STFOaUlzSW5SNWNDSTZJa3BYVkNKOS5leUoxYzJWeVgybGtJam8xTWl3aWFYTnpJam9pWlhKd0lpd2lhR1ZoWkdWeWN5STZleUpoYkdjaU9pSklVekkxTmlJc0luUjVjQ0k2SWtwWFZDSjlMQ0psZUhBaU9qRTJNVEkzTVRBM05EY3NJbWxoZENJNk1UWXhNalk0TVRrME55d2lkWE5sY2w5dVlXMWxJam9pWEhVM05tUTRYSFUxTTJVMFhIVTJaRFJpWEhVNFltUTFOVElpZlEuNHN5MEI3cndfQ2RyRThEU2o2bl9KNDBZTGVBVVZZdzM0YV8xbnBsOHgzayIsImNsb3VkX2lkIjoyLCJ1bl9pZCI6MiwidW5fbmFtZSI6Ilx1NmM4OFx1OTYzM1x1NzZkOFx1NTNlNCIsImRlX2lkIjoxMywiZGVfbmFtZSI6Ilx1NTkyN1x1NWUwMlx1NTczYVx1OTBlOCIsImRlcGFydHR5cGUiOjEwLCJwb3N0X25hbWUiOiJcdTYwM2JcdTc2ZDEiLCJsZXZlbCI6NzcsInN1cGVyX2lkIjoxNywia2EiOjAsImlwIjoiMTcyLjE4LjMuMTI5IiwibGFzdHRpbWUiOjE2MTI2ODIwNDUsInBvc3RzIjpbeyJpZCI6MCwiZG5hbWUiOiJcdTU5MjdcdTVlMDJcdTU3M2FcdTkwZTgiLCJuYW1lIjoiXHU2MDNiXHU3NmQxIn0seyJpZCI6MSwiZG5hbWUiOiJcdTU5MjdcdTViOWVcdTY1YmRcdTkwZTgiLCJuYW1lIjoiXHU2MDNiXHU3NmQxIn1dLCJwb3dlcnMiOiIxNzQyODgxNzk4NjEwOTg3NDE4ODU3NzI3NzM2Nzk5MTU2MTk5NDg4Mzk5Mzk3MDI3NTQwODk1NzQ2OTgxNzc0Mjk2NTg3NDM1OTI3NzE3MDA4Njc1NDUxODU0NDk4OTk3Mjg5OTgwMzEyNDAwNDQwOTQ0NTU2NDgwNjU1NTI2MzYwMjUxMzMyMzc0MTk5Njg3NTIwNzgyNjc4MjY4OTE0OTc2ODA0NTEwNzYyMzczMDI1NjE3NjI2NzEzOTQ0MzQ4Nzc0NTgwODU4MzAxMzcwNDk5MzE4MTY0MTczNjQzMDk3NDI0MjYzNzcwNDA3NzEwNjUzNjA0NTAxNjc0ODk3NjM4NDUxMTM3NDE4ODc0Njg1NzMzNzEwMDYzOTU5NTM1NDQ2MTczMTg0MzI0MzIwODg3ODAyNjgzNjQ2NTI0MjY1MTA2MjQ0MjUxMDgxNjQ1Njk2NzEyNjA2NDcxOTQxMzE2NjQ5NTcyMjE0NDM0NjE1MzcxMDQ1OTM1MTQwMzY3Mjk0MzI5OTM0NjQ5ODcwNjA3MzU5MzE1NzM4MDU1OTYzMzAzNzIyNDIyNTgyNTQzODA3ODg1NzIwOTM1OTMyMzQ0NzgxOTE1MTY2OTcyMDI1MDg3MTc0NzYwMTYxNDkyNTg3MTQyOTIxMjA1MTU0MzYxOTkxNTYzNDE3MjI1ODY1OTc5ODY4NTAwNDUwMjMzNTE0MTQzMzA2ODM3NjM3ODQzODY0NjQ3NTQxNzc2NzE5NjAwOTU4OTEzNTU0MjM4MTI2NDg4MDE4MDQ2NzY0NzY3Nzc2MzY0MTA3MjU5MzM4MDA1ODc3NTgyOTAxNzQ1MDE0MzU1Mzk3MjQ2MDAzMjkwMDczNzU5MTY2MzcxNjAwODA1MzMwOTYxMzE4NzIyNDA1OTExNDUzNTM1MjM4MDAwOTMzMjEyMjYyOTY2OTgyNTM4NzA4ODM4NTcwMDYxOTQ3Nzc5NDU2ODI3MjI5NzUwMDcxMTU3NzkxOTQ5NzA2MjA4NjE5NjY2OTE4MDg4ODkwNTU3ODg5NzkwNTUyMTc0NzI3NjM1MTYxMjE1MjQ4MTk3NTU1ODgxODc2NTc3MTQ5NzE1MjU0MTU1MzQ4Nzg1NTY4NzAwMDUxODQ4ODU4OTA2NDMxNTI1ODIwMTM5MDA3OTQxNzU4NDgwNTY0MTY3Nzc2ODIxMTAzMTg0MDc4MDIyODY4MTI5NTU2MzI1ODQ4OTM3MDA1MDU1NiJ9fQ.7XFybI60ImVXl8IqrSz2XMNe_CrG3Gq_HPO4Gl8-krc'
 
 			}
 		},
@@ -223,29 +253,54 @@
 			this.locations();
 			this.industrys();
 		},
-		methods: {
-			queryList(pageNo, pageSize) {
-				console.log('pageNo', pageNo)
-				console.log('', pageSize)
-				uni.request({
-					url: this.$burl + '/api/customer/clue/my',
-					header: {
-						'Authorization': this.token
-					},
-					data: {
-						limit: pageSize,
-						pn: pageNo,
-					},
-					success: (res) => {
-						console.log('我是数据', res)
-						this.$refs.paging.addData(res.data.data.data);
-					},
-					fail: (err) => {
-						//console.log(err)
-					}
-				})
+		//过滤器
+		filters: {
+			numToMean: function(value) {
+				let audit = ''
+				if (value === 0) {
+					audit = '--'
+					return audit
+				} else if (value === 1) {
+					audit = '体系审核通过'
+					return audit
+				} else if (value === 2) {
+					audit = '体系审核拒绝'
+					return audit
+				} else if (value === 3) {
+					audit = '总经办审核通过'
+					return audit
+				} else if (value === 4) {
+					audit = '总经办审核通过'
+					return audit
+				}
 
+				return audit
 			},
+
+			delayStatus: function(value) {
+				let delay = ''
+				if (value === "-1") {
+					delay = '--'
+					return delay
+				} else if (value === "0") {
+					delay = '待审核'
+					return delay
+				} else if (value === "1") {
+					delay = '审核通过'
+					return delay
+				} else if (value === "2") {
+					delay = '已拒绝'
+					return delay
+				}
+
+				return delay
+			},
+
+		},
+
+
+		methods: {
+
 			//三级联动
 			handleTap(picker) {
 				this.$refs[picker].show()
@@ -279,7 +334,7 @@
 			changeCheckbox(e) {
 
 				this.checkedArr = e.detail.value;
-				console.log('我看看选中的是什么', this.checkedArr)
+
 				// 如果选择的数组中有值，并且长度等于列表的长度，就是全选
 				if (this.checkedArr.length > 0 && this.checkedArr.length == this.checkboxData.length) {
 					this.allChecked = true;
@@ -297,17 +352,51 @@
 						let itemVal = String(item.value);
 						if (!this.checkedArr.includes(itemVal)) {
 							this.checkedArr.push(itemVal);
-
 						}
 					}
-					console.log('我看看选中的是什么', this.checkedArr)
 				} else {
 					// 取消全选
 					this.allChecked = false;
 					this.checkedArr = [];
 				}
 			},
-
+			
+			//状态
+		
+			changeCheckboxzt(e) {
+				this.checkedArrzt = e.detail.value;
+			
+				// 如果选择的数组中有值，并且长度等于列表的长度，就是全选
+				if (this.checkedArrzt.length > 0 && this.checkedArrzt.length == this.stagesArr.length) {
+					this.allChecked = true;
+				} else {
+					this.allChecked = false;
+				}
+			},
+			// 全选事件
+			allChoosezt(e) {
+				let chooseItem = e.detail.value;
+				// 全选
+				if (chooseItem[0] == 'all') {
+					this.allChecked = true;
+					for (let item of this.stagesArr) {
+						let itemVal = String(item.value);
+						if (!this.checkedArrzt.includes(itemVal)) {
+							this.checkedArrzt.push(itemVal);
+						}
+					}
+				} else {
+					// 取消全选
+					this.allChecked = false;
+					this.checkedArr = [];
+				}
+			},
+			
+			//线索来源
+			sourceChange(e) {
+				console.log(e);
+				this.source_flag = e.detail.value;
+			},
 			//抽屉打开
 			drawer() {
 				this.$refs.drawer.open();
@@ -316,10 +405,7 @@
 			clox() {
 				this.$refs.drawer.close();
 			},
-			//线索来源
-			sourceChange(e) {
-				this.source_flag = e.detail.value;
-			},
+
 			//地址接口
 			locations() {
 				uni.request({
@@ -328,7 +414,7 @@
 						'Authorization': this.token
 					},
 					success: (res) => {
-						console.log("我地址接口", res.data.data);
+
 						this.list1 = res.data.data.options;
 					},
 					fail: (err) => {
@@ -344,7 +430,7 @@
 						'Authorization': this.token
 					},
 					success: (res) => {
-						console.log("我是行业接口", res.data.data);
+
 						this.listhy = res.data.data.options;
 					},
 					fail: (err) => {
@@ -361,48 +447,49 @@
 					},
 					success: (res) => {
 						let checklist = res.data.data.data;
-						console.log('checklist', checklist)
 						let arr = []
 						let key;
 						for (key in checklist) {
-							console.log(key);
 							this.checkboxData.push({
 								'value': checklist[key].id,
 								'label': checklist[key].tab
 							})
 						}
-						console.log(this.checkboxData);
+
 					},
 					fail: (err) => {
 						//console.log(err)
 					}
 				})
 			},
-            //undefined，null转空
-			 praseStrEmpty(str){
-             if(!str || str=="undefined" || str=="null"){
-             return "";
-             }
-             return str;
-            },
+			
+			//undefined，null转空
+			praseStrEmpty(str) {
+				if (!str || str == "undefined" || str == "null") {
+					return "";
+				}
+				return str;
+			},
 
 			//列表接口
 			getList(type) {
-				let dq=this.value3.pop()+'';	
-				let hy=this.value4.pop()+'';
+				let dq = this.value3.pop() + '';
+				let hy = this.value4.pop() + '';
 				uni.showLoading();
 				uni.request({
-					url: this.$burl + '/api/customer/clue/my',
+					url: this.$burl + '/api/customer/malist',
 					header: {
 						'Authorization': this.token
 					},
 					data: {
-						kword:this.kword,
-						ktags:this.checkedArr.join(','),
-						kloc:this.praseStrEmpty(dq),
-						kind:this.praseStrEmpty(hy),
+						kword: this.kword,
+						ktags: this.checkedArr.join(','),
+						kloc: this.praseStrEmpty(dq),
+						kind: this.praseStrEmpty(hy),
+
 					},
 					success: (res) => {
+						console.log('我是数据的', res)
 						uni.hideLoading();
 						if (res.statusCode == 200) {
 							this.$refs.drawer.close();
@@ -425,13 +512,7 @@
 			},
 
 
-			// changeTab(v) {
-			// 	this.selectTab = v.id;
-			// 	this.dataList = [];
-			// 	this.isAll = false;
-			// 	this.nowPage = 1;
-			// 	this.getProData();
-			// },
+
 			getNextData() {
 				if (this.isAll) {
 					this.showToast('已加载全部');
@@ -440,20 +521,7 @@
 					// this.getProData();
 				}
 			},
-			//拨打电话
-			call_phone(item) {
-				uni.makePhoneCall({
-					phoneNumber: item.phone,
-					success: (res) => {
-						console.log('调用成功!')
-					},
-					// 失败回调
-					fail: (res) => {
-						console.log('调用失败!')
-						this.call_phone(); //重复调用一次
-					}
-				});
-			},
+
 			// 跳转详情页
 			goDetail(item) {
 				uni.navigateTo({
@@ -484,7 +552,7 @@
 		height: 100%;
 		display: flex;
 		flex-direction: column;
-		justify-content: center;
+		align-items: center;
 	}
 
 
@@ -528,7 +596,7 @@
 		width: 100%;
 		display: flex;
 		margin-top: 15upx;
-		justify-content: space-between;
+		justify-content: flex-end;
 		color: #4873c1;
 		font-size: 28upx;
 	}
@@ -557,6 +625,13 @@
 		display: flex;
 	}
 
+	.hui {
+		display: flex;
+		color: #999999;
+		font-size: 14upx;
+		margin-left: 10upx;
+	}
+
 	.tag_k {
 		display: flex;
 		background-color: #ecf5ff;
@@ -568,6 +643,7 @@
 		width: 40rpx;
 		justify-content: center;
 		color: #409eff;
+		margin-left: 10upx;
 	}
 
 	.list-dq {
@@ -640,10 +716,7 @@
 		width: 100%;
 		display: flex;
 		justify-content: center;
-
 		line-height: 70upx;
-		margin-bottom: 10upx;
-
 	}
 
 	.check_box_k {
@@ -675,11 +748,11 @@
 	}
 
 	.list-item {
+		width: 96%;
 		flex-direction: column;
 		color: #666666;
-		margin-bottom: 25upx;
+		margin-top: 25upx;
 		padding: 3%;
-		overflow: hidden;
 		border: 1px #e4e4e4 solid;
 		display: flex;
 		border-radius: 5px;
@@ -689,7 +762,8 @@
 		display: flex;
 		align-items: center;
 		justify-content: space-between;
-		padding: 30rpx;
+		padding: 2%;
+
 	}
 
 	.sub-title {

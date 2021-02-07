@@ -66,7 +66,9 @@
 				</view>
 				<view class="uni-list-cell-db">
 					<picker v-model="source_flag" @change="sourceChange" :value="source_flag" :range="sourceArray" range-key="name">
-						<view class="uni-input">{{sourceArray[source_flag].name}}</view>
+						<view class="uni-input" v-if="sourceArray[source_flag].value">{{sourceArray[source_flag].name}}</view>
+						<view class="uni-input" v-else>请选择来源</view>
+						
 					</picker>
 
 				</view>
@@ -80,7 +82,7 @@
 		<view class="topview">
 			<button type="primary" class="search-btn" @click="getList('search')"></button>
 			<input class="se-input" name="nickname" placeholder="请输入客户名称" v-model="kword" /><button type="primary" size="small"
-			 class="shai-btn" @click="drawer()">筛选</button></button> <button type="primary" size="small" class="shai-btn"@click="getList('search')">新增</button></view>
+			 class="shai-btn" @click="drawer()">筛选</button></button> <button type="primary" size="small" class="shai-btn" @click="getList('search')">新增</button></view>
 		<!-- 数据列表 -->
 		<view class="content">
 			<z-paging ref="paging" @query="queryList" :list.sync="dataList" style="height: calc(100% - 80rpx);">
@@ -102,8 +104,8 @@
 								<view class="list-dq1" @tap="goDetail(item)">电话：{{item.phone}}</view>
 								<image class="tel-img" src="../../static/tel.png" mode="aspectFit" @tap="call_phone(item)"></image>
 							</view>
-							<view class="list-dq" @tap="goDetail(item)">到期时间：跟踪{{item.dt_link}} | 跟踪{{item.dt_track}}</view>
-							<view class="list-dq" @tap="goDetail(item)">审核状态：延期{{item.delay_status}} | 跟进{{item.audit_status}}</view>
+							<view class="list-dq" @tap="goDetail(item)">到期时间：跟踪还剩{{item.dt_link}}天 | 沟通还剩{{item.dt_track}}天</view>
+							<view class="list-dq" @tap="goDetail(item)">审核状态：延期：{{item.delay_status|delayStatus}} | 跟进：{{item.audit_status|numToMean}}</view>
 						</view>
 						<view class="list-item-bot">
 							<span @tap="pizhu(item)">填写批注</span> <span @tap="chufang(item)">申请出访</span> <span @tap="xiangqing(item)">详情</span>
@@ -123,6 +125,7 @@
 		},
 		data() {
 			return {
+				new_goods_show:0,
 				dataList: [],
 				value1: [],
 				label1: '',
@@ -223,10 +226,54 @@
 			this.locations();
 			this.industrys();
 		},
+		//过滤器
+		filters: {
+			numToMean: function(value) {
+				let audit = ''
+				if (value === 0) {
+					audit = '--'
+					return audit
+				} else if (value === 1) {
+					audit = '体系审核通过'
+					return audit
+				} else if (value === 2) {
+					audit = '体系审核拒绝'
+					return audit
+				} else if (value === 3) {
+					audit = '总经办审核通过'
+					return audit
+				} else if (value === 4) {
+					audit = '总经办审核通过'
+					return audit
+				}
+
+				return audit
+			},
+			
+			delayStatus: function(value) {
+				let delay = ''
+				if (value === "-1") {
+					delay = '--'
+					return delay
+				} else if (value === "0") {
+					delay = '待审核'
+					return delay
+				} else if (value === "1") {
+					delay = '审核通过'
+					return delay
+				} else if (value === "2") {
+					delay = '已拒绝'
+					return delay
+				} 
+
+				return delay
+			},
+
+		},
+		
+
 		methods: {
 			queryList(pageNo, pageSize) {
-				console.log('pageNo', pageNo)
-				console.log('', pageSize)
 				uni.request({
 					url: this.$burl + '/api/customer/clue/my',
 					header: {
@@ -237,7 +284,7 @@
 						pn: pageNo,
 					},
 					success: (res) => {
-						console.log('我是数据', res)
+					
 						this.$refs.paging.addData(res.data.data.data);
 					},
 					fail: (err) => {
@@ -279,7 +326,7 @@
 			changeCheckbox(e) {
 
 				this.checkedArr = e.detail.value;
-				console.log('我看看选中的是什么', this.checkedArr)
+				
 				// 如果选择的数组中有值，并且长度等于列表的长度，就是全选
 				if (this.checkedArr.length > 0 && this.checkedArr.length == this.checkboxData.length) {
 					this.allChecked = true;
@@ -300,14 +347,18 @@
 
 						}
 					}
-					console.log('我看看选中的是什么', this.checkedArr)
+				
 				} else {
 					// 取消全选
 					this.allChecked = false;
 					this.checkedArr = [];
 				}
 			},
-
+             //线索来源
+             sourceChange(e) {
+				 console.log(e);
+             	this.source_flag = e.detail.value;
+             },
 			//抽屉打开
 			drawer() {
 				this.$refs.drawer.open();
@@ -316,10 +367,7 @@
 			clox() {
 				this.$refs.drawer.close();
 			},
-			//线索来源
-			sourceChange(e) {
-				this.source_flag = e.detail.value;
-			},
+			
 			//地址接口
 			locations() {
 				uni.request({
@@ -328,7 +376,7 @@
 						'Authorization': this.token
 					},
 					success: (res) => {
-						console.log("我地址接口", res.data.data);
+					
 						this.list1 = res.data.data.options;
 					},
 					fail: (err) => {
@@ -344,7 +392,7 @@
 						'Authorization': this.token
 					},
 					success: (res) => {
-						console.log("我是行业接口", res.data.data);
+						
 						this.listhy = res.data.data.options;
 					},
 					fail: (err) => {
@@ -361,35 +409,33 @@
 					},
 					success: (res) => {
 						let checklist = res.data.data.data;
-						console.log('checklist', checklist)
 						let arr = []
 						let key;
 						for (key in checklist) {
-							console.log(key);
 							this.checkboxData.push({
 								'value': checklist[key].id,
 								'label': checklist[key].tab
 							})
 						}
-						console.log(this.checkboxData);
+						
 					},
 					fail: (err) => {
 						//console.log(err)
 					}
 				})
 			},
-            //undefined，null转空
-			 praseStrEmpty(str){
-             if(!str || str=="undefined" || str=="null"){
-             return "";
-             }
-             return str;
-            },
+			//undefined，null转空
+			praseStrEmpty(str) {
+				if (!str || str == "undefined" || str == "null") {
+					return "";
+				}
+				return str;
+			},
 
 			//列表接口
 			getList(type) {
-				let dq=this.value3.pop()+'';	
-				let hy=this.value4.pop()+'';
+				let dq = this.value3.pop() + '';
+				let hy = this.value4.pop() + '';
 				uni.showLoading();
 				uni.request({
 					url: this.$burl + '/api/customer/clue/my',
@@ -397,10 +443,11 @@
 						'Authorization': this.token
 					},
 					data: {
-						kword:this.kword,
-						ktags:this.checkedArr.join(','),
-						kloc:this.praseStrEmpty(dq),
-						kind:this.praseStrEmpty(hy),
+						kword: this.kword,
+						ktags: this.checkedArr.join(','),
+						kloc: this.praseStrEmpty(dq),
+						kind: this.praseStrEmpty(hy),
+						ksource:this.source_flag,
 					},
 					success: (res) => {
 						uni.hideLoading();
@@ -425,13 +472,7 @@
 			},
 
 
-			// changeTab(v) {
-			// 	this.selectTab = v.id;
-			// 	this.dataList = [];
-			// 	this.isAll = false;
-			// 	this.nowPage = 1;
-			// 	this.getProData();
-			// },
+		
 			getNextData() {
 				if (this.isAll) {
 					this.showToast('已加载全部');
