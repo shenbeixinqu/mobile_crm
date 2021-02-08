@@ -64,14 +64,13 @@
 				<view class="chou_tit">
 					来源
 				</view>
-			<!-- 	<view class="uni-list-cell-db">
+				<view class="uni-list-cell-db">
 					<picker v-model="source_flag" @change="sourceChange" :value="source_flag" :range="sourceArray" range-key="name">
-						<view class="uni-input" v-if="sourceArray[source_flag].value">{{sourceArray[source_flag].name}}</view>
-						<view class="uni-input" v-else>请选择来源</view>
-						
+						<view class="uni-input" v-if="source_flag">{{sourceArray[source_flag].name}}</view>
+						<view class="uni-input item-placeholder" v-else>请选择来源</view>
 					</picker>
 
-				</view> -->
+				</view>
 				<view class="bottombtn">
 					<button type="primary" class="anbtn" @click="getList('search')">确定</button>
 					<button type="primary" class="anbtn" @click="clox()">重置</button>
@@ -138,7 +137,7 @@
 				listhy: [],
 				list1: [],
 				list2: [],
-				source_flag: 0,
+				source_flag: "",
 				isChecked: false,
 				checkboxData: [],
 				checkedArr: [], //复选框选中的值
@@ -356,8 +355,9 @@
 			},
           //线索来源
           sourceChange(e) {
-          	console.log(e);
+          	console.log("线索来源",e);
           	this.source_flag = e.detail.value;
+			console.log("sourcechange",this.source_flag)
           },
 			//抽屉打开
 			drawer() {

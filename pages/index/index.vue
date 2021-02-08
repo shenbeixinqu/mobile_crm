@@ -10,9 +10,9 @@
 				<image class="index_image" src="../../static/ssxx.png" mode="aspectFit"></image>
 				<h4>搜索线索</h4>
 			</view>
-			<view class="index_n_img">
+			<view class="index_n_img" @click="myClue">
 				<image class="index_image" src="../../static/woxs.png" mode="aspectFit"></image>
-				<h4>新增线索</h4>
+				<h4>我的线索</h4>
 			</view>
 			<view class="index_n_img">
 				<image class="index_image" src="../../static/wdkh.png" mode="aspectFit"></image>
@@ -74,6 +74,11 @@
 			addClue(){
 				uni.navigateTo({
 					url:"/pages/addclue/addclue"
+				})
+			},
+			myClue(){
+				uni.navigateTo({
+					url:"/pages/myclue/myclue"
 				})
 			}
 
