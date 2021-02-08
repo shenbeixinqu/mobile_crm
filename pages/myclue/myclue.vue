@@ -66,7 +66,7 @@
 				</view>
 				<view class="uni-list-cell-db">
 					<picker v-model="source_flag" @change="sourceChange" :value="source_flag" :range="sourceArray" range-key="name">
-						<view class="uni-input" v-if="sourceArray[source_flag].value">{{sourceArray[source_flag].name}}</view>
+						<view class="uni-input" v-if="sourceArray[source_flag]">{{sourceArray[source_flag].name}}</view>
 						<view class="uni-input" v-else>请选择来源</view>
 						
 					</picker>
@@ -141,7 +141,7 @@
 				listhy: [],
 				list1: [],
 				list2: [],
-				source_flag: 0,
+				source_flag: '',
 				isChecked: false,
 				checkboxData: [],
 				checkedArr: [], //复选框选中的值
