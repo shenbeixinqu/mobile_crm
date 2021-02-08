@@ -23,6 +23,24 @@
 			"style": {
 				"navigationBarTitleText":"添加线索"
 			}
+		},
+		{
+			"path": "pages/check/track",
+			"style": {
+				"navigationBarTitleText":"跟进线索审核列表"
+			}
+		},
+		{
+			"path": "pages/check/cusdelay",
+			"style": {
+				"navigationBarTitleText":"延期申请审核列表"
+			}
+		},
+		{
+			"path": "pages/check/trackindex",
+			"style": {
+				"navigationBarTitleText":"跟进线索审核"
+			}
 		}
 	],
 	"globalStyle": {

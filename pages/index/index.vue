@@ -34,11 +34,11 @@
 		</view>
 		<view class="indexconent">审核</view>
 		<view class="indeximg">
-			<view class="index_n_img">
+			<view class="index_n_img" @click="track">
 				<image class="index_image" src="../../static/gjsh.png" mode="aspectFit"></image>
 				<h4>跟进线索审核</h4>
 			</view>
-			<view class="index_n_img">
+			<view class="index_n_img" @click="cusdelay">
 				<image class="index_image" src="../../static/wdxs.png" mode="aspectFit"></image>
 				<h4>线索延期审核</h4>
 			</view>
@@ -79,6 +79,16 @@
 			myClue(){
 				uni.navigateTo({
 					url:"/pages/myclue/myclue"
+				})
+			},
+			track(){
+				uni.navigateTo({
+					url:"/pages/check/track"
+				})
+			},
+			cusdelay(){
+				uni.navigateTo({
+					url:"/pages/check/cusdelay"
 				})
 			}
 
