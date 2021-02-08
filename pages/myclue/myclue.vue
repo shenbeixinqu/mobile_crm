@@ -66,8 +66,9 @@
 				</view>
 				<view class="uni-list-cell-db">
 					<picker v-model="source_flag" @change="sourceChange" :value="source_flag" :range="sourceArray" range-key="name">
-						<view class="uni-input" v-if="source_flag">{{sourceArray[source_flag].name}}</view>
-						<view class="uni-input item-placeholder" v-else>请选择来源</view>
+						<view class="uni-input" v-if="sourceArray[source_flag].value">{{sourceArray[source_flag].name}}</view>
+						<view class="uni-input" v-else>请选择来源</view>
+						
 					</picker>
 
 				</view>
@@ -92,8 +93,8 @@
 				<empty-view slot="empty"></empty-view>
 				<!-- list数据，建议像下方这样在item外层套一个view，而非直接for循环item，因为slot插入有数量限制 -->
 				<view>
-					<view class="list-item" v-for="(item,index) in dataList" :key="index">
-						<view class="list-text" @tap="goDetail(item)">
+					<view class="list-item" v-for="(item,index) in dataList" :key="index"   @tap="goDetail(item)">
+						<view class="list-text">
 							<view class="list_tit">{{item.name}}</view>
 							<view class="tag_k" v-for="(user, i) in item.tags.data" :key="i">
 								{{user.t_tab}}
@@ -102,12 +103,12 @@
 						</view>
 						<view class="list-item-top">
 							<view class="list-dqk">
-								<view class="list-dq1" @tap="goDetail(item)">联系人：{{item.linkman.txt}}</view>
-								<view class="list-dq1" @tap="goDetail(item)">电话：{{item.phone}}</view>
-								<image class="tel-img" src="../../static/tel.png" mode="aspectFit" @tap="call_phone(item)"></image>
+								<view class="list-dq1">联系人：{{item.linkman.txt}}</view>
+								<view class="list-dq1">电话：{{item.phone}}</view>
+								<image class="tel-img" src="../../static/tel.png" mode="aspectFit" @tap.stop="call_phone(item)"></image>
 							</view>
-							<view class="list-dq" @tap="goDetail(item)">到期时间：跟踪还剩{{item.dt_link}}天 | 沟通还剩{{item.dt_track}}天</view>
-							<view class="list-dq" @tap="goDetail(item)">审核状态：延期：{{item.delay_status|delayStatus}} | 跟进：{{item.audit_status|numToMean}}</view>
+							<view class="list-dq">到期时间：跟踪还剩{{item.dt_link}}天 | 沟通还剩{{item.dt_track}}天</view>
+							<view class="list-dq">审核状态：延期：{{item.delay_status|delayStatus}} | 跟进：{{item.audit_status|numToMean}}</view>
 						</view>
 						<view class="list-item-bot">
 							<span @tap="pizhu(item)">填写批注</span> <span @tap="chufang(item)">申请出访</span> <span @tap="xiangqing(item)">详情</span>
@@ -140,7 +141,7 @@
 				listhy: [],
 				list1: [],
 				list2: [],
-				source_flag: "",
+				source_flag: 0,
 				isChecked: false,
 				checkboxData: [],
 				checkedArr: [], //复选框选中的值
@@ -357,9 +358,8 @@
 			},
           //线索来源
           sourceChange(e) {
-          	console.log("线索来源",e);
+          	console.log(e);
           	this.source_flag = e.detail.value;
-			console.log("sourcechange",this.source_flag)
           },
 			//抽屉打开
 			drawer() {
@@ -500,9 +500,10 @@
 			},
 			// 跳转详情页
 			goDetail(item) {
+				console.log()
 				uni.navigateTo({
-					url: './pro_detail?id=' + item.id + '&path=' + this.from
-				});
+					url:'/pages/details/details?id='+item._id
+				})
 			},
 		}
 	}

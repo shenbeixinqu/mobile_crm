@@ -40,6 +40,10 @@
 			"path": "pages/check/trackindex",
 			"style": {
 				"navigationBarTitleText":"跟进线索审核"
+		},{
+			"path": "pages/details/details",
+			"style": {
+				"navigationBarTitleText":"查看详情"
 			}
 		}
 	],
