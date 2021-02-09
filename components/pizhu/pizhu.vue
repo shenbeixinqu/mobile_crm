@@ -1,42 +1,17 @@
 <template>
 	<view class="contentk">
-		<view class="tit">客户的基本资料</view>
-		<view class="bottxt" v-if="tableList.length!=0">
-			<view class="divtableleft">
-				<view class="divtext">客户名称：</view>
-				<view class="divright">{{ tableList.name}}</view>
-				<view class="divtext">客户地区：</view>
-				<view class="divright">{{ tableList.loc_lead}}</view>
-				<view class="divtext">详细地址：</view>
-				<view class="divright">{{ tableList.address}}</view>
-				<view class="divtext">企业法人：</view>
-				<view class="divright">{{ tableList.legal}}</view>
-				<view class="divtext">客户电话：</view>
-				<view class="divright">{{ tableList.phone}}</view>
-				<view class="divtext">客户来源：</view>
-				<view class="divright">{{ tableList.source_flag}}</view>
+		<view class="tit">销售批注</view>
+		<view class="bottxt">
+			<view class="bottxt_top">
+				<view class="bottxt_top_y"></view>
+				<view class="bottxt_top_jiantou">2021-02-08 16:48:22</view>
 			</view>
-			<view class="divtableleft1" v-if="isMore">
-				<view class="divtext">传真：</view>
-				<view class="divright">{{ tableList.fax }}</view>
-				<view class="divtext">办公邮箱：</view>
-				<view class="divright">{{ tableList.mail }}</view>
-				<view class="divtext"> 邮编：</view>
-				<view class="divright">{{ tableList.zipcode }}</view>
-				<view class="divtext">人员规模：</view>
-				<view class="divright">{{ tableList.employees }}</view>
-				<view class="divtext">成立日期：</view>
-				<view class="divright">{{ tableList.openingdate }}</view>
-				<view class="divtext">注册资金：</view>
-				<view class="divright">{{ tableList.registered }}</view>
-				<view class="divtext">主营业务：</view>
-				<view class="divright">{{ tableList.business }}</view>
+			<view class="bottxt_mid">
+				ffffff
 			</view>
-			<view class="divgd" @click="handleMore" v-if="isShow">了解更多客户信息>></view>
-			<view class="divgd" @click="handleShou"  v-if="isSh">收回>></view>
+
 		</view>
-		<view class="tit">联系人</view>
-		这里是联系人
+
 	</view>
 </template>
 
@@ -49,7 +24,7 @@
 		},
 		data() {
 			return {
-				isShow:true,
+				isShow: true,
 				isMore: false,
 				isSh: false,
 				tableList: [],
@@ -62,28 +37,15 @@
 		//     },
 		//   },
 		mounted() {
-			this.kehu();
+			this.fuwu();
 			console.log(11111)
 		},
 		methods: {
-			//更多
-			handleMore() {
-				this.isMore = !this.isMore;
-				this.isShow=!this.isShow;
-				this.isSh=!this.isSh;
-			},
-			//收回
-			handleShou(){
-				console.log('aaa');
-				this.isMore=false;
-				this.isSh=false;
-				this.isShow=true;
-			},
-			//客户概况接口
-			kehu() {
 
+			//客户概况接口
+			fuwu() {
 				uni.request({
-					url: this.$burl + '/api/customer/info',
+					url: this.$burl + '/api/customer/assistant',
 					header: {
 						'Authorization': this.token
 					},
@@ -91,6 +53,7 @@
 						id: this.activeId
 					},
 					success: (res) => {
+						console.log(res);
 						if (res.data.data.status == 200) {
 							this.tableList = res.data.data.data;
 						}
@@ -111,7 +74,6 @@
 
 	.contentk {
 		width: 100%;
-
 		display: flex;
 		flex-direction: column;
 		align-items: center;
@@ -127,57 +89,47 @@
 	}
 
 	.bottxt {
-		width: 95%;
-
-	}
-
-	.divtableleft {
-		width: 100%;
-		line-height: 50upx;
+		width: 96%;
 		display: flex;
-		justify-content: space-between;
-		flex-wrap: wrap;
-		font-size: 24upx;
-		border: 1px #e4e4e4 solid;
-		border-bottom: none;
-		background: #f2f2f2;
+		flex-direction: column;
+		align-items: center;
 	}
 
-	.divtableleft1 {
+	.bottxt_top {
 		width: 100%;
-		line-height: 50upx;
 		display: flex;
-		justify-content: space-between;
-		flex-wrap: wrap;
-		font-size: 24upx;
-		border: 1px #e4e4e4 solid;
-		border-top: none;
-		border-bottom: none;
-		background: #f2f2f2;
-	}
-
-	.divgd {
-		color: #1890ff;
-		width: 100%;
-		font-size: 24upx;
-		line-height: 50upx;
-		text-align: right;
 		height: 50upx;
+		line-height: 50upx;
+		align-items: center;
+		justify-items: center;
 	}
 
-	.divtext {
-		width: 20%;
-		padding-left: 2%;
-		display: flex;
-		justify-content: flex-start;
-		border-bottom: 1px solid #e4e4e4;
+	.bottxt_mid {
+		width:95%;
+		align-items: center;
+		justify-items: center;
+		background: url(../../static/xx.jpg) repeat-y 8upx;
+		margin-top: -25upx;
+		height: 200upx;
+		padding-left:5% ;
+	}
+	.bottxt_mid_right{
+		
+	}
+
+	.bottxt_top_y {
+		width: 20upx;
+		height: 20upx;
+		background: #e4e7ed;
+		border-radius: 50%;
+	}
+
+	.bottxt_top_jiantou {
+		line-height: 50upx;
+		color: #909399;
 		font-size: 24upx;
+		margin-left: 10upx;
+		
 
-	}
-
-	.divright {
-		width: 78%;
-		border-bottom: 1px solid #e4e4e4;
-		display: flex;
 	}
 </style>
