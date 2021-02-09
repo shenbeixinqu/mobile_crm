@@ -33,7 +33,7 @@
 		{
 			"path": "pages/check/cusdelay",
 			"style": {
-				"navigationBarTitleText":"延期申请审核列表"
+				"navigationBarTitleText":"延期审核列表"
 			}
 		},
 		{
@@ -41,7 +41,17 @@
 			"style": {
 				"navigationBarTitleText":"跟进线索审核"
 			}
-		},{
+		},
+		{
+			"path": "pages/check/delayindex",
+			"style": {
+				"navigationBarTitleText":"线索延期审核"
+			}
+		},
+		{
+			"path": "pages/check/trackindexrefuse"
+		},
+		{
 			"path": "pages/details/details",
 			"style": {
 				"navigationBarTitleText":"查看详情"
