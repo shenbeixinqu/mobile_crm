@@ -31,10 +31,6 @@
 			<input class="input" type="text" v-model="clueForm.legal" placeholder-class="placeholder" />
 		</view>
 		<view class="row b-b">
-			<label class="tit">行业检索:</label>
-			<input class="input" type="text" v-model="clueForm.legal" placeholder-class="placeholder" />
-		</view>
-		<view class="row b-b">
 			<label class="tit">行业:</label>
 			<input class="input" type="text" v-model="clueForm.legal" placeholder-class="placeholder" />
 		</view>

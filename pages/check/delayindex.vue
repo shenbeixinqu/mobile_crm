@@ -1,7 +1,19 @@
 <template>
 	<view>
 		<view>
-			
+			<view>名额使用情况:</view>
+			<view>申请人:{{addname}}</view>
+			<view>申请时间:{{addtime}}</view>
+			<view>客户名称:{{name}}</view>
+			<view>跟踪开始时间:{{lastime_push}}</view>
+			<view>到期时间:{{endtime_push}}</view>
+			<view>计划签单日期:{{do_time}}</view>
+			<view>延期天数:{{delay_days}}天(自然日)</view>
+			<view>延期原因:{{reasons}}</view>	
+		</view>
+		<view>
+			<button type="primary" class="btn" @click="cancel">拒绝</button>
+			<button type="primary" class="btn" @click="confirm">同意</button>
 		</view>
 	</view>
 </template>
@@ -11,16 +23,68 @@
 		data(){
 			return{
 				_id:"",
+				addname:"",
+				addtime:"",
+				name:"",
+				lastime_push:"",
+				endtime_push:"",
+				do_time: "",
+				delay_days:"",
+				reasons:"",
 				dataList:[],
-				token:"JWT eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE2MTM1NDYzODgsImlhdCI6MTYxMzUxMDM4OCwiaXNzIjoiY3JtIiwiZGF0YSI6eyJpZCI6NTIsIm5hbWUiOiJcdTc2ZDhcdTUzZTRcdTZkNGJcdThiZDU1MiIsImV0b2tlbiI6ImV5SmhiR2NpT2lKSVV6STFOaUlzSW5SNWNDSTZJa3BYVkNKOS5leUoxYzJWeVgybGtJam8xTWl3aWFYTnpJam9pWlhKd0lpd2lhR1ZoWkdWeWN5STZleUpoYkdjaU9pSklVekkxTmlJc0luUjVjQ0k2SWtwWFZDSjlMQ0psZUhBaU9qRTJNVE0xTXprd05qUXNJbWxoZENJNk1UWXhNelV4TURJMk5Dd2lkWE5sY2w5dVlXMWxJam9pWEhVM05tUTRYSFUxTTJVMFhIVTJaRFJpWEhVNFltUTFOVElpZlEuU3dodFVIRlp6UE9KREV1X2RUT2xqV2pEUUhrdWJMVFNxZjh4OHVkWEtkTSIsImNsb3VkX2lkIjoyLCJ1bl9pZCI6MiwidW5fbmFtZSI6Ilx1NmM4OFx1OTYzM1x1NzZkOFx1NTNlNCIsImRlX2lkIjoxMywiZGVfbmFtZSI6Ilx1NTkyN1x1NWUwMlx1NTczYVx1OTBlOCIsImRlcGFydHR5cGUiOjEwLCJwb3N0X25hbWUiOiJcdTYwM2JcdTc2ZDEiLCJsZXZlbCI6NzcsInN1cGVyX2lkIjoxNywia2EiOjAsImlwIjoiMjIzLjEwMS43MC4xNTEiLCJsYXN0dGltZSI6MTYxMzUxMDM4NiwicG9zdHMiOlt7ImlkIjowLCJkbmFtZSI6Ilx1NTkyN1x1NWUwMlx1NTczYVx1OTBlOCIsIm5hbWUiOiJcdTYwM2JcdTc2ZDEifSx7ImlkIjoxLCJkbmFtZSI6Ilx1NTkyN1x1NWI5ZVx1NjViZFx1OTBlOCIsIm5hbWUiOiJcdTYwM2JcdTc2ZDEifV0sInBvd2VycyI6IjE3NDI4ODE3OTg2MTA5ODc0MTg4NTc3Mjc3MzY3OTkxNTYxOTk0ODgzOTkzOTcwMjc1NDA4OTU3NDY5ODE3NzQyOTY1ODc0MzU5Mjc3MTcwMDg2NzU0NTE4NTQ0OTg5OTcyODk5ODAzMTI0MDA0NDA5NDQ1NTY0ODA2NTU1MjYzNjAyNTEzMzIzNzQxOTk2ODc1MjA3ODI2NzgyNjg5MTQ5NzY4MDQ1MTA3NjIzNzMwMjU2MTc2MjY3MTM5NDQzNDg3NzQ1ODA4NTgzMDEzNzA0OTkzMTgxNjQxNzM2NDMwOTc0MjQyNjM3NzA0MDc3MTA2NTM2MDQ1MDE2NzQ4OTc2Mzg0NTExMzc0MTg4NzQ2ODU3MzM3MTAwNjM5NTk1MzU0NDYxNzMxODQzMjQzMjA4ODc4MDI2ODM2NDY1MjQyNjUxMDYyNDQyNTEwODE2NDU2OTY3MTI2MDY0NzE5NDEzMTY2NDk1NzIyMTQ0MzQ2MTUzNzEwNDU5MzUxNDAzNjcyOTQzMjk5MzQ2NDk4NzA2MDczNTkzMTU3MzgwNTU5NjMzMDM3MjI0MjI1ODI1NDM4MDc4ODU3MjA5MzU5MzIzNDQ3ODE5MTUxNjY5NzIwMjUwODcxNzQ3NjAxNjE0OTI1ODcxNDI5MjEyMDUxNTQzNjE5OTE1NjM0MTcyMjU4NjU5Nzk4Njg1MDA0NTAyMzM1MTQxNDMzMDY4Mzc2Mzc4NDM4NjQ2NDc1NDE3NzY3MTk2MDA5NTg5MTM1NTQyMzgxMjY0ODgwMTgwNDY3NjQ3Njc3NzYzNjQxMDcyNTkzMzgwMDU4Nzc1ODI5MDE3NDUwMTQzNTUzOTcyNDYwMDMyOTAwNzM3NTkxNjYzNzE2MDA4MDUzMzA5NjEzMTg3MjI0MDU5MTE0NTM1MzUyMzgwMDA5MzMyMTIyNjI5NjY5ODI1Mzg3MDg4Mzg1NzAwNjE5NDc3Nzk0NTY4MjcyMjk3NTAwNzExNTc3OTE5NDk3MDYyMDg2MTk2NjY5MTgwODg4OTA1NTc4ODk3OTA1NTIxNzQ3Mjc2MzUxNjEyMTUyNDgxOTc1NTU4ODE4NzY1NzcxNDk3MTUyNTQxNTUzNDg3ODU1Njg3MDAwNTE4NDg4NTg5MDY0MzE1MjU4MjAxMzkwMDc5NDE3NTg0ODA1NjQxNjc3NzY4MjExMDMxODQwNzgwMjI4NjgxMjk1NTYzMjU4NDg5MzcwMDUwNTU2In19.3Jr9JWOGhFW5kYTU-lmUsQJI2kM1wCYocqUi3js4vjU"
+				token:this.$token
 			}
 		},
 		onLoad(options){
-			console.log("op",options)
-			this._id = options._id
+			const item = JSON.parse(decodeURIComponent(options.detail));
+			this.addname = item.addname,
+			this.addtime = item.addtime,
+			this.lastime_push = item.lastime_push,
+			this.name = item.name,
+			this.endtime_push = item.endtime_push,
+			this.do_time = item.do_time,
+			this.delay_days = item.delay_days
+			this.reasons = item.reasons,
+			this._id = item._id
 		},
 		methods:{
-			
+			confirm(){
+				uni.showModal({
+					title: '提示信息',
+					content: '您确定提交吗',
+					success: res => {
+						if(res.confirm){
+							uni.request({
+								url:this.$burl + "/api/customer/delay/deal",
+								method:"POST",
+								data:{
+									id: this._id,
+									status: "1",
+									deal_reason: ""
+								},
+								header:{
+									'Authorization': this.token
+								},
+								success: res => {
+									if (res.data.data.status === 200){
+										uni.navigateBack({
+											delta:1
+										})
+									}
+								},
+								fail:err => {
+									console.log("统一审核失败",err)
+								}
+							})
+						}
+					}
+				})
+			},
+			cancel(){
+				uni.navigateTo({
+					url:"./delayindexrefuse?id=" + this._id
+				})
+			}
 		}
 	}
 </script>
