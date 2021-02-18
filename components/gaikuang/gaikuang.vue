@@ -9,7 +9,7 @@
 						<view>上传时间：营业执照</view>
 					</view>
 					<view class="list-img">
-						<image style="width: 100%; height:300upx; background-color: #eeeeee;" mode="aspectFit"  ></image>
+						<image style="width: 100%; height:300upx; background-color: #eeeeee;" mode="aspectFit"></image>
 					</view>
 				</view>
 				<button type="primary" class="anbtn" @click="clox()">返回</button>
@@ -19,7 +19,7 @@
 
 
 		<view class="tit">客户的基本资料</view>
-		<view class="bottxt" v-if="tableList.length!=0">
+		<view class="bottxt">
 			<view class="divtableleft">
 				<view class="divtext">客户名称：</view>
 				<view class="divright">{{ tableList.name}}</view>
@@ -55,8 +55,22 @@
 			<view class="divgd" @click="handleMore" v-if="isShow">了解更多客户信息>></view>
 			<view class="divgd" @click="handleShou" v-if="isSh">收回>></view>
 		</view>
-		<view class="tit">联系人</view>
-		<button type="primary" class="anbtn" @click="fuwu('search')">新增联系人</button>
+		<view class="tit">联系人 <view class="txtright"></view>
+		</view>
+		<view class="contactus">
+			<view class="contactus_top">
+				<view>姓名</view>
+				<view>电话号码</view>
+				<view>职务</view>
+			</view>
+			<view class="contactus_bottom" v-for="item in linkmans" :key="item.value">
+				<view>{{item.realname}}</view>
+				<view  @tap.stop="call_phone(item)">{{item.phone}}<image class="tel-img" src="../../static/tel.png" mode="aspectFit"></image>
+				</view>
+				<view>{{item.duty}}</view>
+			</view>
+		</view>
+
 	</view>
 </template>
 </view>
@@ -80,8 +94,9 @@
 				isMore: false,
 				isSh: false,
 				tableList: [],
-				  tableDatazi: [],
-				token: "JWT eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE2MTM1NDYzODgsImlhdCI6MTYxMzUxMDM4OCwiaXNzIjoiY3JtIiwiZGF0YSI6eyJpZCI6NTIsIm5hbWUiOiJcdTc2ZDhcdTUzZTRcdTZkNGJcdThiZDU1MiIsImV0b2tlbiI6ImV5SmhiR2NpT2lKSVV6STFOaUlzSW5SNWNDSTZJa3BYVkNKOS5leUoxYzJWeVgybGtJam8xTWl3aWFYTnpJam9pWlhKd0lpd2lhR1ZoWkdWeWN5STZleUpoYkdjaU9pSklVekkxTmlJc0luUjVjQ0k2SWtwWFZDSjlMQ0psZUhBaU9qRTJNVE0xTXprd05qUXNJbWxoZENJNk1UWXhNelV4TURJMk5Dd2lkWE5sY2w5dVlXMWxJam9pWEhVM05tUTRYSFUxTTJVMFhIVTJaRFJpWEhVNFltUTFOVElpZlEuU3dodFVIRlp6UE9KREV1X2RUT2xqV2pEUUhrdWJMVFNxZjh4OHVkWEtkTSIsImNsb3VkX2lkIjoyLCJ1bl9pZCI6MiwidW5fbmFtZSI6Ilx1NmM4OFx1OTYzM1x1NzZkOFx1NTNlNCIsImRlX2lkIjoxMywiZGVfbmFtZSI6Ilx1NTkyN1x1NWUwMlx1NTczYVx1OTBlOCIsImRlcGFydHR5cGUiOjEwLCJwb3N0X25hbWUiOiJcdTYwM2JcdTc2ZDEiLCJsZXZlbCI6NzcsInN1cGVyX2lkIjoxNywia2EiOjAsImlwIjoiMjIzLjEwMS43MC4xNTEiLCJsYXN0dGltZSI6MTYxMzUxMDM4NiwicG9zdHMiOlt7ImlkIjowLCJkbmFtZSI6Ilx1NTkyN1x1NWUwMlx1NTczYVx1OTBlOCIsIm5hbWUiOiJcdTYwM2JcdTc2ZDEifSx7ImlkIjoxLCJkbmFtZSI6Ilx1NTkyN1x1NWI5ZVx1NjViZFx1OTBlOCIsIm5hbWUiOiJcdTYwM2JcdTc2ZDEifV0sInBvd2VycyI6IjE3NDI4ODE3OTg2MTA5ODc0MTg4NTc3Mjc3MzY3OTkxNTYxOTk0ODgzOTkzOTcwMjc1NDA4OTU3NDY5ODE3NzQyOTY1ODc0MzU5Mjc3MTcwMDg2NzU0NTE4NTQ0OTg5OTcyODk5ODAzMTI0MDA0NDA5NDQ1NTY0ODA2NTU1MjYzNjAyNTEzMzIzNzQxOTk2ODc1MjA3ODI2NzgyNjg5MTQ5NzY4MDQ1MTA3NjIzNzMwMjU2MTc2MjY3MTM5NDQzNDg3NzQ1ODA4NTgzMDEzNzA0OTkzMTgxNjQxNzM2NDMwOTc0MjQyNjM3NzA0MDc3MTA2NTM2MDQ1MDE2NzQ4OTc2Mzg0NTExMzc0MTg4NzQ2ODU3MzM3MTAwNjM5NTk1MzU0NDYxNzMxODQzMjQzMjA4ODc4MDI2ODM2NDY1MjQyNjUxMDYyNDQyNTEwODE2NDU2OTY3MTI2MDY0NzE5NDEzMTY2NDk1NzIyMTQ0MzQ2MTUzNzEwNDU5MzUxNDAzNjcyOTQzMjk5MzQ2NDk4NzA2MDczNTkzMTU3MzgwNTU5NjMzMDM3MjI0MjI1ODI1NDM4MDc4ODU3MjA5MzU5MzIzNDQ3ODE5MTUxNjY5NzIwMjUwODcxNzQ3NjAxNjE0OTI1ODcxNDI5MjEyMDUxNTQzNjE5OTE1NjM0MTcyMjU4NjU5Nzk4Njg1MDA0NTAyMzM1MTQxNDMzMDY4Mzc2Mzc4NDM4NjQ2NDc1NDE3NzY3MTk2MDA5NTg5MTM1NTQyMzgxMjY0ODgwMTgwNDY3NjQ3Njc3NzYzNjQxMDcyNTkzMzgwMDU4Nzc1ODI5MDE3NDUwMTQzNTUzOTcyNDYwMDMyOTAwNzM3NTkxNjYzNzE2MDA4MDUzMzA5NjEzMTg3MjI0MDU5MTE0NTM1MzUyMzgwMDA5MzMyMTIyNjI5NjY5ODI1Mzg3MDg4Mzg1NzAwNjE5NDc3Nzk0NTY4MjcyMjk3NTAwNzExNTc3OTE5NDk3MDYyMDg2MTk2NjY5MTgwODg4OTA1NTc4ODk3OTA1NTIxNzQ3Mjc2MzUxNjEyMTUyNDgxOTc1NTU4ODE4NzY1NzcxNDk3MTUyNTQxNTUzNDg3ODU1Njg3MDAwNTE4NDg4NTg5MDY0MzE1MjU4MjAxMzkwMDc5NDE3NTg0ODA1NjQxNjc3NzY4MjExMDMxODQwNzgwMjI4NjgxMjk1NTYzMjU4NDg5MzcwMDUwNTU2In19.3Jr9JWOGhFW5kYTU-lmUsQJI2kM1wCYocqUi3js4vjU"
+				tableDatazi: [],
+				linkmans: [],
+				token: "JWT eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE2MTM2NDU4ODEsImlhdCI6MTYxMzYwOTg4MSwiaXNzIjoiY3JtIiwiZGF0YSI6eyJpZCI6NTIsIm5hbWUiOiJcdTc2ZDhcdTUzZTRcdTZkNGJcdThiZDU1MiIsImV0b2tlbiI6ImV5SmhiR2NpT2lKSVV6STFOaUlzSW5SNWNDSTZJa3BYVkNKOS5leUoxYzJWeVgybGtJam8xTWl3aWFYTnpJam9pWlhKd0lpd2lhR1ZoWkdWeWN5STZleUpoYkdjaU9pSklVekkxTmlJc0luUjVjQ0k2SWtwWFZDSjlMQ0psZUhBaU9qRTJNVE0yTXpnMU5UVXNJbWxoZENJNk1UWXhNell3T1RjMU5Td2lkWE5sY2w5dVlXMWxJam9pWEhVM05tUTRYSFUxTTJVMFhIVTJaRFJpWEhVNFltUTFOVElpZlEuWnZnWUZLbDhVMjNuUElwLUtKOVNLd3ZVQ25vMURkTVRKUUdnclRGbTZBayIsImNsb3VkX2lkIjoyLCJ1bl9pZCI6MiwidW5fbmFtZSI6Ilx1NmM4OFx1OTYzM1x1NzZkOFx1NTNlNCIsImRlX2lkIjoxMywiZGVfbmFtZSI6Ilx1NTkyN1x1NWUwMlx1NTczYVx1OTBlOCIsImRlcGFydHR5cGUiOjEwLCJwb3N0X25hbWUiOiJcdTYwM2JcdTc2ZDEiLCJsZXZlbCI6NzcsInN1cGVyX2lkIjoxNywia2EiOjAsImlwIjoiMTcyLjE4LjMuMTI5IiwibGFzdHRpbWUiOjE2MTM2MDk4NzksInBvc3RzIjpbeyJpZCI6MCwiZG5hbWUiOiJcdTU5MjdcdTVlMDJcdTU3M2FcdTkwZTgiLCJuYW1lIjoiXHU2MDNiXHU3NmQxIn0seyJpZCI6MSwiZG5hbWUiOiJcdTU5MjdcdTViOWVcdTY1YmRcdTkwZTgiLCJuYW1lIjoiXHU2MDNiXHU3NmQxIn1dLCJwb3dlcnMiOiIxNzQyODgxNzk4NjEwOTg3NDE4ODU3NzI3NzM2Nzk5MTU2MTk5NDg4Mzk5Mzk3MDI3NTQwODk1NzQ2OTgxNzc0Mjk2NTg3NDM1OTI3NzE3MDA4Njc1NDUxODU0NDk4OTk3Mjg5OTgwMzEyNDAwNDQwOTQ0NTU2NDgwNjU1NTI2MzYwMjUxMzMyMzc0MTk5Njg3NTIwNzgyNjc4MjY4OTE0OTc2ODA0NTEwNzYyMzczMDI1NjE3NjI2NzEzOTQ0MzQ4Nzc0NTgwODU4MzAxMzcwNDk5MzE4MTY0MTczNjQzMDk3NDI0MjYzNzcwNDA3NzEwNjUzNjA0NTAxNjc0ODk3NjM4NDUxMTM3NDE4ODc0Njg1NzMzNzEwMDYzOTU5NTM1NDQ2MTczMTg0MzI0MzIwODg3ODAyNjgzNjQ2NTI0MjY1MTA2MjQ0MjUxMDgxNjQ1Njk2NzEyNjA2NDcxOTQxMzE2NjQ5NTcyMjE0NDM0NjE1MzcxMDQ1OTM1MTQwMzY3Mjk0MzI5OTM0NjQ5ODcwNjA3MzU5MzE1NzM4MDU1OTYzMzAzNzIyNDIyNTgyNTQzODA3ODg1NzIwOTM1OTMyMzQ0NzgxOTE1MTY2OTcyMDI1MDg3MTc0NzYwMTYxNDkyNTg3MTQyOTIxMjA1MTU0MzYxOTkxNTYzNDE3MjI1ODY1OTc5ODY4NTAwNDUwMjMzNTE0MTQzMzA2ODM3NjM3ODQzODY0NjQ3NTQxNzc2NzE5NjAwOTU4OTEzNTU0MjM4MTI2NDg4MDE4MDQ2NzY0NzY3Nzc2MzY0MTA3MjU5MzM4MDA1ODc3NTgyOTAxNzQ1MDE0MzU1Mzk3MjQ2MDAzMjkwMDczNzU5MTY2MzcxNjAwODA1MzMwOTYxMzE4NzIyNDA1OTExNDUzNTM1MjM4MDAwOTMzMjEyMjYyOTY2OTgyNTM4NzA4ODM4NTcwMDYxOTQ3Nzc5NDU2ODI3MjI5NzUwMDcxMTU3NzkxOTQ5NzA2MjA4NjE5NjY2OTE4MDg4ODkwNTU3ODg5NzkwNTUyMTc0NzI3NjM1MTYxMjE1MjQ4MTk3NTU1ODgxODc2NTc3MTQ5NzE1MjU0MTU1MzQ4Nzg1NTY4NzAwMDUxODQ4ODU4OTA2NDMxNTI1ODIwMTM5MDA3OTQxNzU4NDgwNTY0MTY3Nzc2ODIxMTAzMTg0MDc4MDIyODY4MTI5NTU2MzI1ODQ4OTM3MDA1MDU1NiJ9fQ.106AgSKn5Snz3scY5aFl54KSJl5Dlya-OOdg00rJShc"
 			}
 		},
 		// watch: {
@@ -112,10 +127,24 @@
 			},
 			//收回
 			handleShou() {
-				console.log('aaa');
+				
 				this.isMore = false;
 				this.isSh = false;
 				this.isShow = true;
+			},
+			//拨打电话
+			call_phone(item) {
+				uni.makePhoneCall({
+					phoneNumber: item.phone,
+					success: (res) => {
+						console.log('调用成功!')
+					},
+					// 失败回调
+					fail: (res) => {
+						console.log('调用失败!')
+						this.call_phone(); //重复调用一次
+					}
+				});
 			},
 			//客户概况接口
 			kehu() {
@@ -132,6 +161,8 @@
 						if (res.data.data.status == 200) {
 							console.log('概况', res)
 							this.tableList = res.data.data.data;
+							this.linkmans = res.data.data.data.linkmans;
+							console.log('联系人', this.linkmans)
 						}
 					},
 					fail: (err) => {
@@ -139,7 +170,7 @@
 					}
 				})
 			},
-			
+
 			//资质
 			zizhi() {
 				uni.request({
@@ -172,7 +203,6 @@
 
 	.contentk {
 		width: 100%;
-
 		display: flex;
 		flex-direction: column;
 		align-items: center;
@@ -185,16 +215,84 @@
 		height: 70upx;
 		line-height: 70upx;
 		text-align: left;
+		display: flex;
+		flex-direction: row;
+		justify-content: space-between;
+		align-items: center;
+	}
+
+	.txtright {
+		width: 60upx;
+		height: 60upx;
+		background-image: url(../../static/zj.png);
+		background-repeat: no-repeat;
+		background-position: center;
+		background-size: 100%;
+	}
+	.tel-img {
+		width: 46upx;
+		height: 46upx;
+		margin-left: 10upx;
 	}
 
 	.bottxt {
 		width: 95%;
+	}
 
+	.contactus {
+		width: 95%;
+		border-bottom: none;
+	}
+
+	.contactus_top {
+		line-height: 60upx;
+		height: 60upx;
+		flex-direction: row;
+		display: flex;
+		font-size: 24upx;
+	}
+
+	.contactus_top view {
+		width: 30%;
+		background: #f2f2f2;
+		text-align: center;
+		border: 1px #e4e4e4 solid;
+		border-bottom: none;
+		margin-left: -1px;
+
+	}
+
+	.contactus_top view:nth-child(2) {
+		width: 40%;
+	}
+
+	.contactus_bottom {
+		line-height:60upx;
+		height: 60upx;
+		flex-direction: row;
+		display: flex;
+		font-size: 24upx;
+	}
+
+	.contactus_bottom view {
+		width: 30%;
+		background: #f2f2f2;
+		text-align: center;
+		border: 1px #e4e4e4 solid;
+		margin-left: -1px;
+		margin-top: -1px;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+	}
+
+	.contactus_bottom view:nth-child(2) {
+		width: 40%;
 	}
 
 	.divtableleft {
 		width: 100%;
-		line-height: 50upx;
+		line-height: 60upx;
 		display: flex;
 		justify-content: space-between;
 		flex-wrap: wrap;
@@ -206,7 +304,7 @@
 
 	.divtableleft1 {
 		width: 100%;
-		line-height: 50upx;
+		line-height: 60upx;
 		display: flex;
 		justify-content: space-between;
 		flex-wrap: wrap;
@@ -221,9 +319,9 @@
 		color: #4873c1;
 		width: 100%;
 		font-size: 24upx;
-		line-height: 50upx;
+		line-height:80upx;
 		text-align: right;
-		height: 50upx;
+		height: 80upx;
 	}
 
 	.divtext {
@@ -298,7 +396,7 @@
 
 	.list-itemleft {
 		width: 60%;
-        justify-content: center;
+		justify-content: center;
 		display: flex;
 		flex-direction: column;
 	}
