@@ -2,6 +2,8 @@
 	<view class="contentk">
 		<uni-drawer ref="drawer" mode="right" :width="drawWid">
 			<view class="wk_n">
+
+
 				<view class="chou_tit">
 					标签
 				</view>
@@ -22,6 +24,68 @@
 							 style="color:rgb(64, 158, 255);">全选</text>
 						</label>
 					</checkbox-group>
+				</view>
+				<view class="chou_tit">
+					客户
+				</view>
+				<view class="check_bj">
+					<checkbox-group class="check_box_k2" @change="changeCheckboxzt">
+						<view v-for="item in stagesArr" :key="item.value" class="check_box">
+							<label class="lable-box">
+								<checkbox :value="String(item.value)" :checked="checkedArrzt.includes(String(item.value))" :class="{'checked':checkedArrzt.includes(String(item.value))}"></checkbox>
+								<text class="cketext">{{item.label}}</text>
+							</label>
+						</view>
+					</checkbox-group>
+					<checkbox-group class="check_box_k1" @change="allChoosezt">
+						<label class="lable-box">
+							<checkbox value="all" :class="{'checked':allCheckedzt}" :checked="allCheckedzt?true:false"></checkbox><text
+							 class="cketext" style="color:rgb(64, 158, 255);">全选</text>
+						</label>
+					</checkbox-group>
+				</view>
+				<view class="chou_tit">
+					一般纳税人
+				</view>
+				<view class="check_bj">
+					<checkbox-group class="check_box_k2" @change="changeCheckboxztns">
+						<view v-for="item in stagesArrns" :key="item.value" class="check_box">
+							<label class="lable-box">
+								<checkbox :value="String(item.value)" :checked="checkedArrztns.includes(String(item.value))" :class="{'checked':checkedArrztns.includes(String(item.value))}"></checkbox>
+								<text class="cketext">{{item.label}}</text>
+							</label>
+						</view>
+					</checkbox-group>
+					<checkbox-group class="check_box_k1" @change="allChooseztns">
+						<label class="lable-box">
+							<checkbox value="all" :class="{'checked':allCheckedztns}" :checked="allCheckedztns?true:false"></checkbox><text
+							 class="cketext" style="color:rgb(64, 158, 255);">全选</text>
+						</label>
+					</checkbox-group>
+				</view>
+				<view class="uni-list">
+					<view class="uni-list-cell">
+						<view class="chou_tit">
+							开始日期
+						</view>
+
+						<view class="uni-list-cell-db">
+							<picker mode="date" :value="date" :start="startDate" :end="endDate" @change="bindDateChange">
+								<view class="uni-input" v-if="date==''" style="color:#666;">请选择开始日期</view>
+								<view class="uni-input" v-else>{{date}}</view>
+							</picker>
+						</view>
+
+						<view class="chou_tit">
+							结束日期
+						</view>
+						<view class="uni-list-cell-db">
+							<picker mode="date" :value="jdate" :start="jstartDate" :end="jendDate" @change="jbindDateChange">
+								<view class="uni-input" v-if="jdate==''" style="color:#666;">请选择结束日期</view>
+								<view class="uni-input" v-else>{{jdate}}</view>
+							</picker>
+						</view>
+					</view>
 				</view>
 				<view class="chou_tit">
 					地区
@@ -61,17 +125,7 @@
 					</view>
 					<view class="grey-block"></view>
 				</view>
-				<view class="chou_tit">
-					来源
-				</view>
-				<view class="uni-list-cell-db">
-					<picker v-model="source_flag" @change="sourceChange" :value="source_flag" :range="sourceArray" range-key="name">
-						<view class="uni-input" v-if="sourceArray[source_flag]">{{sourceArray[source_flag].name}}</view>
-						<view class="uni-input" v-else>请选择来源</view>
-						
-					</picker>
 
-				</view>
 				<view class="bottombtn">
 					<button type="primary" class="anbtn" @click="getList('search')">确定</button>
 					<button type="primary" class="anbtn" @click="clox()">重置</button>
@@ -79,9 +133,7 @@
 			</view>
 
 		</uni-drawer>
-	
-	
-	
+
 		<view class="topview">
 			<button type="primary" class="search-btn" @click="getList('search')"></button>
 			<input class="se-input" name="nickname" placeholder="请输入客户名称" v-model="kword" /><button type="primary" size="small"
@@ -93,13 +145,13 @@
 				<empty-view slot="empty"></empty-view>
 				<!-- list数据，建议像下方这样在item外层套一个view，而非直接for循环item，因为slot插入有数量限制 -->
 				<view>
-					<view class="list-item" v-for="(item,index) in dataList" :key="index"   @tap="goDetail(item)">
+					<view class="list-item" v-for="(item,index) in dataList" :key="index" @tap="goDetail(item)">
 						<view class="list-text">
 							<view class="list_tit">{{item.name}}</view>
 							<view class="tag_k" v-for="(user, i) in item.tags.data" :key="i">
 								{{user.t_tab}}
-
 							</view>
+							<view class="hui">{{item.stage}}</view>
 						</view>
 						<view class="list-item-top">
 							<view class="list-dqk">
@@ -107,8 +159,8 @@
 								<view class="list-dq1">电话：{{item.phone}}</view>
 								<image class="tel-img" src="../../static/tel.png" mode="aspectFit" @tap.stop="call_phone(item)"></image>
 							</view>
-							<view class="list-dq">到期时间：跟踪还剩{{item.dt_link}}天 | 沟通还剩{{item.dt_track}}天</view>
-							<view class="list-dq">审核状态：延期：{{item.delay_status|delayStatus}} | 跟进：{{item.audit_status|numToMean}}</view>
+							<view class="list-dq">行业：{{item.ind_lead}}</view>
+
 						</view>
 						<view class="list-item-bot">
 							<span @tap="pizhu(item)">填写批注</span> <span @tap="chufang(item)">申请出访</span> <span @tap="xiangqing(item)">详情</span>
@@ -121,6 +173,22 @@
 </template>
 
 <script>
+	function getDate(type) {
+		const date = new Date();
+		let year = date.getFullYear();
+		let month = date.getMonth() + 1;
+		let day = date.getDate();
+
+		if (type === 'start') {
+			year = year - 10;
+		} else if (type === 'end') {
+			year = year + 10;
+		}
+		month = month > 9 ? month : '0' + month;;
+		day = day > 9 ? day : '0' + day;
+
+		return `${year}-${month}-${day}`;
+	}
 	import uniDrawer from "@/components/uni-drawer/uni-drawer.vue"
 	export default {
 		components: {
@@ -128,7 +196,31 @@
 		},
 		data() {
 			return {
-				new_goods_show:0,
+				date: '',
+				startDate: getDate('start'),
+				endDate: getDate('end'),
+				jdate: '',
+				jstartDate: getDate('start'),
+				jendDate: getDate('end'),
+				stagesArr: [{
+						'value': 0,
+						'label': "企业"
+					},
+					{
+						'value': 1,
+						'label': "自然人"
+					}
+				],
+				stagesArrns: [{
+						'value': 0,
+						'label': "否"
+					},
+					{
+						'value': 1,
+						'label': "是"
+					}
+				],
+				new_goods_show: 0,
 				dataList: [],
 				value1: [],
 				label1: '',
@@ -144,8 +236,13 @@
 				source_flag: '',
 				isChecked: false,
 				checkboxData: [],
+				checkboxDatazt: [],
 				checkedArr: [], //复选框选中的值
+				checkedArrzt: [], //状态复选框选中的值
+				checkedArrztns: [], //状态复选框选中的值
 				allChecked: false, //是否全选
+				allCheckedzt: false, //是否全选
+				allCheckedztns: false, //是否全选
 				kword: '',
 				isAll: false,
 				nowPage: 1,
@@ -251,7 +348,7 @@
 
 				return audit
 			},
-			
+
 			delayStatus: function(value) {
 				let delay = ''
 				if (value === "-1") {
@@ -266,19 +363,19 @@
 				} else if (value === "2") {
 					delay = '已拒绝'
 					return delay
-				} 
+				}
 
 				return delay
 			},
 
 		},
-		
+
 
 		methods: {
 			queryList(pageNo, pageSize) {
-		
+
 				uni.request({
-					url: this.$burl + '/api/customer/clue/my',
+					url: this.$burl + '/api/customer/my',
 					header: {
 						'Authorization': this.token
 					},
@@ -326,9 +423,7 @@
 			},
 			// 多选复选框改变事件
 			changeCheckbox(e) {
-
 				this.checkedArr = e.detail.value;
-				
 				// 如果选择的数组中有值，并且长度等于列表的长度，就是全选
 				if (this.checkedArr.length > 0 && this.checkedArr.length == this.checkboxData.length) {
 					this.allChecked = true;
@@ -346,21 +441,79 @@
 						let itemVal = String(item.value);
 						if (!this.checkedArr.includes(itemVal)) {
 							this.checkedArr.push(itemVal);
-
 						}
 					}
-				
 				} else {
 					// 取消全选
 					this.allChecked = false;
 					this.checkedArr = [];
 				}
 			},
-          //线索来源
-          sourceChange(e) {
-          	console.log(e);
-          	this.source_flag = e.detail.value;
-          },
+
+			//状态
+
+			changeCheckboxzt(e) {
+				this.checkedArrzt = e.detail.value;
+
+				// 如果选择的数组中有值，并且长度等于列表的长度，就是全选
+				if (this.checkedArrzt.length > 0 && this.checkedArrzt.length == this.stagesArr.length) {
+					this.allCheckedzt = true;
+				} else {
+					this.allCheckedzt = false;
+				}
+			},
+			// 全选事件
+			allChoosezt(e) {
+				console.log(e);
+				let chooseItem = e.detail.value;
+				// 全选
+				if (chooseItem[0] == 'all') {
+					this.allCheckedzt = true;
+					for (let item of this.stagesArr) {
+						let itemVal = String(item.value);
+						if (!this.checkedArrzt.includes(itemVal)) {
+							this.checkedArrzt.push(itemVal);
+						}
+					}
+				} else {
+					// 取消全选
+					this.allCheckedzt = false;
+					this.checkedArrzt = [];
+				}
+			},
+
+
+
+			changeCheckboxztns(e) {
+				this.checkedArrztns = e.detail.value;
+
+				// 如果选择的数组中有值，并且长度等于列表的长度，就是全选
+				if (this.checkedArrztns.length > 0 && this.checkedArrztns.length == this.stagesArr.length) {
+					this.allCheckedztns = true;
+				} else {
+					this.allCheckedztns = false;
+				}
+			},
+			// 全选事件
+			allChooseztns(e) {
+				console.log(e);
+				let chooseItem = e.detail.value;
+				// 全选
+				if (chooseItem[0] == 'all') {
+					this.allCheckedztns = true;
+					for (let item of this.stagesArrns) {
+						let itemVal = String(item.value);
+						if (!this.checkedArrztns.includes(itemVal)) {
+							this.checkedArrztns.push(itemVal);
+						}
+					}
+				} else {
+					// 取消全选
+					this.allCheckedztns = false;
+					this.checkedArrztns = [];
+				}
+			},
+
 			//抽屉打开
 			drawer() {
 				this.$refs.drawer.open();
@@ -369,7 +522,7 @@
 			clox() {
 				this.$refs.drawer.close();
 			},
-			
+
 			//地址接口
 			locations() {
 				uni.request({
@@ -393,7 +546,7 @@
 						'Authorization': this.token
 					},
 					success: (res) => {
-						
+
 						this.listhy = res.data.data.options;
 					},
 					fail: (err) => {
@@ -418,7 +571,7 @@
 								'label': checklist[key].tab
 							})
 						}
-						
+
 					},
 					fail: (err) => {
 						//console.log(err)
@@ -439,16 +592,20 @@
 				let hy = this.value4.pop() + '';
 				uni.showLoading();
 				uni.request({
-					url: this.$burl + '/api/customer/clue/my',
+					url: this.$burl + '/api/customer/my',
 					header: {
 						'Authorization': this.token
 					},
 					data: {
 						kword: this.kword,
 						ktags: this.checkedArr.join(','),
+						kman: this.checkedArrzt.join(','),
 						kloc: this.praseStrEmpty(dq),
 						kind: this.praseStrEmpty(hy),
-						ksource:this.source_flag,
+						ksource: this.source_flag,
+						ksdt: this.date,
+						kedt: this.jdate,
+						is_taxpayer:this.checkedArrztns.join(','),
 					},
 					success: (res) => {
 						uni.hideLoading();
@@ -473,7 +630,7 @@
 			},
 
 
-		
+
 			getNextData() {
 				if (this.isAll) {
 					this.showToast('已加载全部');
@@ -500,7 +657,7 @@
 			goDetail(item) {
 				console.log()
 				uni.navigateTo({
-					url:'/pages/details/details?id='+item._id
+					url: '/pages/details/details?id=' + item._id
 				})
 			},
 		}
@@ -697,6 +854,24 @@
 
 	}
 
+	.check_box_k2 {
+		width: 60%;
+		display: flex;
+		justify-content: flex-start;
+		flex-direction: row;
+		flex-wrap: wrap;
+
+	}
+
+	.check_box_k1 {
+		width: 30%;
+		display: flex;
+		justify-content: flex-start;
+		flex-direction: row;
+		flex-wrap: wrap;
+
+	}
+
 	.check_box {
 		margin-bottom: 10upx;
 		width: 200rpx;
@@ -873,7 +1048,8 @@
 	/deep/.uni-checkbox-input-checked:before {
 		display: none;
 	}
-	/deep/uni-picker{
+
+	/deep/uni-picker {
 		width: 100%;
 	}
 </style>

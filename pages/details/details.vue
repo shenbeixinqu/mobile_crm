@@ -6,19 +6,29 @@
 			</view>
 		</scroll-view>
 
-		<swiper :current="tabIndex" class="swiper-box" style="flex:1;min-height:100vh;" :duration="300" @change="ontabchange">
-			<swiper-item class="swiper-item">
-				<gaikuang :active-id="activeId"></gaikuang>
-			</swiper-item>
-			<swiper-item class="swiper-item">
-				<fuwu :active-id="activeId"></fuwu>
-			</swiper-item>
-			<swiper-item class="swiper-item">
-				<pizhu :active-id="activeId"></pizhu>
-			</swiper-item>
-			<swiper-item class="swiper-item">
-				4
+		<swiper :current="tabIndex" class="swiper-box" :style="{height:swiperheight+'px'}" :duration="300" @change="ontabchange">
 
+
+			<swiper-item class="swiper-item">
+				<scroll-view scroll-y>
+					<gaikuang :style="{height:swiperheight+'px'}" :active-id="activeId"></gaikuang>
+				</scroll-view>
+
+			</swiper-item>
+			<swiper-item class="swiper-item">
+				<scroll-view scroll-y>
+					<fuwu :style="{height:swiperheight+'px'}" :active-id="activeId"></fuwu>
+				</scroll-view>
+			</swiper-item>
+			<swiper-item class="swiper-item">
+				<scroll-view scroll-y>
+					<pizhu :style="{height:swiperheight+'px'}" :active-id="activeId"></pizhu>
+				</scroll-view>
+			</swiper-item>
+			<swiper-item class="swiper-item">
+				<scroll-view scroll-y>
+					<dingdang :style="{height:swiperheight+'px'}" :active-id="activeId"></dingdang>
+				</scroll-view>
 			</swiper-item>
 
 		</swiper>
@@ -26,8 +36,10 @@
 </template>
 <script>
 	import gaikuang from "@/components/gaikuang/gaikuang.vue"
-	import fuwu from"@/components/fuwu/fuwu.vue"
-	import pizhu from"@/components/pizhu/pizhu.vue"
+	import fuwu from "@/components/fuwu/fuwu.vue"
+	import pizhu from "@/components/pizhu/pizhu.vue"
+	import dingdang from "@/components/dingdang/dingdang.vue"
+
 	// 缓存每页最多
 	const MAX_CACHE_DATA = 100;
 	// 缓存页签数量
@@ -39,9 +51,13 @@
 		components: {
 			gaikuang,
 			fuwu,
+			pizhu,
+			dingdang,
+
 		},
 		data() {
 			return {
+				swiperheight: 500,
 				activeId: "",
 				newsList: [],
 				cacheTab: [],
@@ -68,7 +84,14 @@
 		onLoad: function(option) {
 			console.log(option)
 			this.activeId = option.id
-
+			uni.getSystemInfo({
+				success: (res) => {
+					// 这个减100，看个人需求可以不要，这里我需要和底部隔开一定距离，变相来讲就是让这个swiper少一点高度，你想想我这个操作
+					let height = res.windowHeight - uni.upx2px(100)
+					console.log(height);
+					this.swiperheight = height;
+				}
+			})
 		},
 		methods: {
 			ontabtap(e) {
@@ -116,7 +139,7 @@
 
 	.tabs {
 		width: 100%;
-		background: #007AFF;
+		background: #4873c1;
 		flex: 1;
 		flex-direction: column;
 		overflow: hidden;
@@ -154,11 +177,11 @@
 	}
 
 	.uni-tab-item-title-active {
-		color: #007AFF;
+		color: #4873c1;
 		height: 74rpx;
 		line-height: 80rpx;
 		display: block;
-		border-bottom: 4rpx #007AFF solid;
+		border-bottom: 4rpx #4873c1 solid;
 	}
 
 	.swiper-box {

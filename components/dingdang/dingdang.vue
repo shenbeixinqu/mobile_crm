@@ -1,101 +1,38 @@
 <template>
 	<view class="contentk">
-		<uni-drawer ref="drawer" mode="right" :width="drawWid">
-			<view class="wk_n">
-				<view class="chou_tit">
-					标签
-				</view>
-				<view class="check_bj">
-					<checkbox-group class="check_box_k" @change="changeCheckbox">
-						<view v-for="item in checkboxData" :key="item.value" class="check_box">
-							<label class="lable-box">
-								<checkbox :value="String(item.value)" :checked="checkedArr.includes(String(item.value))" :class="{'checked':checkedArr.includes(String(item.value))}"></checkbox>
-								<text class="cketext">{{item.label}}</text>
-							</label>
-						</view>
-					</checkbox-group>
-				</view>
-				<view class="check_bj">
-					<checkbox-group class="check_box_k" @change="allChoose">
-						<label class="lable-box">
-							<checkbox value="all" :class="{'checked':allChecked}" :checked="allChecked?true:false"></checkbox><text class="cketext"
-							 style="color:rgb(64, 158, 255);">全选</text>
-						</label>
-					</checkbox-group>
-				</view>
-
-				<view class="uni-list">
-					<view class="uni-list-cell">
-						<view class="chou_tit">
-							开始日期
-						</view>
-
-						<view class="uni-list-cell-db">
-							<picker mode="date" :value="date" :start="startDate" :end="endDate" @change="bindDateChange">
-								<view class="uni-input" v-if="date==''" style="color:#666;">请选择开始日期</view>
-								<view class="uni-input" v-else>{{date}}</view>
-							</picker>
-						</view>
-
-						<view class="chou_tit">
-							结束日期
-						</view>
-						<view class="uni-list-cell-db">
-							<picker mode="date" :value="jdate" :start="jstartDate" :end="jendDate" @change="jbindDateChange">
-								<view class="uni-input" v-if="jdate==''" style="color:#666;">请选择结束日期</view>
-								<view class="uni-input" v-else>{{jdate}}</view>
-							</picker>
-						</view>
-					</view>
-				</view>
-
-
-				<view class="bottombtn">
-					<button type="primary" class="anbtn" @click="fuwu('search')">确定</button>
-					<button type="primary" class="anbtn" @click="clox()">重置</button>
-				</view>
-			</view>
-
-		</uni-drawer>
-
-		<view class="tit">销售批注 <button type="primary" size="small" class="shai-btn" @click="drawer()"> </button></view>
-		<view class="bottxt" v-for="item in tableList" :key="item.addtime">
+		<view class="tit">客户订单</view>
+	
+		<z-paging ref="paging" @query="queryList" :list.sync="tableList" style="height: calc(100% - 80rpx);">
+			<!-- 设置自定义emptyView组件，非必须。空数据时会自动展示空数据组件，不需要自己处理 -->
+			<empty-view slot="empty"></empty-view>
+			<!-- list数据，建议像下方这样在item外层套一个view，而非直接for循环item，因为slot插入有数量限制 -->
+			<view>
+		<view class="bottxt" v-for="item in tableList" :key="item.sn">
 			<view class="bottxt_top">
 				<view class="bottxt_top_y"></view>
 				<view class="bottxt_top_jiantou">{{item.addtime}}</view>
 			</view>
 			<view class="bottxt_mid">
 				<view class="bottxt_mid_right">
-					<view><text class="txt1">{{item.do_name}}</text>添加一条<text class="txt2">{{item.event}}</text>记录</view>
-					<view>{{item.remark}}</view>
+					<view>订单产品：<text class="txt2">{{item.depict}}</text></view>
+					<view>订单类型：<text class="txt2">{{item.depict}}</text></view>
+					<view>下单人：{{item.ad_name}}</view>
 				</view>
 			</view>
 		</view>
+		</view>
+			</z-paging>
+		</view>
+		
+		
 	</view>
 </template>
 
 <script>
-	function getDate(type) {
-		const date = new Date();
-		let year = date.getFullYear();
-		let month = date.getMonth() + 1;
-		let day = date.getDate();
 
-		if (type === 'start') {
-			year = year - 10;
-		} else if (type === 'end') {
-			year = year + 10;
-		}
-		month = month > 9 ? month : '0' + month;;
-		day = day > 9 ? day : '0' + day;
-
-		return `${year}-${month}-${day}`;
-	}
-	import uniDrawer from "@/components/uni-drawer/uni-drawer.vue"
 	export default {
-		components: {
-			uniDrawer
-		},
+	
+		
 		props: {
 			activeId: {
 				type: String // 指定传入的类型
@@ -103,60 +40,36 @@
 		},
 		data() {
 			return {
-				date: '',
-				startDate: getDate('start'),
-				endDate: getDate('end'),
-				jdate: '',
-				jstartDate: getDate('start'),
-				jendDate: getDate('end'),
-				isChecked: false,
-				checkboxData: [{
-						value: '1',
-						label: '销售批注'
-					},
-					{
-						value: '2',
-						label: '审核批注'
-					},
-					{
-						value: '3',
-						label: '清洗批注'
-					},
-					{
-						value: '4',
-						label: '放弃批注'
-					},
-					{
-						value: '5',
-						label: '产品批注'
-					},
-					{
-						value: '6',
-						label: '帮助批注'
-					},
-				],
-				checkedArr: [], //复选框选中的值
-				allChecked: false, //是否全选
-				source_flag: '',
 				drawWid: '100%',
-				isShow: true,
-				isMore: false,
-				isSh: false,
-				tableList: [],
+				tableList:[],
 				token: "JWT eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE2MTM1NDYzODgsImlhdCI6MTYxMzUxMDM4OCwiaXNzIjoiY3JtIiwiZGF0YSI6eyJpZCI6NTIsIm5hbWUiOiJcdTc2ZDhcdTUzZTRcdTZkNGJcdThiZDU1MiIsImV0b2tlbiI6ImV5SmhiR2NpT2lKSVV6STFOaUlzSW5SNWNDSTZJa3BYVkNKOS5leUoxYzJWeVgybGtJam8xTWl3aWFYTnpJam9pWlhKd0lpd2lhR1ZoWkdWeWN5STZleUpoYkdjaU9pSklVekkxTmlJc0luUjVjQ0k2SWtwWFZDSjlMQ0psZUhBaU9qRTJNVE0xTXprd05qUXNJbWxoZENJNk1UWXhNelV4TURJMk5Dd2lkWE5sY2w5dVlXMWxJam9pWEhVM05tUTRYSFUxTTJVMFhIVTJaRFJpWEhVNFltUTFOVElpZlEuU3dodFVIRlp6UE9KREV1X2RUT2xqV2pEUUhrdWJMVFNxZjh4OHVkWEtkTSIsImNsb3VkX2lkIjoyLCJ1bl9pZCI6MiwidW5fbmFtZSI6Ilx1NmM4OFx1OTYzM1x1NzZkOFx1NTNlNCIsImRlX2lkIjoxMywiZGVfbmFtZSI6Ilx1NTkyN1x1NWUwMlx1NTczYVx1OTBlOCIsImRlcGFydHR5cGUiOjEwLCJwb3N0X25hbWUiOiJcdTYwM2JcdTc2ZDEiLCJsZXZlbCI6NzcsInN1cGVyX2lkIjoxNywia2EiOjAsImlwIjoiMjIzLjEwMS43MC4xNTEiLCJsYXN0dGltZSI6MTYxMzUxMDM4NiwicG9zdHMiOlt7ImlkIjowLCJkbmFtZSI6Ilx1NTkyN1x1NWUwMlx1NTczYVx1OTBlOCIsIm5hbWUiOiJcdTYwM2JcdTc2ZDEifSx7ImlkIjoxLCJkbmFtZSI6Ilx1NTkyN1x1NWI5ZVx1NjViZFx1OTBlOCIsIm5hbWUiOiJcdTYwM2JcdTc2ZDEifV0sInBvd2VycyI6IjE3NDI4ODE3OTg2MTA5ODc0MTg4NTc3Mjc3MzY3OTkxNTYxOTk0ODgzOTkzOTcwMjc1NDA4OTU3NDY5ODE3NzQyOTY1ODc0MzU5Mjc3MTcwMDg2NzU0NTE4NTQ0OTg5OTcyODk5ODAzMTI0MDA0NDA5NDQ1NTY0ODA2NTU1MjYzNjAyNTEzMzIzNzQxOTk2ODc1MjA3ODI2NzgyNjg5MTQ5NzY4MDQ1MTA3NjIzNzMwMjU2MTc2MjY3MTM5NDQzNDg3NzQ1ODA4NTgzMDEzNzA0OTkzMTgxNjQxNzM2NDMwOTc0MjQyNjM3NzA0MDc3MTA2NTM2MDQ1MDE2NzQ4OTc2Mzg0NTExMzc0MTg4NzQ2ODU3MzM3MTAwNjM5NTk1MzU0NDYxNzMxODQzMjQzMjA4ODc4MDI2ODM2NDY1MjQyNjUxMDYyNDQyNTEwODE2NDU2OTY3MTI2MDY0NzE5NDEzMTY2NDk1NzIyMTQ0MzQ2MTUzNzEwNDU5MzUxNDAzNjcyOTQzMjk5MzQ2NDk4NzA2MDczNTkzMTU3MzgwNTU5NjMzMDM3MjI0MjI1ODI1NDM4MDc4ODU3MjA5MzU5MzIzNDQ3ODE5MTUxNjY5NzIwMjUwODcxNzQ3NjAxNjE0OTI1ODcxNDI5MjEyMDUxNTQzNjE5OTE1NjM0MTcyMjU4NjU5Nzk4Njg1MDA0NTAyMzM1MTQxNDMzMDY4Mzc2Mzc4NDM4NjQ2NDc1NDE3NzY3MTk2MDA5NTg5MTM1NTQyMzgxMjY0ODgwMTgwNDY3NjQ3Njc3NzYzNjQxMDcyNTkzMzgwMDU4Nzc1ODI5MDE3NDUwMTQzNTUzOTcyNDYwMDMyOTAwNzM3NTkxNjYzNzE2MDA4MDUzMzA5NjEzMTg3MjI0MDU5MTE0NTM1MzUyMzgwMDA5MzMyMTIyNjI5NjY5ODI1Mzg3MDg4Mzg1NzAwNjE5NDc3Nzk0NTY4MjcyMjk3NTAwNzExNTc3OTE5NDk3MDYyMDg2MTk2NjY5MTgwODg4OTA1NTc4ODk3OTA1NTIxNzQ3Mjc2MzUxNjEyMTUyNDgxOTc1NTU4ODE4NzY1NzcxNDk3MTUyNTQxNTUzNDg3ODU1Njg3MDAwNTE4NDg4NTg5MDY0MzE1MjU4MjAxMzkwMDc5NDE3NTg0ODA1NjQxNjc3NzY4MjExMDMxODQwNzgwMjI4NjgxMjk1NTYzMjU4NDg5MzcwMDUwNTU2In19.3Jr9JWOGhFW5kYTU-lmUsQJI2kM1wCYocqUi3js4vjU"
 			}
 		},
-		// watch: {
-		//     activeId: function(newVal, oldVal) {
-		//      console.log('fdfd',newVal);
-		//     },
-		//   },
+	
 		mounted() {
 			this.fuwu();
-		
+			console.log(11111)
 		},
 		methods: {
+			queryList(pageNo, pageSize) {
+				uni.request({
+					url: this.$burl + '/api/customer/getOrders',
+					header: {
+						'Authorization': this.token
+					},
+					data: {
+						limit: pageSize,
+						pn: pageNo,
+					},
+					success: (res) => {
+						this.$refs.paging.addData(res.data.data.data);
+					},
+					fail: (err) => {
+						//console.log(err)
+					}
+				})
 
+			},
 			//抽屉打开
 			drawer() {
 				this.$refs.drawer.open();
@@ -165,63 +78,22 @@
 			clox() {
 				this.$refs.drawer.close();
 			},
-			//开始日期
-			bindDateChange: function(e) {
-				this.date = e.detail.value
-			},
-			//结束日期
-			jbindDateChange: function(e) {
-				this.jdate = e.detail.value
-			},
-			// 多选复选框改变事件
-			changeCheckbox(e) {
-				this.checkedArr = e.detail.value;
-				// 如果选择的数组中有值，并且长度等于列表的长度，就是全选
-				if (this.checkedArr.length > 0 && this.checkedArr.length == this.checkboxData.length) {
-					this.allChecked = true;
-				} else {
-					this.allChecked = false;
-				}
-			},
-			// 全选事件
-			allChoose(e) {
-				let chooseItem = e.detail.value;
-				// 全选
-				if (chooseItem[0] == 'all') {
-					this.allChecked = true;
-					for (let item of this.checkboxData) {
-						let itemVal = String(item.value);
-						if (!this.checkedArr.includes(itemVal)) {
-							this.checkedArr.push(itemVal);
-
-						}
-					}
-
-				} else {
-					// 取消全选
-					this.allChecked = false;
-					this.checkedArr = [];
-				}
-			},
 			//客户概况接口
 			fuwu(type) {
 				uni.showLoading();
 				uni.request({
-					url: this.$burl + '/api/customer/remark',
+					url: this.$burl + '/api/customer/getOrders',
 					header: {
 						'Authorization': this.token
 					},
 					data: {
 						id: this.activeId,
-						ltypes: this.checkedArr.join(','),
-						sTime: this.date,
-						eTime: this.jdate,
 					},
 					success: (res) => {
 						if (res.data.data.status == 200) {
 							uni.hideLoading();
-							this.$refs.drawer.close();
 							this.tableList = res.data.data.data;
+							
 						}
 					},
 					fail: (err) => {
@@ -237,13 +109,14 @@
 	page {
 		height: 100%;
 	}
-
-	.contentk {
-		width: 100%;
+	
+	.content {
+		height: 100%;
+		/* 父节点建议开启flex布局 */
 		display: flex;
 		flex-direction: column;
-		align-items: center;
 	}
+	
 
 	.uni-list-cell-db {
 		display: flex;
@@ -405,7 +278,7 @@
 	/deep/.uni-checkbox-input {
 		background: #f4f4f4;
 		border: none;
-		width: 220rpx;
+		width: 200rpx;
 		position: absolute;
 		height: 70upx;
 		line-height: 70upx;
@@ -421,10 +294,5 @@
 
 	/deep/uni-picker {
 		width: 100%;
-	}
-	
-	.chou_tit {
-		padding: 10px;
-		color: 666666;
 	}
 </style>

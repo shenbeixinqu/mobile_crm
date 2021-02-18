@@ -14,7 +14,7 @@
 				<image class="index_image" src="../../static/woxs.png" mode="aspectFit"></image>
 				<h4>我的线索</h4>
 			</view>
-			<view class="index_n_img">
+			<view class="index_n_img" @click="customers">
 				<image class="index_image" src="../../static/wdkh.png" mode="aspectFit"></image>
 				<h4>我的客户</h4>
 			</view>
@@ -79,6 +79,11 @@
 			myClue(){
 				uni.navigateTo({
 					url:"/pages/myclue/myclue"
+				})
+			},
+			customers(){
+				uni.navigateTo({
+					url:"/pages/customers/customers"
 				})
 			},
 			track(){

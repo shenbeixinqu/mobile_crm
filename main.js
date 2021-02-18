@@ -14,7 +14,7 @@ import FootPart from '@/components/footer.vue'
 Vue.component('foot-part',FootPart)
 
 // 基础url
-var baseUrl = 'http://10.1.1.41:8098'
+var baseUrl = 'http://61.161.147.138:8098'
 Vue.prototype.$burl = baseUrl
 
 const app = new Vue({

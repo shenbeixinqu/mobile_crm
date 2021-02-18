@@ -245,7 +245,7 @@ export default {
     },
     confirmColor: {
 			type: String,
-			default: '#007aff'
+			default: '#4873c1'
 		},
     canHide: {
       type: Boolean,

@@ -1,27 +1,58 @@
 <template>
+
+	
 	<view class="contentk">
-		<view class="tit">服务人员</view>
-		<view class="fuwutable">
-			<view class="fuwutable_top">
-				<view>职能</view>
-				<view>姓名</view>
-				<view>部门</view>
-				<view>分机号码</view>
+		<uni-drawer ref="drawer" mode="right" :width="drawWid">
+		ddd
+		</uni-drawer>
+		<view class="tit">客户的基本资料</view>
+		<view class="bottxt" v-if="tableList.length!=0">
+			<view class="divtableleft">
+				<view class="divtext">客户名称：</view>
+				<view class="divright">{{ tableList.name}}</view>
+				<view class="divtext">客户地区：</view>
+				<view class="divright">{{ tableList.loc_lead}}</view>
+				<view class="divtext">详细地址：</view>
+				<view class="divright">{{ tableList.address}}</view>
+				<view class="divtext">企业法人：</view>
+				<view class="divright">{{ tableList.legal}}</view>
+				<view class="divtext">客户电话：</view>
+				<view class="divright">{{ tableList.phone}}</view>
+				<view class="divtext">客户来源：</view>
+				<view class="divright">{{ tableList.source_flag}}</view>
+				<view class="divtext">客户资质：</view>
+				<view class="divright"  @click="drawer()">请点击了解</view>
 			</view>
-			<view class="fuwutable_bot" v-for="item in tableList" :key="item.value">
-
-				<view>{{item.de_name}}</view>
-				<view>{{item.user_name}}</view>
-				<view>{{item.post}}</view>
-				<view>{{item.officeins}}</view>
-
+			<view class="divtableleft1" v-if="isMore">
+				<view class="divtext">传真：</view>
+				<view class="divright">{{ tableList.fax }}</view>
+				<view class="divtext">办公邮箱：</view>
+				<view class="divright">{{ tableList.mail }}</view>
+				<view class="divtext"> 邮编：</view>
+				<view class="divright">{{ tableList.zipcode }}</view>
+				<view class="divtext">人员规模：</view>
+				<view class="divright">{{ tableList.employees }}</view>
+				<view class="divtext">成立日期：</view>
+				<view class="divright">{{ tableList.openingdate }}</view>
+				<view class="divtext">注册资金：</view>
+				<view class="divright">{{ tableList.registered }}</view>
+				<view class="divtext">主营业务：</view>
+				<view class="divright">{{ tableList.business }}</view>
 			</view>
+			<view class="divgd" @click="handleMore" v-if="isShow">了解更多客户信息>></view>
+			<view class="divgd" @click="handleShou"  v-if="isSh">收回>></view>
 		</view>
+		<view class="tit">联系人</view>
+		<button type="primary" class="anbtn" @click="fuwu('search')">新增联系人</button>
 	</view>
 </template>
 
 <script>
+	import uniDrawer from "@/components/uni-drawer/uni-drawer.vue"
 	export default {
+		components: {
+			uniDrawer
+		},
 		props: {
 			activeId: {
 				type: String // 指定传入的类型
@@ -29,7 +60,8 @@
 		},
 		data() {
 			return {
-				isShow: true,
+				drawWid: '100%',
+				isShow:true,
 				isMore: false,
 				isSh: false,
 				tableList: [],
@@ -42,15 +74,28 @@
 		//     },
 		//   },
 		mounted() {
-			this.fuwu();
+			this.kehu();
 			console.log(11111)
 		},
 		methods: {
-
+			//更多
+			handleMore() {
+				this.isMore = !this.isMore;
+				this.isShow=!this.isShow;
+				this.isSh=!this.isSh;
+			},
+			//收回
+			handleShou(){
+				console.log('aaa');
+				this.isMore=false;
+				this.isSh=false;
+				this.isShow=true;
+			},
 			//客户概况接口
-			fuwu() {
+			kehu() {
 				uni.request({
-					url: this.$burl + '/api/customer/assistant',
+				
+					url: this.$burl + '/api/customer/info',
 					header: {
 						'Authorization': this.token
 					},
@@ -58,7 +103,6 @@
 						id: this.activeId
 					},
 					success: (res) => {
-						console.log(res);
 						if (res.data.data.status == 200) {
 							this.tableList = res.data.data.data;
 						}
@@ -99,63 +143,16 @@
 
 	}
 
-	.fuwutable {
-		width: 95%;
-
+	.divtableleft {
+		width: 100%;
+		line-height: 50upx;
 		display: flex;
+		justify-content: space-between;
 		flex-wrap: wrap;
 		font-size: 24upx;
-
+		border: 1px #e4e4e4 solid;
 		border-bottom: none;
-
-	}
-
-	.fuwutable_top {
-		width: 100%;
-		display: flex;
-		flex-wrap: wrap;
-		line-height: 70upx;
-		align-items: center;
-		justify-content: center;
-	}
-
-	.fuwutable_top view {
-		width: 24%;
-		font-size: 24upx;
-		display: flex;
-		align-items: center;
-		border: 1px #e4e4e4 solid;
-		margin-top: -1px;
-		margin-left: -1px;
-		justify-content: center;
 		background: #f2f2f2;
-	}
-
-	.fuwutable_bot {
-		width: 100%;
-		display: flex;
-		flex-wrap: wrap;
-		line-height: 70upx;
-		align-items: center;
-		justify-content: center;
-	}
-
-	.fuwutable_bot view {
-		line-height: 70upx;
-		height: 70upx;
-		width: 24%;
-		font-size: 24upx;
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		margin-top: -1px;
-		margin-left: -1px;
-		border: 1px #e4e4e4 solid;
-		background: #f2f2f2;
-		white-space: nowrap;
-		overflow: hidden;
-		text-overflow: ellipsis;
-
 	}
 
 	.divtableleft1 {
@@ -195,4 +192,5 @@
 		border-bottom: 1px solid #e4e4e4;
 		display: flex;
 	}
+	.anbtn{ width:95%; height: 70upx; line-height: 70upx;}
 </style>

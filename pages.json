@@ -13,9 +13,22 @@
 			}
 		},
 		{
+			"path": "pages/dingdang/dingdang",
+			"style": {
+				"navigationBarTitleText":"订单"
+			}
+		},
+		
+		{
 			"path": "pages/myclue/myclue",
 			"style": {
 				"navigationBarTitleText":"我的线索"
+			}
+		},
+		{
+			"path": "pages/customers/customers",
+			"style": {
+				"navigationBarTitleText":"我的客户"
 			}
 		},
 		{
@@ -57,7 +70,8 @@
 				"navigationBarTitleText":"查看详情"
 			}
 		}
-	],
+	   
+    ],
 	"globalStyle": {
 		"navigationStyle": "custom",
 		"navigationBarTextStyle": "black",
