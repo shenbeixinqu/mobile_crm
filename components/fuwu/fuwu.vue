@@ -52,7 +52,7 @@
 				uni.request({
 					url: this.$burl + '/api/customer/assistant',
 					header: {
-						'Authorization': this.token
+					'Authorization': this.$token
 					},
 					data: {
 						id: this.activeId

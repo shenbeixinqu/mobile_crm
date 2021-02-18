@@ -6,7 +6,7 @@
 				<image class="index_image" src="../../static/addmx.png" mode="aspectFit"></image>
 				<h4>新增线索</h4>
 			</view>
-			<view class="index_n_img">
+			<view class="index_n_img" @click="searchclue">
 				<image class="index_image" src="../../static/ssxx.png" mode="aspectFit"></image>
 				<h4>搜索线索</h4>
 			</view>
@@ -79,6 +79,11 @@
 			myClue(){
 				uni.navigateTo({
 					url:"/pages/myclue/myclue"
+				})
+			},
+			searchclue(){
+				uni.navigateTo({
+					url:"/pages/searchclue/searchclue"
 				})
 			},
 			customers(){

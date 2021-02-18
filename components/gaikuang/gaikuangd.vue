@@ -97,7 +97,7 @@
 				
 					url: this.$burl + '/api/customer/info',
 					header: {
-						'Authorization': this.token
+						'Authorization': this.$token
 					},
 					data: {
 						id: this.activeId

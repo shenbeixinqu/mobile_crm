@@ -2,14 +2,16 @@
 	<view class="contentk">
 		<uni-drawer ref="drawer" mode="right" :width="drawWid">
 			<view class="wk_n">
-				<view class="chou_tit">客户名称：{{ tableList.name}}</view>
-				<view class="list-item">
+				<view class="chou_tit">客户名称：{{ tableList.company}}</view>
+				<view class="list-item"  v-for="item in tableDatazi" :key="item.id">
 					<view class="list-itemleft">
-						<view>资质类型：营业执照</view>
-						<view>上传时间：营业执照</view>
+						<view>资质类型：{{item.qualstype}}</view>
+						<view>上传时间：{{item.addtime}}</view>
 					</view>
 					<view class="list-img">
-						<image style="width: 100%; height:300upx; background-color: #eeeeee;" mode="aspectFit"></image>
+					
+						
+								<image style="width: 100%; height:300upx; background-color: #eeeeee;" :src="imgurl+item.scan" mode="aspectFit"></image>
 					</view>
 				</view>
 				<button type="primary" class="anbtn" @click="clox()">返回</button>
@@ -105,9 +107,11 @@
 		//     },
 		//   },
 		mounted() {
+			this.imgurl=this.$imgurl;
+			console.log(this.imgurl);
 			this.kehu();
 			this.zizhi();
-			console.log(11111)
+		
 		},
 		methods: {
 
@@ -152,7 +156,7 @@
 
 					url: this.$burl + '/api/customer/info',
 					header: {
-						'Authorization': this.token
+						'Authorization': this.$token
 					},
 					data: {
 						id: this.activeId
@@ -174,12 +178,12 @@
 			//资质
 			zizhi() {
 				uni.request({
-					url: this.$burl + '/api/customers_quals',
+					url: this.$burl + '/api/customers_quals/'+this.activeId,
 					header: {
-						'Authorization': this.token
+						'Authorization': this.$token
 					},
 					data: {
-						id: this.activeId
+						
 					},
 					success: (res) => {
 						if (res.data.data.status == 200) {
@@ -383,7 +387,7 @@
 		color: #666666;
 		margin-bottom: 25upx;
 		padding: 3%;
-		overflow: hidden;
+		
 		border: 1px #e4e4e4 solid;
 		display: flex;
 		border-radius: 5px;
@@ -392,6 +396,7 @@
 		justify-content: space-between;
 		padding: 30rpx;
 		flex-direction: row;
+		height: 300upx;
 	}
 
 	.list-itemleft {
