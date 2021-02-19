@@ -68,8 +68,23 @@
 								},
 								success: res => {
 									if (res.data.data.status === 200){
-										uni.navigateBack({
+										uni.navigateTo({
+											url:"./cusdelay"
+										})({
 											delta:1
+										})
+									} else {
+										uni.showModal({
+											title:"提示",
+											content:res.data.msg,
+											showCancel:false,
+											success:(res) => {
+												if (res.confirm){
+													uni.navigateTo({
+														url:"./cusdelay"
+													})
+												}
+											}
 										})
 									}
 								},
