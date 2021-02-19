@@ -56,7 +56,6 @@
 				ktype:0,
 				flag:"",
 				flag_val:"",
-				token:this.$token
 			}
 		},
 		onLoad(options){
@@ -72,7 +71,7 @@
 				uni.request({
 					url: this.$burl + '/api/customer/audit',
 					header: {
-						'Authorization': this.token
+						'Authorization': this.$token
 					},
 					data: {
 						limit: pageSize,
@@ -90,7 +89,7 @@
 				uni.request({
 					url:this.$burl + '/api/customer/audit',
 					header:{
-						'Authorization': this.token
+						'Authorization': this.$token
 					},
 					data: {
 						ktype: '0',

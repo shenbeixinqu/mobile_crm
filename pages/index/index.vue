@@ -26,7 +26,7 @@
 				<image class="index_image" src="../../static/cfsq.png" mode="aspectFit"></image>
 				<h4>出访申请</h4>
 			</view>
-			<view class="index_n_img">
+			<view class="index_n_img" @click="myMarket">
 				<image class="index_image" src="../../static/wdcf.png" mode="aspectFit"></image>
 				<h4>我的出访</h4>
 			</view>
@@ -99,6 +99,11 @@
 			cusdelay(){
 				uni.navigateTo({
 					url:"/pages/check/cusdelay"
+				})
+			},
+			myMarket(){
+				uni.navigateTo({
+					url:"/pages/market/my"
 				})
 			}
 

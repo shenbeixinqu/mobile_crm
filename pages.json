@@ -62,6 +62,12 @@
 			}
 		},
 		{
+			"path":"pages/market/my",
+			"style": {
+				"navigationBarTitleText":"我的出访"
+			}
+		},
+		{
 			"path": "pages/check/trackindexrefuse"
 		},
 		{
@@ -70,7 +76,6 @@
 				"navigationBarTitleText":"查看详情"
 			}
 		}
-	   
         ,{
             "path" : "pages/check/delayindexrefuse",
             "style" :                                                                                    
