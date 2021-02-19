@@ -71,7 +71,7 @@ module.exports = {
 					if (!reg.test(data[rule[i].name])) { this.error = rule[i].errorMsg; return false; }
 				break;
 				case 'phoneno':
-					var reg = /^1[0-9]{10,10}$/;
+					var reg = /^((13[0-9])|(14[5|7])|(15([0-9]))|(166)|(17[0-9])|(18[0-9]))\d{8}$|^0\d{2,3}-?\d{7,8}$/;
 					if (!reg.test(data[rule[i].name])) { this.error = rule[i].errorMsg; return false; }
 				break;
 				case 'zipcode':

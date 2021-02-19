@@ -68,7 +68,7 @@
 					<picker v-model="source_flag" @change="sourceChange" :value="source_flag" :range="sourceArray" range-key="name">
 						<view class="uni-input" v-if="sourceArray[source_flag]">{{sourceArray[source_flag].name}}</view>
 						<view class="uni-input" v-else>请选择来源</view>
-						
+
 					</picker>
 
 				</view>
@@ -79,9 +79,9 @@
 			</view>
 
 		</uni-drawer>
-	
-	
-	
+
+
+
 		<view class="topview">
 			<button type="primary" class="search-btn" @click="getList('search')"></button>
 			<input class="se-input" name="nickname" placeholder="请输入客户名称" v-model="kword" /><button type="primary" size="small"
@@ -93,7 +93,7 @@
 				<empty-view slot="empty"></empty-view>
 				<!-- list数据，建议像下方这样在item外层套一个view，而非直接for循环item，因为slot插入有数量限制 -->
 				<view>
-					<view class="list-item" v-for="(item,index) in dataList" :key="index"   @tap="goDetail(item)">
+					<view class="list-item" v-for="(item,index) in dataList" :key="index" @tap="goDetail(item)">
 						<view class="list-text">
 							<view class="list_tit">{{item.name}}</view>
 							<view class="tag_k" v-for="(user, i) in item.tags.data" :key="i">
@@ -128,7 +128,7 @@
 		},
 		data() {
 			return {
-				new_goods_show:0,
+				new_goods_show: 0,
 				dataList: [],
 				value1: [],
 				label1: '',
@@ -251,7 +251,7 @@
 
 				return audit
 			},
-			
+
 			delayStatus: function(value) {
 				let delay = ''
 				if (value === "-1") {
@@ -266,21 +266,21 @@
 				} else if (value === "2") {
 					delay = '已拒绝'
 					return delay
-				} 
+				}
 
 				return delay
 			},
 
 		},
-		
+
 
 		methods: {
 			queryList(pageNo, pageSize) {
-		
+
 				uni.request({
 					url: this.$burl + '/api/customer/clue/my',
 					header: {
-						'Authorization': this.token
+						'Authorization': this.$token
 					},
 					data: {
 						limit: pageSize,
@@ -328,7 +328,7 @@
 			changeCheckbox(e) {
 
 				this.checkedArr = e.detail.value;
-				
+
 				// 如果选择的数组中有值，并且长度等于列表的长度，就是全选
 				if (this.checkedArr.length > 0 && this.checkedArr.length == this.checkboxData.length) {
 					this.allChecked = true;
@@ -349,33 +349,40 @@
 
 						}
 					}
-				
+
 				} else {
 					// 取消全选
 					this.allChecked = false;
 					this.checkedArr = [];
 				}
 			},
-          //线索来源
-          sourceChange(e) {
-          	console.log(e);
-          	this.source_flag = e.detail.value;
-          },
+			//线索来源
+			sourceChange(e) {
+				console.log(e);
+				this.source_flag = e.detail.value;
+			},
 			//抽屉打开
 			drawer() {
 				this.$refs.drawer.open();
 			},
 			//抽屉关闭
 			clox() {
-				this.$refs.drawer.close();
+				// this.$refs.drawer.close();
+				this.allChecked = false;
+				this.checkedArr = [];
+				this.value3 = [];
+				this.value4 = [];
+				this.label3 = '';
+				this.label4 = '';
+				this.source_flag = '';
 			},
-			
+
 			//地址接口
 			locations() {
 				uni.request({
 					url: this.$burl + '/api/locations_cascade',
 					header: {
-						'Authorization': this.token
+						'Authorization': this.$token
 					},
 					success: (res) => {
 						this.list1 = res.data.data.options;
@@ -390,10 +397,10 @@
 				uni.request({
 					url: this.$burl + '/api/industrys_cascade',
 					header: {
-						'Authorization': this.token
+						'Authorization': this.$token
 					},
 					success: (res) => {
-						
+
 						this.listhy = res.data.data.options;
 					},
 					fail: (err) => {
@@ -406,7 +413,7 @@
 				uni.request({
 					url: this.$burl + '/api/get_tags/' + this.usrid,
 					header: {
-						'Authorization': this.token
+						'Authorization': this.$token
 					},
 					success: (res) => {
 						let checklist = res.data.data.data;
@@ -418,7 +425,7 @@
 								'label': checklist[key].tab
 							})
 						}
-						
+
 					},
 					fail: (err) => {
 						//console.log(err)
@@ -435,20 +442,21 @@
 
 			//列表接口
 			getList(type) {
+				console.log(this.value3);
 				let dq = this.value3.pop() + '';
 				let hy = this.value4.pop() + '';
 				uni.showLoading();
 				uni.request({
 					url: this.$burl + '/api/customer/clue/my',
 					header: {
-						'Authorization': this.token
+						'Authorization': this.$token
 					},
 					data: {
 						kword: this.kword,
 						ktags: this.checkedArr.join(','),
 						kloc: this.praseStrEmpty(dq),
 						kind: this.praseStrEmpty(hy),
-						ksource:this.source_flag,
+						ksource: this.source_flag,
 					},
 					success: (res) => {
 						uni.hideLoading();
@@ -473,7 +481,7 @@
 			},
 
 
-		
+
 			getNextData() {
 				if (this.isAll) {
 					this.showToast('已加载全部');
@@ -500,9 +508,10 @@
 			goDetail(item) {
 				console.log()
 				uni.navigateTo({
-					url:'/pages/details/details?id='+item._id
+					url: '/pages/details/details?id=' + item._id
 				})
 			},
+
 		}
 	}
 </script>
@@ -873,7 +882,8 @@
 	/deep/.uni-checkbox-input-checked:before {
 		display: none;
 	}
-	/deep/uni-picker{
+
+	/deep/uni-picker {
 		width: 100%;
 	}
 </style>

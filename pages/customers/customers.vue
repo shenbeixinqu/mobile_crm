@@ -375,7 +375,7 @@
 				uni.request({
 					url: this.$burl + '/api/customer/my',
 					header: {
-						'Authorization': this.token
+							'Authorization': this.$token
 					},
 					data: {
 						limit: pageSize,
@@ -389,6 +389,12 @@
 					}
 				})
 
+			},
+			bindDateChange: function(e) {
+				this.date = e.detail.value
+			},
+			jbindDateChange: function(e) {
+				this.jdate = e.detail.value
 			},
 			//三级联动
 			handleTap(picker) {
@@ -518,7 +524,18 @@
 			},
 			//抽屉关闭
 			clox() {
-				this.$refs.drawer.close();
+				this.allChecked = false;
+				this.checkedArr = [];
+				this.allCheckedzt = false;
+				this.checkedArrzt = [];
+				this.allCheckedztns = false;
+				this.checkedArrztns = [];
+				this.value3 = [];
+				this.value4 = [];
+				this.label3 = '';
+				this.label4 = '';
+				this.jdate = '';
+				this.date = '';
 			},
 
 			//地址接口
@@ -526,7 +543,7 @@
 				uni.request({
 					url: this.$burl + '/api/locations_cascade',
 					header: {
-						'Authorization': this.token
+						'Authorization': this.$token
 					},
 					success: (res) => {
 						this.list1 = res.data.data.options;
@@ -541,7 +558,7 @@
 				uni.request({
 					url: this.$burl + '/api/industrys_cascade',
 					header: {
-						'Authorization': this.token
+						'Authorization': this.$token
 					},
 					success: (res) => {
 
@@ -557,7 +574,7 @@
 				uni.request({
 					url: this.$burl + '/api/get_tags/' + this.usrid,
 					header: {
-						'Authorization': this.token
+					   'Authorization': this.$token
 					},
 					success: (res) => {
 						let checklist = res.data.data.data;
@@ -592,7 +609,7 @@
 				uni.request({
 					url: this.$burl + '/api/customer/my',
 					header: {
-						'Authorization': this.token
+						'Authorization': this.$token
 					},
 					data: {
 						kword: this.kword,
@@ -603,7 +620,7 @@
 						ksource: this.source_flag,
 						ksdt: this.date,
 						kedt: this.jdate,
-						is_taxpayer:this.checkedArrztns.join(','),
+						is_taxpayer: this.checkedArrztns.join(','),
 					},
 					success: (res) => {
 						uni.hideLoading();
@@ -1019,7 +1036,7 @@
 	.bottombtn {
 		width: 80%;
 		right: 10upx;
-		position: absolute;
+		
 		bottom: 30upx;
 		display: flex;
 		align-items: center;
@@ -1050,4 +1067,5 @@
 	/deep/uni-picker {
 		width: 100%;
 	}
+	/deep/.uni-drawer{overflow-y: scroll;}
 </style>
