@@ -43,7 +43,6 @@ id:''
 				})
 			},
              bindTextAreaBlur: function (e) {
-                       
              this.remark=e.detail.value
 			  console.log('this.remark',this.remark)
 			 },

@@ -9,60 +9,72 @@
 		{
 			"path": "pages/searchclue/searchclue",
 			"style": {
-				"navigationBarTitleText":"搜索线索"
+				"navigationBarTitleText": "搜索线索"
+			}
+		},
+		{
+			"path": "pages/searchclue/genjin",
+			"style": {
+				"navigationBarTitleText": "线索跟进"
 			}
 		},
 		{
 			"path": "pages/dingdang/dingdang",
 			"style": {
-				"navigationBarTitleText":"订单"
+				"navigationBarTitleText": "订单"
 			}
 		},
 		{
 			"path": "pages/myclue/myclue",
 			"style": {
-				"navigationBarTitleText":"我的线索"
+				"navigationBarTitleText": "我的线索"
 			}
 		},
 		{
 			"path": "pages/myclue/visit",
 			"style": {
-				"navigationBarTitleText":"出访申请"
+				"navigationBarTitleText": "出访申请"
 			}
-		},{
+		},
+		{
+			"path": "pages/customers/visit",
+			"style": {
+				"navigationBarTitleText": "出访申请"
+			}
+		}, {
 			"path": "pages/myclue/pizhu",
 			"style": {
-				"navigationBarTitleText":"添加批注"
+				"navigationBarTitleText": "添加批注"
 			}
 		},
 		{
 			"path": "pages/customers/customers",
 			"style": {
-				"navigationBarTitleText":"我的客户"
+				"navigationBarTitleText": "我的客户"
 			}
 		},
 		{
 			"path": "pages/addclue/addclue",
 			"style": {
-				"navigationBarTitleText":"添加线索"
+				"navigationBarTitleText": "添加线索"
 			}
 		},
 		{
 			"path": "pages/check/track",
 			"style": {
-				"navigationBarTitleText":"跟进线索审核列表"
+				"navigationBarTitleText": "跟进线索审核列表"
 			}
 		},
 		{
 			"path": "pages/check/cusdelay",
 			"style": {
-				"navigationBarTitleText":"延期审核列表"
+				"navigationBarTitleText": "延期审核列表"
 			}
 		},
 		{
 			"path": "pages/check/trackindex",
 			"style": {
-				"navigationBarTitleText":"跟进线索审核"
+				"navigationBarTitleText": "跟进线索审核"
 			}
 		},
 		{
@@ -74,7 +86,7 @@
 		{
 			"path": "pages/check/delayindex",
 			"style": {
-				"navigationBarTitleText":"线索延期审核"
+				"navigationBarTitleText": "线索延期审核"
 			}
 		},
 		{
@@ -86,7 +98,7 @@
 		{
 			"path":"pages/market/my",
 			"style": {
-				"navigationBarTitleText":"我的出访"
+				"navigationBarTitleText": "我的出访"
 			}
 		},
 		{
@@ -107,20 +119,18 @@
 		{
 			"path": "pages/details/details",
 			"style": {
-				"navigationBarTitleText":"查看详情"
+				"navigationBarTitleText": "查看详情"
 			}
+		}, {
+			"path": "pages/check/delayindexrefuse",
+			"style": {
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": false
+			}
+
 		}
-        ,{
-            "path" : "pages/check/delayindexrefuse",
-            "style" :                                                                                    
-            {
-                "navigationBarTitleText": "",
-                "enablePullDownRefresh": false
-            }
-            
-        }
-        
-    ],
+
+	],
 	"globalStyle": {
 		"navigationStyle": "custom",
 		"navigationBarTextStyle": "black",

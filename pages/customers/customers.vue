@@ -149,7 +149,6 @@
 							<view class="tag_k" v-for="(user, i) in item.tags.data" :key="i">
 								{{user.t_tab}}
 							</view>
-							<view class="hui">{{item.stage}}</view>
 						</view>
 						<view class="list-item-top">
 							<view class="list-dqk">
@@ -161,7 +160,7 @@
 
 						</view>
 						<view class="list-item-bot">
-							<span @tap="pizhu(item)">填写批注</span> <span @tap="chufang(item)">申请出访</span> <span @tap="xiangqing(item)">详情</span>
+							<span @tap.stop="pizhu(item)">填写批注</span> <span @tap.stop="chufang(item)">申请出访</span> <span>详情</span>
 						</view>
 					</view>
 				</view>
@@ -623,7 +622,7 @@
 					},
 					success: (res) => {
 						uni.hideLoading();
-						if (res.statusCode == 200) {
+						if (res.data.data.status == 200) {
 							this.$refs.drawer.close();
 							this.dataList = res.data.data.data;
 							if (this.dataList.length == 0) {
@@ -674,6 +673,24 @@
 					url: '/pages/details/details?id=' + item._id
 				})
 			},
+			// 跳转出访表单页面
+			chufang(item) {
+				console.log(item)
+				let chufang = {
+					id: item._id,
+					name: item.name,
+					address: item.address,
+				}
+				uni.navigateTo({
+					url: "./visit?chufang=" + encodeURIComponent(JSON.stringify(chufang)),
+				})
+			},
+			//跳转批注页面
+			pizhu(item) {
+				uni.navigateTo({
+					url: '/pages/myclue/pizhu?id=' + item._id
+				})
+			}
 		}
 	}
 </script>
@@ -1035,7 +1052,7 @@
 	.bottombtn {
 		width: 80%;
 		right: 10upx;
-		
+
 		bottom: 30upx;
 		display: flex;
 		align-items: center;
@@ -1066,5 +1083,8 @@
 	/deep/uni-picker {
 		width: 100%;
 	}
-	/deep/.uni-drawer{overflow-y: scroll;}
+
+	/deep/.uni-drawer {
+		overflow-y: scroll;
+	}
 </style>

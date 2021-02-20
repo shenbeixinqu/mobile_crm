@@ -18,12 +18,12 @@
 				<view class="check_bj">
 					<checkbox-group class="check_box_k" @change="allChoosezt">
 						<label class="lable-box">
-							<checkbox value="all" :class="{'checked':allCheckedzt}" :checked="allCheckedzt?true:false"></checkbox><text class="cketext"
-							 style="color:rgb(64, 158, 255);">全选</text>
+							<checkbox value="all" :class="{'checked':allCheckedzt}" :checked="allCheckedzt?true:false"></checkbox><text
+							 class="cketext" style="color:rgb(64, 158, 255);">全选</text>
 						</label>
 					</checkbox-group>
 				</view>
-			
+
 				<view class="chou_tit">
 					标签
 				</view>
@@ -98,7 +98,7 @@
 		<!-- 数据列表 -->
 		<view class="content">
 
-			<view class="list-item" v-for="(item,index) in dataList" :key="index"  @tap="goDetail(item)">
+			<view class="list-item" v-for="(item,index) in dataList" :key="index" @tap="goDetail(item)">
 				<view class="list-text">
 					<view class="list_tit">{{item.name}}</view>
 					<view class="tag_k" v-for="(user, i) in item.tags.data" :key="i">
@@ -108,21 +108,22 @@
 				</view>
 				<view class="list-item-top">
 					<view class="list-dqk">
-						<view class="list-dq1" >地区：{{item.loc_lead}}</view>
+						<view class="list-dq1">地区：{{item.loc_lead}}</view>
 						<view class="list-dq1">行业：{{item.ind_lead}}</view>
 					</view>
-					<view class="list-dq"><view class="list-qd1">跟进人：</view>
-					
-				<view  class="tag_k"  v-for="(tags, i) in item.tags.data" :key="i">
-					{{tags.t_tab}}
-				</view>
-					<view class="list-qd2"  v-for="(user, i) in item.track.data" :key="i">
-						{{user[0].us_name}}
-					</view>
+					<view class="list-dq">
+						<view class="list-qd1">跟进人：</view>
+
+						<view class="tag_k" v-for="(tags, i) in item.tags.data" :key="i">
+							{{tags.t_tab}}
+						</view>
+						<view class="list-qd2" v-for="(user, i) in item.track.data" :key="i">
+							{{user[0].us_name}}
+						</view>
 					</view>
 				</view>
 				<view class="list-item-bot">
-					<span @tap="xiangqing(item)">跟进</span>
+					<span @tap.stop="genjin(item)">跟进</span>
 				</view>
 			</view>
 		</view>
@@ -170,7 +171,7 @@
 				// 全选全不选
 				ktags: '',
 				usrid: 2,
-				
+
 				stagesArr: [{
 						'value': 10,
 						'label': "线索"
@@ -249,7 +250,7 @@
 						value: "15"
 					},
 				],
-			
+
 			}
 		},
 		onLoad(options) {
@@ -258,7 +259,7 @@
 			this.locations();
 			this.industrys();
 		},
-		
+
 
 		methods: {
 
@@ -319,12 +320,12 @@
 					this.checkedArr = [];
 				}
 			},
-			
+
 			//状态
-		
+
 			changeCheckboxzt(e) {
 				this.checkedArrzt = e.detail.value;
-			
+
 				// 如果选择的数组中有值，并且长度等于列表的长度，就是全选
 				if (this.checkedArrzt.length > 0 && this.checkedArrzt.length == this.stagesArr.length) {
 					this.allCheckedzt = true;
@@ -333,7 +334,7 @@
 				}
 			},
 			// 全选事件
-			allChoosezt(e){
+			allChoosezt(e) {
 				console.log(e);
 				let chooseItem = e.detail.value;
 				// 全选
@@ -351,8 +352,8 @@
 					this.checkedArrzt = [];
 				}
 			},
-			
-		
+
+
 			//抽屉打开
 			drawer() {
 				this.$refs.drawer.open();
@@ -363,10 +364,10 @@
 				this.checkedArr = [];
 				this.allCheckedzt = false;
 				this.checkedArrzt = [];
-				this.value3=[];
-				this.value4=[];
-				this.label3='';
-				this.label4='';
+				this.value3 = [];
+				this.value4 = [];
+				this.label3 = '';
+				this.label4 = '';
 			},
 
 			//地址接口
@@ -425,7 +426,7 @@
 					}
 				})
 			},
-			
+
 			//undefined，null转空
 			praseStrEmpty(str) {
 				if (!str || str == "undefined" || str == "null") {
@@ -440,7 +441,7 @@
 				let hy = this.value4.pop() + '';
 				uni.showLoading();
 				uni.request({
-					url: this.$burl + '/api/customer/malist',
+					url: this.$burl + '/api/customer/alist',
 					header: {
 						'Authorization': this.$token
 					},
@@ -455,7 +456,7 @@
 					success: (res) => {
 						console.log('我是数据的', res)
 						uni.hideLoading();
-						if (res.statusCode == 200) {
+						if (res.data.data.status == 200) {
 							this.$refs.drawer.close();
 							this.dataList = res.data.data.data;
 							if (this.dataList.length == 0) {
@@ -487,12 +488,26 @@
 			},
 
 			// 跳转详情页
-		goDetail(item) {
-			console.log()
-			uni.navigateTo({
-				url:'/pages/details/details?id='+item._id
-			})
-		},
+			goDetail(item) {
+				console.log()
+				uni.navigateTo({
+					url: '/pages/details/details?id=' + item._id
+				})
+			},
+			// 跳转出访表单页面
+			genjin(item) {
+				console.log(item)
+				// uni.navigateTo({
+				// 		url: './genjin?id=' + item._id
+				// })
+				let genjin = {
+					id: item._id,
+					ind_lead: item.ind_lead,
+				}
+				uni.navigateTo({
+					url: "./genjin?genjin=" + encodeURIComponent(JSON.stringify(genjin)),
+				})
+			},
 		}
 	}
 </script>
@@ -619,8 +634,15 @@
 		display: flex;
 		justify-items: flex-start;
 	}
-	.list-qd1{ display: flex;}
-    .list-qd2{ margin-left:10upx;} 
+
+	.list-qd1 {
+		display: flex;
+	}
+
+	.list-qd2 {
+		margin-left: 10upx;
+	}
+
 	.se-input {
 		width: 65%;
 		height: 60rpx;
