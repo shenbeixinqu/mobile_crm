@@ -3,7 +3,6 @@
 		<uni-drawer ref="drawer" mode="right" :width="drawWid">
 			<view class="wk_n">
 				<view class="chou_tit">
-
 					线索状态
 				</view>
 				<view class="check_bj">
