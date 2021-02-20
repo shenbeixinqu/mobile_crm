@@ -460,7 +460,7 @@
 					},
 					success: (res) => {
 						uni.hideLoading();
-						if (res.statusCode == 200) {
+						if (res.data.data.status == 200) {
 							this.$refs.drawer.close();
 							this.dataList = res.data.data.data;
 							if (this.dataList.length == 0) {
