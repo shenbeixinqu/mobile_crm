@@ -102,6 +102,18 @@
 			}
 		},
 		{
+			"path":"pages/market/mydetail",
+			"style": {
+				"navigationBarTitleText":"出访详情"
+			}
+		},
+		{
+			"path":"pages/market/visitresult",
+			"style": {
+				"navigationBarTitleText":"出访结果"
+			}
+		},
+		{
 			"path": "pages/check/trackindexrefuse"
 		},
 		{
