@@ -497,7 +497,7 @@
 						kt: 'pro_class'
 					},
 					success: (res) => {
-						console.log('我是洽谈业务的接口',res)
+					
 						let checklist = res.data.data.pro_class;
 						let arr = []
 						let key;
