@@ -30,8 +30,9 @@
 								<view class="list-dq1">审核体系: {{item.user_tx}}</view>
 								<view class="list-dq1">审核原因: {{item.remark}}</view>
 							</view>
-							<view >
-								<span @click="clueReview(item)">审核</span>
+							<view class="list-item-bot">
+								<span @click="clueReview(item)" v-if="item.audit=='待审核' || item.audit =='层审中'">审核</span>
+								<span @click="clueDetail(item)" v-if="item.audit == '审核通过'">详情</span>
 							</view>
 						</view>
 						
@@ -48,8 +49,10 @@
 			return {
 				dataList:[],
 				flagArray:[
+					{name:"全部", value:""},
 					{name:"待审核",value:"1"},
-					{name:"审核通过", value:"2"},
+					{name:"审核通过",value:"2"},
+					{name:"层审中",value:"3"},
 					{name:"审核拒绝", value:"9"}
 				],
 				kword:"",
@@ -76,6 +79,7 @@
 					data: {
 						limit: pageSize,
 						pn: pageNo,
+						kcstatus:this.flag_val
 					},
 					success: (res) => {
 						this.$refs.paging.addData(res.data.data.data);
@@ -97,8 +101,9 @@
 						kcstatus:this.flag_val
 					},
 					success:(res) => {
+						console.log("res",res)
 						uni.hideLoading();
-						if (res.statusCode == 200){
+						if (res.data.data.status == 200){
 							this.dataList = res.data.data.data;
 							if(this.dataList.length == 0){
 								this.showx = true;
@@ -119,6 +124,7 @@
 			flagChange(e){
 				this.flag = e.detail.value
 				this.flag_val = this.flagArray[this.flag].value
+				this.getList()
 			},
 			
 			clueReview(item){
@@ -126,8 +132,11 @@
 					url:'./trackindex?_id=' + item._id
 				})
 			},
-			
-			
+			clueDetail(item){
+				uni.navigateTo({
+					url:'./trackdetail?_id=' + item._id
+				})
+			}
 			
 		}
 		
@@ -190,6 +199,15 @@
 		align-items: center;
 		justify-content: space-between;
 		padding: 30rpx;
+	}
+	
+	.list-item-bot {
+		width: 100%;
+		display: flex;
+		margin-top: 15upx;
+		justify-content: flex-end;
+		color: #4873c1;
+		font-size: 28upx;
 	}
 	
 	.list-item-top {

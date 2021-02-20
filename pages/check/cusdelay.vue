@@ -31,8 +31,9 @@
 							<view class="list-dqk">
 								<view class="list-dq1">申请原因: {{item.reasons}}</view>
 							</view>
-							<view>
-								<span @click="delayReview(item)">审核</span>
+							<view class="list-item-bot">
+								<span v-if="item.check_status=='待审核'" @click="delayReview(item)">审核</span>
+								<span v-else @click="delayDetail(item)">查看</span>
 							</view>
 						</view>
 					</view>
@@ -48,22 +49,27 @@
 		data() {
 			return {
 				dataList: [],
-				flagArray: [{
+				flagArray: [
+					{
+						name:"全部",
+						value: ""
+					},
+					{
 						name: "待审核",
-						value: "1"
+						value: "0"
 					},
 					{
 						name: "通过",
-						value: "2"
+						value: "1"
 					},
 					{
 						name: "拒绝",
-						value: "3"
+						value: "2"
 					}
 				],
 				kword: "",
 				flag: "",
-				token:this.$token
+				flag_val:"",
 			}
 		},
 		onLoad(options) {
@@ -79,14 +85,15 @@
 				uni.request({
 					url: this.$burl + "/api/customer/delay/list",
 					header: {
-						'Authorization': this.token
+						'Authorization': this.$token
 					},
 					data: {
 						limit: pageSize,
 						pn: pageNo,
+						keyword: this.kword,
+						kstatus: this.flag_val
 					},
 					success: (res) => {
-						console.log("res", res)
 						this.$refs.paging.addData(res.data.data.query);
 					},
 					fail: (err) => {
@@ -99,21 +106,17 @@
 				uni.request({
 					url: this.$burl + "/api/customer/delay/list",
 					header: {
-						'Authorization': this.token
+						'Authorization': this.$token
 					},
 					data: {
 						keyword: this.kword,
-						kstatus: this.flag
+						kstatus: this.flag_val
 					},
 					success: (res) => {
 						uni.hideLoading();
 						if (res.data.data.status === 200) {
 							this.dataList = res.data.data.query;
-							if (this.dataList.length == 0) {
-								uni.hideLoading()
-							} else {
-
-							}
+							console.log("dataList",this.dataList)
 							setTimeout(function() {
 								uni.hideLoading();
 							}, 1000)
@@ -125,10 +128,11 @@
 				})
 			},
 			flagChange(e) {
-				this.flag = e.detail.value
+				this.flag = e.detail.value,
+				this.flag_val = this.flagArray[this.flag].value,
+				this.getList()
 			},
 			delayReview(item) {
-				console.log("item",item)
 				let detail = {
 					_id: item.cid,
 					addname: item.addname,
@@ -142,6 +146,11 @@
 				}
 				uni.navigateTo({
 					url: "./delayindex?detail=" + encodeURIComponent(JSON.stringify(detail)) ,
+				})
+			},
+			delayDetail(item) {
+				uni.navigateTo({
+					url: "./delaydetail?_id=" + item._id ,
 				})
 			}
 
@@ -220,6 +229,15 @@
 		align-items: center;
 		justify-content: space-between;
 		padding: 30rpx;
+	}
+	
+	.list-item-bot {
+		width: 100%;
+		display: flex;
+		margin-top: 15upx;
+		justify-content: flex-end;
+		color: #4873c1;
+		font-size: 28upx;
 	}
 
 	.list-item-top {

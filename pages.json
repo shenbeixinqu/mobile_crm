@@ -78,13 +78,25 @@
 			}
 		},
 		{
+			"path":"pages/check/trackdetail",
+			"style":{
+				"navigationBarTitleText":"跟进线索审核"
+			}
+		},
+		{
 			"path": "pages/check/delayindex",
 			"style": {
 				"navigationBarTitleText": "线索延期审核"
 			}
 		},
 		{
-			"path": "pages/market/my",
+			"path":"pages/check/delaydetail",
+			"style":{
+				"navigationBarTitleText":"线索延期审核"
+			}
+		},
+		{
+			"path":"pages/market/my",
 			"style": {
 				"navigationBarTitleText": "我的出访"
 			}

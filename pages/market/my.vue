@@ -9,7 +9,26 @@
 				<empty-view slot="empty"></empty-view>
 				<view>
 					<view class="list-item" v-for="(item,index) in dataList" :key="index">
-						
+						<view class="list-text">
+							<view class="list_tit">{{item.comname}}</view>
+							<view class="list_track">{{item.status}}</view>
+						</view>
+						<view class="list-item-top">
+							<view class="list-dqk">
+								<view class="list-dq1">拜访人:{{item.human}}</view>
+								<view class="list-dq1">电话:{{item.tel}}</view>
+							</view>
+						</view>
+						<view class="list-item-top">
+							<view class="list-dqk">
+								<view class="list-dq1">洽谈业务:{{item.pClassname}}</view>
+								<view class="list-dq1">出访时间:{{item.starttime}}</view>
+							</view>
+							<view class="list-dq">出访结果:{{item.result}}</view>
+						</view>
+						<view class="list-item-bot" v-if="item.status == '正常'">
+							<span v-if="item.result === null">取消出访</span><span v-if="item.result === null">填写出访结果</span><span>详情</span>
+						</view>
 					</view>
 				</view>
 			</z-paging>
@@ -57,9 +76,10 @@
 						'Authorization': this.$token
 					},
 					data: {
-						
+						kword:this.kword
 					},
 					success:(res) => {
+						console.log("myres",res)
 						uni.hideLoading();
 						if (res.data.data.status === 200){
 							this.dataList = res.data.data.data;
@@ -82,6 +102,14 @@
 		height: 100%;
 	}
 	
+	.content {
+		width: 96%;
+		height: 100%;
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+	}
+	
 	.contentk {
 		width: 100%;
 		height: 100%;
@@ -89,6 +117,23 @@
 		flex-direction: column;
 		align-items: center;
 		margin-top: 50upx;
+	}
+	
+	.list-dq1 {
+		display: flex;
+		width: 50%;
+		text-align: left;
+		padding-top: 1upx;
+		padding-bottom: 1upx;
+	}
+	
+	.list-dqk {
+		flex-direction: row;
+		width: 100%;
+		text-align: left;
+		padding-top: 1upx;
+		padding-bottom: 1upx;
+		display: flex;
 	}
 	
 	.list-item {
@@ -107,6 +152,36 @@
 		align-items: center;
 		justify-content: space-between;
 		padding: 30rpx;
+	}
+	
+	.list-item-bot {
+		width: 100%;
+		display: flex;
+		margin-top: 15upx;
+		justify-content: space-between;
+		color: #4873c1;
+		font-size: 28upx;
+	}
+	
+	.list-item-top {
+		font-size: 24upx;
+		width: 100%;
+		margin-top: 10upx;
+	}
+	
+	.list-text {
+		width: 100%;
+		text-align: left;
+		font-size: 30upx;
+		display: flex;
+		align-items: center;
+		height: 70upx;
+		line-height: 70upx;
+		justify-content: space-between;
+	}
+	
+	.list_tit {
+		display: flex;
 	}
 	
 	.se-input {
