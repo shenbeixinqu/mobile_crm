@@ -18,11 +18,21 @@
 				"navigationBarTitleText":"订单"
 			}
 		},
-		
 		{
 			"path": "pages/myclue/myclue",
 			"style": {
 				"navigationBarTitleText":"我的线索"
+			}
+		},
+		{
+			"path": "pages/myclue/visit",
+			"style": {
+				"navigationBarTitleText":"出访申请"
+			}
+		},{
+			"path": "pages/myclue/pizhu",
+			"style": {
+				"navigationBarTitleText":"添加批注"
 			}
 		},
 		{
@@ -85,6 +95,7 @@
             }
             
         }
+        
     ],
 	"globalStyle": {
 		"navigationStyle": "custom",

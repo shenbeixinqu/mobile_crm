@@ -22,7 +22,7 @@
 			},
 			width: {
 				type: String,
-				default: '75%'
+				default: '90%'
 			},
 			animation: {
 				type: Boolean,
@@ -74,6 +74,9 @@
 	.e-modal-container {
 		background-color: #fff;
 		border-radius: 6px;
+		display: flex;
+		    align-items: center;
+		    justify-content: center;
 	}
 
 	.e-modal-mask {

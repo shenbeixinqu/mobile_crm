@@ -1,7 +1,35 @@
 <template>
 	<view class="contentk">
-		
-		<e-modal :visible.sync="visible">你好</e-modal>
+
+		<e-modal :visible.sync="visible">
+			<view class="uni-padding-wrap uni-common-mt">
+				<form @submit="formSubmit" @reset="formReset">
+					<view class="uni-form-item uni-column">
+						<view class="title">姓名</view>
+						<input class="uni-input" v-model="gname" name="nickname" placeholder="请输入姓名" />
+					</view>
+					<view class="uni-form-item uni-column">
+						<view class="title">电话号码</view>
+						<input class="uni-input" v-model="gphone" name="nphone" placeholder="格式参考：024-12345678或13612345678" />
+					</view>
+					<view class="uni-form-item uni-column">
+						<view class="title">职务</view>
+						<picker v-model="source_flagvalue" name="nzw" @change="sourceChange" :value="source_flagvalue" :range="sourceArray"
+						 range-key="name">
+							<view class="uni-input" v-if="sourceArray[source_flagvalue]">{{sourceArray[source_flagvalue].name}}</view>
+							<view class="uni-input" v-else>请选择职务</view>
+
+						</picker>
+
+					</view>
+
+					<view class="uni-btn-v">
+						<button form-type="submit" class="btn">提交</button>
+						<button class="btn" @click="qx">取消</button>
+					</view>
+				</form>
+			</view>
+		</e-modal>
 		<uni-drawer ref="drawer" mode="right" :width="drawWid">
 			<view class="wk_n">
 				<view class="chou_tit">客户名称：{{ tableList.company}}</view>
@@ -76,33 +104,7 @@
 			</view>
 		</view>
 
-		<view class="uni-padding-wrap uni-common-mt">
-			<form @submit="formSubmit" @reset="formReset">
-				<view class="uni-form-item uni-column">
-					<view class="title">姓名</view>
-					<input class="uni-input" v-model="gname" name="nickname" placeholder="请输入姓名" />
-				</view>
-				<view class="uni-form-item uni-column">
-					<view class="title">电话号码</view>
-					<input class="uni-input" v-model="gphone" name="nphone" placeholder="格式参考：024-12345678或13612345678" />
-				</view>
-				<view class="uni-form-item uni-column">
-					<view class="title">职务</view>
-					<picker v-model="source_flag" name="nzw" @change="sourceChange" :value="source_flag" :range="sourceArray"
-					 range-key="name">
-						<view class="uni-input" v-if="sourceArray[source_flag]">{{sourceArray[source_flag].name}}</view>
-						<view class="uni-input" v-else>请选择职务</view>
 
-					</picker>
-
-				</view>
-
-				<view class="uni-btn-v">
-					<button form-type="submit">Submit</button>
-					<button type="default" form-type="reset">Reset</button>
-				</view>
-			</form>
-		</view>
 	</view>
 
 	</view>
@@ -123,7 +125,8 @@
 		},
 		data() {
 			return {
-				visible:false,
+				value: '',
+				visible: false,
 				gname: '',
 				gphone: '',
 				drawWid: '100%',
@@ -134,6 +137,7 @@
 				tableDatazi: [],
 				linkmans: [],
 				source_flag: '',
+				source_flagvalue: '',
 				sourceArray: [{
 						name: "老板/总经理",
 						value: "1"
@@ -167,8 +171,11 @@
 
 		},
 		methods: {
-			openlxr(){
-				
+			qx() {
+				this.visible = false;
+			},
+			openlxr() {
+				this.visible = true;
 			},
 			handleCancel() {
 				console.log('cancel')
@@ -197,6 +204,7 @@
 				];
 				//进行表单检查
 				var formData = e.detail.value;
+				console.log('进行表单检查', formData)
 				var checkRes = graceChecker.check(formData, rule);
 				if (checkRes) {
 					uni.showToast({
@@ -212,16 +220,26 @@
 						data: {
 							realname: this.gname,
 							phone: this.gphone,
-							identity: this.source_flag
+							identity: this.source_flagvalue,
 						},
 						success: (res) => {
-							console.log(res);
 							if (res.data.data.status == 200) {
 								uni.showToast({
 									title: res.data.msg,
 									icon: "none"
 								});
+								this.kehu();
+								this.visible = false;
+							} else {
+								uni.showToast({
+									title: res.data.msg,
+									icon: "none"
+								});
+								this.visible = false;
 							}
+
+
+
 
 						},
 						fail: (err) => {
@@ -238,10 +256,12 @@
 			formReset: function(e) {
 				console.log('清空数据')
 			},
-			//线索来源
+			//职务
 			sourceChange(e) {
-				console.log(e);
 				this.source_flag = e.detail.value;
+				console.log('this.source_flag', this.source_flag)
+				this.source_flagvalue = this.sourceArray[this.source_flag].value;
+				console.log('this.source_flagvalue', this.source_flagvalue)
 			},
 
 			//抽屉打开
@@ -339,7 +359,17 @@
 		height: 100%;
 	}
 
+	.uni-btn-v {
+		width: 100%;
+		display: flex;
+		flex-direction: row;
+		justify-content: center;
+		padding-top: 30upx;
+		padding-bottom: 30upx;
+	}
+
 	.btn {
+		color: #fff;
 		width: 30%;
 		height: 70upx;
 		line-height: 70upx;
@@ -559,7 +589,9 @@
 
 	/* 表单 */
 	.uni-padding-wrap {
-		width: 95%;
+		width: 90%;
+		padding-top: 20upx;
+		padding-bottom: 20upx;
 
 	}
 

@@ -111,7 +111,7 @@
 							<view class="list-dq">审核状态：延期：{{item.delay_status|delayStatus}} | 跟进：{{item.audit_status|numToMean}}</view>
 						</view>
 						<view class="list-item-bot">
-							<span @tap="pizhu(item)">填写批注</span> <span @tap="chufang(item)">申请出访</span> <span @tap="xiangqing(item)">详情</span>
+							<span @tap.stop="pizhu(item)">填写批注</span> <span @tap.stop="chufang(item)">申请出访</span> <span>详情</span>
 						</view>
 					</view>
 				</view>
@@ -511,7 +511,24 @@
 					url: '/pages/details/details?id=' + item._id
 				})
 			},
-
+			// 跳转出访表单页面
+			chufang(item){
+				console.log(item)
+				let chufang = {
+					id: item._id,
+					name: item.name,
+					address: item.address,
+				}
+				uni.navigateTo({
+					url: "./visit?chufang=" + encodeURIComponent(JSON.stringify(chufang)) ,
+				})
+			},
+			//跳转批注页面
+           pizhu(item){
+			  uni.navigateTo({
+			  	url: './pizhu?id=' + item._id
+			  })
+		   }
 		}
 	}
 </script>
@@ -520,7 +537,6 @@
 	page {
 		height: 100%;
 	}
-
 	.contentk {
 		width: 100%;
 		height: 100%;
@@ -557,7 +573,6 @@
 	}
 
 	.right-part {
-
 		display: flex;
 		height: 100%;
 		width: 96%;
