@@ -27,7 +27,7 @@
 							<view class="list-dq">出访结果:{{item.result}}</view>
 						</view>
 						<view class="list-item-bot" v-if="item.status == '正常'">
-							<span v-if="item.result === null">取消出访</span><span v-if="item.result === null">填写出访结果</span><span>详情</span>
+							<span v-if="item.result === null">取消出访</span><span @click="visitResult(item)" v-if="item.result === null">填写出访结果</span><span @click="myDetail(item)">详情</span>
 						</view>
 					</view>
 				</view>
@@ -91,6 +91,20 @@
 					fail: err => {
 						console.log("列表错误结果", err)
 					}
+				})
+			},
+			visitResult(item){
+				let visitInfo = {
+					comname: item.comname,
+					_id: item._id
+				}
+				uni.navigateTo({
+					url:"./visitresult?info=" + encodeURIComponent(JSON.stringify(visitInfo))
+				})
+			},
+			myDetail(item){
+				uni.navigateTo({
+					url:"./mydetail?id="+item._id
 				})
 			}
 		}

@@ -1,6 +1,6 @@
 <template>
 <view class="contentk">
-	<view class="contentk_top1">名额使用情况:</view>
+		<view class="contentk_top1">名额使用情况:</view>
 		<view class="contentk_top">
 			
 			<view class="leftwz">申请人:</view><view class="rightwz">{{addname}}</view>
@@ -12,7 +12,7 @@
 			<view class="leftwz">延期天数:</view><view class="rightwz">{{delay_days}}天(自然日)</view>
 			<view class="leftwz">延期原因:</view><view class="rightwz">{{reasons}}</view>	
 		</view>
-			<view class="contentk_bottom">
+		<view class="contentk_bottom">
 			<button type="primary" class="btn" @click="cancel">拒绝</button>
 			<button type="primary" class="btn" @click="confirm">同意</button>
 		</view>

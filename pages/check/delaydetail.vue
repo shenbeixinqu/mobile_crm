@@ -27,7 +27,6 @@
 			}
 		},
 		onLoad(options){
-			console.log("options",options)
 			this._id = options._id
 			this.delayDetail(this._id)
 		},
@@ -43,7 +42,6 @@
 						act:"info"
 					},
 					success: (res) => {
-						console.log("res",res)
 						if (res.data.data.status == 200){
 							this.dataList = res.data.data
 							console.log("dataList",this.dataList)
