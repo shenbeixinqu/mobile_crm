@@ -2,18 +2,19 @@
 	<view class="contentk">
 		<view class="uni-padding-wrap uni-common-mt">
 			<form @submit="formSubmit" @reset="formReset">
+
 				<view class="uni-form-item uni-column">
 					<view class="title">公司名称</view>
 					<input class="uni-input1" v-model="name" name="name" placeholder="请输入姓名" :disabled="true" />
 				</view>
 				<view class="uni-form-item uni-column">
-					<view class="title"><text class="red">*</text>出访类型</view>
-					<picker v-model="v_typevalue" name="v_type" @change="sourceChange" :value="v_typevalue" :range="sourceArray"
+					<view class="title"><text class="red">*</text>出访类型</view>	
+					<input type="text" name="v_type" v-model="v_type" :value="v_type"  hidden="true"/>
+					<picker @change="sourceChange" :range="sourceArray"
 					 range-key="name">
-						<view class="uni-input" v-if="sourceArray[v_typevalue]">{{sourceArray[v_typevalue].name}}</view>
+						<view class="uni-input" v-if="sourceArray[v_type]">{{sourceArray[v_type].name}}</view>
 						<view class="uni-input" v-else>请选出访类型</view>
-
-					</picker>
+					</picker>		
 				</view>
 				<view class="uni-form-item uni-column">
 					<view class="title"><text class="red">*</text>出访目的</view>
@@ -21,45 +22,50 @@
 				</view>
 				<view class="uni-form-item uni-column">
 					<view class="title"><text class="red">*</text>客户推广需求</view>
-					<picker v-model="s_xqclassvalue" name="s_xqclass" @change="tuiguangChange" :value="s_xqclassvalue" :range="tgxqArray"
+			
+					<input type="text" name="s_xqclass" v-model="s_xqclass" :value="s_xqclass"  hidden="true"/>
+					<picker @change="tuiguangChange" :range="tgxqArray"
 					 range-key="name">
-						<view class="uni-input" v-if="tgxqArray[s_xqclassvalue]">{{tgxqArray[s_xqclassvalue].name}}</view>
-						<view class="uni-input" v-else>请选出访类型</view>
-
+						<view class="uni-input" v-if="tgxqArray[s_xqclass]">{{tgxqArray[s_xqclass].name}}</view>
+						<view class="uni-input" v-else>请选择出访类型</view>
 					</picker>
 				</view>
 				<view class="uni-form-item uni-column">
 					<view class="title"><text class="red">*</text>客户网络意识</view>
-					<picker v-model="s_wangluovalue" name="s_wangluo" @change="kehuChange" :value="s_wangluovalue" :range="wlArray"
-					 range-key="name">
-						<view class="uni-input" v-if="wlArray[s_wangluovalue]">{{wlArray[s_wangluovalue
-
-						].name}}</view>
-						<view class="uni-input" v-else>请选出访类型</view>
-
+					<input type="text" name="s_wangluo" v-model="s_wangluo" :value="s_wangluo"  hidden="true"/>
+					<picker @change="kehuChange" :range="wlArray" range-key="name">
+						<view class="uni-input" v-if="wlArray[s_wangluo]">{{wlArray[s_wangluo].name}}</view>
+						<view class="uni-input" v-else>请选择客户网络意识</view>
 					</picker>
 				</view>
 				<view class="uni-form-item uni-column">
 					<view class="title"><text class="red">*</text>出访区域</view>
-
-					<picker v-model="v_area" name="v_area" @change="cfChange" :value="v_area" :range="cfArray" range-key="name">
+					<input type="text" name="v_area" v-model="v_area" :value="v_area"  hidden="true"/>
+					<picker @change="cfChange" :range="cfArray" range-key="name">
 						<view class="uni-input" v-if="cfArray[v_area]">{{cfArray[v_area].name}}</view>
-						<view class="uni-input" v-else>请选出访类型</view>
+						<view class="uni-input" v-else>请选出访区域</view>
 					</picker>
 				</view>
 				<view class="uni-form-item uni-column">
-					<view class="title"><text class="red">*</text>出访时间</view>
+					<view class="title"><text class="red">*</text>出访日期</view>
 					<picker mode="date" :value="date" name="date" :start="startDate" :end="endDate" @change="bindDateChange">
-						<view class="uni-input" v-if="date==''" style="color:#666;">请选择开始日期</view>
+						<view class="uni-input" v-if="date==''" style="color:#666;">请选择出访日期</view>
 						<view class="uni-input" v-else>{{date}}</view>
 					</picker>
 				</view>
 				<view class="uni-form-item uni-column">
+					<view class="title"><text class="red">*</text>出访时间</view>
+					<picker mode="time" :value="time" name="time" start="08:30" end="21:01" @change="bindTimeChange">
+						<view class="uni-input" v-if="time==''" style="color:#666;">请选择出访时间</view>
+						<view class="uni-input" v-else>{{time}}</view>
+					</picker>
+				</view>
+				<view class="uni-form-item uni-column">
 					<view class="title"><text class="red">*</text>洽谈业务</view>
-
-					<picker v-model="p_classvalue" name="p_class" @change="qtChange" :value="p_classvalue" :range="qtArray" range-key="name">
-						<view class="uni-input" v-if="qtArray[p_classvalue]">{{qtArray[p_classvalue].name}}</view>
-						<view class="uni-input" v-else>请选洽谈业务</view>
+					<input type="text" name="p_class" v-model="p_class" :value="p_class"  hidden="true"/>
+					<picker @change="qtChange" :range="qtArray" range-key="name">
+						<view class="uni-input" v-if="qtArray[p_class]">{{qtArray[p_class].name}}</view>
+						<view class="uni-input" v-else>请选择洽谈业务</view>
 					</picker>
 				</view>
 				<view class="uni-form-item uni-column">
@@ -72,8 +78,9 @@
 				</view>
 				<view class="uni-form-item uni-column">
 					<view class="title"><text class="red">*</text>职务</view>
-					<picker v-model="positionvalue" name="position" @change="zwChange" :value="positionvalue" :range="zwArray" range-key="name">
-						<view class="uni-input" v-if="zwArray[positionvalue]">{{zwArray[positionvalue].name}}</view>
+					<picker v-model="positionvalue" name="position" @change="zwChange" :value="positionvalue" :range="zwArray"
+					 range-key="name">
+						<view class="uni-input" v-if="zwArray[position]">{{zwArray[position].name}}</view>
 						<view class="uni-input" v-else>请选择职务</view>
 
 					</picker>
@@ -105,10 +112,18 @@
 
 				<view class="uni-form-item uni-column">
 					<view class="title">需陪访原因</view>
-					<picker v-model="p_typevalue" name="p_type" @change="pfChange" :value="p_typevalue" :range="pfArray" range-key="name">
-						<view class="uni-input" v-if="pfArray[p_typevalue]">{{pfArray[p_typevalue].name}}</view>
-						<view class="uni-input" v-else>请选需陪访原因</view>
+					
+					<input type="text" name="p_typevalue" v-model="p_typevalue" :value="p_typevalue"  hidden="true"/>
+					<picker @change="pfChange" :range="pfArray" range-key="name">
+						<view class="uni-input" v-if="pfArray[p_type]">{{pfArray[p_type].name}}</view>
+						<view class="uni-input" v-else>请选择洽谈业务</view>
 					</picker>
+					<!-- 
+					<picker v-model="p_typevalue" name="p_type" @change="pfChange" :value="p_typevalue" :range="pfArray" range-key="name">
+						<view class="uni-input" v-if="pfArray[p_type]">{{pfArray[p_type].name}}</view>
+						<view class="uni-input" v-else>请选需陪访原因</view>
+					</picker> -->
+
 				</view>
 
 
@@ -143,7 +158,10 @@
 	export default {
 		data() {
 			return {
+				source_flagvalue: '',
+				source_flag: '',
 				date: '',
+				time: '',
 				v_type: '',
 				v_typevalue: '',
 				goal: '',
@@ -244,11 +262,11 @@
 					},
 					{
 						name: "职员",
-						value: "3"
+						value: "9"
 					},
 					{
 						name: "其他",
-						value: "4"
+						value: "0"
 					},
 				],
 				activeId: '',
@@ -260,7 +278,6 @@
 		},
 		onLoad: function(option) {
 			const item = JSON.parse(decodeURIComponent(option.chufang));
-		    console.log('dddd',item)
 			this.id = item.id;
 			this.name = item.name;
 			this.address = item.address;
@@ -313,13 +330,66 @@
 				}
 				return str;
 			},
+
+			//日期
+			bindDateChange(e) {
+				this.date = e.detail.value
+			},
+			bindTimeChange: function(e) {
+				this.time = e.detail.value
+			},
+			//职务
+			sourceChange(e) {
+				this.source_flag = e.detail.value;
+				this.source_flagvalue = this.sourceArray[this.source_flag].value;
+			},
+			//sourceChange出访类型
+			sourceChange(e) {
+				this.v_type = e.detail.value
+				this.v_typevalue = this.sourceArray[this.v_type].value;
+			},
+			//客户推广需求
+			tuiguangChange(e) {
+				this.s_xqclass = e.detail.value
+				this.s_xqclassvalue = this.tgxqArray[this.s_xqclass].value;
+			},
+			//客户网络意识
+			kehuChange(e) {
+				this.s_wangluo = e.detail.value
+				this.s_wangluovalue = this.wlArray[this.s_wangluo].value;
+			},
+			//出访区域
+			cfChange(e) {
+				this.v_area = e.detail.value
+				this.v_areavalue = this.cfArray[this.v_area].value;
+
+			},
+			//出访时间
+
+			//洽谈业务
+			qtChange(e) {
+				this.p_class = e.detail.value
+				this.p_classvalue = this.qtArray[this.p_class].value;
+			},
+			//职务
+			zwChange(e) {
+				this.position = e.detail.value
+				this.positionvalue = this.zwArray[this.position].value;
+			},
+
+
+			//需陪访原因
+			pfChange(e) {
+				this.p_type = e.detail.value
+				this.p_typevalue = this.pfArray[this.p_type].value;
+			},
 			//表单
 			formSubmit: function(e) {
 				let dq = this.value3.pop() + '';
 				//定义表单规则
 				var rule = [{
 						name: "v_type",
-						checkType: "notnull",
+						checkType: "null",
 						checkRule: "",
 						errorMsg: "请选择出访类型"
 					}, {
@@ -330,31 +400,37 @@
 					},
 					{
 						name: "s_xqclass",
-						checkType: "notnull",
+						checkType: "null",
 						checkRule: "",
 						errorMsg: "请选择客户推广需求"
 					},
 					{
 						name: "s_wangluo",
-						checkType: "notnull",
+						checkType: "null",
 						checkRule: "",
 						errorMsg: "请选择客户网络意识"
 					},
 					{
 						name: "date",
-						checkType: "notnull",
+						checkType: "null",
 						checkRule: "",
 						errorMsg: "日期不能为空"
 					},
 					{
+						name: "time",
+						checkType: "null",
+						checkRule: "",
+						errorMsg: "时间不能为空"
+					},
+					{
 						name: "p_class",
-						checkType: "notnull",
+						checkType: "null",
 						checkRule: "",
 						errorMsg: "请选择洽淡业务"
 					},
 					{
 						name: "human",
-						checkType: "notnull",
+						checkType: "null",
 						checkRule: "",
 						errorMsg: "请选择拜访人"
 					},
@@ -366,7 +442,7 @@
 					},
 					{
 						name: "position",
-						checkType: "notnull",
+						checkType: "null",
 						checkRule: "",
 						errorMsg: "职务不能为空"
 					}
@@ -388,13 +464,13 @@
 						method: "POST",
 						data: {
 							id: this.id,
-							stage:20,
+							stage: 20,
 							v_type: this.v_typevalue,
 							goal: this.goal,
 							s_xqclass: this.s_xqclassvalue,
 							s_wangluo: this.s_wangluovalue,
 							v_area: this.v_areavalue,
-							starttime: this.date,
+							starttime:this.date + " " + this.time + ":00",
 							p_class: this.p_classvalue,
 							human: this.human,
 							tel: this.tel,
@@ -409,18 +485,15 @@
 									title: res.data.msg,
 									icon: "none"
 								});
-							
-								
+
+
 							} else {
 								uni.showToast({
 									title: res.data.msg,
 									icon: "none"
 								});
-							
+
 							}
-
-
-
 
 						},
 						fail: (err) => {
@@ -434,52 +507,10 @@
 					});
 				}
 			},
-			formReset: function(e) {
+			formReset(e) {
 				console.log('清空数据')
 			},
-			//日期
-			bindDateChange: function(e) {
-				this.date = e.detail.value
-			},
-			//sourceChange出访类型
-			sourceChange: function(e) {
-				this.v_type = e.detail.value
-				this.v_typevalue = this.sourceArray[this.v_type].value;
-			},
-			//客户推广需求
-			tuiguangChange: function(e) {
-				this.s_xqclass = e.detail.value
-				this.s_xqclassvalue = this.tgxqArray[this.s_xqclass].value;
-				console.log('客户推广需求', this.s_xqclassvalue)
-			},
-			//客户网络意识
-			kehuChange: function(e) {
-				this.s_wangluo = e.detail.value
-				this.s_wangluovalue = this.wlArray[this.s_wangluo].value;
-			},
-			//出访区域
-			cfChange: function(e) {
-				this.v_area = e.detail.value
-				this.v_areavalue = this.cfArray[this.v_area].value;
 
-			},
-			//出访时间
-
-			//洽谈业务
-			qtChange: function(e) {
-				this.p_class = e.detail.value
-				this.p_classvalue = this.qtArray[this.p_class].value;
-			},
-			//职务
-			zwChange: function(e) {
-				this.position = e.detail.value
-				this.positionvalue = this.zwArray[this.position].value;
-			},
-			//需陪访原因
-			pfChange: function(e) {
-				this.p_type = e.detail.value
-				this.p_typevalue = this.pfArray[this.p_type].value;
-			},
 			// 返回列表页
 			qx() {
 				uni.navigateTo({
@@ -497,7 +528,7 @@
 						kt: 'pro_class'
 					},
 					success: (res) => {
-					
+
 						let checklist = res.data.data.pro_class;
 						let arr = []
 						let key;
@@ -507,7 +538,7 @@
 								'value': key,
 							})
 						}
-						
+
 					},
 					fail: (err) => {
 						//console.log(err)

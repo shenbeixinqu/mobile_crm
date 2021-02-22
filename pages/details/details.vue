@@ -7,13 +7,10 @@
 		</scroll-view>
 
 		<swiper :current="tabIndex" class="swiper-box" :style="{height:swiperheight+'px'}" :duration="300" @change="ontabchange">
-
-
 			<swiper-item class="swiper-item">
 				<scroll-view scroll-y>
 					<gaikuang :style="{height:swiperheight+'px'}" :active-id="activeId"></gaikuang>
 				</scroll-view>
-
 			</swiper-item>
 			<swiper-item class="swiper-item">
 				<scroll-view scroll-y>

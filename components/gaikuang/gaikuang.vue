@@ -14,13 +14,12 @@
 					</view>
 					<view class="uni-form-item uni-column">
 						<view class="title">职务</view>
-						<picker v-model="source_flagvalue" name="nzw" @change="sourceChange" :value="source_flagvalue" :range="sourceArray"
+						<input type="text" name="nzw" v-model="source_flag" :value="source_flag"  hidden="true"/>
+						<picker @change="sourceChange" :range="sourceArray"
 						 range-key="name">
-							<view class="uni-input" v-if="sourceArray[source_flagvalue]">{{sourceArray[source_flagvalue].name}}</view>
+							<view class="uni-input" v-if="sourceArray[source_flag]">{{sourceArray[source_flag].name}}</view>
 							<view class="uni-input" v-else>请选择职务</view>
-
 						</picker>
-
 					</view>
 
 					<view class="uni-btn-v">
@@ -136,6 +135,7 @@
 				tableList: [],
 				tableDatazi: [],
 				linkmans: [],
+				nzw: '',
 				source_flag: '',
 				source_flagvalue: '',
 				sourceArray: [{
@@ -148,20 +148,16 @@
 					},
 					{
 						name: "职员",
-						value: "3"
+						value: "9"
 					},
 					{
 						name: "其他",
-						value: "4"
+						value: "0"
 					},
 				],
 			}
 		},
-		// watch: {
-		//     activeId: function(newVal, oldVal) {
-		//      console.log('fdfd',newVal);
-		//     },
-		//   },
+		
 		mounted() {
 			this.imgurl = this.$imgurl;
 			this.showToast();
@@ -171,6 +167,12 @@
 
 		},
 		methods: {
+			//职务
+			sourceChange(e) {
+				this.source_flag = e.detail.value;
+				this.source_flagvalue = this.sourceArray[this.source_flag].value;
+			},
+			
 			qx() {
 				this.visible = false;
 			},
@@ -197,14 +199,13 @@
 					},
 					{
 						name: "nzw",
-						checkType: "notnull",
+						checkType: "null",
 						checkRule: "",
 						errorMsg: "职务不能为空"
 					}
 				];
 				//进行表单检查
 				var formData = e.detail.value;
-				console.log('进行表单检查', formData)
 				var checkRes = graceChecker.check(formData, rule);
 				if (checkRes) {
 					uni.showToast({
@@ -256,14 +257,7 @@
 			formReset: function(e) {
 				console.log('清空数据')
 			},
-			//职务
-			sourceChange(e) {
-				this.source_flag = e.detail.value;
-				console.log('this.source_flag', this.source_flag)
-				this.source_flagvalue = this.sourceArray[this.source_flag].value;
-				console.log('this.source_flagvalue', this.source_flagvalue)
-			},
-
+		
 			//抽屉打开
 			drawer() {
 				this.$refs.drawer.open();
@@ -333,7 +327,6 @@
 					},
 					success: (res) => {
 						if (res.data.data.status == 200) {
-							console.log('资质', res)
 							this.tableDatazi = res.data.data.data;
 						}
 					},

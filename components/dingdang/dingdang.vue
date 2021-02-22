@@ -15,7 +15,7 @@
 			<view class="bottxt_mid">
 				<view class="bottxt_mid_right">
 					<view>订单产品：<text class="txt2">{{item.depict}}</text></view>
-					<view>订单类型：<text class="txt2">{{item.depict}}</text></view>
+					<view>订单类型：<text class="txt2">{{item.nature}}</text></view>
 					<view>下单人：{{item.ad_name}}</view>
 				</view>
 			</view>

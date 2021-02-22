@@ -27,10 +27,19 @@
 					<input class="uni-input1" v-model="business" :disabled="true" />
 				</view>
 				<view class="uni-form-item uni-column">
-				<view class="title">可跟进业务:</view>
-						<view v-for="(item,index) in this.optionsgj" :key="index">
+					<view class="title">可跟进业务:</view>
+					<view v-for="(item,index) in this.optionsgj" :key="index">
+						<view>{{baidupro[item]}}</view>
+					</view>
+
+					<!-- <checkbox-group @change="checkboxChange">
+						<label class="uni-list-cell uni-list-cell-pd" v-for="(item,index) in this.optionsgj" :key="index">
+							<view>
+								<checkbox :value="{{baidupro[item]}}" :checked="item.checked" />
+							</view>
 							<view>{{baidupro[item]}}</view>
-						</view>
+						</label>
+					</checkbox-group> -->
 				</view>
 
 				<view class="uni-form-item uni-column">
