@@ -8,6 +8,9 @@
 		},
 		onHide: function() {
 			
+		},
+		globalData:{
+			token: ""
 		}
 	}
 </script>

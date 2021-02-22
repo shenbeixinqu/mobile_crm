@@ -19,13 +19,14 @@
 			<view class="leftwz">出访结束时间:</view><view class="rightwz">{{dataList.finishtime}}</view>
 			<view class="leftwz">是否违规:</view><view class="rightwz">{{dataList.isvalid}}</view>
 			<view class="leftwz">是否无效出访:</view><view class="rightwz">{{dataList.wuxiao}}</view>
+			<view class="leftwz">取消原因:</view><view class="rightwz">{{dataList.cancel_reason}}</view>
 		</view>
-		<view class="contentk_bottom" v-if="!dataList.result">
+		<view class="contentk_bottom" v-if="!dataList.result && !dataList.cancel_reason">
 			<button type="primary" class="btn" >取消出访</button>
 			<button type="primary" class="btn" @click="visitResult">填写出访结果</button>
 		</view>
 		<view class="contentk_bottom" v-else>
-			<button type="primary" class="btn">关闭</button>
+			<button type="primary" class="btn" @click="closeDetail">关闭</button>
 		</view>
 	</view>
 </template>
@@ -119,6 +120,11 @@
 				}
 				uni.navigateTo({
 					url:"./visitresult?info=" + encodeURIComponent(JSON.stringify(visitInfo))
+				})
+			},
+			closeDetail(){
+				uni.navigateTo({
+					url:"./my"
 				})
 			}
 		}
