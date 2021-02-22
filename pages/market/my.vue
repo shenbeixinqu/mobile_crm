@@ -1,5 +1,20 @@
 <template>
 	<view class="contentk">
+		<e-modal :visible.sync="visible">
+			<view class="uni-padding-wrap">
+				<form @submit="formSubmit">
+					<view class="uni-form-item">
+						<view class=title>取消原因</view>
+						<input class="uni-input" v-model="reason" name="cancelReason" placeholder="请输入取消原因" >
+					</view>
+					<view class="uni-btn-v">
+						<button form-type="submit" class="btn">提交</button>
+						<button class="btn" @click="qx">取消</button>
+					</view>
+				</form>
+			</view>
+		</e-modal>
+		
 		<view class="topview">
 			<button type="primary" class="search-btn" @click="getList('search')"></button>
 			<input class="se-input" name="nickname" placeholder="请输入客户名称" v-model="kword">
@@ -27,7 +42,7 @@
 							<view class="list-dq">出访结果:{{item.result}}</view>
 						</view>
 						<view class="list-item-bot" v-if="item.status == '正常'">
-							<span v-if="item.result === null">取消出访</span><span @click="visitResult(item)" v-if="item.result === null">填写出访结果</span><span @click="myDetail(item)">详情</span>
+							<span @click="openBox(item)" v-if="item.result === null">取消出访</span><span @click="visitResult(item)" v-if="item.result === null">填写出访结果</span><span @click="myDetail(item)">详情</span>
 						</view>
 					</view>
 				</view>
@@ -37,11 +52,15 @@
 </template>
 
 <script>
+	var graceChecker = require("../../js_sdk/graceui-dataChecker/graceChecker.js")
 	export default{
 		data(){
 			return{
 				dataList:[],
-				kword:""
+				kword:"",
+				visible:false,
+				reason: "",
+				id: ""
 			}
 		},
 		onLoad(options){
@@ -93,6 +112,56 @@
 					}
 				})
 			},
+			qx(){
+				this.visible = false
+			},
+			openBox(item){
+				this.visible = true,
+				this.id = item._id
+			},
+			formSubmit: function(e){
+				var rule = [{
+					name:"cancelReason",
+					checkType: "notnull",
+					checkRule: "",
+					errorMsg: "取消原因不能为空"
+				}];
+				// 进行表单检查
+				var formData = e.detail.value;
+				var checkRes = graceChecker.check(formData, rule);
+				if (checkRes) {
+					uni.request({
+						url:this.$burl + '/api/visits/' + this.id,
+						header: {
+							'Authorization': this.$token
+						},
+						method:"DELETE",
+						data:{
+							remark: this.reason
+						},
+						success: (res) => {
+							console.log("弹窗res",res)
+							if (res.data.data.status == 200){
+								uni.showToast({
+									title: res.data.msg,
+									icon:"none"
+								})
+								this.visible = false
+							} else {
+								uni.showModal({
+									title:"提示",
+									content:""
+								})
+							}
+						}
+					})
+				} else {
+					uni.showToast({
+						title: graceChecker.error,
+						icon: "none"
+					})
+				}
+			},
 			visitResult(item){
 				let visitInfo = {
 					comname: item.comname,
@@ -114,6 +183,15 @@
 <style>
 	page{
 		height: 100%;
+	}
+	
+	.btn {
+		color: #fff;
+		width: 30%;
+		height: 70upx;
+		line-height: 70upx;
+		font-size: 24upx;
+		background: #4873c1;
 	}
 	
 	.content {
@@ -225,4 +303,28 @@
 		justify-content: space-between;
 		align-items: center;
 	}
+	
+	.uni-btn-v {
+		width: 100%;
+		display: flex;
+		flex-direction: row;
+		justify-content: center;
+		padding-top: 30upx;
+		padding-bottom: 30upx;
+	}
+	
+	.uni-form-item {
+		display: flex;
+		width: 100%;
+		height: 100px;
+		padding: 10rpx 0;
+		flex-direction: column;
+	}
+	
+	.uni-padding-wrap {
+		width: 90%;
+		padding-top: 20upx;
+		padding-bottom: 20upx;
+	}
+	
 </style>

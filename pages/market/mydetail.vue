@@ -20,9 +20,12 @@
 			<view class="leftwz">是否违规:</view><view class="rightwz">{{dataList.isvalid}}</view>
 			<view class="leftwz">是否无效出访:</view><view class="rightwz">{{dataList.wuxiao}}</view>
 		</view>
-		<view class="contentk_bottom">
+		<view class="contentk_bottom" v-if="!dataList.result">
 			<button type="primary" class="btn" >取消出访</button>
 			<button type="primary" class="btn" @click="visitResult">填写出访结果</button>
+		</view>
+		<view class="contentk_bottom" v-else>
+			<button type="primary" class="btn">关闭</button>
 		</view>
 	</view>
 </template>
