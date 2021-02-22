@@ -16,7 +16,7 @@
 				</view>
 				<view class="uni-form-item uni-column">
 					<view class="title">客户电话</view>
-					<input class="uni-input1" v-model="phone" :disabled="true" />
+					<input class="uni-input1" v-model="phoneTxt" :disabled="true" />
 				</view>
 				<view class="uni-form-item uni-column">
 					<view class="title">详细地址</view>
@@ -26,26 +26,36 @@
 					<view class="title">主营业务</view>
 					<input class="uni-input1" v-model="business" :disabled="true" />
 				</view>
-				<view class="uni-form-item uni-column">
+				<view class="uni-form-item uni-column" v-if="classall===0">
 					<view class="title">可跟进业务:</view>
-					<view v-for="(item,index) in this.optionsgj" :key="index">
-						<view>{{baidupro[item]}}</view>
+					<checkbox-group @change="checkboxChange" class="unilablek">
+						<label class="unilable" v-for="item in this.optionsgj" :key="item">
+							<view class="unick">
+								<checkbox :value="item" />
+							</view>
+							<view class="uniwz">{{baidupro[item]}}</view>
+						</label>
+					</checkbox-group>
+				</view>
+				<block v-if="stage === '待清洗' || stage === '线索黑名单'">
+					<view class="uni-form-item uni-column">
+						<view class="title">核实电话</view>
+						<input class="uni-input" v-model="phone" name="nphone" placeholder="请输入核实电话" />
 					</view>
 
-					<!-- <checkbox-group @change="checkboxChange">
-						<label class="uni-list-cell uni-list-cell-pd" v-for="(item,index) in this.optionsgj" :key="index">
-							<view>
-								<checkbox :value="{{baidupro[item]}}" :checked="item.checked" />
-							</view>
-							<view>{{baidupro[item]}}</view>
-						</label>
-					</checkbox-group> -->
-				</view>
-
-				<view class="uni-form-item uni-column">
+					<view class="uni-form-item uni-column">
+						<view class="title"><text class="red">*</text>申请理由</view>
+						<textarea class="uni-inputk" @blur="bindTextAreaBlur" name="remark" placeholder="请填跟进理由" :vlaue="remark" />
+						</view>
+	     
+		 </block>
+		 <block v-else>
+				<view class="uni-form-item uni-column" >
 					<view class="title"><text class="red">*</text>跟进理由</view>
 					<textarea class="uni-inputk" @blur="bindTextAreaBlur" name="remark" placeholder="请填跟进理由" :vlaue="remark" />
 					</view>
+					</block>
+					
 				<view class="uni-btn-v">
 					<button form-type="submit" class="btn">提交</button>
 					<button class="btn" @click="qx">返回</button>
@@ -60,16 +70,21 @@
 	export default {
 		data() {
 			return {
+				phone:"",
 				name: '',
 				activeId: "",
 				address:'',
 				source:'',
-				phone:'',
+				phoneTxt:'',
 				business:'',
 				ind_lead:'',
+				stage:'',
 				remark:'',
 				optionsgj: [],
 				baidupro:'',
+				classall:0,
+				classid:'',
+				
 			}
 
 		},
@@ -77,12 +92,17 @@
 		onLoad: function(option) {
 			const item = JSON.parse(decodeURIComponent(option.genjin));
 		    this.activeId=Number(item.id); 
+			console.log('this.activeId',this.activeId)
 			this.ind_lead = item.ind_lead;
+			this.stage=item.stage;
 			this.genjin();
 			this.getchoices();
 		},
 
 		methods: {
+			checkboxChange: function (e) {
+				this.classid=(e.detail.value).toString();
+			},
 			// 返回列表页
 			qx() {
 				uni.navigateTo({
@@ -104,14 +124,8 @@
 						kt:'pro_class'
 					},
 					success: (res) => {
-						console.log('百度产品',res);
 						if (res.data.data.status == 200){
-							this.baidupro=res.data.data.pro_class
-							console.log('this.baidupro',this.baidupro);
-							
-						}
-						else{
-							
+							this.baidupro=res.data.data.pro_class	
 						}
 					},
 					fail: (err) => {
@@ -135,13 +149,20 @@
 							this.name=res.data.data.data.name;
 							this.address=res.data.data.data.address;
 							this.source=res.data.data.data.source;
-							this.phone=res.data.data.data.phone;
+							this.phoneTxt=res.data.data.data.phone;
 							this.business=res.data.data.data.business;
+							this.classall=res.data.data.data.classall;
+							console.log('this.classall',this.classall)
 							this.optionsgj=res.data.data.data.classids;
-							console.log('this.optionsgj',this.optionsgj);
+							for(let i in this.optionsgj){
+							 this.optionsgj[i]=this.optionsgj[i].toString();
+							}
 						}
 						else{
-								
+							uni.showToast({
+								title: res.data.msg,
+								icon: "none"
+							});
 						}	
 					},
 					fail: (err) => {
@@ -152,7 +173,13 @@
 			//表单
 			formSubmit: function(e) {
 				//定义表单规则
-				var rule = [{
+				var rule = [
+				{
+					name: "nphone",
+					checkType: "phoneno",
+					checkRule: "",
+					errorMsg: "请输入正确手机号"
+				},{
 					name: "remark",
 					checkType: "notnull",
 					checkRule: "",
@@ -177,7 +204,7 @@
 							ltype: 8,
 							event: 1,
 							remark: this.remark,
-
+							classid:this.classid,
 						},
 						success: (res) => {
 							if (res.data.data.status == 200) {
@@ -249,7 +276,7 @@
 	}
 
 	.uni-input {
-		width: 100%;
+	
 		height: 50rpx;
 		padding: 15rpx 25rpx;
 		line-height: 50rpx;
@@ -271,7 +298,7 @@
 
 	.uni-form-item {
 		display: flex;
-		width: 100%;
+		width:100%;
 		padding: 10rpx 0;
 		flex-direction: column;
 	}
@@ -337,4 +364,8 @@
 		line-height: 80rpx;
 		flex-shrink: 0;
 	}
+	.unilablek{width: 100%; display: flex;flex-direction:row; flex-wrap: wrap;}
+	.unilable{ width:45%; display: flex; margin-bottom: 10upx;}
+	.unick{display: flex;}
+	.uniwz{display: flex;}
 </style>

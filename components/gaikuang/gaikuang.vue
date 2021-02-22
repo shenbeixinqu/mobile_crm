@@ -239,9 +239,6 @@
 								this.visible = false;
 							}
 
-
-
-
 						},
 						fail: (err) => {
 							//console.log(err)
