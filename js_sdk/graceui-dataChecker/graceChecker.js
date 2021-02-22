@@ -22,7 +22,12 @@ module.exports = {
 				break;
 				case 'int':
 					var reg = new RegExp('^(-[1-9]|[1-9])[0-9]{' + rule[i].checkRule + '}$');
-					if(!reg.test(data[rule[i].name])) {this.error = rule[i].errorMsg; return false;}
+					if(!reg.test(data[rule[i].name])) {
+						console.log('111');
+						this.error = rule[i].errorMsg; return false;
+					}else{
+						console.log('222');
+					}
 					break;
 				break;
 				case 'between':
@@ -87,8 +92,10 @@ module.exports = {
 						this.error = rule[i].errorMsg; return false;
 					}
 				break;
-				case 'notnull':
-					if(data[rule[i].name] == null || data[rule[i].name].length < 1){this.error = rule[i].errorMsg; return false;}
+				case 'null':
+					if(data[rule[i].name].length<1){
+						this.error = rule[i].errorMsg; return false;
+					}
 				break;
 			}
 		}
