@@ -25,7 +25,7 @@
 			<button type="primary" class="btn" @click="visitResult">填写出访结果</button>
 		</view>
 		<view class="contentk_bottom" v-else>
-			<button type="primary" class="btn">关闭</button>
+			<button type="primary" class="btn" @click="closeDetail">关闭</button>
 		</view>
 	</view>
 </template>
@@ -119,6 +119,11 @@
 				}
 				uni.navigateTo({
 					url:"./visitresult?info=" + encodeURIComponent(JSON.stringify(visitInfo))
+				})
+			},
+			closeDetail(){
+				uni.navigateTo({
+					url:"./my"
 				})
 			}
 		}

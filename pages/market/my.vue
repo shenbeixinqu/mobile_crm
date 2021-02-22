@@ -18,6 +18,7 @@
 		<view class="topview">
 			<button type="primary" class="search-btn" @click="getList('search')"></button>
 			<input class="se-input" name="nickname" placeholder="请输入客户名称" v-model="kword">
+			<!-- <view>1+{{token}}+1</view> -->
 		</view>
 		<view class="content">
 			<z-paging ref="paging" @query="queryList" :list.sync='dataList' style="height: calc(100% - 80rpx);">
@@ -60,10 +61,13 @@
 				kword:"",
 				visible:false,
 				reason: "",
-				id: ""
+				id: "",
+				token:"",
 			}
 		},
 		onLoad(options){
+			this.token = "JWT " + getApp().globalData.token
+			console.log("this.token", this.token)
 			this.getList();
 		},
 		methods:{
@@ -71,7 +75,7 @@
 				uni.request({
 					url: this.$burl + '/api/visits/my',
 					header:{
-						'Authorization': this.$token
+						'Authorization': this.token
 					},
 					data: {
 						limit: pageSize,
@@ -79,27 +83,40 @@
 						// kdtype: 0
 					},
 					success:(res) => {
+						// uni.showModal({
+						// 	title:"提示",
+						// 	content:res
+						// }),
 						this.$refs.paging.addData(res.data.data.data);
 						console.log("cfsuc",res)
 					},
 					fail:(err) => {
+						// uni.showModal({
+						// 	title:"提示",
+						// 	content:err
+						// })
 						console.log("cferr",err)
 					}
 				})
 			},
 			getList(type){
-				uni.showLoading();
+				// uni.showModal({
+				// 	title:"this",
+				// 	content:"走这里了" + this.token
+				// });
 				uni.request({
 					url: this.$burl + '/api/visits/my',
 					header:{
-						'Authorization': this.$token
+						'Authorization': this.token
 					},
 					data: {
 						kword:this.kword
 					},
 					success:(res) => {
-						console.log("myres",res)
-						uni.hideLoading();
+						uni.showModal({
+							title:"thissss",
+							content:res
+						})
 						if (res.data.data.status === 200){
 							this.dataList = res.data.data.data;
 							setTimeout(function(){
@@ -108,9 +125,14 @@
 						}
 					},
 					fail: err => {
+						// uni.showModal({
+						// 	title:"thissss",
+						// 	content:err
+						// })
 						console.log("列表错误结果", err)
 					}
 				})
+				
 			},
 			qx(){
 				this.visible = false
@@ -133,7 +155,7 @@
 					uni.request({
 						url:this.$burl + '/api/visits/' + this.id,
 						header: {
-							'Authorization': this.$token
+							'Authorization':this.token
 						},
 						method:"DELETE",
 						data:{
