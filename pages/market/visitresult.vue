@@ -1,47 +1,51 @@
 <template>
 	<view class="contentk">
-		<view class="contentk_top">
-			<view class="leftwz">公司名称:</view>
-			<view class="rightwz">{{comname}}</view>
-			<view class="leftwz">出访后推广需求:</view>
-			<view class="rightwz">
-				<picker mode="selector" v-model="e_xqclass" :value="e_xqclass" :range="promoteArray" @change="promoteRequire" range-key="name">
-					<view v-if="!e_xqclass" class="uni-input">请选择推广需求</view>
-					<view v-else>{{promoteArray[e_xqclass].name}}</view>
-				</picker>
+		<form @submit="formSubmit">
+			<view class="contentk_top">
+				<view class="leftwz">公司名称:</view>
+				<view class="rightwz">{{comname}}</view>
+				<view class="leftwz">出访后推广需求:</view>
+				<view class="rightwz">
+					<picker mode="selector" v-model="e_xqclass" :value="e_xqclass" :range="promoteArray" @change="promoteRequire" range-key="name">
+						<view v-if="!e_xqclass" class="uni-input">请选择推广需求</view>
+						<view v-else>{{promoteArray[e_xqclass].name}}</view>
+					</picker>
+				</view>
+				<view class="leftwz">出访后网络意识:</view>
+				<view class="rightwz">
+					<picker mode="selector" v-model="e_wangluo" :value="e_wangluo" :range="netArray" @change="netRequire" range-key="name">
+						<view v-if="!e_wangluo" class="uni-input">请选择网络意识</view>
+						<view v-else>{{netArray[e_wangluo].name}}</view>
+					</picker>
+				</view>
+				<view class="leftwz">出访结束日期:</view>
+				<view class="rightwz">
+					<picker mode="date" v-model="enddata" :value="enddata"  @change="enddataChange">
+						<view>{{enddata}}</view>
+					</picker>
+				</view>
+				<view class="leftwz">出访结束时间:</view>
+				<view class="rightwz">
+					<picker mode="time" v-model="endtime" :value="endtime"  @change="endtimeChange">
+						<view>{{endtime}}</view>
+					</picker>
+				</view>
+				<view class="leftwz">出访结果:</view>
+				<view class="rightwz">
+					<input  type="text" name="visitResult" v-model="result" placeholder-class="placeholder" />
+				</view>
 			</view>
-			<view class="leftwz">出访后网络意识:</view>
-			<view class="rightwz">
-				<picker mode="selector" v-model="e_wangluo" :value="e_wangluo" :range="netArray" @change="netRequire" range-key="name">
-					<view v-if="!e_wangluo" class="uni-input">请选择网络意识</view>
-					<view v-else>{{netArray[e_wangluo].name}}</view>
-				</picker>
-			</view>
-			<view class="leftwz">出访结束日期:</view>
-			<view class="rightwz">
-				<picker mode="date" v-model="enddata" :value="enddata"  @change="enddataChange">
-					<view>{{enddata}}</view>
-				</picker>
-			</view>
-			<view class="leftwz">出访结束时间:</view>
-			<view class="rightwz">
-				<picker mode="time" v-model="endtime" :value="endtime"  @change="endtimeChange">
-					<view>{{endtime}}</view>
-				</picker>
-			</view>
-			<view class="leftwz">出访结果:</view>
-			<view class="rightwz">
-				<input  type="text" v-model="result" placeholder-class="placeholder" />
-			</view>
-		</view>
 		<view class="contentk_bottom">
 			<button type="primary" class="btn" @click="back">返回</button>
 			<button type="primary" class="btn" @click="determine">确定</button>
 		</view>
+		</form>
 	</view>
 </template>
 
 <script>
+	
+	var graceChecker = require("../../js_sdk/graceui-dataChecker/graceChecker.js")
 	function getDate(type) {
 			const date = new Date();
 	
@@ -118,42 +122,60 @@
 			endtimeChange(e){
 				this.endtime = e.detail.value
 			},
+			//表单
+			formSubmit: function(e){
+				console.log("表单验证",e)
+				// 定义表单规则
+				var rule = [{
+					name: "visitResult",
+					checkType:"string",
+					checkRule:"1,4",
+					errorMsg: "请输入出访结果"
+				}];
+				// 进行表单检查
+				var formData = e.detail.value;
+				var checkRes = graceChecker.check(formData, rule);
+				if (checkRes) {
+					console.log("验证通过")
+				}
+				
+			},
 			back(){
 				uni.navigateTo({
 					url:'./mydetail?id='+ this._id
 				})
 			},
 			determine(){
-				uni.request({
-					url:this.$burl + '/api/visits/apply/' + this._id,
-					header:{
-						'Authorization': this.$token
-					},
-					method:"PUT",
-					data:{
-						e_xqclass: this.e_xqclass_val,
-						e_wangluo: this.e_wangluo_val,
-						finishtime: this.enddata + " " + this.endtime + ":00",
-						result: this.result
-					},
-					success: (res) => {
-						if (res.data.data.status == 200){
-							uni.navigateTo({
-								url:"./my"
-							})
-						} else {
-							uni.showModal({
-								title:"提示",
-								content:res.data.msg
-							})
-						}
-					},
-					fail: (err) => {
-						console.log("Err",err)
-					}
-				})
-			}
-			
+				console.log("出访结果", this.result)
+				// uni.request({
+				// 	url:this.$burl + '/api/visits/apply/' + this._id,
+				// 	header:{
+				// 		'Authorization': this.$token
+				// 	},
+				// 	method:"PUT",
+				// 	data:{
+				// 		e_xqclass: this.e_xqclass_val,
+				// 		e_wangluo: this.e_wangluo_val,
+				// 		finishtime: this.enddata + " " + this.endtime + ":00",
+				// 		result: this.result
+				// 	},
+				// 	success: (res) => {
+				// 		if (res.data.data.status == 200){
+				// 			uni.navigateTo({
+				// 				url:"./my"
+				// 			})
+				// 		} else {
+				// 			uni.showModal({
+				// 				title:"提示",
+				// 				content:res.data.msg
+				// 			})
+				// 		}
+				// 	},
+				// 	fail: (err) => {
+				// 		console.log("Err",err)
+				// 	}
+				// })
+			},
 		}
 		
 	}

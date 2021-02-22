@@ -43,7 +43,12 @@
 							<view class="list-dq">出访结果:{{item.result}}</view>
 						</view>
 						<view class="list-item-bot" v-if="item.status == '正常'">
-							<span @click="openBox(item)" v-if="item.result === null">取消出访</span><span @click="visitResult(item)" v-if="item.result === null">填写出访结果</span><span @click="myDetail(item)">详情</span>
+							<span @click="openBox(item)" v-if="item.result === null">取消出访</span>
+							<span @click="visitResult(item)" v-if="item.result === null">填写出访结果</span>
+							<span @click="myDetail(item)">详情</span>
+						</view>
+						<view class="list-item-bot" v-else>
+							<span @click="myDetail(item)">详情</span>
 						</view>
 					</view>
 				</view>
@@ -67,7 +72,6 @@
 		},
 		onLoad(options){
 			this.token = "JWT " + getApp().globalData.token
-			console.log("this.token", this.token)
 			this.getList();
 		},
 		methods:{
@@ -75,7 +79,7 @@
 				uni.request({
 					url: this.$burl + '/api/visits/my',
 					header:{
-						'Authorization': this.token
+						'Authorization': this.$token
 					},
 					data: {
 						limit: pageSize,
@@ -107,7 +111,7 @@
 				uni.request({
 					url: this.$burl + '/api/visits/my',
 					header:{
-						'Authorization': this.token
+						'Authorization': this.$token
 					},
 					data: {
 						kword:this.kword
@@ -155,7 +159,7 @@
 					uni.request({
 						url:this.$burl + '/api/visits/' + this.id,
 						header: {
-							'Authorization':this.token
+							'Authorization':this.$token
 						},
 						method:"DELETE",
 						data:{
