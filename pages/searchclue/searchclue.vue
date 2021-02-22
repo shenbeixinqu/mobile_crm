@@ -139,6 +139,7 @@
 		},
 		data() {
 			return {
+			
 				dataList: [],
 				value1: [],
 				label1: '',
@@ -441,7 +442,7 @@
 				let hy = this.value4.pop() + '';
 				uni.showLoading();
 				uni.request({
-					url: this.$burl + '/api/customer/alist',
+					url: this.$burl + '/api/customer/malist',
 					header: {
 						'Authorization': this.$token
 					},
@@ -503,6 +504,7 @@
 				let genjin = {
 					id: item._id,
 					ind_lead: item.ind_lead,
+					stage:item.stage,
 				}
 				uni.navigateTo({
 					url: "./genjin?genjin=" + encodeURIComponent(JSON.stringify(genjin)),
