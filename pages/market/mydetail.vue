@@ -1,5 +1,19 @@
 <template>
 	<view class="contentk">
+		<e-modal :visible.sync="visible">
+			<view class="uni-padding-wrap">
+				<form @submit="formSubmit">
+					<view class="uni-form-item">
+						<view class=title>取消原因</view>
+						<input class="uni-input" v-model="reason" name="cancelReason" placeholder="请输入取消原因" >
+					</view>
+					<view class="uni-btn-v">
+						<button form-type="submit" class="btn">提交</button>
+						<button class="btn" @click="qx">取消</button>
+					</view>
+				</form>
+			</view>
+		</e-modal>
 		<view class="contentk_top">
 			<view class="leftwz">公司名称:</view><view class="rightwz">{{dataList.comname}}</view>
 			<view class="leftwz">洽谈业务:</view><view class="rightwz">{{dataList.pClassname}}</view>
@@ -22,7 +36,7 @@
 			<view class="leftwz">取消原因:</view><view class="rightwz">{{dataList.cancel_reason}}</view>
 		</view>
 		<view class="contentk_bottom" v-if="!dataList.result && !dataList.cancel_reason">
-			<button type="primary" class="btn" >取消出访</button>
+			<button type="primary" @click="openBox"class="btn" >取消出访</button>
 			<button type="primary" class="btn" @click="visitResult">填写出访结果</button>
 		</view>
 		<view class="contentk_bottom" v-else>
@@ -32,11 +46,14 @@
 </template>
 
 <script>
+	var graceChecker = require("../../utils/graceChecker.js")
 	export default {
 		data(){
 			return {
 				_id: "",
-				dataList: []
+				dataList: [],
+				visible:false,
+				reason:""
 			}
 		},
 		onLoad(options){
@@ -126,7 +143,53 @@
 				uni.navigateTo({
 					url:"./my"
 				})
-			}
+			},
+			openBox(){
+				this.visible = true
+			},
+			qx(){
+				this.visible = false
+			},
+			formSubmit: function(e){
+				var rule = [{
+					name:"cancelReason",
+					checkType: "null",
+					checkRule: "",
+					errorMsg: "取消原因不能为空"
+				}];
+				// 进行表单检查
+				var formData = e.detail.value;
+				var checkRes = graceChecker.check(formData, rule);
+				if (checkRes) {
+					uni.request({
+						url:this.$burl + '/api/visits/' + this._id,
+						header: {
+							'Authorization':this.$token
+						},
+						method:"DELETE",
+						data:{
+							remark: this.reason
+						},
+						success: (res) => {
+							if (res.data.data.status == 200){
+								uni.navigateTo({
+									url:"./my"
+								})
+							} else {
+								uni.showModal({
+									title:"提示",
+									content:res.data.msg
+								})
+							}
+						}
+					})
+				} else {
+					uni.showToast({
+						title: graceChecker.error,
+						icon: "none"
+					})
+				}
+			},
 		}
 		
 	}
@@ -185,4 +248,28 @@
 		width:65%;
 		display: flex;
 	}
+	
+	.uni-btn-v {
+		width: 100%;
+		display: flex;
+		flex-direction: row;
+		justify-content: center;
+		padding-top: 30upx;
+		padding-bottom: 30upx;
+	}
+	
+	.uni-form-item {
+		display: flex;
+		width: 100%;
+		height: 100px;
+		padding: 10rpx 0;
+		flex-direction: column;
+	}
+	
+	.uni-padding-wrap {
+		width: 90%;
+		padding-top: 20upx;
+		padding-bottom: 20upx;
+	}
+	
 </style>

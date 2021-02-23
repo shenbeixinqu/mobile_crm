@@ -1,45 +1,49 @@
 <template>
 	<view class="contentk">
-		<form @submit="formSubmit">
-			<view class="contentk_top">
-				<view class="leftwz">公司名称:</view>
-				<view class="rightwz">{{comname}}</view>
-				<view class="leftwz">出访后推广需求:</view>
-				<view class="rightwz">
-					<picker mode="selector" v-model="e_xqclass" :value="e_xqclass" :range="promoteArray" @change="promoteRequire" range-key="name">
-						<view v-if="!e_xqclass" class="uni-input">请选择推广需求</view>
-						<view v-else>{{promoteArray[e_xqclass].name}}</view>
+		<view class="uni-padding-wrap uni-common-mt">
+			<form @submit="formSubmit">
+				<view class="uni-form-item uni-column">
+					<view class="title">公司名称</view>
+					<input class="uni-input1" v-model="comname" :disabled="true" />
+				</view>
+				<view class="uni-form-item uni-column">
+					<view class="title">出访后推广需求:</view>
+					<input type="text" v-model="e_xqclass" :value="e_xqclass" hidden="true">
+					<picker mode="selector" :range="promoteArray" @change="promoteRequire" range-key="name">
+						<view class="uni-input" v-if="!e_xqclass">请选择推广需求</view>
+						<view class="uni-input" v-else>{{promoteArray[e_xqclass].name}}</view>
 					</picker>
 				</view>
-				<view class="leftwz">出访后网络意识:</view>
-				<view class="rightwz">
-					<picker mode="selector" v-model="e_wangluo" :value="e_wangluo" :range="netArray" @change="netRequire" range-key="name">
+				<view class="uni-form-item uni-column">
+					<view class="title">出访后网络意识::</view>
+					<input type="text" v-model="e_wangluo" :value="e_wangluo" hidden="true">
+					<picker mode="selector" :range="netArray" @change="netRequire" range-key="name">
 						<view v-if="!e_wangluo" class="uni-input">请选择网络意识</view>
-						<view v-else>{{netArray[e_wangluo].name}}</view>
+						<view v-else class="uni-input">{{netArray[e_wangluo].name}}</view>
 					</picker>
 				</view>
-				<view class="leftwz">出访结束日期:</view>
-				<view class="rightwz">
+				<view class="uni-form-item uni-column">
+					<view class="title">出访结束日期:</view>
 					<picker mode="date" v-model="enddata" :value="enddata"  @change="enddataChange">
-						<view>{{enddata}}</view>
+						<view class="uni-input">{{enddata}}</view>
 					</picker>
 				</view>
-				<view class="leftwz">出访结束时间:</view>
-				<view class="rightwz">
+				<view class="uni-form-item uni-column">
+					<view class="title">出访结束时间:</view>
 					<picker mode="time" v-model="endtime" :value="endtime"  @change="endtimeChange">
-						<view>{{endtime}}</view>
+						<view class="uni-input">{{endtime}}</view>
 					</picker>
 				</view>
-				<view class="leftwz">出访结果:</view>
-				<view class="rightwz">
-					<input  type="text" name="visitResult" v-model="result" placeholder-class="placeholder" />
+				<view class="uni-form-item uni-column">
+					<view class="title"><text class="red">*</text>出访结果:</view>
+					<input  class="uni-input1"  type="text" name="visitResult" v-model="result" placeholder-class="placeholder" />
 				</view>
+			<view class="contentk_bottom">
+				<button type="primary" class="btn" @click="back">返回</button>
+				<button type="primary" class="btn" form-type="submit">确定</button>
 			</view>
-		<view class="contentk_bottom">
-			<button type="primary" class="btn" @click="back">返回</button>
-			<button type="primary" class="btn" @click="determine">确定</button>
+			</form>
 		</view>
-		</form>
 	</view>
 </template>
 
@@ -126,17 +130,51 @@
 			formSubmit: function(e){
 				console.log("表单验证",e)
 				// 定义表单规则
-				var rule = [{
+				var rule = [
+				{
 					name: "visitResult",
-					checkType:"string",
-					checkRule:"1,4",
+					checkType:"null",
+					checkRule:"",
 					errorMsg: "请输入出访结果"
-				}];
+				}
+				];
 				// 进行表单检查
 				var formData = e.detail.value;
 				var checkRes = graceChecker.check(formData, rule);
 				if (checkRes) {
-					console.log("验证通过")
+					uni.request({
+						url:this.$burl + '/api/visits/apply/' + this._id,
+						header:{
+							'Authorization': this.$token
+						},
+						method:"PUT",
+						data:{
+							e_xqclass: this.e_xqclass_val,
+							e_wangluo: this.e_wangluo_val,
+							finishtime: this.enddata + " " + this.endtime + ":00",
+							result: this.result
+						},
+						success: (res) => {
+							if (res.data.data.status == 200){
+								uni.navigateTo({
+									url:"./my"
+								})
+							} else {
+								uni.showModal({
+									title:"提示",
+									content:res.data.msg
+								})
+							}
+						},
+						fail: (err) => {
+							console.log("Err",err)
+						}
+					})
+				} else {
+					uni.showToast({
+						title: graceChecker.error,
+						icon: "none"
+					});
 				}
 				
 			},
@@ -230,6 +268,11 @@
 		font-size: 24upx;
 	}
 	
+	.red {
+		color: #f00;
+		padding-right: 10upx;
+	}
+	
 	.rightwz {
 		width:65%;
 		display: flex;
@@ -250,7 +293,47 @@
 		border-radius: 10upx;
 	}
 	
+	.uni-form-item {
+		display: flex;
+		width: 100%;
+		padding: 10rpx 0;
+		flex-direction: column;
+	}
+	
+	.uni-form-item .title {
+		padding: 10rpx 0;
+	}
+	
 	.uni-input {
-		color: #666666;
+		height: 50rpx;
+		padding: 15rpx 25rpx;
+		line-height: 50rpx;
+		font-size: 28rpx;
+		background: #FFF;
+		flex: 1;
+		border: 1px #ddd solid;
+		border-radius: 10upx;
+		color: grey;
+	}
+	
+	.uni-input1 {
+		background-color: #f5f7fa;
+		border-color: #e4e7ed;
+		color: #606266;
+		height: 50rpx;
+		padding: 15rpx 25rpx;
+		line-height: 50rpx;
+		font-size: 28rpx;
+	
+		flex: 1;
+		border: 1px #ddd solid;
+		border-radius: 10upx;
+		color: grey;
+	}
+	
+	.uni-padding-wrap {
+		width: 90%;
+		padding-top: 20upx;
+		padding-bottom: 20upx;
 	}
 </style>

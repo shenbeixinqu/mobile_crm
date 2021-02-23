@@ -32,7 +32,7 @@
 							</view>
 							<view class="list-item-bot">
 								<span @click="clueReview(item)" v-if="item.audit=='待审核' || item.audit =='层审中'">审核</span>
-								<span @click="clueDetail(item)" v-if="item.audit == '审核通过'">详情</span>
+								<span @click="clueDetail(item)" v-if="item.audit == '审核通过'|| item.audit =='审核拒绝' ">详情</span>
 							</view>
 						</view>
 						

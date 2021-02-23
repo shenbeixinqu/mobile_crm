@@ -148,7 +148,7 @@
 			formSubmit: function(e){
 				var rule = [{
 					name:"cancelReason",
-					checkType: "notnull",
+					checkType: "null",
 					checkRule: "",
 					errorMsg: "取消原因不能为空"
 				}];
@@ -168,7 +168,7 @@
 						success: (res) => {
 							console.log("弹窗res",res)
 							if (res.data.data.status == 200){
-								uni.showToast({
+								uni.showModal({
 									title: res.data.msg,
 									icon:"none"
 								})
@@ -176,7 +176,7 @@
 							} else {
 								uni.showModal({
 									title:"提示",
-									content:""
+									content:res.data.msg
 								})
 							}
 						}

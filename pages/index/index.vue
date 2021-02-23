@@ -22,10 +22,6 @@
 		</view>
 		<view class="indexconent">出访</view>
 		<view class="indeximg">
-			<view class="index_n_img">
-				<image class="index_image" src="../../static/cfsq.png" mode="aspectFit"></image>
-				<h4>出访申请</h4>
-			</view>
 			<view class="index_n_img" @click="myMarket">
 				<image class="index_image" src="../../static/wdcf.png" mode="aspectFit"></image>
 				<h4>我的出访</h4>
