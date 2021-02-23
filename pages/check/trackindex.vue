@@ -1,5 +1,19 @@
 <template>
 	<view class="contentk">
+		<e-modal :visible.sync="visible">
+			<view class="uni-padding-wrap">
+				<form @submit="formSubmit">
+					<view class="uni-form-item">
+						<view class="title">拒绝原因</view>
+						<input class="uni-input" v-model="reason" name="refuseReason" placeholder="请输入拒绝原因" >
+					</view>
+					<view class="uni-btn-v">
+						<button form-type="submit" class="btn">提交</button>
+						<button class="btn" @click="qx">取消</button>
+					</view>
+				</form>
+			</view>
+		</e-modal>
 		<view class="contentk_top">
 			<view class="leftwz">申请人: </view>
 			<view class="rightwz">{{dataList.adder}}</view>
@@ -24,12 +38,15 @@
 </template>
 
 <script>
+	var graceChecker = require("../../utils/graceChecker.js")
 	export default {
 		data() {
 			return {
 				_id: "",
 				dataList: [],
-				cklogs: []
+				cklogs: [],
+				visible:false,
+				reason:""
 			}
 		},
 		onLoad(options) {
@@ -48,6 +65,11 @@
 						if (res.data.data.status == 200) {
 							this.dataList = res.data.data.data;
 							this.cklogs = res.data.data.data.cklogs
+						} else {
+							uni.showModal({
+								title:"提示",
+								content:res.data.msg
+							})
 						}
 					},
 					fail: res => {
@@ -79,12 +101,15 @@
 									} else {
 										uni.showModal({
 											title:"提示",
-											content:"出错了"
+											content:res.data.msg
 										})
 									}
 								},
 								fail: err => {
-									
+									uni.showModal({
+										title:"提示",
+										content:err
+									})
 								}
 							})
 						} else if (res.cancel) {
@@ -94,9 +119,60 @@
 				});
 			},
 			cancel() {
-				uni.navigateTo({
-					url: "./trackindexrefuse?id=" + this._id
-				})
+				// uni.navigateTo({
+				// 	url: "./trackindexrefuse?id=" + this._id
+				// })
+				this.visible = true
+				
+			},
+			qx(){
+				this.visible = false
+			},
+			formSubmit:function(e){
+				var rule = [{
+					name:"refuseReason",
+					checkType:"null",
+					checkRule:"",
+					errorMsg:"拒绝原因不能为空"
+				}];
+				var formData =  e.detail.value;
+				var checkRes = graceChecker.check(formData,rule);
+				if (checkRes){
+					uni.request({
+						url: this.$burl + "/api/customer/audit/check/" + this._id,
+						method:'POST',
+						data:{
+							act:1,
+							ckremark:this.remark
+						},
+						header:{
+							'Authorization': this.$token
+						},
+						success: res => {
+							if(res.data.data.status == 200){
+								uni.navigateTo({
+									url:"./track"
+								})
+							} else {
+								uni.showModal({
+									title:"提示",
+									content:res.data.msg
+								})
+							}
+						},
+						fail: err => {
+							uni.showModal({
+								title:"提示",
+								content:err
+							})
+						}
+					})
+				} else {
+					uni.showModal({
+						title:graceChecker.error,
+						icon: "none"
+					})
+				}
 			}
 		}
 	}
@@ -158,4 +234,28 @@
 
 		display: flex;
 	}
+	
+	.uni-btn-v {
+		width: 100%;
+		display: flex;
+		flex-direction: row;
+		justify-content: center;
+		padding-top: 30upx;
+		padding-bottom: 30upx;
+	}
+	
+	.uni-form-item {
+		display: flex;
+		width: 100%;
+		height: 100px;
+		padding: 10rpx 0;
+		flex-direction: column;
+	}
+	
+	.uni-padding-wrap {
+		width: 90%;
+		padding-top: 20upx;
+		padding-bottom: 20upx;
+	}
+	
 </style>

@@ -120,10 +120,18 @@
 							setTimeout(function() {
 								uni.hideLoading();
 							}, 1000)
+						} else {
+							uni.showModal({
+								title:"提示",
+								content:res.data.msg
+							})
 						}
 					},
 					fail: (err) => {
-
+						uni.showModal({
+							title:"提示",
+							content:err
+						})
 					}
 				})
 			},
@@ -133,19 +141,8 @@
 				this.getList()
 			},
 			delayReview(item) {
-				let detail = {
-					_id: item.cid,
-					addname: item.addname,
-					addtime: item.addtime,
-					name: item.name,
-					lastime_push: item.lastime_push,
-					endtime_push: item.endtime_push,
-					do_time: item.do_time,
-					delay_days: item.delay_days,
-					reasons: item.reasons
-				}
 				uni.navigateTo({
-					url: "./delayindex?detail=" + encodeURIComponent(JSON.stringify(detail)) ,
+					url: "./delayindex?id=" + item._id
 				})
 			},
 			delayDetail(item) {
