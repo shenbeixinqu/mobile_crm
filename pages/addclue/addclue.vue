@@ -260,11 +260,21 @@
 						openingdate: getDate({
 							format: true
 						}),
+						email:"",
+						fax:"",
+						zipcode:"",
 						registered:"",
 	                },
 	            }
 	        },
-	        onLoad(option) {
+	        onLoad(options) {
+				const item = JSON.parse(decodeURIComponent(options.detail))
+				this.clueForm.address = item.addr,
+				this.clueForm.name = item.company,
+				this.clueForm.email = item.email,
+				this.clueForm.fax = item.fax,
+				this.clueForm.phone = item.mobile,
+				this.clueForm.zipcode = item.pc
 				this.locations();
 				this.industrys();
 			},	

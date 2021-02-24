@@ -72,6 +72,12 @@
 			}
 		},
 		{
+			"path":"pages/addclue/imgocr",
+			"style":{
+				"navigationBarTitleText":"名片扫描"
+			}
+		},
+		{
 			"path": "pages/check/track",
 			"style": {
 				"navigationBarTitleText": "跟进线索审核列表"

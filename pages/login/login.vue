@@ -15,6 +15,9 @@
 		<view>
 			code:{{code}}
 		</view>
+		<view>
+			全部信息: {{detailInfo}}
+		</view>
 	</view>
 </template>
 
@@ -31,7 +34,8 @@ export default {
 			openid:'',
 			index:0,
 			loading: true,
-			code:""
+			code:"",
+			detailInfo:""
 		};
 	},
 	methods:{
@@ -42,11 +46,6 @@ export default {
 			window.location.href = url
 		},
 		sendCode(code){
-			uni.showModal({
-				title:"code",
-				content:code
-			})
-			
 			uni.request({
 				url: 'HTTP://172.18.3.161:8098/api/wxlogin',
 				method:'POST',
@@ -54,38 +53,16 @@ export default {
 					code: code
 				},
 				success: (userInfo) => {
+					this.detailInfo = userInfo
 					this.userInfo = userInfo.data
 					// var token = "asdqwerqweasdafazxasafqwqrasdafgasdafa";
 					var token = userInfo.data.token
 					getApp().globalData.token = token
 					this.token = getApp().globalData.token
-					if (this.token){
-						uni.navigateTo({
-							url:"../index/index"
-						})
-					}
-					// uni.navigateTo({
-					// 	// url:'/pages/index/index'
-					// 	url:'/pages/mine/my_index'
-					// });
-
-					// if (token){
-					// 	this.token = token;
-					// 	console.log("token",this.token)
-					// 	this.$store
-					// 		.dispatch("user/storeToken",this.token)
-					// 		.then(() => {
-					// 		    uni.navigateTo({
-					// 				url:'/pages/index/index'
-					// 			});
-					// 			this.$store.dispatch("user/getInfo")
-					// 		})
-					// 		.catch(() => {
-					// 			uni.navigateTo({
-					// 				url:'/pages/mine/my_index'
-					// 			});
-					// 		})
-						
+					// if (this.token){
+					// 	uni.navigateTo({
+					// 		url:"../index/index"
+					// 	})
 					// }
 				}
 			});

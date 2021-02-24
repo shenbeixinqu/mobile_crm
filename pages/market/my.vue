@@ -1,5 +1,74 @@
 <template>
 	<view class="contentk">
+		<uni-drawer ref="drawer" mode="right" :width="drawWid">
+			<view class="wk_n">
+				<view class="chou_tit">
+					出访状态
+				</view>
+				<view class="check_bj">
+					<checkbox-group class="check_box_k2" @change="changeCheckboxzt">
+						<view v-for="item in stagesArr" :key="item.value" class="check_box">
+							<label class="lable-box">
+								<checkbox :value="String(item.value)" :checked="checkedArrzt.includes(String(item.value))" :class="{'checked':checkedArrzt.includes(String(item.value))}"></checkbox>
+								<text class="cketext">{{item.label}}</text>
+							</label>
+						</view>
+					</checkbox-group>
+					<checkbox-group class="check_box_k1" @change="allChoosezt">
+						<label class="lable-box">
+							<checkbox value="all" :class="{'checked':allCheckedzt}" :checked="allCheckedzt?true:false"></checkbox><text
+							 class="cketext" style="color:rgb(64, 158, 255);">全选</text>
+						</label>
+					</checkbox-group>
+				</view>
+				<!-- <view class="chou_tit">
+					一般纳税人
+				</view>
+				<view class="check_bj">
+					<checkbox-group class="check_box_k2" @change="changeCheckboxztns">
+						<view v-for="item in stagesArrns" :key="item.value" class="check_box">
+							<label class="lable-box">
+								<checkbox :value="String(item.value)" :checked="checkedArrztns.includes(String(item.value))" :class="{'checked':checkedArrztns.includes(String(item.value))}"></checkbox>
+								<text class="cketext">{{item.label}}</text>
+							</label>
+						</view>
+					</checkbox-group>
+					<checkbox-group class="check_box_k1" @change="allChooseztns">
+						<label class="lable-box">
+							<checkbox value="all" :class="{'checked':allCheckedztns}" :checked="allCheckedztns?true:false"></checkbox><text
+							 class="cketext" style="color:rgb(64, 158, 255);">全选</text>
+						</label>
+					</checkbox-group>
+				</view>
+				<view class="uni-list">
+					<view class="uni-list-cell">
+						<view class="chou_tit">
+							开始日期
+						</view>
+						<view class="uni-list-cell-db">
+							<picker mode="date" :value="date" :start="startDate" :end="endDate" @change="bindDateChange">
+								<view class="uni-input" v-if="date==''" style="color:#666;">请选择开始日期</view>
+								<view class="uni-input" v-else>{{date}}</view>
+							</picker>
+						</view>
+						<view class="chou_tit">
+							结束日期
+						</view>
+						<view class="uni-list-cell-db">
+							<picker mode="date" :value="jdate" :start="jstartDate" :end="jendDate" @change="jbindDateChange">
+								<view class="uni-input" v-if="jdate==''" style="color:#666;">请选择结束日期</view>
+								<view class="uni-input" v-else>{{jdate}}</view>
+							</picker>
+						</view>
+					</view>
+				</view> -->
+				
+				<view class="bottombtn">
+					<button type="primary" class="anbtn" @click="getList('search')">确定</button>
+					<button type="primary" class="anbtn" @click="clox()">重置</button>
+				</view>
+			</view>
+		</uni-drawer>
 		<e-modal :visible.sync="visible">
 			<view class="uni-padding-wrap">
 				<form @submit="formSubmit">
@@ -18,7 +87,7 @@
 		<view class="topview">
 			<button type="primary" class="search-btn" @click="getList('search')"></button>
 			<input class="se-input" name="nickname" placeholder="请输入客户名称" v-model="kword">
-			<!-- <view>1+{{token}}+1</view> -->
+			<button type="primary" size="small" class="shai-btn" @click="drawer()">筛选</button>
 		</view>
 		<view class="content">
 			<z-paging ref="paging" @query="queryList" :list.sync='dataList' style="height: calc(100% - 80rpx);">
@@ -68,6 +137,21 @@
 				reason: "",
 				id: "",
 				token:"",
+				// 抽屉需要用到的值
+				drawWid: '100%',
+				allCheckedzt: false, //是否全选
+				stagesArr: [
+					{
+						'value': 1,
+						'label': "正常"
+					},
+					{
+						'value': 2,
+						'label': "取消"
+					}
+				],
+				checkboxData: [],
+				checkedArrzt: [], //出访状态复选框选中的值
 			}
 		},
 		onLoad(options){
@@ -122,6 +206,7 @@
 							content:res
 						})
 						if (res.data.data.status === 200){
+							this.$refs.drawer.close();
 							this.dataList = res.data.data.data;
 							setTimeout(function(){
 								uni.hideLoading();
@@ -144,6 +229,45 @@
 			openBox(item){
 				this.visible = true,
 				this.id = item._id
+			},
+			// 抽屉的所有方法
+			//抽屉打开
+			drawer() {
+				this.$refs.drawer.open();
+			},
+			//抽屉关闭
+			clox() {
+				console.log("抽屉关闭")
+			},
+			// 出访状态的多选改变
+			changeCheckboxzt(e) {
+				console.log("出访状态",e)
+				this.checkedArrzt = e.detail.value;
+				// 如果选择的数组中有值，并且长度等于列表的长度，就是全选
+				if (this.checkedArrzt.length > 0 && this.checkedArrzt.length == this.stagesArr.length) {
+					this.allCheckedzt = true;
+				} else {
+					this.allCheckedzt = false;
+				}
+			},
+			// 全选事件
+			allChoosezt(e) {
+				console.log(e);
+				let chooseItem = e.detail.value;
+				// 全选
+				if (chooseItem[0] == 'all') {
+					this.allCheckedzt = true;
+					for (let item of this.stagesArr) {
+						let itemVal = String(item.value);
+						if (!this.checkedArrzt.includes(itemVal)) {
+							this.checkedArrzt.push(itemVal);
+						}
+					}
+				} else {
+					// 取消全选
+					this.allCheckedzt = false;
+					this.checkedArrzt = [];
+				}
 			},
 			formSubmit: function(e){
 				var rule = [{
@@ -211,6 +335,10 @@
 		height: 100%;
 	}
 	
+	.anbtn {
+		width: 45%;
+	}
+	
 	.btn {
 		color: #fff;
 		width: 30%;
@@ -219,6 +347,51 @@
 		font-size: 24upx;
 		background: #4873c1;
 	}
+	
+	.bottombtn {
+		width: 80%;
+		right: 10upx;
+		bottom: 30upx;
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+	}
+	
+	.check_bj {
+		width: 100%;
+		display: flex;
+		justify-content: center;
+		line-height: 70upx;
+		margin-bottom: 10upx;
+	}
+	
+	.check_box {
+		margin-bottom: 10upx;
+		width: 200rpx;
+		height: 70upx;
+		line-height: 70upx;
+		display: flex;
+		margin-right: 10upx;
+		color: rgb(64, 158, 255);
+		position: relative;
+	}
+	
+	.check_box_k1 {
+		width: 30%;
+		display: flex;
+		justify-content: flex-start;
+		flex-direction: row;
+		flex-wrap: wrap;
+	}
+	
+	.check_box_k2 {
+		width: 60%;
+		display: flex;
+		justify-content: flex-start;
+		flex-direction: row;
+		flex-wrap: wrap;
+	}
+	
 	
 	.content {
 		width: 96%;
@@ -235,6 +408,16 @@
 		flex-direction: column;
 		align-items: center;
 		margin-top: 50upx;
+	}
+	
+	.chou_tit {
+		padding: 10px;
+		color: 666666;
+	}
+	
+	.lable-box {
+		width: 100%;
+		display: block;
 	}
 	
 	.list-dq1 {
@@ -321,6 +504,14 @@
 		background-position: center;
 		position: absolute;
 		left: 425rpx;
+	}
+	
+	.shai-btn {
+		width: 15%;
+		height: 60rpx;
+		line-height: 60rpx;
+		font-size: 22upx;
+		color: #fff;
 	}
 	
 	.topview {
