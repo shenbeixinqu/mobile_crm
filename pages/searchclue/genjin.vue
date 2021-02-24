@@ -37,17 +37,17 @@
 						</label>
 					</checkbox-group>
 				</view>
-				<view>
+				<view v-show="stage === '待清洗' || stage === '线索黑名单'">
 					<view class="uni-form-item uni-column">
-						<view class="title">核ddddd实电话</view>
-						<input class="uni-input"  name="nphone" placeholder="请输入核实电话" :value="stage === '待清洗' || stage === '线索黑名单'?'':'18302464786'" />
-						
-						
+						<view class="title">核实电话</view>
+						<input class="uni-input" name="nphone"  @blur="bindp" placeholder="请输入核实电话" :value="stage === '待清洗' || stage === '线索黑名单'?'':'18302464786'" />
+
+
 					</view>
 
 					<view class="uni-form-item uni-column">
 						<view class="title"><text class="red">*</text>申请理由</view>
-						<textarea class="uni-inputk" @blur="bindTextAreaBlur" name="remark" placeholder="请填跟进理由" :value="stage === '待清洗' || stage === '线索黑名单'?'申请理由':remark" />
+						<textarea class="uni-inputk" @blur="bindTextAreaBlur" name="remark" placeholder="请填申请理由" :value="stage === '待清洗' || stage === '线索黑名单'?'申请理由':remark" />
 						</view>
 						<!-- 上传 -->
 						<view class="uploads">
@@ -71,7 +71,13 @@
 						<!-- 上传结束 -->
 	     
 		 </view>
-		
+		<view v-show="!(stage === '待清洗' || stage === '线索黑名单')">
+			
+			<view class="uni-form-item uni-column" >
+				<view class="title"><text class="red">*</text>跟进理由</view>
+				<textarea class="uni-inputk" @blur="bindTextAreaBlur" name="remark"  placeholder="请填跟进理由" :value="stage === '待清洗' || stage === '线索黑名单'?'申请理由':remark" />
+				</view>
+		</view>
 					
 				<view class="uni-btn-v">
 					<button form-type="submit" class="btn">提交</button>
@@ -183,6 +189,10 @@
 				this.remark = e.detail.value
 				console.log('this.remark', this.remark)
 			},
+			bindp: function(e) {
+				this.phone = e.detail.value
+				console.log('this.phone', this.phone)
+			},
 			//百度产品
 			getchoices(){
 				uni.request({
@@ -269,11 +279,17 @@
 				});
 			 
 				const formDatas = new FormData();
+				if(this.stage === '待清洗' || this.stage === '线索黑名单'){
 				formDatas.append("files",this.files);
 				formDatas.append("id",this.activeId);
 				formDatas.append("remark", this.remark);
 				formDatas.append("classid", this.classid);
-				formDatas.append("phone",this.phone);
+				formDatas.append("phone",this.phone);}
+				else{
+					formDatas.append("id",this.activeId);
+					formDatas.append("remark", this.remark);
+				}
+				
 				axios({
 					method: 'post',
 					url: this.$burl +'/api/customer/track',
@@ -283,7 +299,13 @@
 					data: formDatas,
 				})
 				  .then(function (response) {
-				    console.log('response', response);
+					  console.log("fdfdfdfdfd")
+				  	if (response.data.data.status == 200) {
+					uni.showToast({
+						title: res.data.msg,
+						icon: "none"
+					});
+					}
 				  })
 				  .catch(function (error) {
 				    console.log('error', error);
