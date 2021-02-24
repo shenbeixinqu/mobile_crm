@@ -85,8 +85,9 @@
 				</view>
 
 				<view class="bottombtn">
-					<button type="primary" class="anbtn" @click="getList('search')">确定</button>
-					<button type="primary" class="anbtn" @click="clox()">重置</button>
+					
+					<button type="primary" class="btn btn1" @click="clox()">重置</button>
+					<button type="primary" class="btn " @click="getList('search')">确定</button>
 				</view>
 			</view>
 
@@ -94,7 +95,7 @@
 		<view class="topview">
 			<button type="primary" class="search-btn" @click="getList('search')"></button>
 			<input class="se-input" name="nickname" placeholder="请输入客户名称" v-model="kword" /><button type="primary" size="small"
-			 class="shai-btn" @click="drawer()">筛选</button></button> <button type="primary" size="small" class="shai-btn" @click="getList('search')">新增</button></view>
+			 class="shai-btn" @click="drawer()">筛选</button></button> <button type="primary" size="small" class="shai-btn1" @click="getList('search')">新增</button></view>
 		<!-- 数据列表 -->
 		<view class="content">
 
@@ -516,12 +517,12 @@
 
 <style scoped>
 	page {
-		height: 100%;
+	
 	}
 
 	.contentk {
 		width: 100%;
-		height: 100%;
+	
 		display: flex;
 		flex-direction: column;
 		justify-content: center;
@@ -531,7 +532,7 @@
 
 	.content {
 		width: 96%;
-		height: 100%;
+		
 		display: flex;
 		flex-direction: column;
 		align-items: center;
@@ -659,21 +660,48 @@
 		z-index: 500;
 		height: 60rpx;
 		width: 60rpx;
-		background: url(../../static/ss.png) no-repeat #007aff;
+		background: url(../../static/ss.png) no-repeat;
 		background-size: 70%;
 		background-position: center;
 		position: absolute;
 		left: 425rpx;
+		border: none;
 	}
-
+    .search-btn:after{ border: none;}
 	.shai-btn {
 		width: 15%;
 		height: 60rpx;
 		line-height: 60rpx;
-		font-size: 22upx;
-		color: #fff;
+		font-size:28upx;
+		color: #666;
+		background:url(../../static/shaixun.png) no-repeat #fff;
+		background-size:40%;
+		background-position:8upx 5upx ;
+		text-indent:25px;
+		padding-left: 0;
+		padding-right: 0;
+		
+		border-radius: 0;
+		margin-left:15upx;
 	}
-
+	
+	.shai-btn1{
+		width: 15%;
+		height: 60rpx;
+		line-height: 60rpx;
+		font-size:28upx;
+		color: #666;
+		background:url(../../static/addj.png) no-repeat #fff;
+		background-size:40%;
+		background-position:3upx 5upx ;
+		text-indent:20px;
+		padding-left: 0;
+		padding-right: 0;
+		
+		border-radius: 0;
+	}
+	.shai-btn1:after{ border: none;}
+    .shai-btn:after{ border: none;}
 	.topview {
 		width: 96%;
 		display: flex;
@@ -740,11 +768,11 @@
 	}
 
 	.list-item {
-		width: 96%;
+		width:90%;
 		flex-direction: column;
 		color: #666666;
 		margin-top: 25upx;
-		padding: 3%;
+		padding: 3% 5%;
 		border: 1px #e4e4e4 solid;
 		display: flex;
 		border-radius: 5px;
@@ -754,7 +782,7 @@
 		display: flex;
 		align-items: center;
 		justify-content: space-between;
-		padding: 2%;
+	
 
 	}
 
@@ -848,7 +876,7 @@
 	}
 
 	.chou_tit {
-		padding: 10px;
+		padding:30upx 10upx;
 		color: 666666;
 	}
 
@@ -869,18 +897,26 @@
 	}
 
 	.bottombtn {
-		width: 80%;
+		width:100%;
 		right: 10upx;
-		position: absolute;
-		bottom: 30upx;
+		position: fixed;
+		bottom:0;
 		display: flex;
 		align-items: center;
 		justify-content: space-between;
 	}
 
-	.anbtn {
-		width: 45%;
+	.btn {
+		width: 50%;
+		height:70upx;
+		line-height: 70upx;
+		font-size: 28upx;
+		background: #4873c1;
+		border-radius: 0;
+		bottom: 0;
 	}
+	.btn1{background: #d7e8fc; color: #316fd4;}
+	/deep/uni-button:after{border:none}
 
 	/deep/.uni-checkbox-input {
 		background: #f4f4f4;
@@ -898,4 +934,6 @@
 	/deep/.uni-checkbox-input-checked:before {
 		display: none;
 	}
+	
+
 </style>

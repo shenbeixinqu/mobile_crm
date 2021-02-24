@@ -2,7 +2,7 @@
 	<view class="content">
 		<view class="indexconent">线索&客户</view>
 		<view class="indeximg">
-			<view class="index_n_img" @click="searchclue">
+			<view class="index_n_img" @click="searchclue" style="border-left: 0;margin-left: 1px;" >
 				<image class="index_image" src="../../static/ssxx.png" mode="aspectFit"></image>
 				<h4>搜索线索</h4>
 			</view>
@@ -10,36 +10,29 @@
 				<image class="index_image" src="../../static/woxs.png" mode="aspectFit"></image>
 				<h4>我的线索</h4>
 			</view>
-			<view class="index_n_img" @click="customers">
+			<view class="index_n_img" @click="customers" style="border-right: 0;">
 				<image class="index_image" src="../../static/wdkh.png" mode="aspectFit"></image>
 				<h4>我的客户</h4>
 			</view>
-			<view class="index_n_img" @click="addClue">
+			<view class="index_n_img" @click="addClue" style="border-left: 0;margin-left: 1px;">
 				<image class="index_image" src="../../static/addmx.png" mode="aspectFit"></image>
 				<h4>新增线索</h4>
 			</view>
 			
-			<view class="index_n_img" @click="addClue">
-				<image class="index_image" src="../../static/addmx.png" mode="aspectFit"></image>
+		<view class="index_n_img" @click="myOcr">
+				<image class="index_image" src="../../static/mp.png" mode="aspectFit"></image>
 				<h4>名片识别</h4>
 			</view>
 			
-			
-			
-
-		</view>
-		<view class="indexconent">出访</view>
-		<view class="indeximg">
-			<view class="index_n_img" @click="myMarket">
+			<view class="index_n_img" @click="myMarket" style="border-right: 0;">
 				<image class="index_image" src="../../static/wdcf.png" mode="aspectFit"></image>
 				<h4>我的出访</h4>
 			</view>
-			<view class="index_n_img" @click="myOcr">
-				<image class="index_image" src="../../static/wdcf.png" mode="aspectFit"></image>
-				<h4>图片扫描</h4>
-			</view>
+			
+			
 
 		</view>
+	
 		<view class="indexconent">审核</view>
 		<view class="indeximg">
 			<view class="index_n_img" @click="track">
@@ -131,24 +124,23 @@
 		flex-direction: column;
 		align-items: center;
 		justify-content: center;
+		
 	}
 
 	.indexconent {
 		width: 100%;
-		height:70rpx;
-		line-height: 70rpx;
+		height:80rpx;
+		line-height: 80rpx;
 		background: #f2f2f2;
 		text-align: left;
-		font-size: 30rpx;
-		text-indent:40rpx;
-		color: #666666;
+		font-size:35rpx;
+		text-indent:45rpx;
+		color:#333;
 		display: flex;
 	}
 
 	.indeximg {
-		margin-top: 50rpx;
-		margin-bottom: 50rpx;
-		width: 90%;
+		width:100%;
 		display: flex;
 		justify-content: left;
 		flex-wrap: wrap;
@@ -160,10 +152,15 @@
 		flex-direction: column;
 		align-items: center;
 		justify-content: center;
+		height: 200upx;
+		border: 1px #f2f2f2 solid;
+		box-sizing:border-box;
+		margin-left: -1px;
+		margin-top: -1px;
 	}
 
 	.index_image {
-		width: 60rpx;
+		width:60rpx;
 		height: 60rpx;
 		display: flex;
 	}
@@ -171,9 +168,10 @@
 	.index_n_img h4 {
 		width: 100%;
 		display: flex;
-		margin-top: 10rpx;
-		font-size: 26rpx;
+		margin-top:15rpx;
+		font-size:35rpx;
 		font-weight: normal;
+		color: #777;
 		justify-content: center;
 	}
 </style>

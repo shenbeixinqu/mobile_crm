@@ -6,20 +6,20 @@
 			<view class="text">首页</view>
 		</view>
 	
-		<view :class="['foot-item',nowFoot==4?'now-foot':'']" @tap="goClue()">
-			<image class="img" v-if="nowFoot==4" src="../static/xian1.png" mode="aspectFit"></image>
-			<image class="img" v-if="nowFoot!=4" src="../static/xian.png" mode="aspectFit"></image>
-			<view class="text">线索</view>
+		<view :class="['foot-item',nowFoot==2?'now-foot':'']" @tap="goClue()">
+			<image class="img" v-if="nowFoot==2" src="../static/xian1.png" mode="aspectFit"></image>
+			<image class="img" v-if="nowFoot!=2" src="../static/xian.png" mode="aspectFit"></image>
+			<view class="text">我的线索</view>
 		</view>
 		<view :class="['foot-item',nowFoot==3?'now-foot':'']" @tap="goMine()">
 			<image class="img" v-if="nowFoot==3" src="../static/ke1.png" mode="aspectFit"></image>
 			<image class="img" v-if="nowFoot!=3" src="../static/ke.png" mode="aspectFit"></image>
-			<view class="text">客户</view>
+			<view class="text">我的客户</view>
 		</view>
-		<view :class="['foot-item',nowFoot==2?'now-foot':'']" @tap="goData()">
-			<image class="img" v-if="nowFoot==2" src="../static/xian1.png" mode="aspectFit"></image>
-			<image class="img" v-if="nowFoot!=2" src="../static/xian.png" mode="aspectFit"></image>
-			<view class="text">线索</view>
+		<view :class="['foot-item',nowFoot==4?'now-foot':'']" @tap="goData()">
+			<image class="img" v-if="nowFoot==4" src="../static/user1.png" mode="aspectFit"></image>
+			<image class="img" v-if="nowFoot!=4" src="../static/user.png" mode="aspectFit"></image>
+			<view class="text">关于我</view>
 		</view>
 
 
@@ -38,80 +38,42 @@
 				nowFoot: 1,
 			}
 		},
-		mounted() {
-			let that = this;
-			that.user_id = uni.getStorageSync('user_id');
-			that.user_name = uni.getStorageSync('user_name');
-			that.user_phone = uni.getStorageSync('user_phone');
-			/// 获取当前路由
-			// let nowRoute = window.location.hash;
-			let pages = getCurrentPages();
-			let currpage = null;
-			if (pages.length) currpage = pages[pages.length - 1];
-			let nowRoute = currpage.route
-			if (nowRoute) {
-				if (nowRoute.indexOf('index/index') != -1) {
-					that.nowFoot = 1;
-				} else if (nowRoute.indexOf('mine') != -1) {
-					that.nowFoot = 3;
-				} else if (nowRoute.indexOf('login_new') != -1) {
-					that.nowFoot = 2;
-				}
-			}
-		},
+	
 		methods: {
 			// 首页
 			goHome() {
 				if (this.nowFoot != 1) {
-					uni.redirectTo({
+					uni.navigateTo({
 						url: '../index/index'
 					});
 					this.nowFoot = 1
 				}
 			},
-			// 添加线索
-			goAddinfo() {
-				let re_code = uni.getStorageSync("re_code")
-				if (uni.getStorageSync("token")) {
-					if (uni.getStorageSync("status") == 11) {
-						uni.navigateTo({
-							url: '../clue/clue'
-						})
-					} else {
-						uni.navigateTo({
-							url: '../mine/my_info_new?addinfo=1'
-						});
-					}
-				} else {
-					uni.navigateTo({
-						url: '../login/login_new?path=1'
-					})
-				}
-			},
+			
 			//线索
 			goClue() {
-				if(this.nowFoot!=4) {
+				if(this.nowFoot!=2) {
 					uni.navigateTo({
-						url: '../searchclue/searchclue'
+						url: '../myclue/myclue'
 					});
-					this.nowFoot = 4
+					this.nowFoot = 2
 				}
 			},
 			// 我的
 			goMine() {
 				if (this.nowFoot != 3) {
-					uni.reLaunch({
-						url: '../searchclue/searchclue'
+					uni.navigateTo({
+						url: '../customers/customers'
 					});
 					this.nowFoot = 3
 				}
 			},
 			goData(){
-				if (this.nowFoot != 2) {
+				if (this.nowFoot != 4) {
 					uni.navigateTo({
 						url: '../mydata/mydata'
 					})
-					this.nowFoot = 2
+					this.nowFoot = 4
 				}
 			}
 		}
