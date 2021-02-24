@@ -10,7 +10,8 @@
 			
 		},
 		globalData:{
-			token: ""
+			token: "",
+			roles:""
 		}
 	}
 </script>

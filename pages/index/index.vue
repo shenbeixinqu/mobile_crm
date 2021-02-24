@@ -34,6 +34,10 @@
 				<image class="index_image" src="../../static/wdcf.png" mode="aspectFit"></image>
 				<h4>我的出访</h4>
 			</view>
+			<view class="index_n_img" @click="myOcr">
+				<image class="index_image" src="../../static/wdcf.png" mode="aspectFit"></image>
+				<h4>图片扫描</h4>
+			</view>
 
 		</view>
 		<view class="indexconent">审核</view>
@@ -78,6 +82,11 @@
 			addClue(){
 				uni.navigateTo({
 					url:"/pages/addclue/addclue"
+				})
+			},
+			myOcr(){
+				uni.navigateTo({
+					url:"/pages/addclue/imgocr"
 				})
 			},
 			myClue(){
