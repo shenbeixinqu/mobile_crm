@@ -37,17 +37,15 @@
 						</label>
 					</checkbox-group>
 				</view>
-				<view>
+				<block v-if="stage === '待清洗' || stage === '线索黑名单'">
 					<view class="uni-form-item uni-column">
-						<view class="title">核ddddd实电话</view>
-						<input class="uni-input"  name="nphone" placeholder="请输入核实电话" :value="stage === '待清洗' || stage === '线索黑名单'?'':'18302464786'" />
-						
-						
+						<view class="title">核实电话</view>
+						<input class="uni-input" v-model="phone" name="nphone" placeholder="请输入核实电话" />
 					</view>
 
 					<view class="uni-form-item uni-column">
 						<view class="title"><text class="red">*</text>申请理由</view>
-						<textarea class="uni-inputk" @blur="bindTextAreaBlur" name="remark" placeholder="请填跟进理由" :value="stage === '待清洗' || stage === '线索黑名单'?'申请理由':remark" />
+						<textarea class="uni-inputk" @blur="bindTextAreaBlur" name="remark" placeholder="请填跟进理由" :vlaue="remark" />
 						</view>
 						<!-- 上传 -->
 						<view class="uploads">
@@ -70,8 +68,13 @@
 						</view>
 						<!-- 上传结束 -->
 	     
-		 </view>
-		
+		 </block>
+		 <block v-else>
+				<view class="uni-form-item uni-column" >
+					<view class="title"><text class="red">*</text>跟进理由</view>
+					<textarea class="uni-inputk" @blur="bindTextAreaBlur" name="remark" placeholder="请填跟进理由" :vlaue="remark" />
+					</view>
+					</block>
 					
 				<view class="uni-btn-v">
 					<button form-type="submit" class="btn">提交</button>
@@ -83,7 +86,6 @@
 </template>
 
 <script>
-	const axios = require('axios');
 	var graceChecker = require("../../js_sdk/graceui-dataChecker/graceChecker.js")
 	var sourceType = [
 			['camera'], //拍照
@@ -131,7 +133,6 @@
 			console.log('this.activeId',this.activeId)
 			this.ind_lead = item.ind_lead;
 			this.stage=item.stage;
-			
 			this.genjin();
 			this.getchoices();
 		},
@@ -150,9 +151,16 @@
 							console.log('res',res)
 							this.imageList = this.imageList.concat(res.tempFilePaths);
 							this.files=res.tempFiles[0];
+							console.log('我是什么玩意啊',this.files)
+						
+							
 						}
 					})
 				},
+				
+				
+				
+			
 			//预览图片
 			previewImage: function(e) {
 				var current = e.target.dataset.src
@@ -214,7 +222,7 @@
 						id:this.activeId
 					},
 					success: (res) => {
-					
+						console.log(res);
 						if (res.data.data.status == 200){
 							this.name=res.data.data.data.name;
 							this.address=res.data.data.data.address;
@@ -222,6 +230,7 @@
 							this.phoneTxt=res.data.data.data.phone;
 							this.business=res.data.data.data.business;
 							this.classall=res.data.data.data.classall;
+							console.log('this.classall',this.classall)
 							this.optionsgj=res.data.data.data.classids;
 							for(let i in this.optionsgj){
 							 this.optionsgj[i]=this.optionsgj[i].toString();
@@ -239,10 +248,9 @@
 					}
 				})
 			},
-			
-			
 			//表单
 			formSubmit: function(e) {
+				//定义表单规则
 				var rule = [
 				{
 					name: "nphone",
@@ -255,40 +263,65 @@
 					checkRule: "",
 					errorMsg: "请输入跟进理由",
 				}];
-		
+				//进行表单检查
 				var formData = e.detail.value;
-				
 				var checkRes = graceChecker.check(formData, rule);
-				
-			
-				console.log('checkRes',checkRes);
 				if (checkRes) {
 					uni.showToast({
 						title: "验证通过!",
 						icon: "none"
-				});
-			 
-				const formDatas = new FormData();
-				formDatas.append("files",this.files);
-				formDatas.append("id",this.activeId);
-				formDatas.append("remark", this.remark);
-				formDatas.append("classid", this.classid);
-				formDatas.append("phone",this.phone);
-				axios({
-					method: 'post',
-					url: this.$burl +'/api/customer/track',
-					headers: {
-						'Authorization': this.$token
-					},
-					data: formDatas,
-				})
-				  .then(function (response) {
-				    console.log('response', response);
-				  })
-				  .catch(function (error) {
-				    console.log('error', error);
-				  });
-				
+					});
+					
+					 uni.uploadFile({
+							
+					            url: this.$burl + '/api/customer/track', //仅为示例，非真实的接口地址
+					            filePath: this.files,
+					            name: 'file',
+					            formData: {
+								id: this.activeId,
+								ltype: 8,
+								event: 1,
+								remark: this.remark,
+								classid:this.classid,
+					            },
+					            success: (uploadFileRes) => {
+									console.log('我走这了吗')
+					                console.log(uploadFileRes.data);
+					            }
+					        });
+					// uni.request({
+					// 	url: 'http://172.18.3.161:8098/api/customer/track',
+					// 	header: {
+					// 		 "Content-Type": "multipart/form-data",
+					// 		'Authorization': this.$token
+					// 	},
+					// 	method: "POST",
+					// 	data: {
+					// 		files:this.files,
+					// 		id: this.activeId,
+					// 		ltype: 8,
+					// 		event: 1,
+					// 		remark: this.remark,
+					// 		classid:this.classid,
+					// 	},
+					// 	success: (res) => {
+					// 		if (res.data.data.status == 200) {
+					// 			uni.showToast({
+					// 				title: res.data.msg,
+					// 				icon: "none"
+					// 			});
+					// 		} else {
+					// 			uni.showToast({
+					// 				title: res.data.msg,
+					// 				icon: "none"
+					// 			});
+
+					// 		}
+					// 	},
+					// 	fail: (err) => {
+					// 		//console.log(err)
+					// 	}
+					// })
 				} else {
 					uni.showToast({
 						title: graceChecker.error,
@@ -299,8 +332,9 @@
 			formReset: function(e) {
 				console.log('清空数据')
 			},
-			
-			
+			//日期
+
+			//出访洽谈业务
 
 		},
 	}
