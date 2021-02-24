@@ -16,9 +16,9 @@
 			<image class="img" v-if="nowFoot!=3" src="../static/ke.png" mode="aspectFit"></image>
 			<view class="text">客户</view>
 		</view>
-		<view :class="['foot-item',nowFoot==4?'now-foot':'']" @tap="goMine()">
-			<image class="img" v-if="nowFoot==4" src="../static/xian1.png" mode="aspectFit"></image>
-			<image class="img" v-if="nowFoot!=4" src="../static/xian.png" mode="aspectFit"></image>
+		<view :class="['foot-item',nowFoot==2?'now-foot':'']" @tap="goData()">
+			<image class="img" v-if="nowFoot==2" src="../static/xian1.png" mode="aspectFit"></image>
+			<image class="img" v-if="nowFoot!=2" src="../static/xian.png" mode="aspectFit"></image>
 			<view class="text">线索</view>
 		</view>
 
@@ -99,13 +99,21 @@
 			},
 			// 我的
 			goMine() {
-				if (this.nowFoot != 2) {
+				if (this.nowFoot != 3) {
 					uni.reLaunch({
 						url: '../searchclue/searchclue'
 					});
 					this.nowFoot = 3
 				}
 			},
+			goData(){
+				if (this.nowFoot != 2) {
+					uni.navigateTo({
+						url: '../mydata/mydata'
+					})
+					this.nowFoot = 2
+				}
+			}
 		}
 	};
 </script>

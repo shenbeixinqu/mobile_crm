@@ -1,164 +1,170 @@
 <template>
-	<view class="content">
-		<form @submit="formSubmit">
-		<view class="row b-b">
-			<text class="tit">客户名称:</text>
-			<input class="input" type="text" v-model="clueForm.name" name="name" placeholder-class="placeholder" />
-		</view>
-		<view class="row b-b">
-			<radio-group name="is_man" @change="radioChange">
-				<label>客户性质:</label>
-				<label>
-					<radio value="公司" checked="checked" /><text>公司</text>
-					<radio value="个人" /><text>个人</text>
-				</label>
-			</radio-group>
-		</view>
-		<view class="row b-b">
-			<label class="tit">客户电话:</label>
-			<input class="input" type="number" v-model="clueForm.phone" placeholder-class="placeholder" />
-		</view>
-		<view class="row b-b">
-			<label class="tit">企业法人:</label>
-			<input class="input" type="text" v-model="clueForm.legal" placeholder-class="placeholder" />
-		</view>
-		<view class="row b-b">
-			<label class="tit">地区:</label>
-			<view>
-				<view class="list-itemk" @tap="handleTap('picker3')">
-					<!-- <text class="sub-title">省市区三级选择</text> -->
-					<view class="item-content">
-						<view class="item-value">
-							<text class="item-label">{{ label3 }}</text>
-							<text v-if="!label3" class="item-placeholder">请选择地区</text>
-						</view>
-					</view>
-					<lb-picker ref="picker3" v-model="clueForm.dz" mode="multiSelector" :list="list1" :level="3" :dataset="{ name: 'label3' }"
-					 @change="handleChange" @confirm="handleConfirm" @cancel="handleCancel">
-					</lb-picker>
-				</view>
+	<view class="contentk">
+		<view class="uni-padding-wrap">
+			<form @submit="formSubmit">
+			<view class="uni-form-item ">
+				<view class="title"><text class="red">*</text>客户名称:</view>
+				<input class="uni-input1"  v-model="clueForm.name" name="name" placeholder-class="placeholder" />
 			</view>
-			
-		</view>
-		<view class="row b-b">
-			<label class="tit">详细地址:</label>
-			<input class="input" type="text" v-model="clueForm.address" placeholder-class="placeholder" />
-		</view>
-		<view class="row b-b">
-			<label class="tit">行业:</label>
-			<view>
-				<view class="list-itemk" @tap="handleTap('picker4')">
-					<view class="item-content">
-						<view class="item-value">
-							<text class="item-label">{{label4}}</text>
-							<text v-if="!label4" class="item-placeholder">请选择行业</text>
-						</view>
-					</view>
-					<lb-picker ref="picker4" v-model="clueForm.select" mode="multiSelector" :list="listhy" :level="3" :dataset="{ name: 'label4' }"
-					@change="handleChange" @confirm="handleConfirm" @cancel="handleCancel">
-					</lb-picker>
-				</view>
+			<view class="uni-form-item">
+				<radio-group name="is_man" @change="radioChange">
+					<view class="title"><text class="red">*</text>客户性质:</view>
+					<label>
+						<radio value="公司" checked="checked" /><text>公司</text>
+						<radio value="个人" /><text>个人</text>
+					</label>
+				</radio-group>
 			</view>
-		</view>
-		<view class="row b-b">
-			<label class="tit">客户来源:</label>
-			<view>
-				<picker v-model="clueForm.source_flag" @change="sourceChange" :value="clueForm.source_flag" :range="sourceArray" range-key="name" >
-					<view>{{sourceArray[clueForm.source_flag].name}}</view>
-				</picker>
+			<view class="uni-form-item">
+				<view class="title"><text class="red">*</text>客户电话:</view>
+				<input class="uni-input1" type="number" v-model="clueForm.phone" name="phone" placeholder-class="placeholder" />
 			</view>
-			
-		</view>
-		<view class="row b-b">
-			<label class="tit">添加到:</label>
-			<picker v-model="clueForm.addto" @change="addtoChange" :value="clueForm.addto" :range="addtoArray" range-key="name">
-				<view>{{addtoArray[clueForm.addto].name}}</view>
-			</picker>
-		</view>
-		<view>
-		<view class="row b-b">
-			<radio-group name="radio" v-model="clueForm.radio" @change="zhizhaoChange">
-				<label>有无执照:</label>
-				<label>
-					<radio value="1" checked="checked" /><text>有</text>
-					<radio value="2" /><text>无</text>
-				</label>
-			</radio-group>
-		</view>
-		<view class="row b-b" v-if="clueForm.radio === '1'">
-			<!-- <view class="addBox" ref="input">
-				<view class="uploadtitle">点击上传文件</view>
-			</view> -->
-			<view class="uploads">
-				<view class="upload-image-view">
-					<block v-for="(image,index) in imageList" :key="index">
-						<view class="image-view">
-							<image :src="image" :data-src="image" @tap="previewImage"></image>
-							<view class="del-btn" :data-index="index" @tap="deleteImage">
-								<view class="baicha"></view>
+			<view class="uni-form-item">
+				<view class="title">企业法人:</view>
+				<input class="uni-input1" type="text" v-model="clueForm.legal" placeholder-class="placeholder" />
+			</view>
+			<view class="uni-form-item">
+				<view class="title"><text class="red">*</text>地区:</view>
+				<input type="text" name="address" :value="label3" hidden="true"/>
+				<view>
+					<view class="list-itemk" @tap="handleTap('picker3')">
+						<!-- <text class="sub-title">省市区三级选择</text> -->
+						<view class="item-content">
+							<view class="item-value">
+								<text class="item-label">{{ label3 }}</text>
+								<text v-if="!label3" class="item-placeholder">请选择地区</text>
 							</view>
 						</view>
-					</block>
-					<view class="add-view" v-if="imageList.length < imageLength" @tap="chooseImage">
-						<view class="cross">
-							<view class="transverse-line"></view>
-							<view class="vertical-line"></view>
+						<lb-picker ref="picker3"  v-model="clueForm.dz" mode="multiSelector" :list="list1" :level="3" :dataset="{ name: 'label3' }"
+						 @change="handleChange" @confirm="handleConfirm" @cancel="handleCancel" name="address">
+						</lb-picker>
+					</view>
+				</view>
+				
+			</view>
+			<view class="uni-form-item">
+				<view class="title">详细地址:</view>
+				<input class="uni-input1" type="text" v-model="clueForm.address" placeholder-class="placeholder" />
+			</view>
+			<view class="uni-form-item">
+				<view class="title"><text class="red">*</text>行业:</view>
+				<input type="text" name="industy" :value="label4" hidden="true"/>	
+				<view>
+					<view class="list-itemk" @tap="handleTap('picker4')">
+						<view class="item-content">
+							<view class="item-value">
+								<text class="item-label">{{label4}}</text>
+								<text v-if="!label4" class="item-placeholder">请选择行业</text>
+							</view>
 						</view>
+						<lb-picker ref="picker4" v-model="clueForm.select" mode="multiSelector" :list="listhy" :level="3" :dataset="{ name: 'label4' }"
+						@change="handleChange" @confirm="handleConfirm" @cancel="handleCancel">
+						</lb-picker>
 					</view>
 				</view>
 			</view>
-			 
-		</view>
-		<view class="row b-b" v-else>
-			<label class="tit">特殊说明:</label>
-			<input class="input" type="text" v-model="clueForm.legal" placeholder-class="placeholder" />
-		</view>
-		</view>
-		<view class="row b-b">
-			<label class="tit">备注:</label>
-			<input class="input" type="text" v-model="clueForm.legal" placeholder-class="placeholder" />
-		</view>
-		<view>
-			<view @click="showMore">展开</view>
-		</view>
-		<view v-if="isMore">
-			<view class="row b-b">
-				<label class="tit">传真:</label>
-				<input class="input" type="text" v-model="clueForm.fax" placeholder-class="placeholder" />
+			<view class="uni-form-item">
+				<view class="title"><text class="red">*</text>客户来源:</view>
+				<input type="text" name="source" v-model="clueForm.source_flag" :value="clueForm.source_flag"  hidden="true"/>
+				<view>
+					<picker  @change="sourceChange"  :range="sourceArray" range-key="name" >
+						<view>{{sourceArray[clueForm.source_flag].name}}</view>
+					</picker>
+				</view>
+				
 			</view>
-			<view class="row b-b">
-				<label class="tit">邮编:</label>
-				<input class="input" type="text" v-model="clueForm.zipcode" placeholder-class="placeholder" />
-			</view>
-			<view class="row b-b">
-				<label class="tit">邮箱:</label>
-				<input class="input" type="text" v-model="clueForm.email" placeholder-class="placeholder" />
-			</view>
-			<view class="row b-b">
-				<label class="tit">主营业务:</label>
-				<input class="input" type="text" v-model="clueForm.business" placeholder-class="placeholder" />
-			</view>
-			<view class="row b-b">
-				<label class="tit">人员规模:</label>
-				<picker v-model="clueForm.employees" @change="employeesChange" :value="clueForm.employees" :range="employeesArray" range-key="name">
-					<view>{{employeesArray[clueForm.employees].name}}</view>
+			<view class="uni-form-item">
+				<view class="title"><text class="red">*</text>添加到:</view>
+				<input type="text" name="addto" v-model="clueForm.addto" :value="clueForm.addto" hidden="true"/>
+				<picker  @change="addtoChange" :range="addtoArray" range-key="name">
+					<view>{{addtoArray[clueForm.addto].name}}</view>
 				</picker>
 			</view>
-			<view class="row b-b">
-				<label class="tit">成立日期:</label>
-				<picker mode="date" v-model="clueForm.openingdate" :value="clueForm.openingdate" name="openingdate" @change="openingdateChange">
-					<view class="uni-input">{{clueForm.openingdate}}</view>
-				</picker>
+			<view>
+			<view class="uni-form-item">
+				<radio-group name="radio" v-model="clueForm.radio" @change="zhizhaoChange">
+					<view class="title"><text class="red">*</text>有无执照:</view>
+					<label>
+						<radio value="1" checked="checked" /><text>有</text>
+						<radio value="2" /><text>无</text>
+					</label>
+				</radio-group>
 			</view>
-			<view class="row b-b">
-				<label class="tit">注册资金:</label>
-				<input class="input" type="number" v-model="clueForm.registered" placeholder-class="placeholder" />
+			<view class="row b-b" v-if="clueForm.radio === '1'">
+				<!-- <view class="addBox" ref="input">
+					<view class="uploadtitle">点击上传文件</view>
+				</view> -->
+				<view class="uploads">
+					<view class="upload-image-view">
+						<block v-for="(image,index) in imageList" :key="index">
+							<view class="image-view">
+								<image :src="image" :data-src="image" @tap="previewImage"></image>
+								<view class="del-btn" :data-index="index" @tap="deleteImage">
+									<view class="baicha"></view>
+								</view>
+							</view>
+						</block>
+						<view class="add-view" v-if="imageList.length < imageLength" @tap="chooseImage">
+							<view class="cross">
+								<view class="transverse-line"></view>
+								<view class="vertical-line"></view>
+							</view>
+						</view>
+					</view>
+				</view>
+				 
 			</view>
+			<view class="uni-form-item" v-else>
+				<label class="title">特殊说明:</label>
+				<input class="uni-input1" type="text" v-model="clueForm.legal" placeholder-class="placeholder" />
+			</view>
+			</view>
+			<view class="uni-form-item">
+				<label class="title">备注:</label>
+				<input class="uni-input1" type="text" v-model="clueForm.legal" placeholder-class="placeholder" />
+			</view>
+			<view>
+				<view @click="showMore">展开</view>
+			</view>
+			<view v-if="isMore">
+				<view class="uni-form-item">
+					<label class="title">传真:</label>
+					<input class="uni-input1" type="text" v-model="clueForm.fax" placeholder-class="placeholder" />
+				</view>
+				<view class="uni-form-item">
+					<label class="title">邮编:</label>
+					<input class="uni-input1" type="text" v-model="clueForm.zipcode" placeholder-class="placeholder" />
+				</view>
+				<view class="uni-form-item">
+					<label class="title">邮箱:</label>
+					<input class="uni-input1" type="text" v-model="clueForm.email" placeholder-class="placeholder" />
+				</view>
+				<view class="uni-form-item">
+					<label class="title">主营业务:</label>
+					<input class="uni-input1" type="text" v-model="clueForm.business" placeholder-class="placeholder" />
+				</view>
+				<view class="uni-form-item">
+					<label class="title">人员规模:</label>
+					<picker v-model="clueForm.employees" @change="employeesChange" :value="clueForm.employees" :range="employeesArray" range-key="name">
+						<view>{{employeesArray[clueForm.employees].name}}</view>
+					</picker>
+				</view>
+				<view class="uni-form-item">
+					<label class="title">成立日期:</label>
+					<picker mode="date" v-model="clueForm.openingdate" :value="clueForm.openingdate" name="openingdate" @change="openingdateChange">
+						<view class="uni-input1">{{clueForm.openingdate}}</view>
+					</picker>
+				</view>
+				<view class="uni-form-item">
+					<label class="title">注册资金:</label>
+					<input class="uni-input1" type="number" v-model="clueForm.registered" placeholder-class="placeholder" />
+				</view>
+			</view>
+			<view>
+				<button class="add-btn" formType="submit" @click="addClue">提交</button>
+			</view>
+			</form>
 		</view>
-		<view>
-			<button class="add-btn" formType="submit" @click="addClue">提交</button>
-		</view>
-		</form>
 	</view>
 </template>
 
@@ -204,6 +210,7 @@
 					imageLength: 3, //限制图片张数
 					sourceTypeIndex: 2, //添加方式限制
 					sizeTypeIndex: 2, //图片尺寸限制
+					files1:"",
 									
 					fileList:[],
 					isMore:false,
@@ -280,12 +287,39 @@
 						source_flag: this.clueForm.source_flag,
 						addto:this.clueForm.addto,
 						radio:this.clueForm.radio,
-						
-						
-						
-					}
+					};
+					uni.request({
+						url:"http://172.18.3.161:8098" + '/api/customer',
+						header:{
+							'Authorization': this.$token
+						},
+						method:"POST",
+						data:{
+							name: this.clueForm.name,
+							is_man: this.clueForm.is_man,
+							phone: this.clueForm.phone,
+							// location_id: (this.clueForm.dz[2]).toString(),
+							// location_depict:(this.clueForm.dz[1]).toString(),
+							// location_lead:(this.clueForm.dz[0]).toString(),
+							// industry_id:(this.clueForm.select[2]).toString(),
+							// industry_depict:(this.clueForm.select[1]).toString(),
+							// industry_lead:this.label4,
+							// source_flag: this.clueForm.source_flag,
+							// addto:this.clueForm.addto,
+							
+						},
+						success: (res) => {
+							if (res.data.data.status == 200 ){
+								console.log("添加成功")
+							} else {
+								console.log("添加失败",res.data.msg)
+							}
+						},
+						fail: (err) => {
+							console.log("错误",err)
+						}
+					})
 				},
-				
 				//选择图片
 				chooseImage: async function() {
 						uni.chooseImage({
@@ -295,7 +329,16 @@
 							// #endif
 							count: this.imageLength - this.imageList.length,
 							success: (res) => {
+								console.log("上传文件的数据", res)
+								// console.log("blob", res.tempFilePaths[0])
 								this.imageList = this.imageList.concat(res.tempFilePaths);
+								const reader = new FileReader()
+								// var aaa = reader.readAsBinaryString(res.tempFilePaths[0])
+								// console.log("aaa", aaa)
+								reader.readAsDataURL(res.tempFilePaths)
+								reader.onload = function(){
+									console.log(reader.result)
+								}
 							}
 						})
 					},
@@ -346,7 +389,14 @@
 				formSubmit(e){
 					// 定义表单规则
 					var rule = [
-						{name:"name",checkType:"notnull",errorMsg:"请输入客户名称"},
+						{name:"name",checkType:"null",errorMsg:"请输入客户名称"},
+						{name:"phone",checkType:"null",errorMsg:"请输入客户电话"},
+						{name:"address",checkType:"null",errorMsg:"请选择地区"},
+						{name:"industy",checkType:"null",errorMsg:"请选择行业"},
+						{name:"source",checkType:"null",errorMsg:"请选择客户来源"},
+						{name:"addto",checkType:"null",errorMsg:"请选择添加到"}
+						
+						
 						// {name:"phone",checkType:"phoneno",errorMsg: "请输入正确的手机号"},
 						
 					]
@@ -355,8 +405,35 @@
 					var checkRes = graceChecker.check(formData,rule);
 					if (checkRes){
 						console.log("成功")
+						uni.request({
+							url:"http://172.18.3.161:8098" + '/api/customer',
+							header:{
+								'Authorization': this.$token
+							},
+							method:"POST",
+							data:{
+								name: this.clueForm.name,
+								is_man: this.clueForm.is_man,
+								phone: this.clueForm.phone,
+								files1: this.files1
+								
+							},
+							success: (res) => {
+								if (res.data.data.status == 200 ){
+									console.log("添加成功")
+								} else {
+									console.log("添加失败",res.data.msg)
+								}
+							},
+							fail: (err) => {
+								console.log("错误",err)
+							}
+						})
 					} else{
-						uni.showToast({title:graceChecker.error})
+						uni.showModal({
+							title:graceChecker.error,
+							icon:"none"
+						})
 				}
 				
 	        },
@@ -513,6 +590,14 @@
 			border-radius: 8px;
 			background-color: #FAFAFA;
 		}
+	
+	.contentk {
+		width: 100%;
+		height: 100%;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+	}
 		
 	.uploadtitle{
 		position: absolute;
@@ -527,6 +612,39 @@
 	
 	.fileslist{
 		margin-top: 8px;
+	}
+	
+	.red {
+		color: #f00;
+		padding-right: 10upx;
+	}
+	
+	.uni-form-item {
+		display: flex;
+		width: 100%;
+		padding: 10rpx 0;
+		flex-direction: column;
+	}
+	
+	.uni-input1 {
+		background-color: #f5f7fa;
+		border-color: #e4e7ed;
+		color: #606266;
+		height: 50rpx;
+		padding: 15rpx 25rpx;
+		line-height: 50rpx;
+		font-size: 28rpx;
+	
+		flex: 1;
+		border: 1px #ddd solid;
+		border-radius: 10upx;
+		color: grey;
+	}
+	
+	.uni-padding-wrap {
+		width: 90%;
+		padding-top: 20upx;
+		padding-bottom: 20upx;
 	}
 	
 	.upfileico{
