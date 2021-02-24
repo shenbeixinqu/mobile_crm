@@ -626,10 +626,9 @@
 							this.$refs.drawer.close();
 							this.dataList = res.data.data.data;
 							if (this.dataList.length == 0) {
-								this.showxs = true;
 								uni.hideLoading();
 							} else {
-								this.showxs = false;
+							
 							}
 							setTimeout(function() {
 								uni.hideLoading();
