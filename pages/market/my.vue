@@ -5,40 +5,20 @@
 				<view class="chou_tit">
 					出访状态
 				</view>
-				<view class="check_bj">
-					<checkbox-group class="check_box_k2" @change="changeCheckboxzt">
-						<view v-for="item in stagesArr" :key="item.value" class="check_box">
-							<label class="lable-box">
-								<checkbox :value="String(item.value)" :checked="checkedArrzt.includes(String(item.value))" :class="{'checked':checkedArrzt.includes(String(item.value))}"></checkbox>
-								<text class="cketext">{{item.label}}</text>
-							</label>
-						</view>
-					</checkbox-group>
-					<checkbox-group class="check_box_k1" @change="allChoosezt">
-						<label class="lable-box">
-							<checkbox value="all" :class="{'checked':allCheckedzt}" :checked="allCheckedzt?true:false"></checkbox><text
-							 class="cketext" style="color:rgb(64, 158, 255);">全选</text>
-						</label>
-					</checkbox-group>
+				<view class="uni-list-cell-db">
+					<picker mode="selector" v-model="cfstage" :value="cfstage" :range="stagesArr" @change="stageRequire" range-key="name">
+						<view class="uni-input" v-if="!cfstage">请选择洽谈业务</view>
+						<view class="uni-input" v-else>{{stagesArr[cfstage].name}}</view>
+					</picker>
 				</view>
-				<!-- <view class="chou_tit">
-					一般纳税人
+				<view class="chou_tit">
+					洽谈业务
 				</view>
-				<view class="check_bj">
-					<checkbox-group class="check_box_k2" @change="changeCheckboxztns">
-						<view v-for="item in stagesArrns" :key="item.value" class="check_box">
-							<label class="lable-box">
-								<checkbox :value="String(item.value)" :checked="checkedArrztns.includes(String(item.value))" :class="{'checked':checkedArrztns.includes(String(item.value))}"></checkbox>
-								<text class="cketext">{{item.label}}</text>
-							</label>
-						</view>
-					</checkbox-group>
-					<checkbox-group class="check_box_k1" @change="allChooseztns">
-						<label class="lable-box">
-							<checkbox value="all" :class="{'checked':allCheckedztns}" :checked="allCheckedztns?true:false"></checkbox><text
-							 class="cketext" style="color:rgb(64, 158, 255);">全选</text>
-						</label>
-					</checkbox-group>
+				<view class="uni-list-cell-db">
+					<picker mode="selector" v-model="e_xqclass" :value="e_xqclass" :range="proArray" @change="proRequire" range-key="name">
+						<view class="uni-input" v-if="!e_xqclass">请选择洽谈业务</view>
+						<view class="uni-input" v-else>{{proArray[e_xqclass].name}}</view>
+					</picker>
 				</view>
 				<view class="uni-list">
 					<view class="uni-list-cell">
@@ -61,7 +41,7 @@
 							</picker>
 						</view>
 					</view>
-				</view> -->
+				</view>
 				
 				<view class="bottombtn">
 					<button type="primary" class="anbtn" @click="getList('search')">确定</button>
@@ -128,6 +108,25 @@
 
 <script>
 	var graceChecker = require("../../js_sdk/graceui-dataChecker/graceChecker.js")
+	import uniDrawer from "@/components/uni-drawer/uni-drawer.vue"
+	
+	function getDate(type) {
+		const date = new Date();
+		let year = date.getFullYear();
+		let month = date.getMonth() + 1;
+		let day = date.getDate();
+	
+		if (type === 'start') {
+			year = year - 10;
+		} else if (type === 'end') {
+			year = year + 10;
+		}
+		month = month > 9 ? month : '0' + month;;
+		day = day > 9 ? day : '0' + day;
+	
+		return `${year}-${month}-${day}`;
+	}
+	
 	export default{
 		data(){
 			return{
@@ -138,25 +137,40 @@
 				id: "",
 				token:"",
 				// 抽屉需要用到的值
+				date: '',
+				startDate: getDate('start'),
+				endDate: getDate('end'),
+				jdate: '',
+				jstartDate: getDate('start'),
+				jendDate: getDate('end'),
 				drawWid: '100%',
-				allCheckedzt: false, //是否全选
 				stagesArr: [
 					{
+						'value': 0,
+						'name': "全部"
+					},
+					{
 						'value': 1,
-						'label': "正常"
+						'name': "正常"
 					},
 					{
 						'value': 2,
-						'label': "取消"
+						'name': "取消"
 					}
 				],
+				e_xqclass:"", //产品类型
+				e_xqclass_val:"",
+				cfstage:"", // 出访状态
+				cfstage_val:"",
+				proArray:[],
 				checkboxData: [],
-				checkedArrzt: [], //出访状态复选框选中的值
+				checkedArrzt: "", //出访状态复选框选中的值
 			}
 		},
 		onLoad(options){
 			this.token = "JWT " + getApp().globalData.token
 			this.getList();
+			this.dataDict()
 		},
 		methods:{
 			queryList(pageNo,pageSize){
@@ -168,15 +182,14 @@
 					data: {
 						limit: pageSize,
 						pn:pageNo,
-						// kdtype: 0
+						kword:this.kword,
+						kstatus: this.cfstage_val,
+						ksdt: this.date,
+						kedt: this.jdate,
+						kpc_id: this.e_xqclass_val
 					},
 					success:(res) => {
-						// uni.showModal({
-						// 	title:"提示",
-						// 	content:res
-						// }),
 						this.$refs.paging.addData(res.data.data.data);
-						console.log("cfsuc",res)
 					},
 					fail:(err) => {
 						// uni.showModal({
@@ -188,17 +201,17 @@
 				})
 			},
 			getList(type){
-				// uni.showModal({
-				// 	title:"this",
-				// 	content:"走这里了" + this.token
-				// });
 				uni.request({
 					url: this.$burl + '/api/visits/my',
 					header:{
 						'Authorization': this.$token
 					},
 					data: {
-						kword:this.kword
+						kword:this.kword,
+						kstatus: this.cfstage_val,
+						ksdt: this.date,
+						kedt: this.jdate,
+						kpc_id: this.e_xqclass_val
 					},
 					success:(res) => {
 						uni.showModal({
@@ -211,6 +224,11 @@
 							setTimeout(function(){
 								uni.hideLoading();
 							}, 1000)
+						} else {
+							uni.showModal({
+								title:"提示",
+								content:res.data.msg
+							})
 						}
 					},
 					fail: err => {
@@ -237,37 +255,54 @@
 			},
 			//抽屉关闭
 			clox() {
-				console.log("抽屉关闭")
+				this.date = "",
+				this.jdate = ""
 			},
-			// 出访状态的多选改变
-			changeCheckboxzt(e) {
-				console.log("出访状态",e)
-				this.checkedArrzt = e.detail.value;
-				// 如果选择的数组中有值，并且长度等于列表的长度，就是全选
-				if (this.checkedArrzt.length > 0 && this.checkedArrzt.length == this.stagesArr.length) {
-					this.allCheckedzt = true;
-				} else {
-					this.allCheckedzt = false;
-				}
+			bindDateChange: function(e) {
+				this.date = e.detail.value
 			},
-			// 全选事件
-			allChoosezt(e) {
-				console.log(e);
-				let chooseItem = e.detail.value;
-				// 全选
-				if (chooseItem[0] == 'all') {
-					this.allCheckedzt = true;
-					for (let item of this.stagesArr) {
-						let itemVal = String(item.value);
-						if (!this.checkedArrzt.includes(itemVal)) {
-							this.checkedArrzt.push(itemVal);
+			jbindDateChange: function(e) {
+				this.jdate = e.detail.value
+			},
+			dataDict(){
+				uni.request({
+					url:this.$burl + "/api/getchoices",
+					header:{
+						'Authorization':this.$token
+					},
+					data:{
+						kt:"pro_class"
+					},
+					success: (res) => {
+						if (res.data.data.status == 200){
+							var obj = res.data.data.pro_class;
+							var arr = [];
+							for(var key in obj){ 
+							    var item = {}; 
+							    item["name"] = obj[key];
+								item["value"] = key;
+							    arr.push(item); 
+							}
+							this.proArray = arr
+							// this.proArray = res.data.data.pro_class
+							// console.log("pro_class", this.proArray)
+						} else {
+							uni.showModal({
+								title:"提示",
+								content:res.data.msg
+							})
 						}
 					}
-				} else {
-					// 取消全选
-					this.allCheckedzt = false;
-					this.checkedArrzt = [];
-				}
+				})
+			},
+			proRequire(e){
+				console.log("产品pro",e)
+				this.e_xqclass = e.detail.value
+				this.e_xqclass_val = this.proArray[this.e_xqclass].value
+			},
+			stageRequire(e){
+				this.cfstage = e.detail.value
+				this.cfstage_val = this.stagesArr[this.cfstage].value
 			},
 			formSubmit: function(e){
 				var rule = [{
@@ -536,6 +571,16 @@
 		height: 100px;
 		padding: 10rpx 0;
 		flex-direction: column;
+	}
+	
+	.uni-list-cell-db {
+		display: flex;
+		background: #f6f6f6;
+		height: 70upx;
+		line-height: 70upx;
+		border-radius: 5px;
+		text-indent: 20upx;
+		text-align: left;
 	}
 	
 	.uni-padding-wrap {
