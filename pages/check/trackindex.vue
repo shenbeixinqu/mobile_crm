@@ -30,10 +30,10 @@
 				<view>【{{ q.department }}】{{ q.realname }}于[{{ q.dt }}]，{{ q.result }}，{{ q.remark }}</view>
 			</view>
 		</view>
-		<view class="contentk_bottom">
-			<button type="primary" class="btn" @click="cancel">拒绝</button>
-			<button type="primary" class="btn" @click="confirm">同意</button>
-		</view>
+	<view class="contentk_bottom">
+		<button type="primary" class="btn" @click="cancel">拒绝</button>
+		<button type="primary" class="btn btn1" @click="confirm">同意</button>
+	</view>
 	</view>
 </template>
 
@@ -180,41 +180,46 @@
 
 <style scoped>
 	.btn {
-		width: 30%;
+		width: 50%;
 		height:70upx;
 		line-height: 70upx;
-		font-size: 24upx;
+		font-size: 28upx;
 		background: #4873c1;
+		border-radius: 0;
+		bottom: 0;
 	}
-
+	.btn1{background: #36b935;}
+    /deep/uni-button:after{border:none}
 	page {
 		height: 100%;
 	}
 
 	.contentk {
 		width: 100%;
-		height: 100%;
+		height: 95%;
 		display: flex;
 		flex-direction: column;
 		align-items: center;
+		padding-top: 5%;
 	}
 
 	.contentk_bottom {
-		width: 95%;
+		width:100%;
 		margin-top: 40upx;
 		display: flex;
 		flex-direction: row;
 		align-items: center;
+		bottom: 0;
+	   position: fixed;
 	}
 
 	.contentk_top {
 		width: 95%;
-
 		line-height: 60upx;
 		display: flex;
 		justify-content: space-between;
 		flex-wrap: wrap;
-		font-size: 24upx;
+		font-size:28upx;
 
 		border-bottom: none;
 
@@ -225,13 +230,11 @@
 		padding-left: 2%;
 		display: flex;
 		justify-content: flex-start;
-
-		font-size: 24upx;
+		font-size: 28upx;
 	}
 
 	.rightwz {
 		width: 78%;
-
 		display: flex;
 	}
 	

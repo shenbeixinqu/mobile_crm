@@ -2,10 +2,6 @@
 	<view class="content">
 		<view class="indexconent">线索&客户</view>
 		<view class="indeximg">
-			<view class="index_n_img" @click="addClue">
-				<image class="index_image" src="../../static/addmx.png" mode="aspectFit"></image>
-				<h4>新增线索</h4>
-			</view>
 			<view class="index_n_img" @click="searchclue">
 				<image class="index_image" src="../../static/ssxx.png" mode="aspectFit"></image>
 				<h4>搜索线索</h4>
@@ -18,6 +14,18 @@
 				<image class="index_image" src="../../static/wdkh.png" mode="aspectFit"></image>
 				<h4>我的客户</h4>
 			</view>
+			<view class="index_n_img" @click="addClue">
+				<image class="index_image" src="../../static/addmx.png" mode="aspectFit"></image>
+				<h4>新增线索</h4>
+			</view>
+			
+			<view class="index_n_img" @click="addClue">
+				<image class="index_image" src="../../static/addmx.png" mode="aspectFit"></image>
+				<h4>名片识别</h4>
+			</view>
+			
+			
+			
 
 		</view>
 		<view class="indexconent">出访</view>
@@ -118,12 +126,12 @@
 
 	.indexconent {
 		width: 100%;
-		height: 60rpx;
-		line-height: 60rpx;
+		height:70rpx;
+		line-height: 70rpx;
 		background: #f2f2f2;
 		text-align: left;
 		font-size: 30rpx;
-		text-indent: 10rpx;
+		text-indent:40rpx;
 		color: #666666;
 		display: flex;
 	}
@@ -134,10 +142,11 @@
 		width: 90%;
 		display: flex;
 		justify-content: left;
+		flex-wrap: wrap;
 	}
 
 	.index_n_img {
-		width: 24%;
+		width: 33.333%;
 		display: flex;
 		flex-direction: column;
 		align-items: center;
