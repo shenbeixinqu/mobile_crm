@@ -10,19 +10,18 @@
 						<view v-for="item in checkboxData" :key="item.value" class="check_box">
 							<label class="lable-box">
 								<checkbox :value="String(item.value)" :checked="checkedArr.includes(String(item.value))" :class="{'checked':checkedArr.includes(String(item.value))}"></checkbox>
-								<text class="cketext">{{item.label}}</text>
+								<text :class="{'cketext':checkedArr.includes(String(item.value))} ">{{item.label}}</text>
 							</label>
 						</view>
 					</checkbox-group>
-				</view>
-				<view class="check_bj">
-					<checkbox-group class="check_box_k" @change="allChoose">
+					<checkbox-group class="check_box" @change="allChoose">
 						<label class="lable-box">
-							<checkbox value="all" :class="{'checked':allChecked}" :checked="allChecked?true:false"></checkbox><text class="cketext"
-							 style="color:rgb(64, 158, 255);">全选</text>
+							<checkbox value="all" :class="{'checked':allChecked}" :checked="allChecked?true:false"></checkbox><text :class="{'cketext':allChecked}"
+							 style="color:#888;">全选</text>
 						</label>
 					</checkbox-group>
 				</view>
+
 				<view class="chou_tit">
 					地区
 				</view>
@@ -73,19 +72,19 @@
 
 				</view>
 				<view class="bottombtn">
-					<button type="primary" class="anbtn" @click="getList('search')">确定</button>
-					<button type="primary" class="anbtn" @click="clox()">重置</button>
+					<button type="primary" class="btn btn1" @click="clox()">重置</button>
+					<button type="primary" class="btn " @click="getList('search')">确定</button>
 				</view>
 			</view>
 
 		</uni-drawer>
 
 
-
 		<view class="topview">
 			<button type="primary" class="search-btn" @click="getList('search')"></button>
 			<input class="se-input" name="nickname" placeholder="请输入客户名称" v-model="kword" /><button type="primary" size="small"
-			 class="shai-btn" @click="drawer()">筛选</button></button> <button type="primary" size="small" class="shai-btn" @click="getList('search')">新增</button></view>
+			 class="shai-btn" @click="drawer()">筛选</button></button> <button type="primary" size="small" class="shai-btn1"
+			 @click="getList('search')">新增</button></view>
 		<!-- 数据列表 -->
 		<view class="content">
 			<z-paging ref="paging" @query="queryList" :list.sync="dataList" style="height: calc(100% - 80rpx);">
@@ -103,12 +102,19 @@
 						</view>
 						<view class="list-item-top">
 							<view class="list-dqk">
-								<view class="list-dq1">联系人：{{item.linkman.txt}}</view>
-								<view class="list-dq1">电话：{{item.phone}}</view>
-								<image class="tel-img" src="../../static/tel.png" mode="aspectFit" @tap.stop="call_phone(item)"></image>
+								<view class="list-dq1">联系人：</view>
+								<view class="list-dq2">{{item.linkman.txt}}</view>
+								<view class="list-dq1">电话：</view>
+								<view class="list-dq2">{{item.phone}}
+									<image class="tel-img" src="../../static/tel.png" mode="aspectFit" @tap.stop="call_phone(item)"></image>
+								</view>
+								<view class="list-dq1">到期时间：</view>
+								<view class="list-dq2">跟踪还剩{{item.dt_link}}天 | 沟通还剩{{item.dt_track}}天</view><view class="list-dq1">审核状态：</view>
+								<view class="list-dq2">审核状态：延期：{{item.delay_status|delayStatus}} | 跟进：{{item.audit_status|numToMean}}</view>
+
+
 							</view>
-							<view class="list-dq">到期时间：跟踪还剩{{item.dt_link}}天 | 沟通还剩{{item.dt_track}}天</view>
-							<view class="list-dq">审核状态：延期：{{item.delay_status|delayStatus}} | 跟进：{{item.audit_status|numToMean}}</view>
+
 						</view>
 						<view class="list-item-bot">
 							<span @tap.stop="pizhu(item)">填写批注</span> <span @tap.stop="chufang(item)">申请出访</span> <span>详情</span>
@@ -512,7 +518,7 @@
 				})
 			},
 			// 跳转出访表单页面
-			chufang(item){
+			chufang(item) {
 				console.log(item)
 				let chufang = {
 					id: item._id,
@@ -520,15 +526,15 @@
 					address: item.address,
 				}
 				uni.navigateTo({
-					url: "./visit?chufang=" + encodeURIComponent(JSON.stringify(chufang)) ,
+					url: "./visit?chufang=" + encodeURIComponent(JSON.stringify(chufang)),
 				})
 			},
 			//跳转批注页面
-           pizhu(item){
-			  uni.navigateTo({
-			  	url: './pizhu?id=' + item._id
-			  })
-		   }
+			pizhu(item) {
+				uni.navigateTo({
+					url: './pizhu?id=' + item._id
+				})
+			}
 		}
 	}
 </script>
@@ -537,6 +543,7 @@
 	page {
 		height: 100%;
 	}
+
 	.contentk {
 		width: 100%;
 		height: 100%;
@@ -591,11 +598,12 @@
 		margin-top: 10upx;
 	}
 
+
 	.list-item-bot {
-		width: 100%;
+		width:98%;
 		display: flex;
 		margin-top: 15upx;
-		justify-content: space-between;
+		justify-content:space-between;
 		color: #4873c1;
 		font-size: 28upx;
 	}
@@ -622,6 +630,15 @@
 
 	.list_tit {
 		display: flex;
+		font-size: 32upx;
+		color: #333333;
+	}
+
+	.hui {
+		display: flex;
+		color: #999999;
+		font-size: 24upx;
+		margin-left: 10upx;
 	}
 
 	.tag_k {
@@ -635,6 +652,7 @@
 		width: 40rpx;
 		justify-content: center;
 		color: #409eff;
+		margin-left: 10upx;
 	}
 
 	.list-dq {
@@ -642,6 +660,14 @@
 		text-align: left;
 		padding-top: 1upx;
 		padding-bottom: 1upx;
+		display: flex;
+		justify-items: flex-start;
+	}
+
+
+
+	.list-qd2 {
+		margin-left: 10upx;
 	}
 
 	.se-input {
@@ -658,19 +684,57 @@
 		z-index: 500;
 		height: 60rpx;
 		width: 60rpx;
-		background: url(../../static/ss.png) no-repeat #4873c1;
+		background: url(../../static/ss.png) no-repeat;
 		background-size: 70%;
 		background-position: center;
 		position: absolute;
 		left: 425rpx;
+		border: none;
+	}
+
+	.search-btn:after {
+		border: none;
 	}
 
 	.shai-btn {
 		width: 15%;
 		height: 60rpx;
 		line-height: 60rpx;
-		font-size: 22upx;
-		color: #fff;
+		font-size: 28upx;
+		color: #666;
+		background: url(../../static/shaixun.png) no-repeat #fff;
+		background-size: 40%;
+		background-position: 8upx 5upx;
+		text-indent: 25px;
+		padding-left: 0;
+		padding-right: 0;
+
+		border-radius: 0;
+		margin-left: 15upx;
+	}
+
+	.shai-btn1 {
+		width: 15%;
+		height: 60rpx;
+		line-height: 60rpx;
+		font-size: 28upx;
+		color: #666;
+		background: url(../../static/addj.png) no-repeat #fff;
+		background-size: 40%;
+		background-position: 3upx 5upx;
+		text-indent: 20px;
+		padding-left: 0;
+		padding-right: 0;
+
+		border-radius: 0;
+	}
+
+	.shai-btn1:after {
+		border: none;
+	}
+
+	.shai-btn:after {
+		border: none;
 	}
 
 	.topview {
@@ -683,16 +747,26 @@
 
 	.list-dqk {
 		flex-direction: row;
+		flex-wrap: wrap;
 		width: 100%;
 		text-align: left;
-		padding-top: 1upx;
-		padding-bottom: 1upx;
+		padding-top: 5upx;
+		padding-bottom: 5upx;
 		display: flex;
 	}
 
 	.list-dq1 {
 		display: flex;
-		width: 50%;
+		width: 25%;
+		padding-top: 5upx;
+		padding-bottom: 5upx;
+		font-size: 28upx;
+	}
+
+	.list-dq2 {
+		display: flex;
+		width: 75%;
+		font-size: 28upx;
 		text-align: left;
 		padding-top: 1upx;
 		padding-bottom: 1upx;
@@ -701,50 +775,42 @@
 	.tel-img {
 		width: 46upx;
 		height: 46upx;
+		margin-left: 10upx;
 	}
 
 	.check_bj {
 		width: 100%;
 		display: flex;
+		margin-left: 5upx;
 		justify-content: center;
 		line-height: 70upx;
-		margin-bottom: 10upx;
-
+		flex-direction: column;
 	}
 
 	.check_box_k {
-		width: 90%;
+		width: 100%;
 		display: flex;
 		justify-content: flex-start;
-		flex-direction: row;
 		flex-wrap: wrap;
-
 	}
 
 	.check_box {
 		margin-bottom: 10upx;
-		width: 200rpx;
+		width: 32%;
 		height: 70upx;
 		line-height: 70upx;
 		display: flex;
-		margin-right: 10upx;
-		color: rgb(64, 158, 255);
+		margin-right: 1%;
 		position: relative;
 	}
 
-	.cketext {
-		width: 200rpx;
-		position: absolute;
-		text-align: center;
-		z-index: 1;
-	}
 
 	.list-item {
+		width: 90%;
 		flex-direction: column;
 		color: #666666;
 		margin-bottom: 25upx;
-		padding: 3%;
-		overflow: hidden;
+		padding: 3% 4%;
 		border: 1px #e4e4e4 solid;
 		display: flex;
 		border-radius: 5px;
@@ -754,7 +820,8 @@
 		display: flex;
 		align-items: center;
 		justify-content: space-between;
-		padding: 30rpx;
+
+
 	}
 
 	.sub-title {
@@ -827,6 +894,23 @@
 		display: block;
 	}
 
+	.lable-box text {
+		width: 100%;
+		position: absolute;
+		text-align: center;
+		z-index: 1;
+		color: #888888;
+	}
+
+
+	.cketext {
+		width: 100%;
+		position: absolute;
+		text-align: center;
+		z-index: 1;
+		color: #4873c1 !important;
+	}
+
 	.wk_n {
 		width: 96%;
 		margin: 0 auto;
@@ -847,8 +931,8 @@
 	}
 
 	.chou_tit {
-		padding: 10px;
-		color: 666666;
+		padding: 30upx 10upx;
+		color: #666666;
 	}
 
 	.list-itemk {
@@ -868,23 +952,38 @@
 	}
 
 	.bottombtn {
-		width: 80%;
+		width: 100%;
 		right: 10upx;
-		position: absolute;
-		bottom: 30upx;
+		position: fixed;
+		bottom: 0;
 		display: flex;
 		align-items: center;
 		justify-content: space-between;
 	}
 
-	.anbtn {
-		width: 45%;
+	.btn {
+		width: 50%;
+		height: 100upx;
+		line-height: 100upx;
+		font-size: 28upx;
+		background: #4873c1;
+		border-radius: 0;
+		bottom: 0;
+	}
+
+	.btn1 {
+		background: #d7e8fc;
+		color: #316fd4;
+	}
+
+	/deep/uni-button:after {
+		border: none
 	}
 
 	/deep/.uni-checkbox-input {
 		background: #f4f4f4;
 		border: none;
-		width: 200rpx;
+		width: 100%;
 		position: absolute;
 		height: 70upx;
 		line-height: 70upx;
@@ -896,9 +995,5 @@
 
 	/deep/.uni-checkbox-input-checked:before {
 		display: none;
-	}
-
-	/deep/uni-picker {
-		width: 100%;
 	}
 </style>

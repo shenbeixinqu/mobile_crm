@@ -35,12 +35,12 @@
 					</checkbox-group>
 					<checkbox-group class="check_box" @change="allChoose">
 						<label class="lable-box">
-							<checkbox value="all"  :class="{'checked':allChecked}" :checked="allChecked?true:false"></checkbox><text :class="{'cketext':allChecked}"
+							<checkbox value="all" :class="{'checked':allChecked}" :checked="allChecked?true:false"></checkbox><text :class="{'cketext':allChecked}"
 							 style="color:#888;">全选</text>
 						</label>
 					</checkbox-group>
 				</view>
-				
+
 				<view class="chou_tit">
 					地区
 				</view>
@@ -81,7 +81,6 @@
 				</view>
 
 				<view class="bottombtn">
-					
 					<button type="primary" class="btn btn1" @click="clox()">重置</button>
 					<button type="primary" class="btn " @click="getList('search')">确定</button>
 				</view>
@@ -91,7 +90,8 @@
 		<view class="topview">
 			<button type="primary" class="search-btn" @click="getList('search')"></button>
 			<input class="se-input" name="nickname" placeholder="请输入客户名称" v-model="kword" /><button type="primary" size="small"
-			 class="shai-btn" @click="drawer()">筛选</button></button> <button type="primary" size="small" class="shai-btn1" @click="getList('search')">新增</button></view>
+			 class="shai-btn" @click="drawer()">筛选</button></button> <button type="primary" size="small" class="shai-btn1"
+			 @click="getList('search')">新增</button></view>
 		<!-- 数据列表 -->
 		<view class="content">
 
@@ -105,19 +105,21 @@
 				</view>
 				<view class="list-item-top">
 					<view class="list-dqk">
-						<view class="list-dq1">地区：{{item.loc_lead}}</view>
-						<view class="list-dq1">行业：{{item.ind_lead}}</view>
+						<view class="list-dq1">地区：</view>
+						<view class="list-dq2">{{item.loc_lead}}</view>
+						<view class="list-dq1">行业：</view>
+						<view class="list-dq2">{{item.ind_lead}}</view>
+						<view class="list-dq1">跟进人：</view>
+						<view class="list-dq2">
+							<view class="tag_k" v-for="(tags, i) in item.tags.data" :key="i">
+								{{tags.t_tab}}
+							</view>
+							<view class="list-qd2" v-for="(user, i) in item.track.data" :key="i">
+								{{user[0].us_name}}
+							</view>
+						</view>
 					</view>
-					<view class="list-dq">
-						<view class="list-qd1">跟进人：</view>
 
-						<view class="tag_k" v-for="(tags, i) in item.tags.data" :key="i">
-							{{tags.t_tab}}
-						</view>
-						<view class="list-qd2" v-for="(user, i) in item.track.data" :key="i">
-							{{user[0].us_name}}
-						</view>
-					</view>
 				</view>
 				<view class="list-item-bot">
 					<span @tap.stop="genjin(item)">跟进</span>
@@ -136,7 +138,7 @@
 		},
 		data() {
 			return {
-			
+
 				dataList: [],
 				value1: [],
 				label1: '',
@@ -501,7 +503,7 @@
 				let genjin = {
 					id: item._id,
 					ind_lead: item.ind_lead,
-					stage:item.stage,
+					stage: item.stage,
 				}
 				uni.navigateTo({
 					url: "./genjin?genjin=" + encodeURIComponent(JSON.stringify(genjin)),
@@ -512,13 +514,11 @@
 </script>
 
 <style scoped>
-	page {
-	
-	}
+	page {}
 
 	.contentk {
 		width: 100%;
-	
+
 		display: flex;
 		flex-direction: column;
 		justify-content: center;
@@ -526,9 +526,11 @@
 		margin-top: 50upx;
 	}
 
+
+
 	.content {
 		width: 96%;
-		
+
 		display: flex;
 		flex-direction: column;
 		align-items: center;
@@ -572,7 +574,7 @@
 	}
 
 	.list-item-bot {
-		width: 100%;
+		width:95%;
 		display: flex;
 		margin-top: 15upx;
 		justify-content: flex-end;
@@ -602,12 +604,14 @@
 
 	.list_tit {
 		display: flex;
+		font-size: 32upx;
+		color: #333333;
 	}
 
 	.hui {
 		display: flex;
 		color: #999999;
-		font-size: 14upx;
+		font-size:24upx;
 		margin-left: 10upx;
 	}
 
@@ -634,9 +638,7 @@
 		justify-items: flex-start;
 	}
 
-	.list-qd1 {
-		display: flex;
-	}
+
 
 	.list-qd2 {
 		margin-left: 10upx;
@@ -663,41 +665,52 @@
 		left: 425rpx;
 		border: none;
 	}
-    .search-btn:after{ border: none;}
+
+	.search-btn:after {
+		border: none;
+	}
+
 	.shai-btn {
 		width: 15%;
 		height: 60rpx;
 		line-height: 60rpx;
-		font-size:28upx;
+		font-size: 28upx;
 		color: #666;
-		background:url(../../static/shaixun.png) no-repeat #fff;
-		background-size:40%;
-		background-position:8upx 5upx ;
-		text-indent:25px;
+		background: url(../../static/shaixun.png) no-repeat #fff;
+		background-size: 40%;
+		background-position: 8upx 5upx;
+		text-indent: 25px;
 		padding-left: 0;
 		padding-right: 0;
-		
+
 		border-radius: 0;
-		margin-left:15upx;
+		margin-left: 15upx;
 	}
-	
-	.shai-btn1{
+
+	.shai-btn1 {
 		width: 15%;
 		height: 60rpx;
 		line-height: 60rpx;
-		font-size:28upx;
+		font-size: 28upx;
 		color: #666;
-		background:url(../../static/addj.png) no-repeat #fff;
-		background-size:40%;
-		background-position:3upx 5upx ;
-		text-indent:20px;
+		background: url(../../static/addj.png) no-repeat #fff;
+		background-size: 40%;
+		background-position: 3upx 5upx;
+		text-indent: 20px;
 		padding-left: 0;
 		padding-right: 0;
-		
+
 		border-radius: 0;
 	}
-	.shai-btn1:after{ border: none;}
-    .shai-btn:after{ border: none;}
+
+	.shai-btn1:after {
+		border: none;
+	}
+
+	.shai-btn:after {
+		border: none;
+	}
+
 	.topview {
 		width: 96%;
 		display: flex;
@@ -708,16 +721,26 @@
 
 	.list-dqk {
 		flex-direction: row;
+		flex-wrap: wrap;
 		width: 100%;
 		text-align: left;
-		padding-top: 1upx;
-		padding-bottom: 1upx;
+		padding-top: 5upx;
+		padding-bottom: 5upx;
 		display: flex;
 	}
 
 	.list-dq1 {
 		display: flex;
-		width: 50%;
+		width:25%;
+		padding-top: 5upx;
+		padding-bottom: 5upx;
+		font-size: 28upx;
+	}
+
+	.list-dq2 {
+		display: flex;
+		width:75%;
+		font-size: 28upx;
 		text-align: left;
 		padding-top: 1upx;
 		padding-bottom: 1upx;
@@ -737,7 +760,7 @@
 	}
 
 	.check_box_k {
-		width:100%;
+		width: 100%;
 		display: flex;
 		justify-content: flex-start;
 		flex-wrap: wrap;
@@ -745,7 +768,7 @@
 
 	.check_box {
 		margin-bottom: 10upx;
-		width:32%;
+		width: 32%;
 		height: 70upx;
 		line-height: 70upx;
 		display: flex;
@@ -753,9 +776,9 @@
 		position: relative;
 	}
 
-	
+
 	.list-item {
-		width:90%;
+		width: 90%;
 		flex-direction: column;
 		color: #666666;
 		margin-top: 25upx;
@@ -769,7 +792,7 @@
 		display: flex;
 		align-items: center;
 		justify-content: space-between;
-	
+
 
 	}
 
@@ -842,9 +865,9 @@
 		width: 100%;
 		display: block;
 	}
-	
-	.lable-box text{
-		width:100%;
+
+	.lable-box text {
+		width: 100%;
 		position: absolute;
 		text-align: center;
 		z-index: 1;
@@ -852,12 +875,12 @@
 	}
 
 
-.cketext {
-		width:100%;
+	.cketext {
+		width: 100%;
 		position: absolute;
 		text-align: center;
 		z-index: 1;
-		color:#4873c1!important;
+		color: #4873c1 !important;
 	}
 
 	.wk_n {
@@ -880,8 +903,8 @@
 	}
 
 	.chou_tit {
-		padding:30upx 10upx;
-		color: 666666;
+		padding: 30upx 10upx;
+		color: #666666;
 	}
 
 	.list-itemk {
@@ -901,10 +924,10 @@
 	}
 
 	.bottombtn {
-		width:100%;
+		width: 100%;
 		right: 10upx;
 		position: fixed;
-		bottom:0;
+		bottom: 0;
 		display: flex;
 		align-items: center;
 		justify-content: space-between;
@@ -912,20 +935,27 @@
 
 	.btn {
 		width: 50%;
-		height:70upx;
-		line-height: 70upx;
+		height:100upx;
+		line-height: 100upx;
 		font-size: 28upx;
 		background: #4873c1;
 		border-radius: 0;
 		bottom: 0;
 	}
-	.btn1{background: #d7e8fc; color: #316fd4;}
-	/deep/uni-button:after{border:none}
+
+	.btn1 {
+		background: #d7e8fc;
+		color: #316fd4;
+	}
+
+	/deep/uni-button:after {
+		border: none
+	}
 
 	/deep/.uni-checkbox-input {
 		background: #f4f4f4;
 		border: none;
-		width:100%;
+		width: 100%;
 		position: absolute;
 		height: 70upx;
 		line-height: 70upx;
@@ -938,6 +968,4 @@
 	/deep/.uni-checkbox-input-checked:before {
 		display: none;
 	}
-	
-
 </style>
