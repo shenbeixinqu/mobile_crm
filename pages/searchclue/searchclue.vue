@@ -10,20 +10,17 @@
 						<view v-for="item in stagesArr" :key="item.value" class="check_box">
 							<label class="lable-box">
 								<checkbox :value="String(item.value)" :checked="checkedArrzt.includes(String(item.value))" :class="{'checked':checkedArrzt.includes(String(item.value))}"></checkbox>
-								<text class="cketext">{{item.label}}</text>
+								<text :class=" {'cketext':checkedArrzt.includes(String(item.value))} ">{{item.label}}</text>
 							</label>
 						</view>
 					</checkbox-group>
-				</view>
-				<view class="check_bj">
-					<checkbox-group class="check_box_k" @change="allChoosezt">
+					<checkbox-group class="check_box" @change="allChoosezt">
 						<label class="lable-box">
 							<checkbox value="all" :class="{'checked':allCheckedzt}" :checked="allCheckedzt?true:false"></checkbox><text
-							 class="cketext" style="color:rgb(64, 158, 255);">全选</text>
+							 :class="{'cketext':allCheckedzt}" style="color:#888;">全选</text>
 						</label>
 					</checkbox-group>
 				</view>
-
 				<view class="chou_tit">
 					标签
 				</view>
@@ -32,19 +29,18 @@
 						<view v-for="item in checkboxData" :key="item.value" class="check_box">
 							<label class="lable-box">
 								<checkbox :value="String(item.value)" :checked="checkedArr.includes(String(item.value))" :class="{'checked':checkedArr.includes(String(item.value))}"></checkbox>
-								<text class="cketext">{{item.label}}</text>
+								<text :class="{'cketext':checkedArr.includes(String(item.value))} ">{{item.label}}</text>
 							</label>
 						</view>
 					</checkbox-group>
-				</view>
-				<view class="check_bj">
-					<checkbox-group class="check_box_k" @change="allChoose">
+					<checkbox-group class="check_box" @change="allChoose">
 						<label class="lable-box">
-							<checkbox value="all" :class="{'checked':allChecked}" :checked="allChecked?true:false"></checkbox><text class="cketext"
-							 style="color:rgb(64, 158, 255);">全选</text>
+							<checkbox value="all"  :class="{'checked':allChecked}" :checked="allChecked?true:false"></checkbox><text :class="{'cketext':allChecked}"
+							 style="color:#888;">全选</text>
 						</label>
 					</checkbox-group>
 				</view>
+				
 				<view class="chou_tit">
 					地区
 				</view>
@@ -737,36 +733,27 @@
 		display: flex;
 		justify-content: center;
 		line-height: 70upx;
+		flex-direction: column;
 	}
 
 	.check_box_k {
-		width: 90%;
+		width:100%;
 		display: flex;
 		justify-content: flex-start;
-		flex-direction: row;
 		flex-wrap: wrap;
-
 	}
 
 	.check_box {
 		margin-bottom: 10upx;
-
-		width: 200rpx;
+		width:32%;
 		height: 70upx;
 		line-height: 70upx;
 		display: flex;
-		margin-right: 10upx;
-		color: rgb(64, 158, 255);
+		margin-right: 1%;
 		position: relative;
 	}
 
-	.cketext {
-		width: 200rpx;
-		position: absolute;
-		text-align: center;
-		z-index: 1;
-	}
-
+	
 	.list-item {
 		width:90%;
 		flex-direction: column;
@@ -855,6 +842,23 @@
 		width: 100%;
 		display: block;
 	}
+	
+	.lable-box text{
+		width:100%;
+		position: absolute;
+		text-align: center;
+		z-index: 1;
+		color: #888888;
+	}
+
+
+.cketext {
+		width:100%;
+		position: absolute;
+		text-align: center;
+		z-index: 1;
+		color:#4873c1!important;
+	}
 
 	.wk_n {
 		width: 96%;
@@ -921,7 +925,7 @@
 	/deep/.uni-checkbox-input {
 		background: #f4f4f4;
 		border: none;
-		width: 200rpx;
+		width:100%;
 		position: absolute;
 		height: 70upx;
 		line-height: 70upx;

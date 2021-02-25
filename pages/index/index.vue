@@ -33,7 +33,7 @@
 
 		</view>
 	
-		<view class="indexconent">审核</view>
+		<view class="indexconent">审核 </view>
 		<view class="indeximg">
 			<view class="index_n_img" @click="track">
 				<image class="index_image" src="../../static/gjsh.png" mode="aspectFit"></image>
