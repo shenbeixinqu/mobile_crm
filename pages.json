@@ -15,7 +15,7 @@
 		{
 			"path":"pages/mydata/mydata",
 			"style":{
-				"navigationBarTitleText":"我的"
+				"navigationBarTitleText":"关于我"
 			}
 		},
 		{
@@ -57,6 +57,12 @@
 			"path": "pages/myclue/pizhu",
 			"style": {
 				"navigationBarTitleText": "添加批注"
+			}
+		},
+		{
+			"path":"pages/customers/pizhu",
+			"style":{
+				"navigationBarTitleText":"添加批注"
 			}
 		},
 		{

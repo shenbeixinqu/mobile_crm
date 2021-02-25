@@ -42,12 +42,12 @@
 			return {
 				drawWid: '100%',
 				tableList:[],
+				id:"",
 			}
 		},
 	
 		mounted() {
 			this.fuwu();
-			console.log(11111)
 		},
 		methods: {
 			queryList(pageNo, pageSize) {
@@ -59,9 +59,11 @@
 					data: {
 						limit: pageSize,
 						pg: pageNo,
+						id: this.activeId
 					},
 					success: (res) => {
-						this.$refs.paging.addData(res);
+						console.log("成功res", res)
+						this.$refs.paging.addData(res.data.data.data.data);
 					},
 					fail: (err) => {
 						//console.log(err)
