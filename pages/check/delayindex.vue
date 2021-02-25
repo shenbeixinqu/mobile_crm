@@ -69,7 +69,7 @@
 								data:{
 									id: this._id,
 									status: "1",
-									deal_reason: ""
+									deal_reason: this.reason
 								},
 								header:{
 									'Authorization': this.token
@@ -78,8 +78,6 @@
 									if (res.data.data.status === 200){
 										uni.navigateTo({
 											url:"./cusdelay"
-										})({
-											delta:1
 										})
 									} else {
 										uni.showModal({
@@ -135,12 +133,15 @@
 						header:{
 							'Authorization': this.$token
 						},
-						succcess: res => {
+						success: res => {
+							console.log("res",res)
 							if(res.data.data.status === 200){
+								this.visible = false
 								uni.navigateTo({
 									url:"./cusdelay"
 								})
 							} else {
+								console.log("已经处理过了")
 								uni.showModal({
 									title:"提示",
 									content:res.data.msg

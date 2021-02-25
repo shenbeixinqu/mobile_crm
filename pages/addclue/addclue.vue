@@ -2,175 +2,181 @@
 	<view class="contentk">
 		<view class="uni-padding-wrap">
 			<form @submit="formSubmit">
-			<view class="uni-form-item ">
-				<view class="title"><text class="red">*</text>客户名称:</view>
-				<input class="uni-input1"  v-model="clueForm.name" name="name" placeholder-class="placeholder" />
-			</view>
-			<view class="uni-form-item">
-				<radio-group name="is_man" @change="radioChange">
-					<view class="title"><text class="red">*</text>客户性质:</view>
-					<label>
-						<radio value="公司" checked="checked" /><text>公司</text>
-						<radio value="个人" /><text>个人</text>
-					</label>
-				</radio-group>
-			</view>
-			<view class="uni-form-item">
-				<view class="title"><text class="red">*</text>客户电话:</view>
-				<input class="uni-input1" type="number" v-model="clueForm.phone" name="phone" placeholder-class="placeholder" />
-			</view>
-			<view class="uni-form-item">
-				<view class="title">企业法人:</view>
-				<input class="uni-input1" type="text" v-model="clueForm.legal" placeholder-class="placeholder" />
-			</view>
-			<view class="uni-form-item">
-				<view class="title"><text class="red">*</text>地区:</view>
-				<input type="text" name="address" :value="label3" hidden="true"/>
-				<view>
-					<view class="list-itemk" @tap="handleTap('picker3')">
-						<!-- <text class="sub-title">省市区三级选择</text> -->
-						<view class="item-content">
-							<view class="item-value">
-								<text class="item-label">{{ label3 }}</text>
-								<text v-if="!label3" class="item-placeholder">请选择地区</text>
-							</view>
-						</view>
-						<lb-picker ref="picker3"  v-model="clueForm.dz" mode="multiSelector" :list="list1" :level="3" :dataset="{ name: 'label3' }"
-						 @change="handleChange" @confirm="handleConfirm" @cancel="handleCancel" name="address">
-						</lb-picker>
-					</view>
+				<view class="uni-form-item ">
+					<view class="title"><text class="red">*</text>客户名称:</view>
+					<input class="uni-input1"  v-model="clueForm.name" name="name" placeholder-class="placeholder" />
 				</view>
-				
-			</view>
-			<view class="uni-form-item">
-				<view class="title">详细地址:</view>
-				<input class="uni-input1" type="text" v-model="clueForm.address" placeholder-class="placeholder" />
-			</view>
-			<view class="uni-form-item">
-				<view class="title"><text class="red">*</text>行业:</view>
-				<input type="text" name="industy" :value="label4" hidden="true"/>	
-				<view>
-					<view class="list-itemk" @tap="handleTap('picker4')">
-						<view class="item-content">
-							<view class="item-value">
-								<text class="item-label">{{label4}}</text>
-								<text v-if="!label4" class="item-placeholder">请选择行业</text>
-							</view>
-						</view>
-						<lb-picker ref="picker4" v-model="clueForm.select" mode="multiSelector" :list="listhy" :level="3" :dataset="{ name: 'label4' }"
-						@change="handleChange" @confirm="handleConfirm" @cancel="handleCancel">
-						</lb-picker>
-					</view>
+				<view class="uni-form-item">
+					<radio-group name="is_man" @change="radioChange">
+						<view class="title"><text class="red">*</text>客户性质:</view>
+						<label>
+							<radio value="公司" checked="checked" /><text>公司</text>
+							<radio value="个人" /><text>个人</text>
+						</label>
+					</radio-group>
 				</view>
-			</view>
-			<view class="uni-form-item">
-				<view class="title"><text class="red">*</text>客户来源:</view>
-				<input type="text" name="source" v-model="clueForm.source_flag" :value="clueForm.source_flag"  hidden="true"/>
-				<view>
-					<picker  @change="sourceChange"  :range="sourceArray" range-key="name" >
-						<view>{{sourceArray[clueForm.source_flag].name}}</view>
-					</picker>
+				<view class="uni-form-item">
+					<view class="title"><text class="red">*</text>客户电话:</view>
+					<input class="uni-input1" type="number" v-model="clueForm.phone" name="phone" placeholder-class="placeholder" />
 				</view>
-				
-			</view>
-			<view class="uni-form-item">
-				<view class="title"><text class="red">*</text>添加到:</view>
-				<input type="text" name="addto" v-model="clueForm.addto" :value="clueForm.addto" hidden="true"/>
-				<picker  @change="addtoChange" :range="addtoArray" range-key="name">
-					<view>{{addtoArray[clueForm.addto].name}}</view>
-				</picker>
-			</view>
-			<view>
-			<view class="uni-form-item">
-				<radio-group name="radio" v-model="clueForm.radio" @change="zhizhaoChange">
-					<view class="title"><text class="red">*</text>有无执照:</view>
-					<label>
-						<radio value="1" checked="checked" /><text>有</text>
-						<radio value="2" /><text>无</text>
-					</label>
-				</radio-group>
-			</view>
-			<view class="row b-b" v-if="clueForm.radio === '1'">
-				<!-- <view class="addBox" ref="input">
-					<view class="uploadtitle">点击上传文件</view>
-				</view> -->
-				<view class="uploads">
-					<view class="upload-image-view">
-						<block v-for="(image,index) in imageList" :key="index">
-							<view class="image-view">
-								<image :src="image" :data-src="image" @tap="previewImage"></image>
-								<view class="del-btn" :data-index="index" @tap="deleteImage">
-									<view class="baicha"></view>
+				<view class="uni-form-item">
+					<view class="title">企业法人:</view>
+					<input class="uni-input1" type="text" v-model="clueForm.legal" placeholder-class="placeholder" />
+				</view>
+				<view class="uni-form-item">
+					<view class="title"><text class="red">*</text>地区:</view>
+					<input type="text" name="address" :value="label3" hidden="true"/>
+					<view>
+						<view class="list-itemk" @tap="handleTap('picker3')">
+							<!-- <text class="sub-title">省市区三级选择</text> -->
+							<view class="item-content">
+								<view class="item-value uni-input1">
+									<text class="item-label">{{ label3 }}</text>
+									<text v-if="!label3" class="item-placeholder">请选择地区</text>
 								</view>
 							</view>
-						</block>
-						<view class="add-view" v-if="imageList.length < imageLength" @tap="chooseImage">
-							<view class="cross">
-								<view class="transverse-line"></view>
-								<view class="vertical-line"></view>
+							<lb-picker ref="picker3"  v-model="clueForm.dz" mode="multiSelector" :list="list1" :level="3" :dataset="{ name: 'label3' }"
+							 @change="handleChange" @confirm="handleConfirm" @cancel="handleCancel" name="address">
+							</lb-picker>
+						</view>
+					</view>
+					
+				</view>
+				<view class="uni-form-item">
+					<view class="title">详细地址:</view>
+					<input class="uni-input1" type="text" v-model="clueForm.address" placeholder-class="placeholder" />
+				</view>
+				<view class="uni-form-item">
+					<view class="title"><text class="red">*</text>行业:</view>
+					<input type="text" name="industy" :value="label4" hidden="true"/>	
+					<view>
+						<view class="list-itemk" @tap="handleTap('picker4')">
+							<view class="item-content">
+								<view class="item-value uni-input1">
+									<text class="item-label">{{label4}}</text>
+									<text v-if="!label4" class="item-placeholder">请选择行业</text>
+								</view>
+							</view>
+							<lb-picker ref="picker4" v-model="clueForm.select" mode="multiSelector" :list="listhy" :level="3" :dataset="{ name: 'label4' }"
+							@change="handleChange" @confirm="handleConfirm" @cancel="handleCancel">
+							</lb-picker>
+						</view>
+					</view>
+				</view>
+				<view class="uni-form-item">
+					<view class="title"><text class="red">*</text>客户来源:</view>
+					<input type="text" name="source" v-model="clueForm.source_flag" :value="clueForm.source_flag"  hidden="true"/>
+					<view class="uni-input1">
+						<picker  @change="sourceChange"  :range="sourceArray" range-key="name" >
+							<view>{{sourceArray[clueForm.source_flag].name}}</view>
+						</picker>
+					</view>
+					
+				</view>
+				<view class="uni-form-item">
+					<view class="title"><text class="red">*</text>添加到:</view>
+					<input type="text" name="addto" v-model="clueForm.addto" :value="clueForm.addto" hidden="true"/>
+					<view class="uni-input1">
+						<picker  @change="addtoChange" :range="addtoArray" range-key="name">
+							<view>{{addtoArray[clueForm.addto].name}}</view>
+						</picker>
+					</view>
+					
+				</view>
+				<view>
+				<view class="uni-form-item">
+					<radio-group name="radio" v-model="clueForm.radio" @change="zhizhaoChange">
+						<view class="title"><text class="red">*</text>有无执照:</view>
+						<label>
+							<radio value="1" checked="checked" /><text>有</text>
+							<radio value="2" /><text>无</text>
+						</label>
+					</radio-group>
+				</view>
+				<view v-if="clueForm.radio === '1'">
+					<view class="uploads">
+						<view class="upload-image-view">
+							<block v-for="(image,index) in imageList" :key="index">
+								<view class="image-view">
+									<image :src="image" :data-src="image" @tap="previewImage"></image>
+									<view class="del-btn" :data-index="index" @tap="deleteImage">
+										<view class="baicha"></view>
+									</view>
+								</view>
+							</block>
+							<view class="add-view" v-if="imageList.length < imageLength" @tap="chooseImage">
+								<view class="cross">
+									<view class="transverse-line"></view>
+									<view class="vertical-line"></view>
+								</view>
 							</view>
 						</view>
 					</view>
 				</view>
-				 
-			</view>
-			<view class="uni-form-item" v-else>
-				<label class="title">特殊说明:</label>
-				<input class="uni-input1" type="text" v-model="clueForm.legal" placeholder-class="placeholder" />
-			</view>
-			</view>
-			<view class="uni-form-item">
-				<label class="title">备注:</label>
-				<input class="uni-input1" type="text" v-model="clueForm.legal" placeholder-class="placeholder" />
-			</view>
-			<view>
-				<view @click="showMore">展开</view>
-			</view>
-			<view v-if="isMore">
-				<view class="uni-form-item">
-					<label class="title">传真:</label>
-					<input class="uni-input1" type="text" v-model="clueForm.fax" placeholder-class="placeholder" />
+				<view class="uni-form-item" v-else>
+					<label class="title"><text class="red">*</text>特殊说明:</label>
+					<input class="uni-input1" type="text" v-model="clueForm.explain" placeholder-class="placeholder" />
+				</view>
 				</view>
 				<view class="uni-form-item">
-					<label class="title">邮编:</label>
-					<input class="uni-input1" type="text" v-model="clueForm.zipcode" placeholder-class="placeholder" />
+					<label class="title">备注:</label>
+					<input class="uni-input1" type="text" v-model="clueForm.remark" placeholder-class="placeholder" />
 				</view>
-				<view class="uni-form-item">
-					<label class="title">邮箱:</label>
-					<input class="uni-input1" type="text" v-model="clueForm.email" placeholder-class="placeholder" />
+				<view>
+					<view @click="showMore">展开</view>
 				</view>
-				<view class="uni-form-item">
-					<label class="title">主营业务:</label>
-					<input class="uni-input1" type="text" v-model="clueForm.business" placeholder-class="placeholder" />
+				<view v-if="isMore">
+					<view class="uni-form-item">
+						<label class="title">传真:</label>
+						<input class="uni-input1" type="text" v-model="clueForm.fax" placeholder-class="placeholder" />
+					</view>
+					<view class="uni-form-item">
+						<label class="title">邮编:</label>
+						<input class="uni-input1" type="text" v-model="clueForm.zipcode" placeholder-class="placeholder" />
+					</view>
+					<view class="uni-form-item">
+						<label class="title">邮箱:</label>
+						<input class="uni-input1" type="text" v-model="clueForm.email" placeholder-class="placeholder" />
+					</view>
+					<view class="uni-form-item">
+						<label class="title">主营业务:</label>
+						<input class="uni-input1" type="text" v-model="clueForm.business" placeholder-class="placeholder" />
+					</view>
+					<view class="uni-form-item">
+						<label class="title">人员规模:</label>
+						<view class="uni-input1">
+							<picker v-model="clueForm.employees" @change="employeesChange" :value="clueForm.employees" :range="employeesArray" range-key="name">
+								<view v-if="clueForm.employees">{{employeesArray[clueForm.employees].name}}</view>
+								<view v-else>请选择人员规模</view>
+							</picker>
+						</view>
+					</view>
+					<view class="uni-form-item">
+						<label class="title">成立日期:</label>
+						<view  class="uni-input1">
+							<picker mode="date" v-model="clueForm.openingdate" :value="clueForm.openingdate" @change="openingdateChange">
+								<view v-if="clueForm.openingdate">{{clueForm.openingdate}}</view>
+								<view v-else>请选择成立日期</view>
+							</picker>
+						</view>
+					</view>
+					<view class="uni-form-item">
+						<label class="title">注册资金:</label>
+						<input class="uni-input1" type="number" v-model="clueForm.registered" placeholder-class="placeholder" />
+					</view>
 				</view>
-				<view class="uni-form-item">
-					<label class="title">人员规模:</label>
-					<picker v-model="clueForm.employees" @change="employeesChange" :value="clueForm.employees" :range="employeesArray" range-key="name">
-						<view>{{employeesArray[clueForm.employees].name}}</view>
-					</picker>
+				<view>
+					<button class="add-btn" formType="submit">提交</button>
 				</view>
-				<view class="uni-form-item">
-					<label class="title">成立日期:</label>
-					<picker mode="date" v-model="clueForm.openingdate" :value="clueForm.openingdate" name="openingdate" @change="openingdateChange">
-						<view class="uni-input1">{{clueForm.openingdate}}</view>
-					</picker>
-				</view>
-				<view class="uni-form-item">
-					<label class="title">注册资金:</label>
-					<input class="uni-input1" type="number" v-model="clueForm.registered" placeholder-class="placeholder" />
-				</view>
-			</view>
-			<view>
-				<button class="add-btn" formType="submit" @click="addClue">提交</button>
-			</view>
 			</form>
 		</view>
 	</view>
 </template>
 
 <script>
-	 import {add} from '../../app/add.js'
+	 
 	 var graceChecker = require("../../js_sdk/graceui-dataChecker/graceChecker.js")
+	 const axios = require('axios');
 	 function getDate(type) {
 	 		const date = new Date();
 	 
@@ -207,10 +213,15 @@
 					list1: [],
 					
 					imageList: [], //保存图片路径集合
-					imageLength: 3, //限制图片张数
+					imageLength: 4, //限制图片张数
 					sourceTypeIndex: 2, //添加方式限制
 					sizeTypeIndex: 2, //图片尺寸限制
+					files0:"",
 					files1:"",
+					files2:"",
+					files3:"",
+					files4:"",
+					num:"",
 									
 					fileList:[],
 					isMore:false,
@@ -252,52 +263,72 @@
 	                    legal: '',
 						dz:[],
 						address:'',
+						explain:"",
+						remark:"",
+						add_remark:"",
+						legal:"",
 						select:[],
 						source_flag:0,
 						addto:0,
 						radio:"1",
 						employees:0,
-						openingdate: getDate({
-							format: true
-						}),
+						// openingdate: getDate({
+						// 	format: true
+						// }),
+						openingdate:"",
 						email:"",
 						fax:"",
 						zipcode:"",
+						business:"",
+						employees:"",
 						registered:"",
 	                },
 	            }
 	        },
 	        onLoad(options) {
-				const item = JSON.parse(decodeURIComponent(options.detail))
-				this.clueForm.address = item.addr,
-				this.clueForm.name = item.company,
-				this.clueForm.email = item.email,
-				this.clueForm.fax = item.fax,
-				this.clueForm.phone = item.mobile,
-				this.clueForm.zipcode = item.pc
+				if (options.detail){
+					const item = JSON.parse(decodeURIComponent(options.detail))
+					this.clueForm.address = item.addr,
+					this.clueForm.name = item.company,
+					this.clueForm.email = item.email,
+					this.clueForm.fax = item.fax,
+					this.clueForm.phone = item.mobile,
+					this.clueForm.zipcode = item.pc
+				}
 				this.locations();
 				this.industrys();
 			},	
 	        methods: {
 				//线索提交
 				addClue(){
-					let clueDetail = {
-						name: this.clueForm.name,
-						is_man: this.clueForm.is_man,
-						phone: this.clueForm.phone,
-						legal: this.clueForm.legal,
-						location_id: (this.clueForm.dz[2]).toString(),
-						location_depict:(this.clueForm.dz[1]).toString(),
-						location_lead:(this.clueForm.dz[0]).toString(),
-						// dz: (this.clueForm.dz).pop() + '',
-						address: this.clueForm.address,
-						industry_id:(this.clueForm.select[2]).toString(),
-						industry_depict:(this.clueForm.select[1]).toString(),
-						industry_lead:this.label4,
-						source_flag: this.clueForm.source_flag,
-						addto:this.clueForm.addto,
-						radio:this.clueForm.radio,
-					};
+					const formDatas = new FormData();
+					formDatas.append("name", this.clueForm.name)
+					formDatas.append("is_man",this.clueForm.is_man)
+					formDatas.append("phone", this.clueForm.phone)
+					formDatas.append("files1", this.files1)
+					formDatas.append("files2", this.files2)
+					formDatas.append("files3", this.files3)
+					formDatas.append("files4", this.files4)
+					formDatas.append("location_id", (this.clueForm.dz[2]).toString())
+					formDatas.append("location_depict",(this.clueForm.dz[1]).toString())
+					formDatas.append("location_lead",(this.clueForm.dz[0]).toString())
+					formDatas.append("industry_id", (this.clueForm.select[2]).toString())
+					formDatas.append("industry_depict",(this.clueForm.select[1]).toString())
+					formDatas.append("industry_lead",this.label4)
+					formDatas.append("source_flag", this.clueForm.source_flag)
+					
+					
+					axios({
+						method:'post',
+						url:"http://172.18.3.161:8098" + '/api/customer',
+						headers:{
+							'Authorization': this.$token
+						},
+						data: formDatas
+					})
+					.then(function(res){
+						console.log("新增res", res)
+					})
 					uni.request({
 						url:"http://172.18.3.161:8098" + '/api/customer',
 						header:{
@@ -308,14 +339,6 @@
 							name: this.clueForm.name,
 							is_man: this.clueForm.is_man,
 							phone: this.clueForm.phone,
-							// location_id: (this.clueForm.dz[2]).toString(),
-							// location_depict:(this.clueForm.dz[1]).toString(),
-							// location_lead:(this.clueForm.dz[0]).toString(),
-							// industry_id:(this.clueForm.select[2]).toString(),
-							// industry_depict:(this.clueForm.select[1]).toString(),
-							// industry_lead:this.label4,
-							// source_flag: this.clueForm.source_flag,
-							// addto:this.clueForm.addto,
 							
 						},
 						success: (res) => {
@@ -340,15 +363,30 @@
 							count: this.imageLength - this.imageList.length,
 							success: (res) => {
 								console.log("上传文件的数据", res)
-								// console.log("blob", res.tempFilePaths[0])
 								this.imageList = this.imageList.concat(res.tempFilePaths);
-								const reader = new FileReader()
-								// var aaa = reader.readAsBinaryString(res.tempFilePaths[0])
-								// console.log("aaa", aaa)
-								reader.readAsDataURL(res.tempFilePaths)
-								reader.onload = function(){
-									console.log(reader.result)
+								const leng = res.tempFiles.length
+								if (leng === 1){
+									this.files1 = res.tempFiles[0]
+								} else if (leng === 2){
+									this.files1 = res.tempFiles[0]
+									this.files2 = res.tempFiles[1]
+								} else if (leng === 3){
+									this.files1 = res.tempFiles[0]
+									this.files2 = res.tempFiles[1]
+									this.files3 = res.tempFiles[2]
+								} else if (leng === 4){
+									this.files1 = res.tempFiles[0]
+									this.files2 = res.tempFiles[1]
+									this.files3 = res.tempFiles[2]
+									this.files4 = res.tempFiles[3]
 								}
+								
+								console.log("files1",this.files1)
+								console.log("files2",this.files2)
+								console.log("files3",this.files3)
+								console.log("files4",this.files4)
+								// this.files = res.tempFiles;
+								// console.log("files", this.files)
 							}
 						})
 					},
@@ -390,12 +428,6 @@
 					console.log(e)
 					this.clueForm.openingdate = e.detail.value;
 				},
-				// submitForm(){
-				// 	const formData = new FormData();
-				// 	// formData.append("source_flag", "123")
-				// 	formData.source_flag = this.clueForm.source_flag
-				// 	console.log("formdata",formData)
-				// }
 				formSubmit(e){
 					// 定义表单规则
 					var rule = [
@@ -404,41 +436,84 @@
 						{name:"address",checkType:"null",errorMsg:"请选择地区"},
 						{name:"industy",checkType:"null",errorMsg:"请选择行业"},
 						{name:"source",checkType:"null",errorMsg:"请选择客户来源"},
-						{name:"addto",checkType:"null",errorMsg:"请选择添加到"}
-						
-						
-						// {name:"phone",checkType:"phoneno",errorMsg: "请输入正确的手机号"},
+						{name:"addto",checkType:"null",errorMsg:"请选择添加到"},
+						{name:"radio",checkType:"null", errorMsg:"请选择是否有执照"}
 						
 					]
 					// 进行表单检查
 					var formData = e.detail.value;
 					var checkRes = graceChecker.check(formData,rule);
 					if (checkRes){
-						console.log("成功")
-						uni.request({
+						const formDatas = new FormData();
+						formDatas.append("name", this.clueForm.name)
+						formDatas.append("is_man",this.clueForm.is_man)
+						formDatas.append("phone", this.clueForm.phone)
+						formDatas.append("files1", this.files)
+						formDatas.append("location_id", (this.clueForm.dz[2]).toString())
+						formDatas.append("location_depict",(this.clueForm.dz[1]).toString())
+						formDatas.append("location_lead",(this.clueForm.dz[0]).toString())
+						formDatas.append("industry_id", (this.clueForm.select[2]).toString())
+						formDatas.append("industry_depict",(this.clueForm.select[1]).toString())
+						formDatas.append("industry_lead",this.label4)
+						formDatas.append("source_flag", this.clueForm.source_flag)
+						formDatas.append("addto", this.clueForm.addto)
+						// 选填项
+						formDatas.append("address", this.clueForm.address)
+						formDatas.append("add_remark", this.clueForm.explain + this.clueForm.remark)
+						formDatas.append("legal", this.clueForm.legal)
+						formDatas.append("fax", this.clueForm.fax)
+						formDatas.append("zipcode", this.clueForm.zipcode)
+						formDatas.append("email", this.clueForm.email)
+						formDatas.append("business", this.clueForm.business)
+						formDatas.append("employees", this.clueForm.employees)
+						formDatas.append("openingdate", this.clueForm.openingdate)
+						formDatas.append("registered", this.clueForm.registered)			
+						
+						axios({
+							method:'post',
 							url:"http://172.18.3.161:8098" + '/api/customer',
-							header:{
+							headers:{
 								'Authorization': this.$token
 							},
-							method:"POST",
-							data:{
-								name: this.clueForm.name,
-								is_man: this.clueForm.is_man,
-								phone: this.clueForm.phone,
-								files1: this.files1
-								
-							},
-							success: (res) => {
-								if (res.data.data.status == 200 ){
-									console.log("添加成功")
-								} else {
-									console.log("添加失败",res.data.msg)
-								}
-							},
-							fail: (err) => {
-								console.log("错误",err)
+							data: formDatas
+						})
+						.then(function(res){
+							if(res.data.data.status == 200 ){
+								uni.navigateTo({
+									url:"../index/index",
+								})
+							} else {
+								uni.showModal({
+									title:"提示",
+									content:res.data.msg
+								})
 							}
 						})
+						// console.log("成功")
+						// uni.request({
+						// 	url:"http://172.18.3.161:8098" + '/api/customer',
+						// 	header:{
+						// 		'Authorization': this.$token
+						// 	},
+						// 	method:"POST",
+						// 	data:{
+						// 		name: this.clueForm.name,
+						// 		is_man: this.clueForm.is_man,
+						// 		phone: this.clueForm.phone,
+						// 		files1: this.files1
+								
+						// 	},
+						// 	success: (res) => {
+						// 		if (res.data.data.status == 200 ){
+						// 			console.log("添加成功")
+						// 		} else {
+						// 			console.log("添加失败",res.data.msg)
+						// 		}
+						// 	},
+						// 	fail: (err) => {
+						// 		console.log("错误",err)
+						// 	}
+						// })
 					} else{
 						uni.showModal({
 							title:graceChecker.error,
@@ -447,39 +522,6 @@
 				}
 				
 	        },
-			// uploadAPI(path){
-			// 			  uni.showLoading({
-			// 				 title: '上传中'
-			// 			  })
-			// 			  var _this=this
-			// 			  var fData = new FormData();
-			// 			  fData.append("file",path);
-			// 			  fData.append("moduleName",'reports');
-			// 			  var xhr = new XMLHttpRequest();
-			// 			  console.log("xhr",xhr)
-			// 			  var surl = "http://localhost:8098" + '/api/unifile';
-			// 			  xhr.open("POST",surl,true); 
-			// 			  xhr.onload = function(e) {
-			// 				  // console.log("上传成功",e); //上传成功
-			// 			  };
-			// 			  xhr.onreadystatechange = () =>{
-			// 				  if(xhr.readyState == 4 && xhr.status == 200){    //上传后台成功
-			// 				      uni.hideLoading()
-			// 					  var res =JSON.parse(xhr.responseText)
-			// 					  _this.fileList.push(res.datas); // 上传成功后放进fileList数组用于展示
-							
-			// 				  } else {
-			// 					  console.log("上传失败了")
-			// 					  uni.hideLoading()
-			// 				  }
-			// 			  }
-			              
-			//               // 这里设置请求头，做的时候遇到一个问题，明明上传的是FormData，可是在请求中变成了request payload,后台需要的是FormData，解决方法，设置enctype为multipart/form-data，不要设置Content-Type，切记直接不设置Content-Type
-			// 			  xhr.setRequestHeader('enctype',"multipart/form-data");
-			// 			  xhr.setRequestHeader('Authorization',"asdasdadad");
-			// 			  xhr.send(fData)
-			// 		  },
-					  
 					  /**
 					  * 列表删除文件
 					  * 

@@ -40,13 +40,13 @@
 			</view>
 
 		</view>
-		<view class="indexconent">审核</view>
+		<view class="indexconent" v-if="roles.includes('3037') || roles.includes('3028')">审核</view>
 		<view class="indeximg">
-			<view class="index_n_img" @click="track">
+			<view class="index_n_img" @click="track" v-if="roles.includes('3037')">
 				<image class="index_image" src="../../static/gjsh.png" mode="aspectFit"></image>
 				<h4>跟进线索审核</h4>
 			</view>
-			<view class="index_n_img" @click="cusdelay">
+			<view class="index_n_img" @click="cusdelay" v-if="roles.includes('3028')">
 				<image class="index_image" src="../../static/wdxs.png" mode="aspectFit"></image>
 				<h4>线索延期审核</h4>
 			</view>
@@ -63,11 +63,14 @@
 	export default {
 		data() {
 			return {
-
+				roles:[]
 			}
 		},
 		onLoad(options) {
-
+			// var role = ["3000","3001","3002","3003","3004","3005","3006","3007","3008","3009","3037","3028"]
+			// getApp().globalData.roles = role
+			this.roles = getApp().globalData.roles
+		// 	this.roles = ["3000","3001","3002","3003","3004","3005","3006","3007","3008","3009","3037"]
 		},
 		onShow() {
 

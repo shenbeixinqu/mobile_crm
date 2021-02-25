@@ -12,6 +12,15 @@
 					</picker>
 				</view>
 				<view class="chou_tit">
+					出访结果
+				</view>
+				<view class="uni-list-cell-db">
+					<picker mode="selector" v-model="cfresult" :value="cfresult" :range="resultArr" @change="resultRequire" range-key="name">
+						<view class="uni-input" v-if="!cfresult">请选择出访结果</view>
+						<view class="uni-input" v-else>{{resultArr[cfresult].name}}</view>
+					</picker>
+				</view>
+				<view class="chou_tit">
 					洽谈业务
 				</view>
 				<view class="uni-list-cell-db">
@@ -89,7 +98,11 @@
 								<view class="list-dq1">洽谈业务:{{item.pClassname}}</view>
 								<view class="list-dq1">出访时间:{{item.starttime}}</view>
 							</view>
-							<view class="list-dq">出访结果:{{item.result}}</view>
+						</view>
+						<view class="list-item-top">
+							<view class="list-dqk">
+								<view class="list-dq">出访结果:{{item.result}}</view>
+							</view>
 						</view>
 						<view class="list-item-bot" v-if="item.status == '正常'">
 							<span @click="openBox(item)" v-if="item.result === null">取消出访</span>
@@ -158,10 +171,26 @@
 						'name': "取消"
 					}
 				],
+				resultArr: [
+					{
+						'value': 0,
+						'name': "全部"
+					},
+					{
+						'value': 1,
+						'name': "未填写"
+					},
+					{
+						'value': 2,
+						'name': "已填写"
+					}
+				],
 				e_xqclass:"", //产品类型
 				e_xqclass_val:"",
 				cfstage:"", // 出访状态
 				cfstage_val:"",
+				cfresult:"",// 出访结果
+				cfresult_val:"",
 				proArray:[],
 				checkboxData: [],
 				checkedArrzt: "", //出访状态复选框选中的值
@@ -186,7 +215,8 @@
 						kstatus: this.cfstage_val,
 						ksdt: this.date,
 						kedt: this.jdate,
-						kpc_id: this.e_xqclass_val
+						kpc_id: this.e_xqclass_val,
+						kresult: this.cfresult_val
 					},
 					success:(res) => {
 						this.$refs.paging.addData(res.data.data.data);
@@ -211,7 +241,8 @@
 						kstatus: this.cfstage_val,
 						ksdt: this.date,
 						kedt: this.jdate,
-						kpc_id: this.e_xqclass_val
+						kpc_id: this.e_xqclass_val,
+						kresult: this.cfresult_val
 					},
 					success:(res) => {
 						uni.showModal({
@@ -303,6 +334,10 @@
 			stageRequire(e){
 				this.cfstage = e.detail.value
 				this.cfstage_val = this.stagesArr[this.cfstage].value
+			},
+			resultRequire(e){
+				this.cfresult = e.detail.value
+				this.cfresult_val = this.resultArr[this.cfresult].value
 			},
 			formSubmit: function(e){
 				var rule = [{
