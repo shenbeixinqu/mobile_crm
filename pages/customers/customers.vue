@@ -686,8 +686,9 @@
 			},
 			//跳转批注页面
 			pizhu(item) {
+				console.log("填写批注")
 				uni.navigateTo({
-					url: '/pages/myclue/pizhu?id=' + item._id
+					url: '/pages/customers/pizhu?id=' + item._id
 				})
 			}
 		}

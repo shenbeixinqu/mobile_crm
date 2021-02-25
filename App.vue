@@ -11,7 +11,7 @@
 		},
 		globalData:{
 			token: "",
-			roles:""
+			roles:[]
 		}
 	}
 </script>

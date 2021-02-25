@@ -7,7 +7,7 @@
 					<input class="uni-input1" v-model="comname" :disabled="true" />
 				</view>
 				<view class="uni-form-item uni-column">
-					<view class="title">出访后推广需求:</view>
+					<view class="title">出访后推广需求</view>
 					<input type="text" v-model="e_xqclass" :value="e_xqclass" hidden="true">
 					<picker mode="selector" :range="promoteArray" @change="promoteRequire" range-key="name">
 						<view class="uni-input" v-if="!e_xqclass">请选择推广需求</view>
@@ -15,7 +15,7 @@
 					</picker>
 				</view>
 				<view class="uni-form-item uni-column">
-					<view class="title">出访后网络意识::</view>
+					<view class="title">出访后网络意识</view>
 					<input type="text" v-model="e_wangluo" :value="e_wangluo" hidden="true">
 					<picker mode="selector" :range="netArray" @change="netRequire" range-key="name">
 						<view v-if="!e_wangluo" class="uni-input">请选择网络意识</view>
@@ -23,19 +23,19 @@
 					</picker>
 				</view>
 				<view class="uni-form-item uni-column">
-					<view class="title">出访结束日期:</view>
+					<view class="title">出访结束日期</view>
 					<picker mode="date" v-model="enddata" :value="enddata"  @change="enddataChange">
 						<view class="uni-input">{{enddata}}</view>
 					</picker>
 				</view>
 				<view class="uni-form-item uni-column">
-					<view class="title">出访结束时间:</view>
+					<view class="title">出访结束时间</view>
 					<picker mode="time" v-model="endtime" :value="endtime"  @change="endtimeChange">
 						<view class="uni-input">{{endtime}}</view>
 					</picker>
 				</view>
 				<view class="uni-form-item uni-column">
-					<view class="title"><text class="red">*</text>出访结果:</view>
+					<view class="title"><text class="red">*</text>出访结果</view>
 					<input  class="uni-input1"  type="text" name="visitResult" v-model="result" placeholder-class="placeholder" />
 				</view>
 			<view class="contentk_bottom">

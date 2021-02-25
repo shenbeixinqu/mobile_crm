@@ -16,7 +16,7 @@
 			code:{{code}}
 		</view>
 		<view>
-			全部信息: {{detailInfo}}
+			全部信息: {{role}}
 		</view>
 	</view>
 </template>
@@ -35,35 +35,34 @@ export default {
 			index:0,
 			loading: true,
 			code:"",
-			detailInfo:""
+			role:[]
 		};
 	},
 	methods:{
 		getpower() {
 			
 			let url =
-				"https://open.weixin.qq.com/connect/oauth2/authorize?appid=wwe6a967e2bfd97adf&redirect_uri=http%3A%2F%2Fevwng2.natappfree.cc&response_type=code&scope=snsapi_userinfo#wechat_redirect"		
+				"https://open.weixin.qq.com/connect/oauth2/authorize?appid=wwe6a967e2bfd97adf&redirect_uri=http%3A%2F%2Frcwxge.natappfree.cc&response_type=code&scope=snsapi_userinfo#wechat_redirect"		
 			window.location.href = url
 		},
 		sendCode(code){
 			uni.request({
-				url: 'HTTP://172.18.3.161:8098/api/wxlogin',
+				// url: 'HTTP://172.18.3.161:8098/api/wxlogin',
+				url: this.$burl + '/api/wxlogin',
 				method:'POST',
 				data: {
 					code: code
 				},
 				success: (userInfo) => {
-					this.detailInfo = userInfo
-					this.userInfo = userInfo.data
-					// var token = "asdqwerqweasdafazxasafqwqrasdafgasdafa";
-					var token = userInfo.data.token
-					getApp().globalData.token = token
+					this.role = userInfo.data.roles
+					getApp().globalData.token = userInfo.data.token
+					getApp().globalData.roles = this.role
 					this.token = getApp().globalData.token
-					// if (this.token){
-					// 	uni.navigateTo({
-					// 		url:"../index/index"
-					// 	})
-					// }
+					if (this.token){
+						uni.navigateTo({
+							url:"../index/index"
+						})
+					}
 				}
 			});
 		},
