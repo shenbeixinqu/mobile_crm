@@ -53,8 +53,8 @@
 				</view>
 				
 				<view class="bottombtn">
-					<button type="primary" class="anbtn" @click="getList('search')">确定</button>
-					<button type="primary" class="anbtn" @click="clox()">重置</button>
+					<button type="primary" class="btn btn1" @click="getList('search')">确定</button>
+					<button type="primary"  class="btn" @click="clox()">重置</button>
 				</view>
 			</view>
 		</uni-drawer>
@@ -63,10 +63,10 @@
 				<form @submit="formSubmit">
 					<view class="uni-form-item">
 						<view class=title>取消原因</view>
-						<input class="uni-input" v-model="reason" name="cancelReason" placeholder="请输入取消原因" >
+						<input class="uni-inputa" v-model="reason" name="cancelReason" placeholder="请输入取消原因" >
 					</view>
 					<view class="uni-btn-v">
-						<button form-type="submit" class="btn">提交</button>
+						<button form-type="submit" class="btn btn1">提交</button>
 						<button class="btn" @click="qx">取消</button>
 					</view>
 				</form>
@@ -408,16 +408,38 @@
 	.anbtn {
 		width: 45%;
 	}
-	
-	.btn {
-		color: #fff;
-		width: 30%;
-		height: 70upx;
-		line-height: 70upx;
-		font-size: 24upx;
-		background: #4873c1;
+
+
+	.uni-inputa {
+		height:300rpx;
+		width: 93%;
+		margin-top: 20upx;
+		line-height:10upx;
+		padding: 15rpx 25rpx;
+		line-height: 50rpx;
+		font-size: 28rpx;
+		background: #FFF;
+		flex: 1;
+		border: 1px #ddd solid;
+		border-radius: 10upx;
+		color: grey;
 	}
-	
+
+.btn {
+		width: 50%;
+		height: 100upx;
+		line-height: 100upx;
+		font-size: 28upx;
+		background: #4873c1;
+		border-radius: 0;
+		bottom: 0;
+		color: #fff;
+	}
+
+	.btn1 {
+		background: #d7e8fc;
+		color: #316fd4;
+	} 
 	.bottombtn {
 		width: 100%;
 	left:0;
