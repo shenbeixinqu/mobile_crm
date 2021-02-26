@@ -420,7 +420,7 @@
 	
 	.bottombtn {
 		width: 100%;
-	
+	left:0;
 		position: fixed;
 		bottom: 0;
 		display: flex;
