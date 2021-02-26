@@ -97,7 +97,6 @@
 
 			<view class="list-item" v-for="(item,index) in dataList" :key="index" @tap="goDetail(item)">
 				<view class="list-text">
-					{{ index }}
 					<view class="list_tit">{{item.name}}</view>
 					<view class="tag_k" v-for="(user, i) in item.tags.data" :key="i">
 						{{user.t_tab}}
@@ -113,10 +112,11 @@
 						<view class="list-dq2">{{item.ind_lead}}</view>
 						<view class="list-dq1">跟进人：</view>
 						<view class="list-dq2">
-							<view class="tag_k" v-for="(tags, i) in item.tags.data" :key="i">
+							<!-- <view class="tag_k" v-for="(tags, i) in item.tags.data" :key="i">
 								{{tags.t_tab}}
-							</view>
+							</view> -->
 							<view class="list-qd2" v-for="(user, i) in item.track.data" :key="i">
+								<view class="tag_k" v-if="user[0].t_tab">{{user[0].t_tab}}</view>
 								{{user[0].us_name}}
 							</view>
 						</view>
@@ -465,6 +465,7 @@
 						if (res.data.data.status == 200) {
 							this.$refs.drawer.close();
 							this.dataList = res.data.data.data;
+							console.log("datalist", this.dataList)
 							if (this.dataList.length == 0) {
 								this.showxs = true;
 								uni.hideLoading();
