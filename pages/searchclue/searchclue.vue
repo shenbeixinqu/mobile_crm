@@ -256,7 +256,6 @@
 			}
 		},
 		onShow() {
-			console.log('1');
 			this.getList();
 			this.tage();
 			this.locations();
@@ -466,7 +465,6 @@
 						if (res.data.data.status == 200) {
 							this.$refs.drawer.close();
 							this.dataList = res.data.data.data;
-							console.log('this.dataList', this.dataList);
 							if (this.dataList.length == 0) {
 								this.showxs = true;
 								uni.hideLoading();
