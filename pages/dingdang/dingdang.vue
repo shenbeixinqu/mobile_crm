@@ -246,7 +246,7 @@
 
 	.bottombtn {
 		width: 80%;
-		right: 10upx;
+		
 		position: absolute;
 		bottom: 30upx;
 		display: flex;

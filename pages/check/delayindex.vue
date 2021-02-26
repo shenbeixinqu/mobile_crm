@@ -8,7 +8,7 @@
 						<input class="uni-input" v-model="reason" name="refuseReason" placeholder="请输入拒绝原因" >
 					</view>
 					<view class="uni-btn-v">
-						<button form-type="submit" class="btn">提交</button>
+						<button form-type="submit" class="btn btn1">提交</button>
 						<button class="btn" @click="qx">取消</button>
 					</view>
 				</form>
@@ -25,9 +25,9 @@
 			<view class="leftwz">延期原因:</view><view class="rightwz">{{dataList.reasons}}</view>	
 			<view class="leftwz">名额使用情况:</view><view class="rightwz">本年度申请延期客户{{ dataList.sq_cnt }}个，其中已处理通过{{dataList.tg_cnt}}个，还剩{{ dataList.ksq_cnt }}个可延期名额！</view>
 		</view>
-		<view class="contentk_bottom">
-			<button type="primary" class="btn" @click="cancel">拒绝</button>
-			<button type="primary" class="btn" @click="confirm">同意</button>
+		<view class="bottombtn">
+			<button type="primary" class="btn btn1" @click="cancel">拒绝</button>
+			<button type="primary" class="btn "@click="confirm">同意</button>
 		</view>
 	</view>
 </template>
@@ -198,14 +198,45 @@
 </script>
 
 <style scoped>
-	.btn {
-		width: 30%;
-		height:70upx;
-		line-height: 70upx;
-		font-size: 24upx;
-		background: #4873c1;
+	.bottombtn {
+		width: 100%;
+		
+		position: fixed;
+		bottom: 0;
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
 	}
-	
+
+	.btn {
+		width: 50%;
+		height: 100upx;
+		line-height: 100upx;
+		font-size: 28upx;
+		background: #4873c1;
+		border-radius: 0;
+		bottom: 0;
+		color: #fff;
+	}
+
+	.btn1 {
+		background: #d7e8fc;
+		color: #316fd4;
+	}
+	.uni-input {
+		height:300rpx;
+		width: 93%;
+		margin-top: 20upx;
+		line-height:10upx;
+		padding: 15rpx 25rpx;
+		line-height: 50rpx;
+		font-size: 28rpx;
+		background: #FFF;
+		flex: 1;
+		border: 1px #ddd solid;
+		border-radius: 10upx;
+		color: grey;
+	}
 	page {
 		height: 100%;
 	}
@@ -219,7 +250,7 @@
 	}
 	
 	.contentk_bottom {
-		width: 95%;
+		width:1%;
 		margin-top: 40upx;
 		display: flex;
 		flex-direction: row;
@@ -244,13 +275,13 @@
 		padding-left: 2%;
 		display: flex;
 		justify-content: flex-start;
-	
-		font-size: 24upx;
+		font-size: 28upx;
 	}
 	
 	.rightwz {
 		width:65%;
 		display: flex;
+			font-size: 28upx;
 	}
 	
 	.uni-btn-v {

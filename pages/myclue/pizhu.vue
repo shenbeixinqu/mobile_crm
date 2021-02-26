@@ -181,6 +181,7 @@ id:''
 
 	.uni-input {
 		height:300rpx;
+		width: 93%;
 		margin-top: 20upx;
 		line-height: 30upx;
 		padding: 15rpx 25rpx;
