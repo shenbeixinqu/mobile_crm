@@ -8,7 +8,7 @@
 						<input class="uni-input" v-model="reason" name="refuseReason" placeholder="请输入拒绝原因" >
 					</view>
 					<view class="uni-btn-v">
-						<button form-type="submit" class="btn">提交</button>
+						<button form-type="submit" class="btn btn1">提交</button>
 						<button class="btn" @click="qx">取消</button>
 					</view>
 				</form>
@@ -30,7 +30,7 @@
 				<view>【{{ q.department }}】{{ q.realname }}于[{{ q.dt }}]，{{ q.result }}，{{ q.remark }}</view>
 			</view>
 		</view>
-	<view class="contentk_bottom">
+	<view class="bottombtn">
 		<button type="primary" class="btn" @click="cancel">拒绝</button>
 		<button type="primary" class="btn btn1" @click="confirm">同意</button>
 	</view>
@@ -179,21 +179,49 @@
 </script>
 
 <style scoped>
+	.bottombtn {
+		width: 100%;
+		
+		position: fixed;
+		bottom: 0;
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+	}
+
 	.btn {
 		width: 50%;
-		height:70upx;
-		line-height: 70upx;
+		height: 100upx;
+		line-height: 100upx;
 		font-size: 28upx;
 		background: #4873c1;
 		border-radius: 0;
 		bottom: 0;
+		color: #fff;
 	}
-	.btn1{background: #36b935;}
+
+	.btn1 {
+		background: #d7e8fc;
+		color: #316fd4;
+	}
     /deep/uni-button:after{border:none}
 	page {
 		height: 100%;
 	}
-
+    .uni-input {
+    	height:300rpx;
+    	width: 93%;
+    	margin-top: 20upx;
+    	line-height:10upx;
+    	padding: 15rpx 25rpx;
+    	line-height: 50rpx;
+    	font-size: 28rpx;
+    	background: #FFF;
+    	flex: 1;
+    	border: 1px #ddd solid;
+    	border-radius: 10upx;
+    	color: grey;
+    }
 	.contentk {
 		width: 100%;
 		height: 95%;
