@@ -8,7 +8,7 @@
 					</view>
 				<view class="uni-btn-v">
 					<button form-type="submit" class="btn">提交</button>
-					<button class="btn" @click="qx">返回</button>
+					<button class="btn btn1" @click="qx">返回</button>
 				</view>
 			</form>
 		</view>
@@ -125,21 +125,30 @@ id:''
 	}
 
 	.uni-btn-v {
-		width: 100%;
+	width: 100%;
+	left:0;
+		position: fixed;
+		bottom: 0;
 		display: flex;
-		flex-direction: row;
-		justify-content: center;
-		padding-top: 30upx;
-		padding-bottom: 30upx;
+		align-items: center;
+		justify-content: space-between;
 	}
 
+
 	.btn {
-		color: #fff;
-		width: 30%;
-		height: 70upx;
-		line-height: 70upx;
-		font-size: 24upx;
+		width: 50%;
+		height: 100upx;
+		line-height: 100upx;
+		font-size: 28upx;
 		background: #4873c1;
+		border-radius: 0;
+		bottom: 0;
+		color: #fff;
+	}
+
+	.btn1 {
+		background: #d7e8fc;
+		color: #316fd4;
 	}
 
 	.contentk {
@@ -151,20 +160,21 @@ id:''
 
 	/* 表单 */
 	.uni-padding-wrap {
-		width: 90%;
+		width:100%;
 		padding-top: 20upx;
 		padding-bottom: 20upx;
-
 	}
 
 	.uni-form-item {
 		display: flex;
 		width: 100%;
 		padding: 10rpx 0;
+		align-items: center;
 		flex-direction: column;
 	}
 
 	.uni-form-item .title {
+		width: 90%;
 		padding: 10rpx 0;
 	}
 
@@ -177,9 +187,10 @@ id:''
 
 	.uni-input {
 		height:300rpx;
+		width:80%;
 		margin-top: 20upx;
 		line-height: 30upx;
-		padding: 15rpx 25rpx;
+		padding: 15rpx 5%;
 		line-height: 50rpx;
 		font-size: 28rpx;
 		background: #FFF;
