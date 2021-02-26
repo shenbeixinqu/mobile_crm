@@ -31,7 +31,7 @@
 		</e-modal>
 		
 	<uni-drawer ref="drawer" mode="right" :width="drawWid">
-			<view class="wk_n">
+		<scroll-view scroll-y class="wk_n">
 				<view class="chou_tit">客户名称：{{ tableList.name}}</view>
 				<view class="list-item" v-for="item in tableDatazi" :key="item.id">
 					<view class="list-itemleft">
@@ -43,11 +43,11 @@
 					</view>
 				</view>
 				<button type="primary" class="anbtn" @click="clox()">返回</button>
-			</view>
+	</scroll-view>
 
 		</uni-drawer>
 
-
+<scroll-view scroll-y class="classbox">
 		<view class="tit">客户的基本资料</view>
 		<view class="bottxt">
 			<view class="divtableleft">
@@ -103,6 +103,8 @@
 		</view>
 
 
+
+</scroll-view>
 	</view>
 
 	</view>
@@ -366,7 +368,7 @@
 		padding-top: 30upx;
 		padding-bottom: 30upx;
 	}
-
+    .classbox{ width: 95%;}
 	.btn {
 		color: #fff;
 		width: 30%;
@@ -384,7 +386,7 @@
 	}
 
 	.tit {
-		width: 95%;
+		width:98%;
 		color: #666666;
 		font-size: 30upx;
 		height: 70upx;
@@ -412,11 +414,11 @@
 	}
 
 	.bottxt {
-		width: 95%;
+	
 	}
 
 	.contactus {
-		width: 95%;
+		width:98%;
 		border-bottom: none;
 	}
 
@@ -559,7 +561,6 @@
 		color: #666666;
 		margin-bottom: 25upx;
 		padding: 3%;
-
 		border: 1px #e4e4e4 solid;
 		display: flex;
 		border-radius: 5px;

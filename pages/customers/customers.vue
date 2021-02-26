@@ -140,7 +140,7 @@
 		<view class="topview">
 			<button type="primary" class="search-btn" @click="getList('search')"></button>
 			<input class="se-input" name="nickname" placeholder="请输入客户名称" v-model="kword" /><button type="primary" size="small"
-			 class="shai-btn" @click="drawer()">筛选</button></button> <button type="primary" size="small" class="shai-btn" @click="getList('search')">新增</button></view>
+			 class="shai-btn" @click="drawer()">筛选</button></button> <button type="primary" size="small" class="shai-btn1" @click="add()">新增</button></view>
 		<!-- 数据列表 -->
 		<view class="content">
 			<z-paging ref="paging" @query="queryList" :list.sync="dataList" style="height: calc(100% - 80rpx);">
@@ -376,6 +376,14 @@
 
 
 		methods: {
+			
+			//新增
+			add(){
+				uni.navigateTo({
+					url: '/pages/addclue/addclue'
+				})
+			},
+			
 			queryList(pageNo, pageSize) {
 
 				uni.request({
@@ -1140,7 +1148,7 @@
 	.btn1 {
 		background: #d7e8fc;
 		color: #316fd4;
-		z-index: 1;
+		
 	}
 
 	/deep/uni-button:after {
