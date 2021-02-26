@@ -134,7 +134,6 @@
 		onLoad: function(option) {
 			const item = JSON.parse(decodeURIComponent(option.genjin));
 		    this.activeId=Number(item.id); 
-			console.log('this.activeId',this.activeId)
 			this.ind_lead = item.ind_lead;
 			this.stage=item.stage;
 			
@@ -153,7 +152,6 @@
 						// #endif
 						count: this.imageLength - this.imageList.length,
 						success: (res) => {
-							console.log('res',res)
 							this.imageList = this.imageList.concat(res.tempFilePaths);
 							this.files=res.tempFiles[0];
 						}
@@ -182,16 +180,14 @@
 			// 返回列表页
 			qx() {
 				uni.navigateTo({
-					url: './customers'
+					url: './searchclue'
 				})
 			},
 			bindTextAreaBlur: function(e) {
 				this.remark = e.detail.value
-				console.log('this.remark', this.remark)
 			},
 			bindp: function(e) {
 				this.phone = e.detail.value
-				console.log('this.phone', this.phone)
 			},
 			//百度产品
 			getchoices(){
@@ -209,7 +205,7 @@
 						}
 					},
 					fail: (err) => {
-						//console.log(err)
+						
 					}
 				})
 			},
@@ -245,7 +241,7 @@
 						}	
 					},
 					fail: (err) => {
-						//console.log(err)
+						
 					}
 				})
 			},
@@ -267,17 +263,10 @@
 				}];
 		
 				var formData = e.detail.value;
-				
 				var checkRes = graceChecker.check(formData, rule);
 				
-			
-				console.log('checkRes',checkRes);
 				if (checkRes) {
-					uni.showToast({
-						title: "验证通过!",
-						icon: "none"
-				});
-			 
+					
 				const formDatas = new FormData();
 				if(this.stage === '待清洗' || this.stage === '线索黑名单'){
 				formDatas.append("files",this.files);
@@ -298,17 +287,22 @@
 					},
 					data: formDatas,
 				})
-				  .then(function (response) {
-					  console.log("fdfdfdfdfd")
-				  	if (response.data.data.status == 200) {
+				  .then(function (res) {
+				  	if (res.data.data.status == 200) {
+						
 					uni.showToast({
 						title: res.data.msg,
-						icon: "none"
+						icon: "none",
+						success() {
+							uni.navigateBack({
+								delta:1
+							})
+						}
 					});
 					}
 				  })
 				  .catch(function (error) {
-				    console.log('error', error);
+				    
 				  });
 				
 				} else {
@@ -319,7 +313,7 @@
 				}
 			},
 			formReset: function(e) {
-				console.log('清空数据')
+				
 			},
 			
 			
