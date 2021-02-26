@@ -117,7 +117,7 @@
 
 						</view>
 						<view class="list-item-bot">
-							<span @tap.stop="pizhu(item)">填写批注</span> <span @tap.stop="chufang(item)">申请出访</span> <span>详情</span>
+							<span @tap.stop="pizhu(item)">填写批注</span> <span @tap.stop="chufang(item)">出访申请</span> <span>详情</span>
 						</view>
 					</view>
 				</view>
