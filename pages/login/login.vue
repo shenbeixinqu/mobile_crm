@@ -43,6 +43,11 @@
 			};
 		},
 	methods:{
+		add(){
+			uni.navigateTo({
+				url:"../index/index"
+			})
+		},
 			getpower() {
 				
 				let url =
@@ -63,15 +68,7 @@
 						getApp().globalData.roles = this.role
 						this.token = getApp().globalData.token
 						if (this.token){
-							
-							add(){
-								uni.navigateTo({
-									url:"../index/index"
-								})
-							},
-							
-						
-							
+						this.add();	
 						}
 					}
 				});
