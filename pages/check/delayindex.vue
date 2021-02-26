@@ -5,7 +5,7 @@
 				<form @submit="formSubmit">
 					<view class="uni-form-item">
 						<view class="title">拒绝原因</view>
-						<input class="uni-input" v-model="reason" name="refuseReason" placeholder="请输入拒绝原因" >
+						<textarea class="uni-input" @blur="bindTextAreaBlur" name="refuseReason" placeholder="请输入拒绝原因" />
 					</view>
 					<view class="uni-btn-v">
 						 
@@ -110,6 +110,9 @@
 			},
 			qx(){
 				this.visible = false
+			},
+			bindTextAreaBlur: function(e){
+				this.reason = e.detail.value
 			},
 			formSubmit:function(e){
 				var rule = [{
