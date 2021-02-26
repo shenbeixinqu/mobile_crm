@@ -63,7 +63,8 @@
 				<form @submit="formSubmit">
 					<view class="uni-form-item">
 						<view class=title>取消原因</view>
-						<input class="uni-inputa" v-model="reason" name="cancelReason" placeholder="请输入取消原因" >
+					
+						<textarea class="uni-inputa" @blur="bindTextAreaBlur" name="refuseReason" placeholder="请输入拒绝原因" />
 					</view>
 					<view class="uni-btn-v">
 						<button form-type="submit" class="btn btn1">提交</button>
@@ -279,6 +280,9 @@
 				this.visible = true,
 				this.id = item._id
 			},
+			bindTextAreaBlur: function(e){
+				this.reason = e.detail.value
+			},
 			// 抽屉的所有方法
 			//抽屉打开
 			drawer() {
@@ -437,18 +441,18 @@
 
 
 	.uni-inputa {
-		height:300rpx;
-		width: 93%;
-		margin-top: 20upx;
-		line-height:10upx;
-		padding: 15rpx 25rpx;
-		line-height: 50rpx;
-		font-size: 28rpx;
-		background: #FFF;
-		flex: 1;
-		border: 1px #ddd solid;
-		border-radius: 10upx;
-		color: grey;
+	height:100rpx;
+	width: 93%;
+	margin-top: 20upx;
+	line-height:10upx;
+	padding: 15rpx 25rpx;
+	line-height: 50rpx;
+	font-size: 28rpx;
+	background: #FFF;
+	flex: 1;
+	border: 1px #ddd solid;
+	border-radius: 10upx;
+	color: grey;
 	}
 
 .btn {

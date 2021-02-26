@@ -5,7 +5,7 @@
 				<form @submit="formSubmit">
 					<view class="uni-form-item">
 						<view class="title">拒绝原因</view>
-						<input class="uni-input" v-model="reason" name="refuseReason" placeholder="请输入拒绝原因" >
+							<textarea class="uni-input" @blur="bindTextAreaBlur" name="refuseReason" placeholder="请输入拒绝原因" />
 					</view>
 					<view class="uni-btn-v">
 						<button form-type="submit" class="btn btn1">提交</button>
@@ -128,6 +128,9 @@
 			qx(){
 				this.visible = false
 			},
+			bindTextAreaBlur: function(e){
+				this.reason = e.detail.value
+			},
 			formSubmit:function(e){
 				var rule = [{
 					name:"refuseReason",
@@ -208,20 +211,20 @@
 	page {
 		height: 100%;
 	}
-    .uni-input {
-    	height:300rpx;
-    	width: 93%;
-    	margin-top: 20upx;
-    	line-height:10upx;
-    	padding: 15rpx 25rpx;
-    	line-height: 50rpx;
-    	font-size: 28rpx;
-    	background: #FFF;
-    	flex: 1;
-    	border: 1px #ddd solid;
-    	border-radius: 10upx;
-    	color: grey;
-    }
+	.uni-input {
+		height:100rpx;
+		width: 93%;
+		margin-top: 20upx;
+		line-height:10upx;
+		padding: 15rpx 25rpx;
+		line-height: 50rpx;
+		font-size: 28rpx;
+		background: #FFF;
+		flex: 1;
+		border: 1px #ddd solid;
+		border-radius: 10upx;
+		color: grey;
+	}
 	.contentk {
 		width: 100%;
 		height: 95%;
