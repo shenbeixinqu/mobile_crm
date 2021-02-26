@@ -43,7 +43,11 @@
 			};
 		},
 	methods:{
-		
+		add(){
+			uni.navigateTo({
+				url:"../index/index"
+			})
+		},
 			getpower() {
 				
 				let url =
@@ -64,7 +68,7 @@
 						getApp().globalData.roles = this.role
 						this.token = getApp().globalData.token
 						if (this.token){
-						
+						this.add();	
 						}
 					}
 				});
@@ -78,7 +82,7 @@
 					this.getpower()
 				} else {
 					this.res =  option.code
-					this.sendCode(option.code)
+					// this.sendCode(option.code)
 				}
 			},
 		created() {
