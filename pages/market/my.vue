@@ -63,7 +63,8 @@
 				<form @submit="formSubmit">
 					<view class="uni-form-item">
 						<view class=title>取消原因</view>
-						<input class="uni-inputa" v-model="reason" name="cancelReason" placeholder="请输入取消原因" >
+					
+						<textarea class="uni-inputa" @blur="bindTextAreaBlur" name="refuseReason" placeholder="请输入拒绝原因" />
 					</view>
 					<view class="uni-btn-v">
 						<button form-type="submit" class="btn btn1">提交</button>
@@ -89,28 +90,28 @@
 						</view>
 						<view class="list-item-top">
 							<view class="list-dqk">
-								<view class="list-dq1">拜访人:{{item.human}}</view>
-								<view class="list-dq1">电话:{{item.tel}}</view>
+								
+								<view class="list-dq1">拜访人：</view>
+								<view class="list-dq2">{{item.human}}</view>
+								<view class="list-dq1">电话：</view>
+								<view class="list-dq2">{{item.tel}}</view>
+								<view class="list-dq1">洽谈业务：</view>
+								<view class="list-dq2">{{item.pClassname}}</view>
+								<view class="list-dq1">出访时间：</view>
+								<view class="list-dq2">{{item.starttime}}</view>
+									<view class="list-dq1">出访结果:</view>
+								<view class="list-dq2">{{item.result}}</view>
+								
 							</view>
 						</view>
-						<view class="list-item-top">
-							<view class="list-dqk">
-								<view class="list-dq1">洽谈业务:{{item.pClassname}}</view>
-								<view class="list-dq1">出访时间:{{item.starttime}}</view>
-							</view>
-						</view>
-						<view class="list-item-top">
-							<view class="list-dqk">
-								<view class="list-dq">出访结果:{{item.result}}</view>
-							</view>
-						</view>
+					
 						<view class="list-item-bot" v-if="item.status == '正常'">
 							<span @click="openBox(item)" v-if="item.result === null">取消出访</span>
-							<span @click="visitResult(item)" v-if="item.result === null">填写出访结果</span>
-							<span @click="myDetail(item)">详情</span>
+							<span @click="visitResult(item)" v-if="item.result === null" style="text-align:center;">填写出访结果</span>
+							<span @click="myDetail(item)" style="text-align: right;">详情</span>
 						</view>
-						<view class="list-item-bot" v-else>
-							<span @click="myDetail(item)">详情</span>
+						<view class="list-item-bot" v-else >
+							<span  @click="myDetail(item)" style="text-align: right;">详情</span>
 						</view>
 					</view>
 				</view>
@@ -279,6 +280,9 @@
 				this.visible = true,
 				this.id = item._id
 			},
+			bindTextAreaBlur: function(e){
+				this.reason = e.detail.value
+			},
 			// 抽屉的所有方法
 			//抽屉打开
 			drawer() {
@@ -408,21 +412,47 @@
 	.anbtn {
 		width: 45%;
 	}
+	.list-dqk {
+		flex-direction: row;
+		flex-wrap: wrap;
+		width: 100%;
+		text-align: left;
+		padding-top: 5upx;
+		padding-bottom: 5upx;
+		display: flex;
+	}
+
+	.list-dq1 {
+		display: flex;
+		width: 25%;
+		padding-top: 5upx;
+		padding-bottom: 5upx;
+		font-size: 28upx;
+	}
+
+	.list-dq2 {
+		display: flex;
+		width: 75%;
+		font-size: 28upx;
+		text-align: left;
+		padding-top: 1upx;
+		padding-bottom: 1upx;
+	}
 
 
 	.uni-inputa {
-		height:300rpx;
-		width: 93%;
-		margin-top: 20upx;
-		line-height:10upx;
-		padding: 15rpx 25rpx;
-		line-height: 50rpx;
-		font-size: 28rpx;
-		background: #FFF;
-		flex: 1;
-		border: 1px #ddd solid;
-		border-radius: 10upx;
-		color: grey;
+	height:100rpx;
+	width: 93%;
+	margin-top: 20upx;
+	line-height:10upx;
+	padding: 15rpx 25rpx;
+	line-height: 50rpx;
+	font-size: 28rpx;
+	background: #FFF;
+	flex: 1;
+	border: 1px #ddd solid;
+	border-radius: 10upx;
+	color: grey;
 	}
 
 .btn {
@@ -513,23 +543,8 @@
 		display: block;
 	}
 	
-	.list-dq1 {
-		display: flex;
-		width: 50%;
-		text-align: left;
-		padding-top: 1upx;
-		padding-bottom: 1upx;
-	}
-	
-	.list-dqk {
-		flex-direction: row;
-		width: 100%;
-		text-align: left;
-		padding-top: 1upx;
-		padding-bottom: 1upx;
-		display: flex;
-	}
-	
+
+
 	.list-item {
 		flex-direction: column;
 		color: #666666;
@@ -552,11 +567,12 @@
 		width: 100%;
 		display: flex;
 		margin-top: 15upx;
-		justify-content: space-between;
+		justify-content:flex-end;
 		color: #4873c1;
 		font-size: 28upx;
 	}
 	
+    .list-item-bot span{ width: 33.333%; float: left;}
 	.list-item-top {
 		font-size: 24upx;
 		width: 100%;
@@ -592,19 +608,38 @@
 		z-index: 500;
 		height: 60rpx;
 		width: 60rpx;
-		background: url(../../static/ss.png) no-repeat #4873c1;
+		background: url(../../static/ss.png) no-repeat;
 		background-size: 70%;
 		background-position: center;
 		position: absolute;
 		left: 425rpx;
+		border: none;
+	}
+	
+	.search-btn:after {
+		border: none;
 	}
 	
 	.shai-btn {
 		width: 15%;
 		height: 60rpx;
 		line-height: 60rpx;
-		font-size: 22upx;
-		color: #fff;
+		font-size: 28upx;
+		color: #666;
+		background: url(../../static/shaixun.png) no-repeat #fff;
+		background-size: 40%;
+		background-position: 8upx 5upx;
+		text-indent: 25px;
+		padding-left: 0;
+		padding-right: 0;
+
+		border-radius: 0;
+		margin-left: 15upx;
+	}
+	
+	
+	.shai-btn:after {
+		border: none;
 	}
 	
 	.topview {

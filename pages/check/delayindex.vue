@@ -8,7 +8,8 @@
 						<textarea class="uni-input" @blur="bindTextAreaBlur" name="refuseReason" placeholder="请输入拒绝原因" />
 					</view>
 					<view class="uni-btn-v">
-						 
+						 <button form-type="submit" class="btn btn1">提交</button>
+						 <button class="btn" @click="qx">取消</button>
 					</view>
 				</form>
 			</view>
@@ -226,7 +227,7 @@
 		color: #316fd4;
 	}
 	.uni-input {
-		height:300rpx;
+		height:100rpx;
 		width: 93%;
 		margin-top: 20upx;
 		line-height:10upx;

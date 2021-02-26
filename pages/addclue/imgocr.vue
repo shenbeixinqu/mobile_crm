@@ -11,13 +11,13 @@
 			</block>
 			<view class="add-view" v-if="imageList.length < imageLength" @tap="chooseImage">
 				<view class="cross">
-					<view class="transverse-line"></view>
-					<view class="vertical-line"></view>
+					<!-- <view class="transverse-line"></view>-->
+					<view class="vertical-line">名片扫描</view> 
 				</view>
 			</view>
 		</view>
 		<view class="table-btn-view">
-			<button class="save-btn" @click="imgOcr">保存</button>
+			<button class="btn" @click="imgOcr">保存</button>
 		</view>
 	</view>
 </template>
@@ -144,12 +144,27 @@
 </script>
 
 <style>
+	
+	.btn {
+		width:30%;
+		height:80upx;
+		line-height:80upx;
+		font-size: 28upx;
+		background: #4873c1;
+		border-radius:5px;
+		bottom: 0;
+		color: #fff;
+	}
+	
+	
+	
 	.upload-image-view {
 		width: 100%;
 		margin: 20upx 0 20upx 0;
 		display: flex;
 		flex-wrap: wrap;
 		align-items: center;
+		justify-content: center;
 	}
 	 
 	.upload-image-view .title {
@@ -220,14 +235,16 @@
 	}
 	 
 	.upload-image-view .add-view {
-		height: 115upx;
-		width: 115upx;
-		margin: 15upx 15upx 15upx 0upx;
+	
+		background: url(../../static/p.png) no-repeat center 30%;
+		background-size: 60%;
+		height: 300upx;
+		width: 300upx;
+		margin:200upx 15upx 15upx 0upx;
 		display: flex;
 		align-items: center;
 		justify-content: center;
-		background: rgba(255, 255, 255, 0.00);
-		border: 3upx dashed #979797;
+		border: 2upx solid #ccc;
 		border-radius: 8upx;
 	}
 	 
@@ -298,11 +315,14 @@
 	}
 	 
 	.upload-image-view .add-view .cross .vertical-line {
-		height: 48%;
-		width: 100%;
+		
+		width: 300upx;
 		position: absolute;
-		border-bottom: 3upx solid #5A5A5A;
-		top: 0;
-		left: 0;
+		
+		top:100upx;
+		left:50%;
+		margin-left:-60upx;
+	    color: #4873c1;
+		font-weight: bold;
 }
 </style>

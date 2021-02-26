@@ -23,13 +23,18 @@
 						</view>
 						<view class="list-item-top">
 							<view class="list-dqk">
-								<view class="list-dq1">申请人: {{item.adder}}</view>
-								<view class="list-dq1">申请时间: {{item.addtime | dateToYmd}}</view>
+								<view class="list-dq1">申请人：</view>
+								<view class="list-dq2">{{item.adder}}</view>
+								
+							
+								<view class="list-dq1">申请时间:</view>
+								<view class="list-dq2"> {{item.addtime | dateToYmd}}</view>
+								<view class="list-dq1">审核体系:</view>
+								<view class="list-dq2"> {{item.user_tx}}</view>
+								<view class="list-dq1">审核原因:</view>
+								<view class="list-dq2"> {{item.remark}}</view>
 							</view>
-							<view class="list-dqk">
-								<view class="list-dq1">审核体系: {{item.user_tx}}</view>
-								<view class="list-dq1">审核原因: {{item.remark}}</view>
-							</view>
+							
 							<view class="list-item-bot">
 								<span @click="clueReview(item)" v-if="item.audit=='待审核' || item.audit =='层审中'">审核</span>
 								<span @click="clueDetail(item)" v-if="item.audit == '审核通过'|| item.audit =='审核拒绝' ">详情</span>
@@ -148,22 +153,33 @@
 		height: 100%
 	}
 	
-	.list-dq1 {
-		display: flex;
-		width: 50%;
-		text-align: left;
-		padding-top: 1upx;
-		padding-bottom: 1upx;
-	}
-	
 	.list-dqk {
 		flex-direction: row;
+		flex-wrap: wrap;
 		width: 100%;
+		text-align: left;
+		padding-top: 5upx;
+		padding-bottom: 5upx;
+		display: flex;
+	}
+
+	.list-dq1 {
+		display: flex;
+		width: 25%;
+		padding-top: 5upx;
+		padding-bottom: 5upx;
+		font-size: 28upx;
+	}
+
+	.list-dq2 {
+		display: flex;
+		width: 75%;
+		font-size: 28upx;
 		text-align: left;
 		padding-top: 1upx;
 		padding-bottom: 1upx;
-		display: flex;
 	}
+
 	
 	.contentk {
 		width: 100%;
@@ -251,13 +267,17 @@
 		z-index: 500;
 		height: 60rpx;
 		width: 60rpx;
-		background: url(../../static/ss.png) no-repeat #4873c1;
+		background: url(../../static/ss.png) no-repeat;
 		background-size: 70%;
 		background-position: center;
 		position: absolute;
 		left: 425rpx;
+		border: none;
 	}
 	
+	.search-btn:after {
+		border: none;
+	}
 	.shai-btn {
 		width: 15%;
 		height: 60rpx;
