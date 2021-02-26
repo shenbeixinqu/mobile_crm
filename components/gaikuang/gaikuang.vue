@@ -32,16 +32,14 @@
 		
 	<uni-drawer ref="drawer" mode="right" :width="drawWid">
 			<view class="wk_n">
-				<view class="chou_tit">客户名称：{{ tableList.company}}</view>
+				<view class="chou_tit">客户名称：{{ tableList.name}}</view>
 				<view class="list-item" v-for="item in tableDatazi" :key="item.id">
 					<view class="list-itemleft">
 						<view>资质类型：{{item.qualstype}}</view>
 						<view>上传时间：{{item.addtime}}</view>
 					</view>
 					<view class="list-img">
-
-
-						<image style="width: 100%; height:300upx; background-color: #eeeeee;" :src="imgurl+item.scan" mode="aspectFit"></image>
+						<image style="width: 100%; height:300upx; background-color: #eeeeee;" @click="clickImg(item.scan)" :src="imgurl+item.scan" mode="aspectFit"></image>
 					</view>
 				</view>
 				<button type="primary" class="anbtn" @click="clox()">返回</button>
@@ -305,6 +303,7 @@
 						if (res.data.data.status == 200) {
 							this.tableList = res.data.data.data;
 							this.linkmans = res.data.data.data.linkmans;
+							console.log("tabelList",this.tableList)
 						}
 					},
 					fail: (err) => {
@@ -331,6 +330,15 @@
 					fail: (err) => {
 						//console.log(err)
 					}
+				})
+			},
+			// 点击资质放大
+			clickImg(logurl){
+				let imgsArray = []
+				imgsArray[0] = this.imgurl + logurl
+				uni.previewImage({
+					current: 0,
+					urls: imgsArray
 				})
 			},
 			//表单提交
