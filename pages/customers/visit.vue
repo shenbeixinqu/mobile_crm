@@ -4,7 +4,7 @@
 			<form @submit="formSubmit" @reset="formReset">
 
 				<view class="uni-form-item uni-column">
-					<view class="title">公司名称</view>
+					<view class="title">客户名称</view>
 					<input class="uni-input1" v-model="name" name="name" placeholder="请输入姓名" :disabled="true" />
 				</view>
 				<view class="uni-form-item uni-column">
@@ -452,10 +452,6 @@
 				var formData = e.detail.value;
 				var checkRes = graceChecker.check(formData, rule);
 				if (checkRes) {
-					uni.showToast({
-						title: "验证通过!",
-						icon: "none"
-					});
 					uni.request({
 						url: this.$burl + '/api/visits/apply',
 						header: {
@@ -481,10 +477,9 @@
 						},
 						success: (res) => {
 							if (res.data.data.status == 200) {
-								uni.showToast({
-									title: res.data.msg,
-									icon: "none"
-								});
+								uni.navigateTo({
+									url:"./customers"
+								})
 
 
 							} else {
