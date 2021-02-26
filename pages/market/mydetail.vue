@@ -36,7 +36,7 @@
 			<view class="leftwz">取消原因:</view><view class="rightwz">{{dataList.cancel_reason}}</view>
 		</view>
 		<view class="contentk_bottom" v-if="!dataList.result && !dataList.cancel_reason">
-			<button type="primary" @click="openBox"class="btn" >取消出访</button>
+			<button type="primary" @click="openBox"class="btn btn1" >取消出访</button>
 			<button type="primary" class="btn" @click="visitResult">填写出访结果</button>
 		</view>
 		<view class="contentk_bottom" v-else>

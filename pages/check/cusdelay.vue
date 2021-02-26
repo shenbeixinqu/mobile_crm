@@ -273,17 +273,22 @@
 		border-radius: 10upx;
 	}
 
+
 	.search-btn {
 		z-index: 500;
 		height: 60rpx;
 		width: 60rpx;
-		background: url(../../static/ss.png) no-repeat #4873c1;
+		background: url(../../static/ss.png) no-repeat;
 		background-size: 70%;
 		background-position: center;
 		position: absolute;
 		left: 425rpx;
+		border: none;
 	}
 
+	.search-btn:after {
+		border: none;
+	}
 	.shai-btn {
 		width: 15%;
 		height: 60rpx;
