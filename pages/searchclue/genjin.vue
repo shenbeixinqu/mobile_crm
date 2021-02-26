@@ -40,7 +40,7 @@
 				<view v-show="stage === '待清洗' || stage === '线索黑名单'">
 					<view class="uni-form-item uni-column">
 						<view class="title">核实电话</view>
-						<input class="uni-input" name="nphone"  @blur="bindp" placeholder="请输入核实电话" :value="stage === '待清洗' || stage === '线索黑名单'?'':'18302464786'" />
+						<input class="uni-input" name="nphone" @blur="bindp" placeholder="请输入核实电话" :value="stage === '待清洗' || stage === '线索黑名单'?'':'18302464786'" />
 
 
 					</view>
@@ -80,8 +80,9 @@
 		</view>
 					
 				<view class="uni-btn-v">
-					<button form-type="submit" class="btn">提交</button>
-					<button class="btn" @click="qx">返回</button>
+				
+					<button class="btn btn1" @click="qx">返回</button>
+						<button form-type="submit" class="btn">提交</button>
 				</view>
 			</form>
 		</view>
@@ -299,7 +300,7 @@
 					data: formDatas,
 				})
 				  .then(function (response) {
-					  console.log("fdfdfdfdfd")
+					
 				  	if (response.data.data.status == 200) {
 					uni.showToast({
 						title: res.data.msg,
@@ -335,23 +336,30 @@
 	}
 
 	.uni-btn-v {
-		width: 100%;
+	width: 100%;
+	left:0;
+		position: fixed;
+		bottom: 0;
 		display: flex;
-		flex-direction: row;
-		justify-content: center;
-		padding-top: 30upx;
-		padding-bottom: 30upx;
+		align-items: center;
+		justify-content: space-between;
 	}
 
 	.btn {
-		color: #fff;
-		width: 30%;
-		height: 70upx;
-		line-height: 70upx;
-		font-size: 24upx;
+		width: 50%;
+		height: 100upx;
+		line-height: 100upx;
+		font-size: 28upx;
 		background: #4873c1;
+		border-radius: 0;
+		bottom: 0;
+		color: #fff;
 	}
 
+	.btn1 {
+		background: #d7e8fc;
+		color: #316fd4;
+	}
 	.contentk {
 		width: 100%;
 		display: flex;

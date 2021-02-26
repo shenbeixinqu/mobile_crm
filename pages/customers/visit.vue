@@ -110,7 +110,7 @@
 					</view>
 				</view>
 
-				<view class="uni-form-item uni-column">
+				<view class="uni-form-item uni-column" style="padding-bottom: 100px;">
 					<view class="title">需陪访原因</view>
 					
 					<input type="text" name="p_typevalue" v-model="p_typevalue" :value="p_typevalue"  hidden="true"/>
@@ -118,19 +118,11 @@
 						<view class="uni-input" v-if="pfArray[p_type]">{{pfArray[p_type].name}}</view>
 						<view class="uni-input" v-else>请选择洽谈业务</view>
 					</picker>
-					<!-- 
-					<picker v-model="p_typevalue" name="p_type" @change="pfChange" :value="p_typevalue" :range="pfArray" range-key="name">
-						<view class="uni-input" v-if="pfArray[p_type]">{{pfArray[p_type].name}}</view>
-						<view class="uni-input" v-else>请选需陪访原因</view>
-					</picker> -->
-
 				</view>
 
-
-
 				<view class="uni-btn-v">
+					<button class="btn btn1" @click="qx">返回</button>
 					<button form-type="submit" class="btn">提交</button>
-					<button class="btn" @click="qx">返回</button>
 				</view>
 			</form>
 		</view>
@@ -551,21 +543,29 @@
 	}
 
 	.uni-btn-v {
-		width: 100%;
+	width: 100%;
+	left:0;
+		position: fixed;
+		bottom: 0;
 		display: flex;
-		flex-direction: row;
-		justify-content: center;
-		padding-top: 30upx;
-		padding-bottom: 30upx;
+		align-items: center;
+		justify-content: space-between;
 	}
 
 	.btn {
-		color: #fff;
-		width: 30%;
-		height: 70upx;
-		line-height: 70upx;
-		font-size: 24upx;
+		width: 50%;
+		height: 100upx;
+		line-height: 100upx;
+		font-size: 28upx;
 		background: #4873c1;
+		border-radius: 0;
+		bottom: 0;
+		color: #fff;
+	}
+
+	.btn1 {
+		background: #d7e8fc;
+		color: #316fd4;
 	}
 
 	.contentk {

@@ -8,13 +8,12 @@
 					<input class="uni-input1" v-model="name" name="name" placeholder="请输入姓名" :disabled="true" />
 				</view>
 				<view class="uni-form-item uni-column">
-					<view class="title"><text class="red">*</text>出访类型</view>	
-					<input type="text" name="v_type" v-model="v_type" :value="v_type"  hidden="true"/>
-					<picker @change="sourceChange" :range="sourceArray"
-					 range-key="name">
+					<view class="title"><text class="red">*</text>出访类型</view>
+					<input type="text" name="v_type" v-model="v_type" :value="v_type" hidden="true" />
+					<picker @change="sourceChange" :range="sourceArray" range-key="name">
 						<view class="uni-input" v-if="sourceArray[v_type]">{{sourceArray[v_type].name}}</view>
 						<view class="uni-input" v-else>请选出访类型</view>
-					</picker>		
+					</picker>
 				</view>
 				<view class="uni-form-item uni-column">
 					<view class="title"><text class="red">*</text>出访目的</view>
@@ -22,17 +21,16 @@
 				</view>
 				<view class="uni-form-item uni-column">
 					<view class="title"><text class="red">*</text>客户推广需求</view>
-			
-					<input type="text" name="s_xqclass" v-model="s_xqclass" :value="s_xqclass"  hidden="true"/>
-					<picker @change="tuiguangChange" :range="tgxqArray"
-					 range-key="name">
+
+					<input type="text" name="s_xqclass" v-model="s_xqclass" :value="s_xqclass" hidden="true" />
+					<picker @change="tuiguangChange" :range="tgxqArray" range-key="name">
 						<view class="uni-input" v-if="tgxqArray[s_xqclass]">{{tgxqArray[s_xqclass].name}}</view>
 						<view class="uni-input" v-else>请选择出访类型</view>
 					</picker>
 				</view>
 				<view class="uni-form-item uni-column">
 					<view class="title"><text class="red">*</text>客户网络意识</view>
-					<input type="text" name="s_wangluo" v-model="s_wangluo" :value="s_wangluo"  hidden="true"/>
+					<input type="text" name="s_wangluo" v-model="s_wangluo" :value="s_wangluo" hidden="true" />
 					<picker @change="kehuChange" :range="wlArray" range-key="name">
 						<view class="uni-input" v-if="wlArray[s_wangluo]">{{wlArray[s_wangluo].name}}</view>
 						<view class="uni-input" v-else>请选择客户网络意识</view>
@@ -40,7 +38,7 @@
 				</view>
 				<view class="uni-form-item uni-column">
 					<view class="title"><text class="red">*</text>出访区域</view>
-					<input type="text" name="v_area" v-model="v_area" :value="v_area"  hidden="true"/>
+					<input type="text" name="v_area" v-model="v_area" :value="v_area" hidden="true" />
 					<picker @change="cfChange" :range="cfArray" range-key="name">
 						<view class="uni-input" v-if="cfArray[v_area]">{{cfArray[v_area].name}}</view>
 						<view class="uni-input" v-else>请选出访区域</view>
@@ -62,7 +60,7 @@
 				</view>
 				<view class="uni-form-item uni-column">
 					<view class="title"><text class="red">*</text>洽谈业务</view>
-					<input type="text" name="p_class" v-model="p_class" :value="p_class"  hidden="true"/>
+					<input type="text" name="p_class" v-model="p_class" :value="p_class" hidden="true" />
 					<picker @change="qtChange" :range="qtArray" range-key="name">
 						<view class="uni-input" v-if="qtArray[p_class]">{{qtArray[p_class].name}}</view>
 						<view class="uni-input" v-else>请选择洽谈业务</view>
@@ -110,27 +108,23 @@
 					</view>
 				</view>
 
-				<view class="uni-form-item uni-column">
+				<view class="uni-form-item uni-column" style="padding-bottom: 100px;">
 					<view class="title">需陪访原因</view>
-					
-					<input type="text" name="p_typevalue" v-model="p_typevalue" :value="p_typevalue"  hidden="true"/>
+
+					<input type="text" name="p_typevalue" v-model="p_typevalue" :value="p_typevalue" hidden="true" />
 					<picker @change="pfChange" :range="pfArray" range-key="name">
 						<view class="uni-input" v-if="pfArray[p_type]">{{pfArray[p_type].name}}</view>
 						<view class="uni-input" v-else>请选择洽谈业务</view>
 					</picker>
-					<!-- 
-					<picker v-model="p_typevalue" name="p_type" @change="pfChange" :value="p_typevalue" :range="pfArray" range-key="name">
-						<view class="uni-input" v-if="pfArray[p_type]">{{pfArray[p_type].name}}</view>
-						<view class="uni-input" v-else>请选需陪访原因</view>
-					</picker> -->
-
+		
 				</view>
 
 
 
 				<view class="uni-btn-v">
-					<button form-type="submit" class="btn">提交</button>
-					<button class="btn" @click="qx">返回</button>
+				
+					<button class="btn btn1" @click="qx">返回</button>
+						<button form-type="submit" class="btn">提交</button>
 				</view>
 			</form>
 		</view>
@@ -470,7 +464,7 @@
 							s_xqclass: this.s_xqclassvalue,
 							s_wangluo: this.s_wangluovalue,
 							v_area: this.v_areavalue,
-							starttime:this.date + " " + this.time + ":00",
+							starttime: this.date + " " + this.time + ":00",
 							p_class: this.p_classvalue,
 							human: this.human,
 							tel: this.tel,
@@ -557,20 +551,28 @@
 
 	.uni-btn-v {
 		width: 100%;
+		left: 0;
+		position: fixed;
+		bottom: 0;
 		display: flex;
-		flex-direction: row;
-		justify-content: center;
-		padding-top: 30upx;
-		padding-bottom: 30upx;
+		align-items: center;
+		justify-content: space-between;
 	}
 
 	.btn {
-		color: #fff;
-		width: 30%;
-		height: 70upx;
-		line-height: 70upx;
-		font-size: 24upx;
+		width: 50%;
+		height: 100upx;
+		line-height: 100upx;
+		font-size: 28upx;
 		background: #4873c1;
+		border-radius: 0;
+		bottom: 0;
+		color: #fff;
+	}
+
+	.btn1 {
+		background: #d7e8fc;
+		color: #316fd4;
 	}
 
 	.contentk {
