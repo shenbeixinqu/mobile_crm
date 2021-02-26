@@ -84,7 +84,7 @@
 			<button type="primary" class="search-btn" @click="getList('search')"></button>
 			<input class="se-input" name="nickname" placeholder="请输入客户名称" v-model="kword" /><button type="primary" size="small"
 			 class="shai-btn" @click="drawer()">筛选</button></button> <button type="primary" size="small" class="shai-btn1"
-			 @click="getList('search')">新增</button></view>
+			 @click="add()">新增</button></view>
 		<!-- 数据列表 -->
 		<view class="content">
 			<z-paging ref="paging" @query="queryList" :list.sync="dataList" style="height: calc(100% - 80rpx);">
@@ -529,6 +529,14 @@
 					url: "./visit?chufang=" + encodeURIComponent(JSON.stringify(chufang)),
 				})
 			},
+			
+			//新增
+			add(){
+				uni.navigateTo({
+					url: '/pages/addclue/addclue'
+				})
+			},
+			
 			//跳转批注页面
 			pizhu(item) {
 				uni.navigateTo({

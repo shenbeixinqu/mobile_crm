@@ -1,5 +1,6 @@
 .lb-picker {
 	position: relative;
+	z-index: 2147483647!important;
 }
 
 .lb-picker-mask {
@@ -9,15 +10,18 @@
 	right: 0;
 	left: 0;
 	bottom: 0;
+	z-index: 2147483647!important;
 }
 
 .lb-picker-mask-animation {
 	transition-property: background-color;
 	transition-duration: 0.3s;
+	z-index: 2147483647!important;
 }
 
 .lb-picker-container {
 	position: relative;
+	z-index: 2147483647!important;
 }
 
 .lb-picker-container-fixed {
@@ -26,6 +30,7 @@
 	right: 0;
 	bottom: 0;
 	transform: translateY(100%);
+	z-index: 2147483647!important;
 	/* #ifndef APP-NVUE */
 	overflow: hidden;
 	/* #endif */

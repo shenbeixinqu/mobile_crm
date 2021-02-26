@@ -29,7 +29,8 @@
 				</form>
 			</view>
 		</e-modal>
-		<uni-drawer ref="drawer" mode="right" :width="drawWid">
+		
+	<uni-drawer ref="drawer" mode="right" :width="drawWid">
 			<view class="wk_n">
 				<view class="chou_tit">客户名称：{{ tableList.company}}</view>
 				<view class="list-item" v-for="item in tableDatazi" :key="item.id">

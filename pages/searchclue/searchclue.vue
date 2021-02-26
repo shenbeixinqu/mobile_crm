@@ -91,7 +91,7 @@
 			<button type="primary" class="search-btn" @click="getList('search')"></button>
 			<input class="se-input" name="nickname" placeholder="请输入客户名称" v-model="kword" /><button type="primary" size="small"
 			 class="shai-btn" @click="drawer()">筛选</button></button> <button type="primary" size="small" class="shai-btn1"
-			 @click="getList('search')">新增</button></view>
+			 @click="add()">新增</button></view>
 		<!-- 数据列表 -->
 		<view class="content">
 
@@ -433,6 +433,13 @@
 					return "";
 				}
 				return str;
+			},
+			
+			//新增
+			add(){
+				uni.navigateTo({
+					url: '/pages/addclue/addclue'
+				})
 			},
 
 			//列表接口
@@ -916,7 +923,7 @@
 		text-align: left;
 		text-indent: 20upx;
 		color: #666666;
-
+		z-index: 2147483647!important;
 	}
 
 	.uni-input {

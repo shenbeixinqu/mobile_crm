@@ -419,14 +419,15 @@
 	}
 	
 	.bottombtn {
-		width: 80%;
+		width: 100%;
 		right: 10upx;
-		bottom: 30upx;
+		position: fixed;
+		bottom: 0;
 		display: flex;
 		align-items: center;
 		justify-content: space-between;
 	}
-	
+
 	.check_bj {
 		width: 100%;
 		display: flex;
