@@ -67,7 +67,9 @@
 						getApp().globalData.token = userInfo.data.token
 						getApp().globalData.roles = this.role
 						this.token = getApp().globalData.token
-					
+						if (this.token){
+						this.add();	
+						}
 					}
 				});
 			},
