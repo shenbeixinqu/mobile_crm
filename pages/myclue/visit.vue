@@ -446,10 +446,6 @@
 				var formData = e.detail.value;
 				var checkRes = graceChecker.check(formData, rule);
 				if (checkRes) {
-					uni.showToast({
-						title: "验证通过!",
-						icon: "none"
-					});
 					uni.request({
 						url: this.$burl + '/api/visits/apply',
 						header: {
@@ -475,11 +471,9 @@
 						},
 						success: (res) => {
 							if (res.data.data.status == 200) {
-								uni.showToast({
-									title: res.data.msg,
-									icon: "none"
-								});
-
+								uni.navigateTo({
+									url:'./myclue'
+								})
 
 							} else {
 								uni.showToast({

@@ -97,10 +97,12 @@
 
 			<view class="list-item" v-for="(item,index) in dataList" :key="index" @tap="goDetail(item)">
 				<view class="list-text">
+					{{ index }}
 					<view class="list_tit">{{item.name}}</view>
 					<view class="tag_k" v-for="(user, i) in item.tags.data" :key="i">
 						{{user.t_tab}}
 					</view>
+					<view class="tag_k" v-if="item.dis_track">弃</view>
 					<view class="hui">{{item.stage}}</view>
 				</view>
 				<view class="list-item-top">
@@ -253,7 +255,8 @@
 
 			}
 		},
-		onLoad(options) {
+		onShow() {
+			console.log('1');
 			this.getList();
 			this.tage();
 			this.locations();
@@ -268,11 +271,10 @@
 				this.$refs[picker].show()
 			},
 			handleChange(e) {
-				console.log('change::', e)
+				
 			},
 			handleConfirm(e) {
 				// 如果存在多个picker，可以在picker上设置dataset属性，confirm中获取，就能区分是哪个picker了
-				console.log('confirm::', e)
 				if (e) {
 					const name = e.dataset.name
 					const label = e.item.map(m => m.label).join('-')
@@ -282,7 +284,7 @@
 				}
 			},
 			handleCancel(e) {
-				console.log('cancel::', e)
+				
 			},
 			checkboxChange(e) {
 				let values = e.detail.value;
@@ -335,7 +337,6 @@
 			},
 			// 全选事件
 			allChoosezt(e) {
-				console.log(e);
 				let chooseItem = e.detail.value;
 				// 全选
 				if (chooseItem[0] == 'all') {
@@ -382,7 +383,7 @@
 						this.list1 = res.data.data.options;
 					},
 					fail: (err) => {
-						//console.log(err)
+						
 					}
 				})
 			},
@@ -398,7 +399,7 @@
 						this.listhy = res.data.data.options;
 					},
 					fail: (err) => {
-						//console.log(err)
+						
 					}
 				})
 			},
@@ -422,7 +423,7 @@
 
 					},
 					fail: (err) => {
-						//console.log(err)
+						
 					}
 				})
 			},
@@ -461,11 +462,11 @@
 
 					},
 					success: (res) => {
-						console.log('我是数据的', res)
 						uni.hideLoading();
 						if (res.data.data.status == 200) {
 							this.$refs.drawer.close();
 							this.dataList = res.data.data.data;
+							console.log('this.dataList', this.dataList);
 							if (this.dataList.length == 0) {
 								this.showxs = true;
 								uni.hideLoading();
@@ -478,7 +479,7 @@
 						}
 					},
 					fail: (err) => {
-						//console.log(err)
+						
 					}
 				})
 			},
@@ -496,17 +497,12 @@
 
 			// 跳转详情页
 			goDetail(item) {
-				console.log()
 				uni.navigateTo({
 					url: '/pages/details/details?id=' + item._id
 				})
 			},
 			// 跳转出访表单页面
 			genjin(item) {
-				console.log(item)
-				// uni.navigateTo({
-				// 		url: './genjin?id=' + item._id
-				// })
 				let genjin = {
 					id: item._id,
 					ind_lead: item.ind_lead,
