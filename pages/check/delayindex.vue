@@ -15,15 +15,16 @@
 			</view>
 		</e-modal>
 		<view class="contentk_top">
+			<view class="leftwz">名额使用情况:</view><view class="rightwz">本年度申请延期客户{{ dataList.sq_cnt }}个，其中已处理通过{{dataList.tg_cnt}}个，还剩{{ dataList.ksq_cnt }}个可延期名额！</view>
 			<view class="leftwz">申请人:</view><view class="rightwz">{{dataList.addname}}</view>
 			<view class="leftwz">申请时间:</view><view class="rightwz">{{dataList.addtime}}</view>
 			<view class="leftwz">客户名称:</view><view class="rightwz">{{dataList.name}}</view>
 			<view class="leftwz">跟踪开始时间:</view><view class="rightwz">{{dataList.lastime_push}}</view>
-			<view class="leftwz">到期时间:</view><view class="rightwz">{{dataList.endtime_push}}</view>
-			<view class="leftwz">计划签单日期:</view><view class="rightwz">{{dataList.do_time}}</view>
+			<view class="leftwz">跟踪到期时间:</view><view class="rightwz">{{dataList.endtime_push}}</view>
 			<view class="leftwz">延期天数:</view><view class="rightwz">{{dataList.delay_days}}天(自然日)</view>
+			<view class="leftwz">延期后到期日:</view><view class="rightwz">{{dataList.endtime_push|addDays(dataList.delay_days)}}</view>
+			<view class="leftwz">计划签单日期:</view><view class="rightwz">{{dataList.do_time}}</view>
 			<view class="leftwz">延期原因:</view><view class="rightwz">{{dataList.reasons}}</view>	
-			<view class="leftwz">名额使用情况:</view><view class="rightwz">本年度申请延期客户{{ dataList.sq_cnt }}个，其中已处理通过{{dataList.tg_cnt}}个，还剩{{ dataList.ksq_cnt }}个可延期名额！</view>
 		</view>
 		<view class="bottombtn">
 			<button type="primary" class="btn btn1" @click="cancel">拒绝</button>
@@ -55,6 +56,33 @@
 		onLoad(options){
 			this._id = options.id 
 			this.delayDetail(this._id)
+		},
+		filters:{
+			addDays(datetime, day){
+				if (datetime === '') {
+				    return datetime
+				  }
+				  const newdate = new Date(datetime)
+				  newdate.setDate(newdate.getDate() + day)
+				  const opt = {
+				    'Y+': newdate.getFullYear().toString(), // 年
+				    'm+': (newdate.getMonth() + 1).toString(), // 月
+				    'd+': newdate.getDate().toString(), // 日
+				    'H+': newdate.getHours().toString(), // 时
+				    'M+': newdate.getMinutes().toString(), // 分
+				    'S+': newdate.getSeconds().toString() // 秒
+				    // 有其他格式化字符需求可以继续添加，必须转化成字符串
+				  }
+				  let ret
+				  let fmt = 'YYYY-mm-dd HH:MM:SS'
+				  for (const k in opt) {
+				    ret = new RegExp('(' + k + ')').exec(fmt)
+				    if (ret) {
+				      fmt = fmt.replace(ret[1], (ret[1].length === 1) ? (opt[k]) : (opt[k].padStart(ret[1].length, '0')))
+				    }
+				  }
+				  return fmt
+			}
 		},
 		methods:{
 			confirm(){
@@ -168,6 +196,7 @@
 				
 			},
 			delayDetail(_id){
+				console.log("_id", _id)
 				uni.request({
 					url: this.$burl + "/api/customer/delay/deal",
 					header: {
@@ -180,7 +209,7 @@
 					success: (res) => {
 						if (res.data.data.status == 200){
 							this.dataList = res.data.data
-							console.log("dataList",this.dataList)
+							console.log("dataList_index",this.dataList)
 						} else {
 							uni.showModal({
 								title:"提示",

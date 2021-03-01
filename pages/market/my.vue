@@ -7,7 +7,7 @@
 				</view>
 				<view class="uni-list-cell-db">
 					<picker mode="selector" v-model="cfstage" :value="cfstage" :range="stagesArr" @change="stageRequire" range-key="name">
-						<view class="uni-input" v-if="!cfstage">请选择洽谈业务</view>
+						<view class="uni-input" v-if="!cfstage">请选择出访状态</view>
 						<view class="uni-input" v-else>{{stagesArr[cfstage].name}}</view>
 					</picker>
 				</view>
@@ -54,7 +54,7 @@
 				
 				<view class="bottombtn">
 					<button type="primary" class="btn btn1" @click="getList('search')">确定</button>
-					<button type="primary"  class="btn" @click="clox()">重置</button>
+					<button type="primary"  class="btn" @click="clox">重置</button>
 				</view>
 			</view>
 		</uni-drawer>
@@ -290,6 +290,9 @@
 			},
 			//抽屉关闭
 			clox() {
+				this.e_xqclass = "",
+				this.cfresult = "",
+				this.cfstage = "",
 				this.date = "",
 				this.jdate = ""
 			},
@@ -345,7 +348,7 @@
 			},
 			formSubmit: function(e){
 				var rule = [{
-					name:"cancelReason",
+					name:"refuseReason",
 					checkType: "null",
 					checkRule: "",
 					errorMsg: "取消原因不能为空"
@@ -364,12 +367,7 @@
 							remark: this.reason
 						},
 						success: (res) => {
-							console.log("弹窗res",res)
 							if (res.data.data.status == 200){
-								uni.showModal({
-									title: res.data.msg,
-									icon:"none"
-								})
 								this.visible = false
 							} else {
 								uni.showModal({
