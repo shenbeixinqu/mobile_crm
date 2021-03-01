@@ -1,5 +1,33 @@
 <template>
 	<view class="contentk">
+		<e-modal :visible.sync="visible">
+			<view class="uni-padding-wrap uni-common-mt">
+				<form @submit="addlinkmanSubmit">
+					<view class="uni-form-item uni-column">
+						<view class="title"><text class="red">*</text>姓名</view>
+						<input class="uni-input" v-model="gname" name="nickname" placeholder="请输入姓名" />
+					</view>
+					<view class="uni-form-item uni-column">
+						<view class="title"><text class="red">*</text>电话号码</view>
+						<input class="uni-input" v-model="gphone" name="nphone" placeholder="格式参考：024-12345678或13612345678" />
+					</view>
+					<view class="uni-form-item uni-column">
+						<view class="title"><text class="red">*</text>职务</view>
+						<input type="text" name="position" v-model="gposition" :value="gposition"  hidden="true"/>
+						<picker @change="positionChange" :range="positionArray"
+						 range-key="name">
+							<view class="uni-input" v-if="positionArray[gposition]">{{positionArray[gposition].name}}</view>
+							<view class="uni-input" v-else>请选择职务</view>
+						</picker>
+					</view>
+
+					<view class="uni-btn-v">
+						<button form-type="submit" class="btn">提交</button>
+						<button class="btn" @click="qx">取消</button>
+					</view>
+				</form>
+			</view>
+		</e-modal>
 		<view class="uni-padding-wrap">
 			<form @submit="formSubmit">
 				<view class="uni-form-item ">
@@ -19,6 +47,23 @@
 					<view class="title"><text class="red">*</text>客户电话:</view>
 					<input class="uni-input1" type="number" placeholder="请输入客户电话" v-model="clueForm.phone" name="phone"
 					 placeholder-class="placeholder" />
+				</view>
+				<view class="uni-form-item">
+					<view class="title">新增联系人<view class="txtright" @click="addman"></view></view>
+				</view>
+				<view class="contactus">
+					<view class="contactus_top">
+						<view>姓名</view>
+						<view>电话号码</view>
+						<view>职务</view>
+						<view>操作</view>
+					</view>
+					<view class="contactus_bottom" v-for="(item,index) in linkmans" :key="item.value">
+						<view>{{item.realname}}</view>
+						<view>{{item.phone}}</view>
+						<view>{{item.duty}}</view>
+						<view @click="delman(index)">删除</view>
+					</view>
 				</view>
 				<view class="uni-form-item">
 					<view class="title">企业法人:</view>
@@ -94,7 +139,7 @@
 							</label>
 						</radio-group>
 					</view>
-					<label class="title" style="padding-top:80upx;"><text class="red">*</text>证明材料:</label>
+					<label v-if="clueForm.radio === '1'" class="title" style="padding-top:80upx;"><text class="red">*</text>证明材料:</label>
 					<view v-if="clueForm.radio === '1'">
 						<view class="uploads">
 							<view class="upload-image-view">
@@ -225,6 +270,33 @@
 				files3: "",
 				files4: "",
 				num: "",
+				visible: false,
+				
+				// 新增联系人弹出层
+				gname:"",
+				gphone:"",
+				gposition:"",
+				gposition_val:"",
+				positionArray:[
+					{
+						name: "老板/总经理",
+						value: "1"
+					},
+					{
+						name: "部门经理/主管",
+						value: "2"
+					},
+					{
+						name: "职员",
+						value: "9"
+					},
+					{
+						name: "其他",
+						value: "0"
+					},
+				],
+				linkmans:[],
+				objToStr:"",
 
 				fileList: [],
 				isMore: false,
@@ -481,6 +553,61 @@
 				images.splice(index, 1);
 				that.imageList = images;
 			},
+			// 添加联系人
+			addman(){
+				this.visible = true;
+			},
+			delman(index){
+				this.linkmans.splice(index,1)
+			},
+			qx() {
+				this.visible = false;
+			},
+			positionChange(e) {
+				this.gposition = e.detail.value;
+				this.gposition_val = this.positionArray[this.gposition].value;
+			},
+			addlinkmanSubmit: function(e){
+				//定义表单规则
+				var rule = [{
+						name: "nickname",
+						checkType: "string",
+						checkRule: "1,10",
+						errorMsg: "请输入姓名"
+					},
+					{
+						name: "nphone",
+						checkType: "phoneno",
+						checkRule: "",
+						errorMsg: "请输入正确手机号"
+					},
+					{
+						name: "position",
+						checkType: "null",
+						checkRule: "",
+						errorMsg: "职务不能为空"
+					}
+				];
+				// 进行表单检查
+				var linkmanData = e.detail.value;
+				var checklinkmanRes = graceChecker.check(linkmanData,rule)
+				if (checklinkmanRes) {
+					let info = new Object;
+					info['realname'] = this.gname
+					info['phone'] = this.gphone
+					info['duty'] = this.positionArray[this.gposition].name
+					this.linkmans.push(info)
+					this.visible = false
+					console.log("联系人", this.linkmans)
+					console.log("对象转字符串", this.objToStr)
+					// console.log("gposition", this.gposition)
+				} else {
+					uni.showToast({
+						title:graceChecker.error,
+						icon:"none"
+					})
+				}
+			},
 			showMore() {
 				this.isMore = !this.isMore
 			},
@@ -547,10 +674,33 @@
 				var checkRes = graceChecker.check(formData, rule);
 				if (checkRes) {
 					const formDatas = new FormData();
+					if (this.linkmans.length > 0){
+						this.objToStr = "";
+						this.linkmans.map((item) => {
+							this.objToStr = 
+								this.objToStr === ""
+									? this.objToStr + 
+									item.name + 
+									",-1,," + 
+									item.duty +
+									',,,,,,' +
+									item.phone +
+									","
+									: this.objToStr +
+									"|" + 
+									item.name +
+									",-1,," + 
+									item.duty +
+									',,,,,,' +
+									item.phone +
+									","	
+						})
+					} else {
+						this.objToStr = ""
+					}
 					formDatas.append("name", this.clueForm.name)
 					formDatas.append("is_man", this.clueForm.is_man)
 					formDatas.append("phone", this.clueForm.phone)
-					formDatas.append("files1", this.files)
 					formDatas.append("location_id", (this.clueForm.dz[2]).toString())
 					formDatas.append("location_depict", (this.clueForm.dz[1]).toString())
 					formDatas.append("location_lead", (this.clueForm.dz[0]).toString())
@@ -560,6 +710,10 @@
 					formDatas.append("source_flag", this.clueForm.source_flag)
 					formDatas.append("addto", this.clueForm.addto)
 					// 选填项
+					formDatas.append("files1", this.files1)
+					formDatas.append("files2", this.files2)
+					formDatas.append("files3", this.files3)
+					formDatas.append("files4", this.files4)
 					formDatas.append("address", this.clueForm.address)
 					formDatas.append("add_remark", this.clueForm.explain + this.clueForm.remark)
 					formDatas.append("legal", this.clueForm.legal)
@@ -570,6 +724,7 @@
 					formDatas.append("employees", this.clueForm.employees)
 					formDatas.append("openingdate", this.clueForm.openingdate)
 					formDatas.append("registered", this.clueForm.registered)
+					formDatas.append("contacts", this.objToStr)
 
 					axios({
 							method: 'post',
@@ -591,31 +746,6 @@
 								})
 							}
 						})
-					// console.log("成功")
-					// uni.request({
-					// 	url:"http://172.18.3.161:8098" + '/api/customer',
-					// 	header:{
-					// 		'Authorization': this.$token
-					// 	},
-					// 	method:"POST",
-					// 	data:{
-					// 		name: this.clueForm.name,
-					// 		is_man: this.clueForm.is_man,
-					// 		phone: this.clueForm.phone,
-					// 		files1: this.files1
-
-					// 	},
-					// 	success: (res) => {
-					// 		if (res.data.data.status == 200 ){
-					// 			console.log("添加成功")
-					// 		} else {
-					// 			console.log("添加失败",res.data.msg)
-					// 		}
-					// 	},
-					// 	fail: (err) => {
-					// 		console.log("错误",err)
-					// 	}
-					// })
 				} else {
 					uni.showModal({
 						title: graceChecker.error,
@@ -648,7 +778,7 @@
 				}
 			},
 			handleCancel(e) {
-				console.log('cancel::', e)
+				
 			},
 			//行业接口
 			industrys() {
@@ -740,6 +870,65 @@
 		border-radius: 8px;
 		background-color: #FAFAFA;
 	}
+	
+	.btn {
+			color: #fff;
+			width: 30%;
+			height: 70upx;
+			line-height: 70upx;
+			font-size: 24upx;
+			background: #4873c1;
+	}
+	
+	.contactus {
+	  width: 98%;
+	  border-bottom: none;
+	}
+	
+	.contactus_top {
+	  line-height: 60upx;
+	  height: 60upx;
+	  flex-direction: row;
+	  display: flex;
+	  font-size: 24upx;
+	}
+	
+	.contactus_top view {
+	  width: 30%;
+	  background: #f2f2f2;
+	  text-align: center;
+	  border: 1px #e4e4e4 solid;
+	  border-bottom: none;
+	  margin-left: -1px;
+	}
+	
+	.contactus_bottom {
+	  line-height: 60upx;
+	  height: 60upx;
+	  flex-direction: row;
+	  display: flex;
+	  font-size: 24upx;
+	}
+	
+	.contactus_bottom view {
+	  width: 30%;
+	  background: #f2f2f2;
+	  text-align: center;
+	  border: 1px #e4e4e4 solid;
+	  margin-left: -1px;
+	  margin-top: -1px;
+	  display: flex;
+	  align-items: center;
+	  justify-content: center;
+	}
+	
+	.contactus_top {
+	  line-height: 60upx;
+	  height: 60upx;
+	  flex-direction: row;
+	  display: flex;
+	  font-size: 24upx;
+	}
 
 	.contentk {
 		width: 100%;
@@ -755,6 +944,15 @@
 		left: 0;
 		right: 0;
 	}
+	
+	.txtright {
+			width: 60upx;
+			height: 60upx;
+			background-image: url(../../static/zj.png);
+			background-repeat: no-repeat;
+			background-position: center;
+			background-size: 100%;
+		}
 
 	.filesBox {
 		margin-top: 28rpx;
@@ -767,6 +965,15 @@
 	.red {
 		color: #f00;
 		padding-right: 10upx;
+	}
+	
+	.uni-btn-v {
+		width: 100%;
+		display: flex;
+		flex-direction: row;
+		justify-content: center;
+		padding-top: 30upx;
+		padding-bottom: 30upx;
 	}
 
 	.uni-form-item {
