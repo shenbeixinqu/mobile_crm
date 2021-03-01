@@ -51,7 +51,7 @@
 			getpower() {
 				
 				let url =
-					"https://open.weixin.qq.com/connect/oauth2/authorize?appid=wwe6a967e2bfd97adf&redirect_uri=http%3A%2F%2Frcwxge.natappfree.cc&response_type=code&scope=snsapi_userinfo#wechat_redirect"		
+					"https://open.weixin.qq.com/connect/oauth2/authorize?appid=wwe6a967e2bfd97adf&redirect_uri=http%3A%2F%2Fk94tud.natappfree.cc&response_type=code&scope=snsapi_userinfo#wechat_redirect"		
 				window.location.href = url
 			},
 			sendCode(code){
