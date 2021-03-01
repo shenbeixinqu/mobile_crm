@@ -29,6 +29,7 @@
 			</swiper-item>
 
 		</swiper>
+			<foot-part @openLogin="openLogin"></foot-part>
 	</view>
 </template>
 <script>
