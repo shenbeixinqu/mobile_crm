@@ -6,7 +6,7 @@
 			<view class="leftwz">性别：</view>
 			<view class="rightwz">
 				 <span v-if="infolist.gender === 1" >男</span>
-				 <span v-else >女</span>
+				 <span v-if="infolist.gender === 0" >女</span>
 			</view>
 			<view class="leftwz">出生日期：</view>
 			<view class="rightwz">{{ infolist.birthday }}</view>
