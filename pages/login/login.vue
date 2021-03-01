@@ -2,7 +2,7 @@
 	<view class="springboard">
 		<view class="logo"></view>
 		<view class="logowz">客户关系管理系统平台</view>
-			<button class="LoginBtn" @click="add">授权登录</button>
+			<!-- <button class="LoginBtn" @click="add">授权登录</button> -->
 		<!-- <view class="">
 		code:{{res}}
 		</view>
@@ -68,7 +68,9 @@
 						getApp().globalData.roles = this.role
 						this.token = getApp().globalData.token
 						if (this.token){
-						this.add();	
+							uni.navigateTo({
+								url:"../index/index"
+							})
 						}
 					}
 				});
@@ -100,7 +102,7 @@
 		background-size: 150upx 150upx;
 		margin-top:258upx;
 	}
-    .logowz{ width: 100%; text-align: center; color: #1891ff; font-size: 40upx; font-weight: bold;margin-top:80upx;}
+    .logowz{ width: 100%; text-align:center; color: #1891ff; font-size: 40upx; font-weight: bold;margin-top:80upx;}
 	.springboard {
 		height: 99vh;
 		position: relative;
@@ -114,7 +116,7 @@
 		width:40%;
 		height: 100upx;
 		line-height: 100upx;
-		font-size: 28upx;
+		font-size: 32upx;
 		background: #1891ff;
 		border-radius: 10upx;
 		margin-top:200upx;
