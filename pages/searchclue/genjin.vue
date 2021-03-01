@@ -39,7 +39,7 @@
 				</view>
 				<view v-show="stage === '待清洗' || stage === '线索黑名单'">
 					<view class="uni-form-item uni-column">
-						<view class="title">核实电话</view>
+						<view class="title"><text class="red">*</text>核实电话</view>
 						<input class="uni-input" name="nphone" @blur="bindp" placeholder="请输入核实电话" :value="stage === '待清洗' || stage === '线索黑名单'?'':'18302464786'" />
 
 
@@ -47,10 +47,11 @@
 
 					<view class="uni-form-item uni-column">
 						<view class="title"><text class="red">*</text>申请理由</view>
-						<textarea class="uni-inputk" @blur="bindTextAreaBlur" name="remark" placeholder="请填申请理由" :value="stage === '待清洗' || stage === '线索黑名单'?'申请理由':remark" />
+						<textarea class="uni-inputk" @blur="bindTextAreaBlur1" name="remark1" placeholder="请填申请理由" :value="stage === '待清洗' || stage === '线索黑名单'?'':'请填申请理由'" />
 						</view>
 						<!-- 上传 -->
-						<view class="uploads">
+						<view class="title"><text class="red">*</text>申请资料</view>
+						<view class="uploads" style="margin-bottom:200upx;">
 							<view class="upload-image-view">
 								<block v-for="(image,index) in imageList" :key="index">
 									<view class="image-view">
@@ -72,10 +73,9 @@
 	     
 		 </view>
 		<view v-show="!(stage === '待清洗' || stage === '线索黑名单')">
-			
 			<view class="uni-form-item uni-column" >
 				<view class="title"><text class="red">*</text>跟进理由</view>
-				<textarea class="uni-inputk" @blur="bindTextAreaBlur" name="remark"  placeholder="请填跟进理由" :value="stage === '待清洗' || stage === '线索黑名单'?'申请理由':remark" />
+				<textarea class="uni-inputk" style="margin-bottom:200upx;" @blur="bindTextAreaBlur" name="remark2"  placeholder="请填写跟进理由" :value="!(stage === '待清洗' || stage === '线索黑名单')?'':'请填申请理由'" />
 				</view>
 		</view>
 					
@@ -153,8 +153,11 @@
 						// #endif
 						count: this.imageLength - this.imageList.length,
 						success: (res) => {
-							this.imageList = this.imageList.concat(res.tempFilePaths);
-							this.files=res.tempFiles[0];
+								
+							    this.imageList = this.imageList.concat(res.tempFilePaths);
+							    this.files=res.tempFiles[0];
+						
+							
 						}
 					})
 				},
@@ -183,6 +186,9 @@
 				uni.navigateTo({
 					url: './searchclue'
 				})
+			},
+			bindTextAreaBlur1: function(e) {
+				this.remark = e.detail.value
 			},
 			bindTextAreaBlur: function(e) {
 				this.remark = e.detail.value
@@ -255,9 +261,14 @@
 					name: "nphone",
 					checkType: "phoneno",
 					checkRule: "",
-					errorMsg: "请输入正确手机号"
+					errorMsg: "请输入核实的联系方式"
 				},{
-					name: "remark",
+					name: "remark1",
+					checkType: "notnull",
+					checkRule: "",
+					errorMsg: "请填写申请理由",
+				},{
+					name: "remark2",
 					checkType: "notnull",
 					checkRule: "",
 					errorMsg: "请输入跟进理由",
@@ -267,7 +278,6 @@
 				var checkRes = graceChecker.check(formData, rule);
 				
 				if (checkRes) {
-					
 				const formDatas = new FormData();
 				if(this.stage === '待清洗' || this.stage === '线索黑名单'){
 				formDatas.append("files",this.files);
@@ -279,7 +289,6 @@
 					formDatas.append("id",this.activeId);
 					formDatas.append("remark", this.remark);
 				}
-				
 				axios({
 					method: 'post',
 					url: this.$burl +'/api/customer/track',
@@ -289,18 +298,19 @@
 					data: formDatas,
 				})
 				  .then(function (res) {
-				  	if (res.data.data.status == 200) {
-						
 					uni.showToast({
 						title: res.data.msg,
 						icon: "none",
 						success() {
-							uni.navigateBack({
-								delta:1
-							})
+							
 						}
 					});
-					}
+					setTimeout(function() {
+							uni.redirectTo({
+								url: './searchclue'
+							})
+					}, 2000);
+				  
 				  })
 				  .catch(function (error) {
 				    
@@ -401,6 +411,7 @@
 	}
 
 	.uni-inputk {
+		width: 91%;
 		height: 200rpx;
 		margin-top: 20upx;
 		padding: 15rpx 30rpx;
