@@ -51,7 +51,7 @@
 		<!-- 图片上传 -->
 		</view>
 		<view class="table-btn-view">
-			<button class="save-btn">保存</button>
+			<button class="save-btn">上传</button>
 		</view>
 	</view>
 </template>

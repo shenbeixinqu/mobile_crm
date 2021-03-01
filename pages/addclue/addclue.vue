@@ -169,10 +169,11 @@
 					</view>
 				</view>
 				<view>
-					<button class="add-btn" formType="submit">提交</button>
+					<button class="add-btn" formType="submit" style="margin-bottom:200upx;">提交</button>
 				</view>
 			</form>
 		</view>
+		<foot-part @openLogin="openLogin"></foot-part>
 	</view>
 </template>
 

@@ -17,8 +17,9 @@
 			</view>
 		</view>
 		<view class="table-btn-view">
-			<button class="btn" @click="imgOcr">保存</button>
+			<button class="btn" @click="imgOcr">开始识别</button>
 		</view>
+			<foot-part @openLogin="openLogin"></foot-part>
 	</view>
 </template>
 

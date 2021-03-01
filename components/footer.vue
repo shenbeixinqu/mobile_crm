@@ -38,11 +38,31 @@
 				nowFoot: 1,
 			}
 		},
-	
+	mounted() {
+	                        let that = this;
+	                       
+	                        /// 获取当前路由
+	                        // let nowRoute = window.location.hash;
+	                        let pages=getCurrentPages();
+	                        let currpage=null;
+	                        if(pages.length) currpage = pages[pages.length - 1];
+	                        let nowRoute=currpage.route
+	                        if(nowRoute){
+	                                if(nowRoute.indexOf('index/index')!=-1) {
+	                                        that.nowFoot = 1;
+	                                }else if(nowRoute.indexOf('myclue')!=-1) {
+	                                        that.nowFoot = 2;
+	                                }else if(nowRoute.indexOf('customers')!=-1){
+	                                        that.nowFoot = 3;
+	                                }else if(nowRoute.indexOf('mydata')!=-1){
+	                                        that.nowFoot = 4;
+	                                }
+	                        }
+	                },
 		methods: {
 			// 首页
 			goHome() {
-				if (this.nowFoot != 1) {
+				if (this.nowFoot!= 1) {
 					uni.navigateTo({
 						url: '../index/index'
 					});

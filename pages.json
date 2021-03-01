@@ -74,7 +74,7 @@
 		{
 			"path": "pages/addclue/addclue",
 			"style": {
-				"navigationBarTitleText": "添加线索"
+				"navigationBarTitleText": "新增线索"
 			}
 		},
 		{

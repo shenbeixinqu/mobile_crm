@@ -1,5 +1,6 @@
 <template>
 	<view class="contentk"> 
+
 		<view class="contentk_top">
 			<view class="leftwz">姓名：</view>
 			<view class="rightwz">{{infolist.name}}</view>
@@ -26,6 +27,7 @@
 				<img :src="infolist.photo" alt="" />
 			</view>
 		</view>
+			<foot-part @openLogin="openLogin"></foot-part> 
 	</view>
 </template>
 
@@ -40,6 +42,10 @@
 			this.myInfo()
 		},
 		methods:{
+			fanhui(){
+				uni.navigateBack();
+			},
+			
 			myInfo(){
 				uni.request({
 					url:this.$burl + "/api/user/info",
