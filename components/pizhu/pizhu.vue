@@ -1,5 +1,5 @@
 <template>
-	<view class="contentk">
+	<view class="contentk" >
 		<uni-drawer ref="drawer" mode="right" :width="drawWid">
 			<view class="wk_n">
 				<view class="chou_tit">
@@ -58,6 +58,7 @@
 		</uni-drawer>
 
 		<view class="tit">销售批注 <button type="primary" size="small" class="shai-btn" @click="drawer()"> </button></view>
+
 		<view class="bottxt" v-for="item in tableList" :key="item.addtime">
 			<view class="bottxt_top">
 				<view class="bottxt_top_y"></view>
@@ -70,6 +71,7 @@
 				</view>
 			</view>
 		</view>
+		
 	</view>
 </template>
 
@@ -234,14 +236,16 @@
 
 <style>
 	page {
-		height: 100%;
+		
 	}
 
 	.contentk {
 		width: 100%;
+		height: 100%;
 		display: flex;
 		flex-direction: column;
 		align-items: center;
+		
 	}
 
 	.uni-list-cell-db {

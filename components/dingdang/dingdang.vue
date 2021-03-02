@@ -6,7 +6,9 @@
 			<!-- 设置自定义emptyView组件，非必须。空数据时会自动展示空数据组件，不需要自己处理 -->
 			<empty-view slot="empty"></empty-view>
 			<!-- list数据，建议像下方这样在item外层套一个view，而非直接for循环item，因为slot插入有数量限制 -->
-			<view>
+			<view style="flex-direction: column;
+		justify-content: center;
+		align-items: center; display: flex; margin-bottom: 200upx;">
 		<view class="bottxt" v-for="(item,index) in tableList" :key="index">
 			<view class="bottxt_top">
 				<view class="bottxt_top_y"></view>
@@ -114,9 +116,9 @@
 	
 	.content {
 		height: 100%;
-		/* 父节点建议开启flex布局 */
 		display: flex;
 		flex-direction: column;
+		justify-content: center;
 		align-items: center;
 	}
 	
@@ -139,15 +141,7 @@
 		text-align: left;
 	}
 
-	.tit {
-		width: 95%;
-		color: #666666;
-		font-size: 30upx;
-		height: 70upx;
-		line-height: 70upx;
-		text-align: left;
-		position: relative;
-	}
+
 
 	.bottxt {
 		width: 96%;

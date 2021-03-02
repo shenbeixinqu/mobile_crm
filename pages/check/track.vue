@@ -25,8 +25,6 @@
 							<view class="list-dqk">
 								<view class="list-dq1">申请人：</view>
 								<view class="list-dq2">{{item.adder}}</view>
-								
-							
 								<view class="list-dq1">申请时间:</view>
 								<view class="list-dq2"> {{item.addtime | dateToYmd}}</view>
 								<view class="list-dq1">审核体系:</view>
@@ -191,7 +189,7 @@
 		align-items: center;
 		margin-top: 50upx;
 	}
-	
+		.list_track{ color:#666666;}
 	.content {
 		width: 96%;
 		height: 100%;
@@ -247,6 +245,7 @@
 	
 	.list_tit {
 		display: flex;
+		color: #333;
 	}
 	
 	.list-xq {

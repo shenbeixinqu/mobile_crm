@@ -197,7 +197,7 @@
 							<picker v-model="clueForm.employees" @change="employeesChange" :value="clueForm.employees" :range="employeesArray"
 							 range-key="name">
 								<view v-if="clueForm.employees">{{employeesArray[clueForm.employees].name}}</view>
-								<view v-else>请选择人员规模</view>
+								<view v-else style="color: #ccc;">请选择人员规模</view>
 							</picker>
 						</view>
 					</view>
@@ -206,7 +206,7 @@
 						<view class="uni-input1">
 							<picker mode="date" v-model="clueForm.openingdate" :value="clueForm.openingdate" @change="openingdateChange">
 								<view v-if="clueForm.openingdate">{{clueForm.openingdate}}</view>
-								<view v-else>请选择成立日期</view>
+								<view v-else style="color: #ccc;">请选择成立日期</view>
 							</picker>
 						</view>
 					</view>
@@ -838,7 +838,7 @@
 	page {
 		padding-top: 16upx;
 	}
-
+    /deep/.uni-input-placeholder{color: #ccc;}
 	.row {
 		display: flex;
 		align-items: center;
@@ -1010,18 +1010,18 @@
 	.uni-input1 {
 		background-color: #f5f7fa;
 		border-color: #e4e7ed;
-		color: #606266;
 		height: 50rpx;
 		padding: 15rpx 25rpx;
 		line-height: 50rpx;
 		font-size: 28rpx;
-
 		flex: 1;
 		border: 1px #ddd solid;
 		border-radius: 10upx;
-		color: grey;
+		color: #606266;
 	}
-
+	
+	.item-placeholder{ color: #ccc;}
+	.uni-input1 span{color:#606266!important;}
 	.uni-padding-wrap {
 		width: 90%;
 		padding-top: 20upx;
