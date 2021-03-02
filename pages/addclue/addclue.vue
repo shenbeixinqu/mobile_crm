@@ -275,6 +275,9 @@
 				num: "",
 				visible: false,
 				
+				// 自定义验证
+				through:false,
+				
 				// 新增联系人弹出层
 				gname:"",
 				gphone:"",
@@ -453,60 +456,6 @@
 			this.industrys();
 		},
 		methods: {
-			//线索提交
-			// addClue() {
-			// 	const formDatas = new FormData();
-			// 	formDatas.append("name", this.clueForm.name)
-			// 	formDatas.append("is_man", this.clueForm.is_man)
-			// 	formDatas.append("phone", this.clueForm.phone)
-			// 	formDatas.append("files1", this.files1)
-			// 	formDatas.append("files2", this.files2)
-			// 	formDatas.append("files3", this.files3)
-			// 	formDatas.append("files4", this.files4)
-			// 	formDatas.append("location_id", (this.clueForm.dz[2]).toString())
-			// 	formDatas.append("location_depict", (this.clueForm.dz[1]).toString())
-			// 	formDatas.append("location_lead", (this.clueForm.dz[0]).toString())
-			// 	formDatas.append("industry_id", (this.clueForm.select[2]).toString())
-			// 	formDatas.append("industry_depict", (this.clueForm.select[1]).toString())
-			// 	formDatas.append("industry_lead", this.label4)
-			// 	formDatas.append("source_flag", this.clueForm.source_flag)
-
-
-			// 	axios({
-			// 			method: 'post',
-			// 			url: "http://172.18.3.161:8098" + '/api/customer',
-			// 			headers: {
-			// 				'Authorization': this.$token
-			// 			},
-			// 			data: formDatas
-			// 		})
-			// 		.then(function(res) {
-			// 			console.log("新增res", res)
-			// 		})
-			// 	uni.request({
-			// 		url: "http://172.18.3.161:8098" + '/api/customer',
-			// 		header: {
-			// 			'Authorization': this.$token
-			// 		},
-			// 		method: "POST",
-			// 		data: {
-			// 			name: this.clueForm.name,
-			// 			is_man: this.clueForm.is_man,
-			// 			phone: this.clueForm.phone,
-
-			// 		},
-			// 		success: (res) => {
-			// 			if (res.data.data.status == 200) {
-			// 				console.log("添加成功")
-			// 			} else {
-			// 				console.log("添加失败", res.data.msg)
-			// 			}
-			// 		},
-			// 		fail: (err) => {
-			// 			console.log("错误", err)
-			// 		}
-			// 	})
-			// },
 			//选择图片
 			chooseImage: async function() {
 				uni.chooseImage({
@@ -644,12 +593,14 @@
 						title:"请上传图片",
 						icon:"none"
 					})
-				}
-				if(this.clueForm.radio === '2' && !this.clueForm.explain ) {
+				} else if(this.clueForm.radio === '2' && !this.clueForm.explain) {
 					uni.showToast({
 						title:"请填写特殊说明",
 						icon:"none"
 					})
+				}
+				else {
+					this.through = true
 				}
 				// 定义表单规则
 				var rule = [
@@ -688,7 +639,7 @@
 				var formData = e.detail.value;
 				var checkRes = graceChecker.check(formData, rule);
 				
-				if (checkRes) {
+				if (checkRes && this.through) {
 					const formDatas = new FormData();
 					if (this.linkmans.length > 0){
 						this.objToStr = "";
@@ -765,9 +716,14 @@
 								})
 							}
 						})
-				} else {
+				} else if(!checkRes){
 					uni.showToast({
 						title:graceChecker.error,
+						icon:"none"
+					})
+				} else {
+					uni.showToast({
+						title:"请上传图片或填写特殊说明",
 						icon:"none"
 					})
 				}
