@@ -7,9 +7,10 @@
 			<view class="leftwz">申请时间:</view><view class="rightwz">{{dataList.addtime}}</view>
 			<view class="leftwz">客户名称:</view><view class="rightwz">{{dataList.name}}</view>
 			<view class="leftwz">跟踪开始时间:</view><view class="rightwz">{{dataList.lastime_push}}</view>
-			<view class="leftwz">到期时间:</view><view class="rightwz">{{dataList.endtime_push}}</view>
-			<view class="leftwz">计划签单日期:</view><view class="rightwz">{{dataList.do_time}}</view>
+			<view class="leftwz">跟踪到期时间:</view><view class="rightwz">{{dataList.endtime_push}}</view>
 			<view class="leftwz">延期天数:</view><view class="rightwz">{{dataList.delay_days}}天(自然日)</view>
+			<view class="leftwz">延期后到期日:</view><view class="rightwz">{{dataList.endtime_push|addDays(dataList.delay_days)}}</view>
+			<view class="leftwz">计划签单日期:</view><view class="rightwz">{{dataList.do_time}}</view>
 			<view class="leftwz">延期原因:</view><view class="rightwz">{{dataList.reasons}}</view>	
 		</view>
 	</view>
@@ -29,6 +30,33 @@
 		onLoad(options){
 			this._id = options._id
 			this.delayDetail(this._id)
+		},
+		filters:{
+			addDays(datetime, day){
+				if (datetime === '') {
+				    return datetime
+				  }
+				  const newdate = new Date(datetime)
+				  newdate.setDate(newdate.getDate() + day)
+				  const opt = {
+				    'Y+': newdate.getFullYear().toString(), // 年
+				    'm+': (newdate.getMonth() + 1).toString(), // 月
+				    'd+': newdate.getDate().toString(), // 日
+				    'H+': newdate.getHours().toString(), // 时
+				    'M+': newdate.getMinutes().toString(), // 分
+				    'S+': newdate.getSeconds().toString() // 秒
+				    // 有其他格式化字符需求可以继续添加，必须转化成字符串
+				  }
+				  let ret
+				  let fmt = 'YYYY-mm-dd HH:MM:SS'
+				  for (const k in opt) {
+				    ret = new RegExp('(' + k + ')').exec(fmt)
+				    if (ret) {
+				      fmt = fmt.replace(ret[1], (ret[1].length === 1) ? (opt[k]) : (opt[k].padStart(ret[1].length, '0')))
+				    }
+				  }
+				  return fmt
+			}
 		},
 		methods:{
 			delayDetail(_id){

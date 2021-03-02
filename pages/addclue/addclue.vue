@@ -139,13 +139,13 @@
 							</label>
 						</radio-group>
 					</view>
-					<label v-if="clueForm.radio === '1'" class="title" style="padding-top:80upx;"><text class="red">*</text>证明材料:</label>
-					<view v-if="clueForm.radio === '1'">
+					<label v-show="clueForm.radio === '1'" class="title" style="padding-top:80upx;"><text class="red">*</text>证明材料:</label>
+					<view v-show="clueForm.radio === '1'">
 						<view class="uploads">
 							<view class="upload-image-view">
 								<block v-for="(image,index) in imageList" :key="index">
 									<view class="image-view">
-										<image :src="image" :data-src="image" @tap="previewImage"></image>
+										<image :src="image" name="image" :data-src="image" @tap="previewImage"></image>
 										<view class="del-btn" :data-index="index" @tap="deleteImage">
 											<view class="baicha"></view>
 										</view>
@@ -160,9 +160,9 @@
 							</view>
 						</view>
 					</view>
-					<view class="uni-form-item" v-else>
+					<view class="uni-form-item" v-show="clueForm.radio === '2'">
 						<label class="title"><text class="red">*</text>特殊说明:</label>
-						<input class="uni-input1" type="text" v-model="clueForm.explain" placeholder-class="placeholder" />
+						<input class="uni-input1" type="text" v-model="clueForm.explain" name="explain" placeholder-class="placeholder" />
 					</view>
 				</view>
 				<view class="uni-form-item">
@@ -587,7 +587,7 @@
 						checkType: "null",
 						checkRule: "",
 						errorMsg: "职务不能为空"
-					}
+					},
 				];
 				// 进行表单检查
 				var linkmanData = e.detail.value;
@@ -599,9 +599,6 @@
 					info['duty'] = this.positionArray[this.gposition].name
 					this.linkmans.push(info)
 					this.visible = false
-					console.log("联系人", this.linkmans)
-					console.log("对象转字符串", this.objToStr)
-					// console.log("gposition", this.gposition)
 				} else {
 					uni.showToast({
 						title:graceChecker.error,
@@ -617,6 +614,7 @@
 			},
 			zhizhaoChange(evt) {
 				this.clueForm.radio = evt.detail.value
+				console.log("有无执照", this.clueForm.radio)
 			},
 			sourceChange(e) {
 				this.clueForm.source_flag = e.detail.value;
@@ -633,40 +631,53 @@
 			},
 			formSubmit(e) {
 				// 定义表单规则
-				var rule = [{
-						name: "name",
-						checkType: "null",
-						errorMsg: "请输入客户名称"
+				var rule = [
+					// {
+					// 	name: "name",
+					// 	checkType: "null",
+					// 	errorMsg: "请输入客户名称"
+					// },
+					// {
+					// 	name: "phone",
+					// 	checkType: "null",
+					// 	errorMsg: "请输入客户电话"
+					// },
+					// {
+					// 	name: "address",
+					// 	checkType: "null",
+					// 	errorMsg: "请选择地区"
+					// },
+					// {
+					// 	name: "industy",
+					// 	checkType: "null",
+					// 	errorMsg: "请选择行业"
+					// },
+					// {
+					// 	name: "source",
+					// 	checkType: "null",
+					// 	errorMsg: "请选择客户来源"
+					// },
+					// {
+					// 	name: "addto",
+					// 	checkType: "null",
+					// 	errorMsg: "请选择添加到"
+					// },
+					// {
+					// 	name: "radio",
+					// 	checkType: "null",
+					// 	errorMsg: "请选择是否有执照"
+					// },
+					{
+						name:"explain",
+						checkType:"null",
+						checkRule:"",
+						errorMsg:"特殊说明不能为空"
 					},
 					{
-						name: "phone",
-						checkType: "null",
-						errorMsg: "请输入客户电话"
-					},
-					{
-						name: "address",
-						checkType: "null",
-						errorMsg: "请选择地区"
-					},
-					{
-						name: "industy",
-						checkType: "null",
-						errorMsg: "请选择行业"
-					},
-					{
-						name: "source",
-						checkType: "null",
-						errorMsg: "请选择客户来源"
-					},
-					{
-						name: "addto",
-						checkType: "null",
-						errorMsg: "请选择添加到"
-					},
-					{
-						name: "radio",
-						checkType: "null",
-						errorMsg: "请选择是否有执照"
+						name:"image",
+						checkType:"null",
+						checkRule:"",
+						errorMsg:"请上传图片"
 					}
 
 				]
@@ -711,12 +722,16 @@
 					formDatas.append("source_flag", this.clueForm.source_flag)
 					formDatas.append("addto", this.clueForm.addto)
 					// 选填项
-					formDatas.append("files1", this.files1)
-					formDatas.append("files2", this.files2)
-					formDatas.append("files3", this.files3)
-					formDatas.append("files4", this.files4)
+					if (this.clueForm.radio === '1'){
+						formDatas.append("files1", this.files1)
+						formDatas.append("files2", this.files2)
+						formDatas.append("files3", this.files3)
+						formDatas.append("files4", this.files4)
+					} else if(this.clueForm.radio === '2') {
+						formDatas.append("add_remark", this.clueForm.explain + this.clueForm.remark)
+					}
+					
 					formDatas.append("address", this.clueForm.address)
-					formDatas.append("add_remark", this.clueForm.explain + this.clueForm.remark)
 					formDatas.append("legal", this.clueForm.legal)
 					formDatas.append("fax", this.clueForm.fax)
 					formDatas.append("zipcode", this.clueForm.zipcode)
