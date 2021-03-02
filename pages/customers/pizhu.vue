@@ -7,8 +7,9 @@
 					<textarea class="uni-input" @blur="bindTextAreaBlur" name="remark" placeholder="请填写批注" :vlaue="remark" />
 					</view>
 				<view class="uni-btn-v">
-					<button form-type="submit" class="btn">提交</button>
 					<button class="btn btn1" @click="qx">返回</button>
+					<button form-type="submit" class="btn">提交</button>
+					
 				</view>
 			</form>
 		</view>
@@ -150,7 +151,7 @@ id:''
 		background: #d7e8fc;
 		color: #316fd4;
 	}
-
+.btn1:after{border-radius: 0;}
 	.contentk {
 		width: 100%;
 		display: flex;

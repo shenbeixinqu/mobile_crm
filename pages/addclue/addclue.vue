@@ -1,23 +1,25 @@
 <template>
 	<view class="contentk">
+		<view class="saomiao" @click="saomiao">一键扫描文件添加</view>
+		<view style="width:95%; border-top: 1px #ddd solid;margin-top: 10upx;"></view>
 		<e-modal :visible.sync="visible">
 			<view class="uni-padding-wrap uni-common-mt">
 				<form @submit="addlinkmanSubmit">
 					<view class="uni-form-item uni-column">
 						<view class="title"><text class="red">*</text>姓名</view>
-						<input class="uni-input" v-model="gname" name="nickname" placeholder="请输入姓名" />
+						<input class="uni-input1" v-model="gname" name="nickname" placeholder="请输入姓名" />
 					</view>
 					<view class="uni-form-item uni-column">
 						<view class="title"><text class="red">*</text>电话号码</view>
-						<input class="uni-input" v-model="gphone" name="nphone" placeholder="格式参考：024-12345678或13612345678" />
+						<input class="uni-input1" v-model="gphone" name="nphone" placeholder="格式参考：024-12345678或13612345678" />
 					</view>
 					<view class="uni-form-item uni-column">
 						<view class="title"><text class="red">*</text>职务</view>
 						<input type="text" name="position" v-model="gposition" :value="gposition"  hidden="true"/>
-						<picker @change="positionChange" :range="positionArray"
+						<picker class="uni-input1" @change="positionChange" :range="positionArray"
 						 range-key="name">
-							<view class="uni-input" v-if="positionArray[gposition]">{{positionArray[gposition].name}}</view>
-							<view class="uni-input" v-else>请选择职务</view>
+							<view  v-if="positionArray[gposition]">{{positionArray[gposition].name}}</view>
+							<view  v-else  style="color: #ccc;">请选择职务</view>
 						</picker>
 					</view>
 
@@ -36,20 +38,20 @@
 				</view>
 				<view class="uni-form-item">
 					<radio-group name="is_man" @change="radioChange">
-						<view class="title"><text class="red">*</text>客户性质:</view>
-						<label class="uni-labe">
-							<radio value="公司" checked="checked" /><text style="padding-right:20upx;">公司</text>
+						<view class="title" style="padding-top:30upx;"><text class="red">*</text>客户性质:</view>
+						<label class="uni-labe" style="margin-top:5upx; display: block;" > 
+							<radio style="margin-left:40upx;" value="公司" checked="checked" /><text style="padding-right:20upx;">公司</text>
 							<radio value="个人" /><text>个人</text>
 						</label>
 					</radio-group>
 				</view>
 				<view class="uni-form-item">
-					<view class="title"><text class="red">*</text>客户电话:</view>
+					<view class="title" style="padding-top:30upx;"><text class="red">*</text>客户电话:</view>
 					<input class="uni-input1" type="number" placeholder="请输入客户电话" v-model="clueForm.phone" name="phone"
 					 placeholder-class="placeholder" />
 				</view>
 				<view class="uni-form-item">
-					<view class="title">新增联系人<view class="txtright" @click="addman"></view></view>
+					<view class="tit">新增联系人<view class="txtright" @click="addman"></view></view>
 				</view>
 				<view class="contactus">
 					<view class="contactus_top">
@@ -62,15 +64,15 @@
 						<view>{{item.realname}}</view>
 						<view>{{item.phone}}</view>
 						<view>{{item.duty}}</view>
-						<view @click="delman(index)">删除</view>
+						<view @click="delman(index)" style="color:#4873c1;">删除</view>
 					</view>
 				</view>
 				<view class="uni-form-item">
-					<view class="title">企业法人:</view>
+					<view class="title" style="padding-top:30upx;">企业法人:</view>
 					<input class="uni-input1" placeholder="请输入企业法人" type="text" v-model="clueForm.legal" placeholder-class="placeholder" />
 				</view>
 				<view class="uni-form-item">
-					<view class="title"><text class="red">*</text>地区:</view>
+					<view class="title" style="padding-top:30upx;"><text class="red">*</text>地区:</view>
 					<input type="text" name="address" :value="label3" hidden="true" />
 					<view>
 						<view class="list-itemk" @tap="handleTap('picker3')">
@@ -89,11 +91,11 @@
 
 				</view>
 				<view class="uni-form-item">
-					<view class="title">详细地址:</view>
+					<view class="title" style="padding-top:30upx;">详细地址:</view>
 					<input class="uni-input1" placeholder="请输入详细地址" type="text" v-model="clueForm.address" placeholder-class="placeholder" />
 				</view>
 				<view class="uni-form-item">
-					<view class="title"><text class="red">*</text>行业:</view>
+					<view class="title" style="padding-top:30upx;"><text class="red">*</text>行业:</view>
 					<input type="text" name="industy" :value="label4" hidden="true" />
 					<view>
 						<view class="list-itemk" @tap="handleTap('picker4')">
@@ -110,7 +112,7 @@
 					</view>
 				</view>
 				<view class="uni-form-item">
-					<view class="title"><text class="red">*</text>客户来源:</view>
+					<view class="title" style="padding-top:30upx;"><text class="red">*</text>客户来源:</view>
 					<input type="text" name="source" v-model="clueForm.source_flag" :value="clueForm.source_flag" hidden="true" />
 					<view class="uni-input1">
 						<picker @change="sourceChange" :range="sourceArray" range-key="name">
@@ -121,7 +123,7 @@
 
 				</view>
 				<view class="uni-form-item">
-					<view class="title"><text class="red">*</text>添加到:</view>
+					<view class="title" style="padding-top:30upx;"><text class="red">*</text>添加到:</view>
 					<input type="text" name="addto" v-model="clueForm.addto" :value="clueForm.addto" hidden="true" />
 					<view class="uni-input1">
 						<picker @change="addtoChange" :range="addtoArray" range-key="name">
@@ -134,14 +136,14 @@
 				<view>
 					<view class="uni-form-item">
 						<radio-group name="radio" v-model="clueForm.radio" @change="zhizhaoChange">
-							<view class="title"><text class="red">*</text>有无执照:</view>
-							<label class="uni-labe">
-								<radio value="1" checked="checked" /><text style="padding-right:20upx;">有</text>
+							<view class="title" style="padding-top:30upx;"><text class="red">*</text>有无执照:</view>
+							<label  style="margin-top:5upx; display: block;"  class="uni-labe">
+								<radio value="1" checked="checked" style="margin-left:40upx;"  /><text style="padding-right:20upx;">有</text>
 								<radio value="2" /><text>无</text>
 							</label>
 						</radio-group>
 					</view>
-					<label v-show="clueForm.radio === '1'" class="title" style="padding-top:80upx;"><text class="red">*</text>证明材料:</label>
+					<view v-show="clueForm.radio === '1'" class="title" style="padding-top:30upx;"><text class="red">*</text>证明材料:</view>
 					<view v-show="clueForm.radio === '1'">
 						<view class="uploads">
 							<view class="upload-image-view">
@@ -163,36 +165,36 @@
 						</view>
 					</view>
 					<view class="uni-form-item" v-show="clueForm.radio === '2'">
-						<label class="title"><text class="red">*</text>特殊说明:</label>
+						<label class="title" style="padding-top:30upx;"><text class="red">*</text>特殊说明:</label>
 						<input class="uni-input1" type="text" v-model="clueForm.explain" name="explain" placeholder-class="placeholder" />
 					</view>
 				</view>
 				<view class="uni-form-item">
-					<label class="title">备注:</label>
+					<label class="title" style="padding-top:30upx;">备注:</label>
 					<input class="uni-input1" placeholder="请输入备注" type="text" v-model="clueForm.remark" placeholder-class="placeholder" />
 				</view>
 				<view>
-					<view @click="showMore">展开</view>
+					<view @click="showMore" class="zk">更多信息</view>
 				</view>
 				<view v-if="isMore">
 					<view class="uni-form-item">
-						<label class="title">传真:</label>
+						<label class="title" style="padding-top:30upx;">传真:</label>
 						<input class="uni-input1" placeholder="请输入传真" type="text" v-model="clueForm.fax" placeholder-class="placeholder" />
 					</view>
 					<view class="uni-form-item">
-						<label class="title">邮编:</label>
+						<label class="title" style="padding-top:30upx;">邮编:</label>
 						<input class="uni-input1" placeholder="请输入邮编" type="text" v-model="clueForm.zipcode" placeholder-class="placeholder" />
 					</view>
 					<view class="uni-form-item">
-						<label class="title">邮箱:</label>
+						<label class="title" style="padding-top:30upx;">邮箱:</label>
 						<input class="uni-input1" placeholder="请输入邮箱" type="text" v-model="clueForm.email" placeholder-class="placeholder" />
 					</view>
 					<view class="uni-form-item">
-						<label class="title">主营业务:</label>
+						<label class="title" style="padding-top:30upx;">主营业务:</label>
 						<input class="uni-input1" placeholder="请输入主营业务" type="text" v-model="clueForm.business" placeholder-class="placeholder" />
 					</view>
 					<view class="uni-form-item">
-						<label class="title">人员规模:</label>
+						<label class="title" style="padding-top:30upx;">人员规模:</label>
 						<view class="uni-input1">
 							<picker v-model="clueForm.employees" @change="employeesChange" :value="clueForm.employees" :range="employeesArray"
 							 range-key="name">
@@ -202,7 +204,7 @@
 						</view>
 					</view>
 					<view class="uni-form-item">
-						<label class="title">成立日期:</label>
+						<label class="title" style="padding-top:30upx;">成立日期:</label>
 						<view class="uni-input1">
 							<picker mode="date" v-model="clueForm.openingdate" :value="clueForm.openingdate" @change="openingdateChange">
 								<view v-if="clueForm.openingdate">{{clueForm.openingdate}}</view>
@@ -211,7 +213,7 @@
 						</view>
 					</view>
 					<view class="uni-form-item">
-						<label class="title">注册资金:</label>
+						<label class="title" style="padding-top:30upx;">注册资金:</label>
 						<input class="uni-input1" placeholder="请输入注册资金" type="number" v-model="clueForm.registered" placeholder-class="placeholder" />
 					</view>
 				</view>
@@ -509,6 +511,12 @@
 				images.splice(index, 1);
 				that.imageList = images;
 			},
+			//扫猫页跳转
+			saomiao(){
+				uni.navigateTo({
+					url: '/pages/addclue/imgocr'
+				})
+			},
 			// 添加联系人
 			addman(){
 				this.visible = true;
@@ -794,7 +802,22 @@
 	page {
 		padding-top: 16upx;
 	}
+	.saomiao{ width:50%; height:80upx; line-height: 80upx;  text-align: center; background: url(../../static/saomiao.png) no-repeat; background-size:50upx 50upx;background-position: left center;}
     /deep/.uni-input-placeholder{color: #ccc;}
+	.zk{ width: 50%; margin: 0 auto; color:#4873c1;height: 70upx; line-height: 70upx; text-align: center; background: url(../../static/zk.png) no-repeat;background-size:40upx 40upx;background-position:85% center; text-align: center;}
+	
+	.tit {
+		width:98%;
+		color: #666666;
+		font-size: 30upx;
+		height: 70upx;
+		line-height: 70upx;
+		text-align: left;
+		display: flex;
+		flex-direction: row;
+		justify-content: space-between;
+		align-items: center;
+	}
 	.row {
 		display: flex;
 		align-items: center;
@@ -870,9 +893,9 @@
 	
 	.contactus_top view {
 	  width: 30%;
-	  background: #f2f2f2;
+	  background: #f5f7fa;
 	  text-align: center;
-	  border: 1px #e4e4e4 solid;
+	  border: 1px #e4e7ed solid;
 	  border-bottom: none;
 	  margin-left: -1px;
 	}
@@ -887,9 +910,9 @@
 	
 	.contactus_bottom view {
 	  width: 30%;
-	  background: #f2f2f2;
+	  background: #f5f7fa;
 	  text-align: center;
-	  border: 1px #e4e4e4 solid;
+	  border: 1px #e4e7ed solid;
 	  margin-left: -1px;
 	  margin-top: -1px;
 	  display: flex;

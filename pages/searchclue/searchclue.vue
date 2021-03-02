@@ -101,7 +101,7 @@
 					<view class="tag_k" v-for="(user, i) in item.tags.data" :key="i">
 						{{user.t_tab}}
 					</view>
-					<view class="tag_k" v-if="item.dis_track">弃</view>
+					<view class="tag_k1" v-if="item.dis_track">弃</view>
 					<view class="hui">{{item.stage}}</view>
 				</view>
 				<view class="list-item-top">
@@ -633,6 +633,19 @@
 		margin-left: 10upx;
 	}
 
+	.tag_k1{
+		display: flex;
+		background-color:#fdf6ec;
+		font-size: 20rpx;
+		margin-left: 5rpx;
+		width: 40rpx;
+		height: 40rpx;
+		line-height: 40rpx;
+		width: 40rpx;
+		justify-content: center;
+		color: #e6a23c;
+		margin-left: 10upx;
+	}
 	.list-dq {
 		width: 100%;
 		text-align: left;
