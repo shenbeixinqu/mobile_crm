@@ -116,7 +116,8 @@
 					<input type="text" name="source" v-model="clueForm.source_flag" :value="clueForm.source_flag" hidden="true" />
 					<view class="uni-input1">
 						<picker @change="sourceChange" :range="sourceArray" range-key="name">
-							<view>{{sourceArray[clueForm.source_flag].name}}</view>
+							<view v-if="sourceArray[clueForm.source_flag]">{{sourceArray[clueForm.source_flag].name}}</view>
+							<view v-else>请选择客户来源</view>
 						</picker>
 					</view>
 
@@ -126,7 +127,8 @@
 					<input type="text" name="addto" v-model="clueForm.addto" :value="clueForm.addto" hidden="true" />
 					<view class="uni-input1">
 						<picker @change="addtoChange" :range="addtoArray" range-key="name">
-							<view>{{addtoArray[clueForm.addto].name}}</view>
+							<view v-if="addtoArray[clueForm.addto]">{{addtoArray[clueForm.addto].name}}</view>
+							<view v-else>请选择添加到</view>
 						</picker>
 					</view>
 
@@ -303,7 +305,8 @@
 
 				fileList: [],
 				isMore: false,
-				sourceArray: [{
+				sourceArray: [
+					{
 						name: "个人查找（公共资源)",
 						value: "1"
 					},
@@ -364,7 +367,8 @@
 						value: "15"
 					},
 				],
-				addtoArray: [{
+				addtoArray: [
+					{
 						name: "公共线索库",
 						value: "10"
 					},
@@ -418,8 +422,10 @@
 					add_remark: "",
 					legal: "",
 					select: [],
-					source_flag: 0,
-					addto: 0,
+					source_flag: '',
+					source_flag_val:"",
+					addto: '',
+					addto_val:"",
 					radio: "1",
 					employees: 0,
 					// openingdate: getDate({
@@ -450,59 +456,59 @@
 		},
 		methods: {
 			//线索提交
-			addClue() {
-				const formDatas = new FormData();
-				formDatas.append("name", this.clueForm.name)
-				formDatas.append("is_man", this.clueForm.is_man)
-				formDatas.append("phone", this.clueForm.phone)
-				formDatas.append("files1", this.files1)
-				formDatas.append("files2", this.files2)
-				formDatas.append("files3", this.files3)
-				formDatas.append("files4", this.files4)
-				formDatas.append("location_id", (this.clueForm.dz[2]).toString())
-				formDatas.append("location_depict", (this.clueForm.dz[1]).toString())
-				formDatas.append("location_lead", (this.clueForm.dz[0]).toString())
-				formDatas.append("industry_id", (this.clueForm.select[2]).toString())
-				formDatas.append("industry_depict", (this.clueForm.select[1]).toString())
-				formDatas.append("industry_lead", this.label4)
-				formDatas.append("source_flag", this.clueForm.source_flag)
+			// addClue() {
+			// 	const formDatas = new FormData();
+			// 	formDatas.append("name", this.clueForm.name)
+			// 	formDatas.append("is_man", this.clueForm.is_man)
+			// 	formDatas.append("phone", this.clueForm.phone)
+			// 	formDatas.append("files1", this.files1)
+			// 	formDatas.append("files2", this.files2)
+			// 	formDatas.append("files3", this.files3)
+			// 	formDatas.append("files4", this.files4)
+			// 	formDatas.append("location_id", (this.clueForm.dz[2]).toString())
+			// 	formDatas.append("location_depict", (this.clueForm.dz[1]).toString())
+			// 	formDatas.append("location_lead", (this.clueForm.dz[0]).toString())
+			// 	formDatas.append("industry_id", (this.clueForm.select[2]).toString())
+			// 	formDatas.append("industry_depict", (this.clueForm.select[1]).toString())
+			// 	formDatas.append("industry_lead", this.label4)
+			// 	formDatas.append("source_flag", this.clueForm.source_flag)
 
 
-				axios({
-						method: 'post',
-						url: "http://172.18.3.161:8098" + '/api/customer',
-						headers: {
-							'Authorization': this.$token
-						},
-						data: formDatas
-					})
-					.then(function(res) {
-						console.log("新增res", res)
-					})
-				uni.request({
-					url: "http://172.18.3.161:8098" + '/api/customer',
-					header: {
-						'Authorization': this.$token
-					},
-					method: "POST",
-					data: {
-						name: this.clueForm.name,
-						is_man: this.clueForm.is_man,
-						phone: this.clueForm.phone,
+			// 	axios({
+			// 			method: 'post',
+			// 			url: "http://172.18.3.161:8098" + '/api/customer',
+			// 			headers: {
+			// 				'Authorization': this.$token
+			// 			},
+			// 			data: formDatas
+			// 		})
+			// 		.then(function(res) {
+			// 			console.log("新增res", res)
+			// 		})
+			// 	uni.request({
+			// 		url: "http://172.18.3.161:8098" + '/api/customer',
+			// 		header: {
+			// 			'Authorization': this.$token
+			// 		},
+			// 		method: "POST",
+			// 		data: {
+			// 			name: this.clueForm.name,
+			// 			is_man: this.clueForm.is_man,
+			// 			phone: this.clueForm.phone,
 
-					},
-					success: (res) => {
-						if (res.data.data.status == 200) {
-							console.log("添加成功")
-						} else {
-							console.log("添加失败", res.data.msg)
-						}
-					},
-					fail: (err) => {
-						console.log("错误", err)
-					}
-				})
-			},
+			// 		},
+			// 		success: (res) => {
+			// 			if (res.data.data.status == 200) {
+			// 				console.log("添加成功")
+			// 			} else {
+			// 				console.log("添加失败", res.data.msg)
+			// 			}
+			// 		},
+			// 		fail: (err) => {
+			// 			console.log("错误", err)
+			// 		}
+			// 	})
+			// },
 			//选择图片
 			chooseImage: async function() {
 				uni.chooseImage({
@@ -626,9 +632,12 @@
 			},
 			sourceChange(e) {
 				this.clueForm.source_flag = e.detail.value;
+				this.clueForm.source_flag_val = this.sourceArray[this.clueForm.source_flag].value
 			},
 			addtoChange(e) {
+				console.log("tianjiadao", e)
 				this.clueForm.addto = e.detail.value;
+				this.clueForm.addto_val = this.addtoArray[this.clueForm.addto].value
 			},
 			employeesChange(e) {
 				this.clueForm.employees = e.detail.value;
@@ -638,60 +647,55 @@
 				this.clueForm.openingdate = e.detail.value;
 			},
 			formSubmit(e) {
+				if(this.clueForm.radio == '1' && this.imageList.length == 0){
+					uni.showToast({
+						title:"请上传图片",
+						icon:"none"
+					})
+				}
+				if(this.clueForm.radio === '2' && !this.clueForm.explain ) {
+					uni.showToast({
+						title:"请填写特殊说明",
+						icon:"none"
+					})
+				}
 				// 定义表单规则
 				var rule = [
-					// {
-					// 	name: "name",
-					// 	checkType: "null",
-					// 	errorMsg: "请输入客户名称"
-					// },
-					// {
-					// 	name: "phone",
-					// 	checkType: "null",
-					// 	errorMsg: "请输入客户电话"
-					// },
-					// {
-					// 	name: "address",
-					// 	checkType: "null",
-					// 	errorMsg: "请选择地区"
-					// },
-					// {
-					// 	name: "industy",
-					// 	checkType: "null",
-					// 	errorMsg: "请选择行业"
-					// },
-					// {
-					// 	name: "source",
-					// 	checkType: "null",
-					// 	errorMsg: "请选择客户来源"
-					// },
-					// {
-					// 	name: "addto",
-					// 	checkType: "null",
-					// 	errorMsg: "请选择添加到"
-					// },
-					// {
-					// 	name: "radio",
-					// 	checkType: "null",
-					// 	errorMsg: "请选择是否有执照"
-					// },
 					{
-						name:"explain",
-						checkType:"null",
-						checkRule:"",
-						errorMsg:"特殊说明不能为空"
+						name: "name",
+						checkType: "null",
+						errorMsg: "请输入客户名称"
 					},
 					{
-						name:"image",
-						checkType:"null",
-						checkRule:"",
-						errorMsg:"请上传图片"
+						name: "phone",
+						checkType: "null",
+						errorMsg: "请输入客户电话"
+					},
+					{
+						name: "address",
+						checkType: "null",
+						errorMsg: "请选择地区"
+					},
+					{
+						name: "industy",
+						checkType: "null",
+						errorMsg: "请选择行业"
+					},
+					{
+						name: "source",
+						checkType: "null",
+						errorMsg: "请选择客户来源"
+					},
+					{
+						name: "addto",
+						checkType: "null",
+						errorMsg: "请选择添加到"
 					}
-
 				]
 				// 进行表单检查
 				var formData = e.detail.value;
 				var checkRes = graceChecker.check(formData, rule);
+				
 				if (checkRes) {
 					const formDatas = new FormData();
 					if (this.linkmans.length > 0){
@@ -718,6 +722,14 @@
 					} else {
 						this.objToStr = ""
 					}
+					
+					
+					// 选填项
+					formDatas.append("files1", this.files1)
+					formDatas.append("files2", this.files2)
+					formDatas.append("files3", this.files3)
+					formDatas.append("files4", this.files4)
+					formDatas.append("add_remark", this.clueForm.explain + this.clueForm.remark)
 					formDatas.append("name", this.clueForm.name)
 					formDatas.append("is_man", this.clueForm.is_man)
 					formDatas.append("phone", this.clueForm.phone)
@@ -727,17 +739,8 @@
 					formDatas.append("industry_id", (this.clueForm.select[2]).toString())
 					formDatas.append("industry_depict", (this.clueForm.select[1]).toString())
 					formDatas.append("industry_lead", this.label4)
-					formDatas.append("source_flag", this.clueForm.source_flag)
-					formDatas.append("addto", this.clueForm.addto)
-					// 选填项
-					if (this.clueForm.radio === '1'){
-						formDatas.append("files1", this.files1)
-						formDatas.append("files2", this.files2)
-						formDatas.append("files3", this.files3)
-						formDatas.append("files4", this.files4)
-					} else if(this.clueForm.radio === '2') {
-						formDatas.append("add_remark", this.clueForm.explain + this.clueForm.remark)
-					}
+					formDatas.append("source_flag", this.clueForm.source_flag_val)
+					formDatas.append("addto", this.clueForm.addto_val)
 					
 					formDatas.append("address", this.clueForm.address)
 					formDatas.append("legal", this.clueForm.legal)
@@ -771,9 +774,9 @@
 							}
 						})
 				} else {
-					uni.showModal({
-						title: graceChecker.error,
-						icon: "none"
+					uni.showToast({
+						title:graceChecker.error,
+						icon:"none"
 					})
 				}
 
