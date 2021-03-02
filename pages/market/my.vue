@@ -409,7 +409,8 @@
 	page{
 		height: 100%;
 	}
-	
+	/deep/.uni-input-input{ }
+	/deep/.uni-input-placeholder{font-size: 28upx;color: #ccc;background:#fafafa;}
 	.anbtn {
 		width: 45%;
 	}
@@ -593,11 +594,11 @@
 		line-height: 70upx;
 		justify-content: space-between;
 	}
-	
 	.list_tit {
 		display: flex;
+		font-size: 32upx;
+		color: #333333;
 	}
-	
 	.se-input {
 		width: 65%;
 		height: 60rpx;
@@ -606,8 +607,10 @@
 		text-indent: 1rem;
 		border: 1px #e4e4e4 solid;
 		border-radius: 10upx;
+		float: left;
 	}
 	
+		.list_track{ color:#666666!important;}
 	.search-btn {
 		z-index: 500;
 		height: 60rpx;
@@ -626,10 +629,11 @@
 	
 	.shai-btn {
 		width: 15%;
+		float: right;
 		height: 60rpx;
 		line-height: 60rpx;
 		font-size: 28upx;
-		color: #666;
+		color: #bfbcbc;
 		background: url(../../static/shaixun.png) no-repeat #fff;
 		background-size: 40%;
 		background-position: 8upx 5upx;
@@ -648,8 +652,8 @@
 	
 	.topview {
 		width: 96%;
-		display: flex;
-		justify-content: space-between;
+	
+		
 		align-items: center;
 	}
 	

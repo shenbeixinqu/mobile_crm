@@ -519,6 +519,8 @@
 </script>
 
 <style scoped>
+	/deep/.uni-input-input{ }
+	/deep/.uni-input-placeholder{font-size: 28upx;color: #ccc;background:#fafafa;}
 	page {}
 
 	.contentk {
@@ -692,7 +694,7 @@
 		height: 60rpx;
 		line-height: 60rpx;
 		font-size: 28upx;
-		color: #666;
+		color: #bfbcbc;
 		background: url(../../static/shaixun.png) no-repeat #fff;
 		background-size: 40%;
 		background-position: 8upx 5upx;
@@ -709,7 +711,7 @@
 		height: 60rpx;
 		line-height: 60rpx;
 		font-size: 28upx;
-		color: #666;
+		color: #bfbcbc;
 		background: url(../../static/addj.png) no-repeat #fff;
 		background-size: 40%;
 		background-position: 3upx 5upx;

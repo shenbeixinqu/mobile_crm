@@ -150,7 +150,7 @@
 		width:60%;
 		height:80upx;
 		line-height:80upx;
-		font-size: 28upx;
+		font-size:32upx;
 		background: #4873c1;
 		border-radius:5px;
 		bottom:-100upx;

@@ -81,6 +81,7 @@
 
 
 		<view class="topview">
+			<view class="fh" @click="fhsy()"></view>
 			<button type="primary" class="search-btn" @click="getList('search')"></button>
 			<input class="se-input" name="nickname" placeholder="请输入客户名称" v-model="kword" /><button type="primary" size="small"
 			 class="shai-btn" @click="drawer()">筛选</button></button> <button type="primary" size="small" class="shai-btn1"
@@ -543,6 +544,9 @@
 				uni.navigateTo({
 					url: './pizhu?id=' + item._id
 				})
+			},
+			fhsy(){
+				uni.navigateBack();
 			}
 		}
 	}
@@ -552,6 +556,8 @@
 	page {
 		height: 100%;
 	}
+/deep/.uni-input-input{ }
+/deep/.uni-input-placeholder{font-size: 28upx;color: #ccc;background:#fafafa;}
 
 	.contentk {
 		width: 100%;
@@ -680,7 +686,7 @@
 	}
 
 	.se-input {
-		width: 65%;
+		width:55%;
 		height: 60rpx;
 		line-height: 60rpx;
 		font-size: 22upx;
@@ -697,9 +703,10 @@
 		background-size: 70%;
 		background-position: center;
 		position: absolute;
-		left: 425rpx;
+		left:410rpx;
 		border: none;
 	}
+	.fh{ width:60upx;height:60upx;background: url(../../static/fh.png) no-repeat left center; background-size:80%;}
 
 	.search-btn:after {
 		border: none;
@@ -710,14 +717,13 @@
 		height: 60rpx;
 		line-height: 60rpx;
 		font-size: 28upx;
-		color: #666;
+		color: #bfbcbc;
 		background: url(../../static/shaixun.png) no-repeat #fff;
 		background-size: 40%;
 		background-position: 8upx 5upx;
 		text-indent: 25px;
 		padding-left: 0;
 		padding-right: 0;
-
 		border-radius: 0;
 		margin-left: 15upx;
 	}
@@ -727,7 +733,7 @@
 		height: 60rpx;
 		line-height: 60rpx;
 		font-size: 28upx;
-		color: #666;
+		color: #bfbcbc;
 		background: url(../../static/addj.png) no-repeat #fff;
 		background-size: 40%;
 		background-position: 3upx 5upx;
