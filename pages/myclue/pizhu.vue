@@ -10,8 +10,8 @@
 
 				<view class="uni-btn-v">
 					
-					<button class="btn" @click="qx">返回</button>
-					<button form-type="submit" class="btn btn1">提交</button>
+					<button class="btn btn1" @click="qx">返回</button>
+					<button form-type="submit" class="btn ">提交</button>
 				</view>
 			</form>
 		</view>
@@ -152,7 +152,9 @@ id:''
 	.btn1 {
 		background: #d7e8fc;
 		color: #316fd4;
+		
 	}
+	.btn1:after{border-radius: 0;}
 
 	.contentk {
 		width: 100%;

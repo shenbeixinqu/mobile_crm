@@ -541,7 +541,7 @@
 		color: #f00;
 		padding-right: 10upx;
 	}
-
+.btn1:after{border-radius: 0;}
 	.uni-btn-v {
 	width: 100%;
 	left:0;

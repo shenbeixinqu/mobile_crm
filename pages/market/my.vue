@@ -53,8 +53,9 @@
 				</view>
 				
 				<view class="bottombtn">
-					<button type="primary" class="btn btn1" @click="getList('search')">确定</button>
-					<button type="primary"  class="btn" @click="clox">重置</button>
+						<button type="primary"  class="btn btn1" @click="clox">重置</button>
+					<button type="primary" class="btn" @click="getList('search')">确定</button>
+				
 				</view>
 			</view>
 		</uni-drawer>
@@ -67,8 +68,9 @@
 						<textarea class="uni-inputa" @blur="bindTextAreaBlur" name="refuseReason" placeholder="请输入拒绝原因" />
 					</view>
 					<view class="uni-btn-v">
-						<button form-type="submit" class="btn btn1">提交</button>
-						<button class="btn" @click="qx">取消</button>
+						<button class="btn btn1" @click="qx">取消</button>
+						<button form-type="submit" class="btn ">提交</button>
+						
 					</view>
 				</form>
 			</view>
@@ -469,6 +471,9 @@
 		background: #d7e8fc;
 		color: #316fd4;
 	} 
+	.btn1:after{
+		border-radius:0;
+	}
 	.bottombtn {
 		width: 100%;
 	left:0;

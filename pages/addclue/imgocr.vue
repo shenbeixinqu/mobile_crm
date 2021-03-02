@@ -147,13 +147,14 @@
 <style>
 	
 	.btn {
-		width:30%;
+		width:60%;
 		height:80upx;
 		line-height:80upx;
 		font-size: 28upx;
 		background: #4873c1;
 		border-radius:5px;
-		bottom: 0;
+		bottom:-100upx;
+		margin: 0 auto;
 		color: #fff;
 	}
 	
@@ -188,11 +189,15 @@
 	}
 	 
 	.upload-image-view .image-view {
-		height: 130upx;
-		width: 130upx;
-		position: relative;
-		margin: 15upx 15upx 15upx 0upx;
+		height: 300upx;
+		width: 300upx;
+		position:absolute;
+		margin: 18upx 15upx 15upx -8upx;
 		border-radius: 8upx;
+		top:185upx;
+		
+		z-index: 50000;
+		
 	}
 	 
 	.upload-image-view .image-view image {
@@ -236,12 +241,11 @@
 	}
 	 
 	.upload-image-view .add-view {
-	
 		background: url(../../static/p.png) no-repeat center 30%;
 		background-size: 60%;
 		height: 300upx;
 		width: 300upx;
-		margin:200upx 15upx 15upx 0upx;
+		margin:200upx 0upx 15upx 0upx;
 		display: flex;
 		align-items: center;
 		justify-content: center;

@@ -74,16 +74,16 @@
 		display: flex;
 		justify-content: space-between;
 		flex-wrap: wrap;
-		font-size: 24upx;
+		font-size: 30upx;
 		border-bottom: none;
 	}
-	
+	.btn1:after{border-radius: 0;}
 	.leftwz {
 		width: 20%;
 		padding-left: 2%;
 		display: flex;
 		justify-content: flex-start;
-		font-size: 24upx;
+		font-size: 30upx;
 	}
 	
 	.rightwz {

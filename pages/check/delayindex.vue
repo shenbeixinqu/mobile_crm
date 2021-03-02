@@ -8,8 +8,9 @@
 						<textarea class="uni-input" @blur="bindTextAreaBlur" name="refuseReason" placeholder="请输入拒绝原因" />
 					</view>
 					<view class="uni-btn-v">
-						 <button form-type="submit" class="btn btn1">提交</button>
-						 <button class="btn" @click="qx">取消</button>
+						
+						 <button class="btn btn1" @click="qx">取消</button>
+						  <button form-type="submit" class="btn ">提交</button>
 					</view>
 				</form>
 			</view>
@@ -239,7 +240,7 @@
 		align-items: center;
 		justify-content: space-between;
 	}
-
+.btn1:after{border-radius: 0;}
 	.btn {
 		width: 50%;
 		height: 100upx;
@@ -307,13 +308,13 @@
 		padding-left: 2%;
 		display: flex;
 		justify-content: flex-start;
-		font-size: 28upx;
+		font-size:30upx;
 	}
 	
 	.rightwz {
 		width:65%;
 		display: flex;
-			font-size: 28upx;
+			font-size:30upx;
 	}
 	
 	.uni-btn-v {
