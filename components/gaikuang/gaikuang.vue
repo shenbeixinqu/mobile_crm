@@ -87,13 +87,13 @@
 		</view>
 		<view class="tit">联系人 <view class="txtright" @click="openlxr"></view>
 		</view>
-		<view class="contactus">
+		<view class="contactus" style="margin-bottom:100upx;">
 			<view class="contactus_top">
 				<view>姓名</view>
 				<view>电话号码</view>
 				<view>职务</view>
 			</view>
-			<view class="contactus_bottom" v-for="item in linkmans" :key="item.value">
+			<view class="contactus_bottom" v-for="item in linkmans" :key="item.value" >
 				<view>{{item.realname}}</view>
 				<view @tap.stop="call_phone(item)">{{item.phone}}
 					<image class="tel-img" src="../../static/tel.png" mode="aspectFit"></image>

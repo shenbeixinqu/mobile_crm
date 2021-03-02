@@ -21,16 +21,20 @@
 						</view>
 						<view class="list-item-top">
 							<view class="list-dqk">
-								<view class="list-dq1">申请人: {{item.addname}}</view>
-								<view class="list-dq1">线索到期时间: {{item.endtime_push | dataToYmd}}</view>
+								<view class="list-dq1">申请人：</view>
+								<view class="list-dq2">{{item.addname}}</view>
+								<view class="list-dq1">线索到期时间:</view>
+								<view class="list-dq2">{{item.endtime_push | dataToYmd}}</view>
+								<view class="list-dq1">申请延长时间:</view>
+								<view class="list-dq2">{{item.delay_days}}天</view>
+								<view class="list-dq1">预计签单时间:</view>
+								<view class="list-dq2"> {{item.do_time | dataToYmd}}</view>
+								<view class="list-dq1">申请原因:</view>
+								<view class="list-dq2"> {{item.reasons}}</view>
 							</view>
-							<view class="list-dqk">
-								<view class="list-dq1">申请延长时间: {{item.delay_days}}天</view>
-								<view class="list-dq1">预计签单时间: {{item.do_time | dataToYmd}}</view>
-							</view>
-							<view class="list-dqk">
-								<view class="list-dq1">申请原因: {{item.reasons}}</view>
-							</view>
+							
+							
+							
 							<view class="list-item-bot">
 								<span v-if="item.check_status=='待审核'" @click="delayReview(item)">审核</span>
 								<span v-else @click="delayDetail(item)">查看</span>
@@ -160,23 +164,34 @@
 		height: 100%;
 	}
 
-	.list-dq1 {
-		display: flex;
-		width: 50%;
-		text-align: left;
-		padding-top: 1upx;
-		padding-bottom: 1upx;
-	}
+
 
 	.list-dqk {
 		flex-direction: row;
+		flex-wrap: wrap;
 		width: 100%;
 		text-align: left;
-		padding-top: 1upx;
-		padding-bottom: 1upx;
+		padding-top: 5upx;
+		padding-bottom: 5upx;
 		display: flex;
 	}
 
+	.list-dq1 {
+		display: flex;
+		width: 35%;
+		padding-top: 5upx;
+		padding-bottom: 5upx;
+		font-size: 28upx;
+	}
+
+	.list-dq2 {
+		display: flex;
+		width:65%;
+		font-size: 28upx;
+		text-align: left;
+		padding-top: 1upx;
+		padding-bottom: 1upx;
+	}
 	.zt {
 		height: 60rpx;
 		line-height: 60rpx;
@@ -247,16 +262,19 @@
 	.list-text {
 		width: 100%;
 		text-align: left;
-		font-size: 30upx;
+		font-size: 32upx;
 		display: flex;
 		align-items: center;
 		height: 70upx;
 		line-height: 70upx;
 		justify-content: space-between;
+		color: #333333;
 	}
+	.list_track{ color:#666666;}
 
 	.list_tit {
 		display: flex;
+		color: #333;
 	}
 
 	.list-xq {

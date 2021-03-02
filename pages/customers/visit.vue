@@ -566,6 +566,7 @@
 	.btn1 {
 		background: #d7e8fc;
 		color: #316fd4;
+		border-radius: 0;
 	}
 
 	.contentk {
