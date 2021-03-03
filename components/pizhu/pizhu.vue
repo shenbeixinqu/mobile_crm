@@ -63,8 +63,15 @@
 		<view class="tit">销售批注 <button style="float: right;" type="primary" size="small"
 			 class="shai-btn" @click="drawer()">筛选</button></view>
 
+	<z-paging ref="paging" @query="queryList" :list.sync="tableList" style="height: calc(100% - 80rpx);">
+			<!-- 设置自定义emptyView组件，非必须。空数据时会自动展示空数据组件，不需要自己处理 -->
+			<empty-view slot="empty"></empty-view>
+			<!-- list数据，建议像下方这样在item外层套一个view，而非直接for循环item，因为slot插入有数量限制 -->
+			<view style="flex-direction: column;
+		justify-content: center;
+		align-items: center; display: flex; margin-bottom: 200upx;">
 
-		<view class="bottxt" v-for="item in tableList" :key="item.addtime">
+		<view class="bottxt" v-for="(item,index) in tableList" :key="index">
 			<view class="bottxt_top">
 				<view class="bottxt_top_y"></view>
 				<view class="bottxt_top_jiantou">{{item.addtime}}</view>
@@ -76,7 +83,12 @@
 				</view>
 			</view>
 		</view>
-		<foot-part @openLogin="openLogin"></foot-part>
+		
+		
+		</view>
+			</z-paging>
+				<foot-part @openLogin="openLogin"></foot-part>
+		</view>
 		
 	</view>
 </template>
@@ -154,16 +166,31 @@
 
 			}
 		},
-		// watch: {
-		//     activeId: function(newVal, oldVal) {
-		//      console.log('fdfd',newVal);
-		//     },
-		//   },
+		
 		mounted() {
 			this.fuwu();
 
 		},
 		methods: {
+			queryList(pageNo, pageSize) {
+				uni.request({
+					url: this.$burl + '/api/customer/remark',
+					header: {
+						'Authorization': this.$token
+					},
+					data: {
+						limit: pageSize,
+						pn: pageNo,
+						id: this.activeId
+					},
+					success: (res) => {
+						this.$refs.paging.addData(this.tableList);
+					},
+					fail: (err) => {
+						//console.log(err)
+					}
+				})
+			},
 
 			//抽屉打开
 			drawer() {
@@ -239,7 +266,8 @@
 						if (res.data.data.status == 200) {
 							uni.hideLoading();
 							this.$refs.drawer.close();
-							this.tableList = res.data.data.data;
+							this.tableList= res.data.data.data;
+							console.log('this.tableList',this.tableList)
 						}
 					},
 					fail: (err) => {
@@ -257,7 +285,7 @@
 
 	.contentk {
 		width: 100%;
-		height: 100%;
+		
 		display: flex;
 		flex-direction: column;
 		align-items: center;
@@ -323,7 +351,7 @@
 
 	.bottxt_mid_right {
 		width: 95%;
-		font-size: 28upx;
+		font-size:30upx;
 		box-shadow: 0 2px 12px 0 rgba(0, 0, 0, .1);
 		padding: 2%;
 		color: #666;
@@ -378,7 +406,7 @@
 		height: 60rpx;
 		line-height: 60rpx;
 		font-size: 28upx;
-		color: #bfbcbc;
+	color: #888;
 		background: url(../../static/shaixun.png) no-repeat #fff;
 		background-size: 40%;
 		background-position: 8upx 5upx;
@@ -480,23 +508,7 @@
 		width: 45%;
 	}
 
-	.check_box {
-		margin-bottom: 10upx;
-		width: 220rpx;
-		height: 70upx;
-		line-height: 70upx;
-		display: flex;
-		margin-right: 5upx;
-		color: rgb(64, 158, 255);
-		position: relative;
-	}
 
-	.cketext {
-		width: 220rpx;
-		position: absolute;
-		text-align: center;
-		z-index: 1;
-	}
 
 	/deep/.uni-checkbox-input {
 		background: #f4f4f4;

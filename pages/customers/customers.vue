@@ -734,7 +734,7 @@
 		height: 100%;
 		background: #fff;
 	}
-/deep/.uni-input-input{ }
+/deep/.uni-input-input{ font-size: 28upx;}
 /deep/.uni-input-placeholder{font-size: 28upx;color: #ccc;background:#fafafa;}
 	.contentk {
 		width: 100%;
@@ -894,7 +894,7 @@
 		height: 60rpx;
 		line-height: 60rpx;
 		font-size: 28upx;
-		color: #bfbcbc;
+		color: #888;
 		background: url(../../static/shaixun.png) no-repeat #fff;
 		background-size: 40%;
 		background-position: 8upx 5upx;
@@ -911,7 +911,7 @@
 		height: 60rpx;
 		line-height: 60rpx;
 		font-size: 28upx;
-		color: #bfbcbc;
+	color: #888;
 		background: url(../../static/addj.png) no-repeat #fff;
 		background-size: 40%;
 		background-position: 3upx 5upx;
@@ -976,7 +976,7 @@
 		display: flex;
 		margin-left: 5upx;
 		justify-content: center;
-		min-height: 250upx;
+	
 		flex-direction: column;
 	}
 

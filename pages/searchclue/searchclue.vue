@@ -530,7 +530,7 @@
 </script>
 
 <style scoped>
-	/deep/.uni-input-input{ }
+	/deep/.uni-input-input{ font-size: 28upx;}
 	/deep/.uni-input-placeholder{font-size: 28upx;color: #ccc;background:#fafafa;}
 	page {}
 
@@ -722,7 +722,7 @@
 		height: 60rpx;
 		line-height: 60rpx;
 		font-size: 28upx;
-		color: #bfbcbc;
+		color: #888;
 		background: url(../../static/addj.png) no-repeat #fff;
 		background-size: 40%;
 		background-position: 3upx 5upx;

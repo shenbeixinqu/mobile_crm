@@ -512,6 +512,13 @@
 
 	.btn1:after{
 		border-radius:0;
+			border: none;
+	}
+	
+	
+	.btn2:after{
+		border-radius:0;
+		border: none;
 	}
 	.bottombtn {
 		width: 100%;
@@ -577,8 +584,12 @@
 	}
 	
 	.chou_tit {
-		padding: 10px;
-		color: 666666;
+		padding: 30upx 10upx;
+		color: #666666;
+	}
+	.item-placeholder {
+		color: $uni-text-color-grey;
+		font-size: 16px;
 	}
 	
 	.lable-box {
@@ -638,7 +649,7 @@
 		color: #333333;
 	}
 	.se-input {
-		width: 65%;
+		width:76%;
 		height: 60rpx;
 		line-height: 60rpx;
 		font-size: 22upx;
@@ -657,7 +668,7 @@
 		background-size: 70%;
 		background-position: center;
 		position: absolute;
-		left: 425rpx;
+		left:495rpx;
 		border: none;
 	}
 	
@@ -671,7 +682,8 @@
 		height: 60rpx;
 		line-height: 60rpx;
 		font-size: 28upx;
-		color: #bfbcbc;
+		color: #888;
+		margin-right:20upx;
 		background: url(../../static/shaixun.png) no-repeat #fff;
 		background-size: 40%;
 		background-position: 8upx 5upx;
@@ -703,7 +715,23 @@
 		padding-top: 30upx;
 		padding-bottom: 30upx;
 	}
+	.btn {
+			width: 50%;
+			height: 100upx;
+			line-height: 100upx;
+			font-size: 28upx;
+			background: #4873c1;
+			border-radius: 0;
+			bottom: 0;
+			color: #fff;
+		}
 	
+		.btn1 {
+			background: #d7e8fc;
+			color: #316fd4;
+			border-radius: 0;
+		}
+	.btn1:after{border-radius: 0;}
 	.uni-form-item {
 		display: flex;
 		width: 100%;

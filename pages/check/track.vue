@@ -148,10 +148,12 @@
 </script>
 
 <style>
+	
 	page{
 		height: 100%
 	}
-	
+	/deep/.uni-input-input{ font-size: 28upx;}
+	/deep/.uni-input-placeholder{font-size: 28upx;color: #ccc;background:#fafafa;}
 	.list-dqk {
 		flex-direction: row;
 		flex-wrap: wrap;

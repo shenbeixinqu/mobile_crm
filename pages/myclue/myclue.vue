@@ -112,7 +112,7 @@
 								</view>
 								<view class="list-dq1">到期时间：</view>
 								<view class="list-dq2">跟踪还剩{{item.dt_link}}天 | 沟通还剩{{item.dt_track}}天</view><view class="list-dq1">审核状态：</view>
-								<view class="list-dq2">审核状态：延期：{{item.delay_status|delayStatus}} | 跟进：{{item.audit_status|numToMean}}</view>
+								<view class="list-dq2">延期：{{item.delay_status|delayStatus}} | 跟进：{{item.audit_status|numToMean}}</view>
 
 
 							</view>
@@ -568,7 +568,7 @@
 	page {
 		height: 100%;
 	}
-/deep/.uni-input-input{ }
+/deep/.uni-input-input{ font-size: 28upx;}
 /deep/.uni-input-placeholder{font-size: 28upx;color: #ccc;background:#fafafa;}
 
 	.contentk {
@@ -745,7 +745,7 @@
 		height: 60rpx;
 		line-height: 60rpx;
 		font-size: 28upx;
-		color: #bfbcbc;
+		color: #888;
 		background: url(../../static/addj.png) no-repeat #fff;
 		background-size: 40%;
 		background-position: 3upx 5upx;
