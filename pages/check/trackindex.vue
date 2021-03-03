@@ -211,6 +211,22 @@
 	page {
 		height: 100%;
 	}
+	
+	.uni-input1 {
+		height:300rpx;
+		width:80%;
+		margin-top: 20upx;
+		line-height: 30upx;
+		padding: 15rpx 5%;
+		line-height: 50rpx;
+		font-size: 28rpx;
+		background: #FFF;
+		flex: 1;
+		border: 1px #ddd solid;
+		border-radius: 10upx;
+		color: grey;
+	}
+	
 	.uni-input {
 		height:100rpx;
 		width: 93%;

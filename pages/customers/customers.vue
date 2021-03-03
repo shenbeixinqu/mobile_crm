@@ -715,8 +715,10 @@
 <style scoped>
 	page {
 		height: 100%;
+		background: #fff;
 	}
-
+/deep/.uni-input-input{ }
+/deep/.uni-input-placeholder{font-size: 28upx;color: #ccc;background:#fafafa;}
 	.contentk {
 		width: 100%;
 		height: 100%;
@@ -725,6 +727,7 @@
 		justify-content: center;
 		align-items: center;
 		margin-top: 50upx;
+		background: #fff;
 	}
 
 	.content {
@@ -874,7 +877,7 @@
 		height: 60rpx;
 		line-height: 60rpx;
 		font-size: 28upx;
-		color: #666;
+		color: #bfbcbc;
 		background: url(../../static/shaixun.png) no-repeat #fff;
 		background-size: 40%;
 		background-position: 8upx 5upx;
@@ -891,7 +894,7 @@
 		height: 60rpx;
 		line-height: 60rpx;
 		font-size: 28upx;
-		color: #666;
+		color: #bfbcbc;
 		background: url(../../static/addj.png) no-repeat #fff;
 		background-size: 40%;
 		background-position: 3upx 5upx;

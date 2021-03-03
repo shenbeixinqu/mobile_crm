@@ -40,7 +40,7 @@
 					<radio-group name="is_man" @change="radioChange">
 						<view class="title" style="padding-top:30upx;"><text class="red">*</text>客户性质:</view>
 						<label class="uni-labe" style="margin-top:5upx; display: block;" > 
-							<radio style="margin-left:40upx;" value="公司" checked="checked" /><text style="padding-right:20upx;">公司</text>
+							<radio style="margin-left:40upx;" value="公司" checked="checked" /><text style="padding-right:60upx;">公司</text>
 							<radio value="个人" /><text>个人</text>
 						</label>
 					</radio-group>
@@ -117,7 +117,7 @@
 					<view class="uni-input1">
 						<picker @change="sourceChange" :range="sourceArray" range-key="name">
 							<view v-if="sourceArray[clueForm.source_flag]">{{sourceArray[clueForm.source_flag].name}}</view>
-							<view v-else>请选择客户来源</view>
+							<view v-else style="color: #ccc;">请选择客户来源</view>
 						</picker>
 					</view>
 
@@ -128,7 +128,7 @@
 					<view class="uni-input1">
 						<picker @change="addtoChange" :range="addtoArray" range-key="name">
 							<view v-if="addtoArray[clueForm.addto]">{{addtoArray[clueForm.addto].name}}</view>
-							<view v-else>请选择添加到</view>
+							<view v-else style="color: #ccc;">请选择添加到</view>
 						</picker>
 					</view>
 
@@ -138,7 +138,7 @@
 						<radio-group name="radio" v-model="clueForm.radio" @change="zhizhaoChange">
 							<view class="title" style="padding-top:30upx;"><text class="red">*</text>有无执照:</view>
 							<label  style="margin-top:5upx; display: block;"  class="uni-labe">
-								<radio value="1" checked="checked" style="margin-left:40upx;"  /><text style="padding-right:20upx;">有</text>
+								<radio value="1" checked="checked" style="margin-left:40upx;"  /><text style="padding-right:60upx;">有</text>
 								<radio value="2" /><text>无</text>
 							</label>
 						</radio-group>
@@ -802,14 +802,15 @@
 	page {
 		padding-top: 16upx;
 	}
+	
 	.saomiao{ width:50%; height:80upx; line-height: 80upx;  text-align: center; background: url(../../static/saomiao.png) no-repeat; background-size:50upx 50upx;background-position: left center;}
     /deep/.uni-input-placeholder{color: #ccc;}
-	.zk{ width: 50%; margin: 0 auto; color:#4873c1;height: 70upx; line-height: 70upx; text-align: center; background: url(../../static/zk.png) no-repeat;background-size:40upx 40upx;background-position:85% center; text-align: center;}
+	.zk{ width: 50%; margin: 0 auto; font-size:28upx; color:#4873c1;height: 70upx; line-height: 70upx; text-align: center; background: url(../../static/zk.png) no-repeat;background-size:40upx 40upx;background-position:85% center; text-align: center;}
 	
 	.tit {
 		width:98%;
-		color: #666666;
-		font-size: 30upx;
+		color: #000;
+		font-size:30upx;
 		height: 70upx;
 		line-height: 70upx;
 		text-align: left;
@@ -817,6 +818,7 @@
 		flex-direction: row;
 		justify-content: space-between;
 		align-items: center;
+		
 	}
 	.row {
 		display: flex;
@@ -825,13 +827,13 @@
 		padding: 0 30upx;
 		height: 110upx;
 		background: #fff;
-
+/* 
 		.tit {
 			flex-shrink: 0;
 			width: 120upx;
 			font-size: 30upx;
 
-		}
+		} */
 
 		.input {
 			flex: 1;
@@ -992,7 +994,7 @@
 		height: 50rpx;
 		padding: 15rpx 25rpx;
 		line-height: 50rpx;
-		font-size: 28rpx;
+		font-size:30rpx;
 		flex: 1;
 		border: 1px #ddd solid;
 		border-radius: 10upx;
@@ -1113,7 +1115,7 @@
 	.upload-image-view .add-view {
 		height: 115upx;
 		width: 115upx;
-		margin: 15upx 15upx 15upx 0upx;
+		margin: 15upx 15upx 15upx 30upx;
 		display: flex;
 		align-items: center;
 		justify-content: center;
@@ -1195,5 +1197,9 @@
 		border-bottom: 3upx solid #5A5A5A;
 		top: 0;
 		left: 0;
+	}
+	/deep/uni-radio .uni-radio-input{
+		    width:15px;
+		    height:15px;
 	}
 </style>

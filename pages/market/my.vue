@@ -6,7 +6,7 @@
 					出访状态
 				</view>
 				<view class="uni-list-cell-db">
-					<picker mode="selector" v-model="cfstage" :value="cfstage" :range="stagesArr" @change="stageRequire" range-key="name">
+					<picker  style="width: 100%;"  mode="selector" v-model="cfstage" :value="cfstage" :range="stagesArr" @change="stageRequire" range-key="name">
 						<view class="uni-input" v-if="!cfstage">请选择出访状态</view>
 						<view class="uni-input" v-else>{{stagesArr[cfstage].name}}</view>
 					</picker>
@@ -15,7 +15,7 @@
 					出访结果
 				</view>
 				<view class="uni-list-cell-db">
-					<picker mode="selector" v-model="cfresult" :value="cfresult" :range="resultArr" @change="resultRequire" range-key="name">
+					<picker  style="width: 100%;"  mode="selector" v-model="cfresult" :value="cfresult" :range="resultArr" @change="resultRequire" range-key="name">
 						<view class="uni-input" v-if="!cfresult">请选择出访结果</view>
 						<view class="uni-input" v-else>{{resultArr[cfresult].name}}</view>
 					</picker>
@@ -24,7 +24,7 @@
 					洽谈业务
 				</view>
 				<view class="uni-list-cell-db">
-					<picker mode="selector" v-model="e_xqclass" :value="e_xqclass" :range="proArray" @change="proRequire" range-key="name">
+					<picker  style="width: 100%;"  mode="selector" v-model="e_xqclass" :value="e_xqclass" :range="proArray" @change="proRequire" range-key="name">
 						<view class="uni-input" v-if="!e_xqclass">请选择洽谈业务</view>
 						<view class="uni-input" v-else>{{proArray[e_xqclass].name}}</view>
 					</picker>
@@ -35,7 +35,7 @@
 							开始日期
 						</view>
 						<view class="uni-list-cell-db">
-							<picker mode="date" :value="date" :start="startDate" :end="endDate" @change="bindDateChange">
+							<picker  style="width: 100%;"  mode="date" :value="date" :start="startDate" :end="endDate" @change="bindDateChange">
 								<view class="uni-input" v-if="date==''" style="color:#666;">请选择开始日期</view>
 								<view class="uni-input" v-else>{{date}}</view>
 							</picker>
@@ -44,7 +44,7 @@
 							结束日期
 						</view>
 						<view class="uni-list-cell-db">
-							<picker mode="date" :value="jdate" :start="jstartDate" :end="jendDate" @change="jbindDateChange">
+							<picker  style="width: 100%;"  mode="date" :value="jdate" :start="jstartDate" :end="jendDate" @change="jbindDateChange">
 								<view class="uni-input" v-if="jdate==''" style="color:#666;">请选择结束日期</view>
 								<view class="uni-input" v-else>{{jdate}}</view>
 							</picker>
@@ -409,9 +409,21 @@
 	page{
 		height: 100%;
 	}
-	
+	/deep/.uni-input-input{ }
+	/deep/.uni-input-placeholder{font-size: 28upx;color: #ccc;background:#fafafa;}
 	.anbtn {
 		width: 45%;
+	}
+	.uni-input {
+		color: #666666;
+	}
+	.wk_n {
+		width: 96%;
+		margin: 0 auto;
+		height: 100%;
+		display: flex;
+		flex-direction: column;
+	
 	}
 	.list-dqk {
 		flex-direction: row;
@@ -593,11 +605,11 @@
 		line-height: 70upx;
 		justify-content: space-between;
 	}
-	
 	.list_tit {
 		display: flex;
+		font-size: 32upx;
+		color: #333333;
 	}
-	
 	.se-input {
 		width: 65%;
 		height: 60rpx;
@@ -606,8 +618,10 @@
 		text-indent: 1rem;
 		border: 1px #e4e4e4 solid;
 		border-radius: 10upx;
+		float: left;
 	}
 	
+		.list_track{ color:#666666!important;}
 	.search-btn {
 		z-index: 500;
 		height: 60rpx;
@@ -626,10 +640,11 @@
 	
 	.shai-btn {
 		width: 15%;
+		float: right;
 		height: 60rpx;
 		line-height: 60rpx;
 		font-size: 28upx;
-		color: #666;
+		color: #bfbcbc;
 		background: url(../../static/shaixun.png) no-repeat #fff;
 		background-size: 40%;
 		background-position: 8upx 5upx;
@@ -648,8 +663,8 @@
 	
 	.topview {
 		width: 96%;
-		display: flex;
-		justify-content: space-between;
+	
+		
 		align-items: center;
 	}
 	

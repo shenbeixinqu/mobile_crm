@@ -5,33 +5,37 @@
 				<form @submit="formSubmit">
 					<view class="uni-form-item">
 						<view class=title>取消原因</view>
-						<input class="uni-input" v-model="reason" name="cancelReason" placeholder="请输入取消原因" >
+						
+						
+							<textarea class="uni-input" @blur="bindTextAreaBlur" name="cancelReason" placeholder="请输入拒绝原因" />
 					</view>
 					<view class="uni-btn-v">
+						<button class="btn btn1" @click="qx">取消</button>
 						<button form-type="submit" class="btn">提交</button>
-						<button class="btn" @click="qx">取消</button>
+						
 					</view>
 				</form>
 			</view>
 		</e-modal>
-		<view class="contentk_top">
-			<view class="leftwz">公司名称:</view><view class="rightwz">{{dataList.comname}}</view>
+		<!-- 	<view class="biaoti">{{dataList.comname}}</view> -->
+		<view class="contentk_top" style="margin-bottom: 150upx;">
+		<view class="leftwz">客户名称:</view><view class="rightwz">{{dataList.comname}}</view>
 			<view class="leftwz">洽谈业务:</view><view class="rightwz">{{dataList.pClassname}}</view>
 			<view class="leftwz">出访类型:</view><view class="rightwz">{{dataList.v_type}}</view>
 			<view class="leftwz">出访区域:</view><view class="rightwz">{{dataList.v_area}}</view>
-			<view class="leftwz">出访目的:</view><view class="rightwz">{{dataList.goal}}</view>
+			<view class="leftwz">出访目的:</view><view class="rightwz cu">{{dataList.goal}}</view>
 			<view class="leftwz">拜访人:</view><view class="rightwz">{{dataList.human}}</view>
 			<view class="leftwz">拜访人电话:</view><view class="rightwz">{{dataList.tel}}</view>
 			<view class="leftwz">拜访人职务:</view><view class="rightwz">{{dataList.position | visitToPost}}</view>
-			<view class="leftwz">客户地址:</view><view class="rightwz">{{dataList.address}}</view>
-			<view class="leftwz">出访结果:</view><view class="rightwz">{{dataList.result}}</view>
+			<view class="leftwz">客户地址:</view><view class="rightwz cu">{{dataList.address}}</view>
+			<view class="leftwz ">出访结果:</view><view class="rightwz">{{dataList.result}}</view>
 			<view class="leftwz">出访前推广需求:</view><view class="rightwz">{{dataList.s_xqclass | tuiguangToMean}}</view>
 			<view class="leftwz">出访后推广需求:</view><view class="rightwz">{{dataList.e_xqclass | tuiguangToMean}}</view>
 			<view class="leftwz">出访前网络意识:</view><view class="rightwz">{{dataList.s_wangluo | yishiToMean}}</view>
 			<view class="leftwz">出访后网络意识:</view><view class="rightwz">{{dataList.e_wangluo | yishiToMean}}</view>
 			<view class="leftwz">出访时间:</view><view class="rightwz">{{dataList.starttime}}</view>
-			<view class="leftwz">出访结束时间:</view><view class="rightwz">{{dataList.finishtime}}</view>
-			<view class="leftwz">是否违规:</view><view class="rightwz">{{dataList.isvalid}}</view>
+			<view class="leftwz">出访结束时间:</view><view class="rightwz cu">{{dataList.finishtime}}</view>
+			<view class="leftwz ">是否违规:</view><view class="rightwz">{{dataList.isvalid}}</view>
 			<view class="leftwz">是否无效出访:</view><view class="rightwz">{{dataList.wuxiao}}</view>
 			<view class="leftwz">取消原因:</view><view class="rightwz">{{dataList.cancel_reason}}</view>
 		</view>
@@ -40,7 +44,7 @@
 			<button type="primary" class="btn" @click="visitResult">填写出访结果</button>
 		</view>
 		<view class="contentk_bottom" v-else>
-			<button type="primary" class="btn" @click="closeDetail">关闭</button>
+			<button type="primary" class="btn2" @click="closeDetail">关闭</button>
 		</view>
 	</view>
 </template>
@@ -112,6 +116,9 @@
 		    },
 		},
 		methods:{
+			bindTextAreaBlur: function(e){
+				this.reason = e.detail.value
+			},
 			myDetail(_id){
 				uni.request({
 					url: this.$burl + '/api/visits/' + _id,
@@ -198,17 +205,57 @@
 <style scoped>
 	
 	page {
-		height: 100%;
+		
+	}
+	
+	.biaoti{ font-size:38upx; color:#333333; width: 100%; line-height:90upx; text-indent: 39upx;}
+	.btn2 {
+		width: 100%;
+		height: 100upx;
+		line-height: 100upx;
+		font-size: 28upx;
+		background: #4873c1;
+		border-radius: 0;
+		bottom: 0;
+		color: #fff;
+	}
+	.uni-input {
+		height:100rpx;
+		width:90%;
+		margin-top: 20upx;
+		line-height: 30upx;
+		padding: 15rpx 5%;
+		line-height: 50rpx;
+		font-size: 28rpx;
+		background: #FFF;
+		flex: 1;
+		border: 1px #ddd solid;
+		border-radius: 10upx;
+		color: grey;
 	}
 	
 	.btn {
-		width: 30%;
-		height:70upx;
-		line-height: 70upx;
-		font-size: 24upx;
+		width: 50%;
+		height: 100upx;
+		line-height: 100upx;
+		font-size: 28upx;
 		background: #4873c1;
+		border-radius: 0;
+		bottom: 0;
+		color: #fff;
 	}
-	
+
+	.btn1 {
+		background: #d7e8fc;
+		color: #316fd4;
+	}
+.btn1:after{border-radius: 0;}
+	.contentk {
+		width: 100%;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+	}
 	.contentk {
 		width: 100%;
 		height: 100%;
@@ -218,37 +265,44 @@
 	}
 	
 	.contentk_bottom {
-		width: 95%;
-		margin-top: 40upx;
+	width: 100%;
+	left:0;
+		position: fixed;
+		bottom: 0;
 		display: flex;
-		flex-direction: row;
 		align-items: center;
+		justify-content: space-between;
 	}
 	
 	.contentk_top {
 		width: 95%;
-	
 		line-height: 60upx;
 		display: flex;
-		justify-content: space-between;
-		flex-wrap: wrap;
+		flex-direction: column;
+		align-items: center;
 		font-size: 24upx;
 		border-bottom: none;
 	}
 	
 	.leftwz {
-		width:30%;
-		padding-left: 2%;
+		width:95%;
+	    color: #666666;
 		display: flex;
 		justify-content: flex-start;
-		font-size: 24upx;
+		font-size:26upx;
+		padding-top:10upx;
 	}
 	
 	.rightwz {
-		width:65%;
+		width:95%;
+		padding-bottom: 10upx;
+		height:60upx;
 		display: flex;
+		color: #000;
+		font-size:34upx;
+		border-bottom: 1px #e5e5e5 solid;
 	}
-	
+	.cu{border-bottom: 29upx #f7f8fa solid;}
 	.uni-btn-v {
 		width: 100%;
 		display: flex;
