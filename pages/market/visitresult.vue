@@ -39,7 +39,7 @@
 					<input  class="uni-input1"  type="text" name="visitResult" v-model="result" placeholder-class="placeholder" />
 				</view>
 			<view class="contentk_bottom">
-				<button type="primary" class="btn" @click="back">返回</button>
+				<button type="primary" class="btn btn1" @click="back">返回</button>
 				<button type="primary" class="btn" form-type="submit">确定</button>
 			</view>
 			</form>
@@ -225,13 +225,21 @@
 	}
 	
 	.btn {
-		width: 30%;
-		height:70upx;
-		line-height: 70upx;
-		font-size: 24upx;
+		width: 50%;
+		height: 100upx;
+		line-height: 100upx;
+		font-size: 28upx;
 		background: #4873c1;
+		border-radius: 0;
+		bottom: 0;
+		color: #fff;
 	}
-	
+
+	.btn1 {
+		background: #d7e8fc;
+		color: #316fd4;
+	}
+.btn1:after{border-radius: 0;}
 	
 	.contentk {
 		width: 100%;
@@ -242,11 +250,13 @@
 	}
 	
 	.contentk_bottom {
-		width: 95%;
-		margin-top: 40upx;
+	width: 100%;
+	left:0;
+		position: fixed;
+		bottom: 0;
 		display: flex;
-		flex-direction: row;
 		align-items: center;
+		justify-content: space-between;
 	}
 	
 	.contentk_top {

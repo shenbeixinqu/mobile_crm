@@ -715,8 +715,10 @@
 <style scoped>
 	page {
 		height: 100%;
+		background: #fff;
 	}
-
+/deep/.uni-input-input{ }
+/deep/.uni-input-placeholder{font-size: 28upx;color: #ccc;background:#fafafa;}
 	.contentk {
 		width: 100%;
 		height: 100%;
@@ -725,6 +727,7 @@
 		justify-content: center;
 		align-items: center;
 		margin-top: 50upx;
+		background: #fff;
 	}
 
 	.content {

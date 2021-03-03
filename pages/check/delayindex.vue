@@ -15,8 +15,8 @@
 				</form>
 			</view>
 		</e-modal>
-		<view class="contentk_top">
-			<view class="leftwz">名额使用情况:</view><view class="rightwz">本年度申请延期客户{{ dataList.sq_cnt }}个，其中已处理通过{{dataList.tg_cnt}}个，还剩{{ dataList.ksq_cnt }}个可延期名额！</view>
+		<view class="contentk_top" style="margin-bottom:100px;">
+			<view class="leftwz">名额使用情况:</view><view class="rightwz1">本年度申请延期客户{{ dataList.sq_cnt }}个，其中已处理通过{{dataList.tg_cnt}}个，还剩{{ dataList.ksq_cnt }}个可延期名额！</view>
 			<view class="leftwz">申请人:</view><view class="rightwz">{{dataList.addname}}</view>
 			<view class="leftwz">申请时间:</view><view class="rightwz">{{dataList.addtime}}</view>
 			<view class="leftwz">客户名称:</view><view class="rightwz">{{dataList.name}}</view>
@@ -27,6 +27,7 @@
 			<view class="leftwz">计划签单日期:</view><view class="rightwz">{{dataList.do_time}}</view>
 			<view class="leftwz">延期原因:</view><view class="rightwz">{{dataList.reasons}}</view>	
 		</view>
+		
 		<view class="bottombtn">
 			<button type="primary" class="btn btn1" @click="cancel">拒绝</button>
 			<button type="primary" class="btn "@click="confirm">同意</button>
@@ -271,12 +272,12 @@
 		color: grey;
 	}
 	page {
-		height: 100%;
+		
 	}
 	
 	.contentk {
 		width: 100%;
-		height: 100%;
+		
 		display: flex;
 		flex-direction: column;
 		align-items: center;
@@ -292,31 +293,43 @@
 	.contentk_top1{width: 95%; font-weight: bold; font-size:30upx; line-height: 70upx;}
 	.contentk_top {
 		width: 95%;
-	
 		line-height: 60upx;
 		display: flex;
-		justify-content: space-between;
-		flex-wrap: wrap;
+		flex-direction: column;
+		align-items: center;
 		font-size: 24upx;
-	
 		border-bottom: none;
-	
+		margin-bottom: 100upx;
 	}
 	
 	.leftwz {
-		width:30%;
-		padding-left: 2%;
+		width:95%;
+	    color: #666666;
 		display: flex;
 		justify-content: flex-start;
-		font-size:30upx;
+		font-size:26upx;
+		padding-top:10upx;
 	}
 	
 	.rightwz {
-		width:65%;
+		width:95%;
+		padding-bottom: 10upx;
+		height:60upx;
 		display: flex;
-			font-size:30upx;
+		color: #000;
+		font-size:34upx;
+		border-bottom: 1px #e5e5e5 solid;
 	}
 	
+	.rightwz1 {
+		width:95%;
+		padding-bottom: 10upx;
+		
+		display: flex;
+		color: #000;
+		font-size:34upx;
+		border-bottom: 1px #e5e5e5 solid;
+	}
 	.uni-btn-v {
 		width: 100%;
 		display: flex;
