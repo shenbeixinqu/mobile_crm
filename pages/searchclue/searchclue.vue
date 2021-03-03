@@ -81,7 +81,8 @@
 				</view>
 
 				<view class="bottombtn">
-					<button type="primary" class="btn btn1" @click="clox()">重置</button>
+					<button type="primary" class="btn2" @click="guangbi()">取消</button>
+					<button type="primary" class="btn1" @click="clox()">重置</button>
 					<button type="primary" class="btn " @click="getList('search')">确定</button>
 				</view>
 			</view>
@@ -112,9 +113,6 @@
 						<view class="list-dq2">{{item.ind_lead}}</view>
 						<view class="list-dq1">跟进人：</view>
 						<view class="list-dq2">
-							<!-- <view class="tag_k" v-for="(tags, i) in item.tags.data" :key="i">
-								{{tags.t_tab}}
-							</view> -->
 							<view class="list-qd2" v-for="(user, i) in item.track.data" :key="i">
 								<view class="tag_k" v-if="user[0].t_tab">{{user[0].t_tab}}</view>
 								{{user[0].us_name}}
@@ -361,7 +359,20 @@
 			drawer() {
 				this.$refs.drawer.open();
 			},
-			//抽屉关闭
+			
+			//关闭
+			guangbi(){
+				this.$refs.drawer.close();
+				this.allChecked = false;
+				this.checkedArr = [];
+				this.allCheckedzt = false;
+				this.checkedArrzt = [];
+				this.value3 = [];
+				this.value4 = [];
+				this.label3 = '';
+				this.label4 = '';
+			},
+			//重置
 			clox() {
 				this.allChecked = false;
 				this.checkedArr = [];
@@ -536,7 +547,7 @@
 
 	.content {
 		width: 96%;
-
+        margin-bottom:150upx;
 		display: flex;
 		flex-direction: column;
 		align-items: center;
@@ -944,7 +955,7 @@
 
 	.bottombtn {
 		width: 100%;
-	left:0;
+	    left:0;
 		position: fixed;
 		bottom: 0;
 		display: flex;
@@ -963,8 +974,23 @@
 	}
 
 	.btn1 {
+		height:100upx;
+		line-height: 100upx;
+		font-size: 28upx;
+		background: #4873c1;
+		border-radius: 0;
 		background: #d7e8fc;
+		width: 25%;
 		color: #316fd4;
+	}
+	.btn2 {
+		height:100upx;
+		line-height: 100upx;
+		font-size: 28upx;
+		background:url(../../static/a.gif) no-repeat center right #d7e8fc;
+		border-radius: 0;
+		width: 25%;
+		color: #333;
 	}
 
 	/deep/uni-button:after {

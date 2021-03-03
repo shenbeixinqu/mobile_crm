@@ -6,7 +6,8 @@
 					出访状态
 				</view>
 				<view class="uni-list-cell-db">
-					<picker  style="width: 100%;"  mode="selector" v-model="cfstage" :value="cfstage" :range="stagesArr" @change="stageRequire" range-key="name">
+					<picker style="width: 100%;" mode="selector" v-model="cfstage" :value="cfstage" :range="stagesArr" @change="stageRequire"
+					 range-key="name">
 						<view class="uni-input" v-if="!cfstage">请选择出访状态</view>
 						<view class="uni-input" v-else>{{stagesArr[cfstage].name}}</view>
 					</picker>
@@ -15,7 +16,8 @@
 					出访结果
 				</view>
 				<view class="uni-list-cell-db">
-					<picker  style="width: 100%;"  mode="selector" v-model="cfresult" :value="cfresult" :range="resultArr" @change="resultRequire" range-key="name">
+					<picker style="width: 100%;" mode="selector" v-model="cfresult" :value="cfresult" :range="resultArr" @change="resultRequire"
+					 range-key="name">
 						<view class="uni-input" v-if="!cfresult">请选择出访结果</view>
 						<view class="uni-input" v-else>{{resultArr[cfresult].name}}</view>
 					</picker>
@@ -24,7 +26,8 @@
 					洽谈业务
 				</view>
 				<view class="uni-list-cell-db">
-					<picker  style="width: 100%;"  mode="selector" v-model="e_xqclass" :value="e_xqclass" :range="proArray" @change="proRequire" range-key="name">
+					<picker style="width: 100%;" mode="selector" v-model="e_xqclass" :value="e_xqclass" :range="proArray" @change="proRequire"
+					 range-key="name">
 						<view class="uni-input" v-if="!e_xqclass">请选择洽谈业务</view>
 						<view class="uni-input" v-else>{{proArray[e_xqclass].name}}</view>
 					</picker>
@@ -35,7 +38,7 @@
 							开始日期
 						</view>
 						<view class="uni-list-cell-db">
-							<picker  style="width: 100%;"  mode="date" :value="date" :start="startDate" :end="endDate" @change="bindDateChange">
+							<picker style="width: 100%;" mode="date" :value="date" :start="startDate" :end="endDate" @change="bindDateChange">
 								<view class="uni-input" v-if="date==''" style="color:#666;">请选择开始日期</view>
 								<view class="uni-input" v-else>{{date}}</view>
 							</picker>
@@ -44,18 +47,19 @@
 							结束日期
 						</view>
 						<view class="uni-list-cell-db">
-							<picker  style="width: 100%;"  mode="date" :value="jdate" :start="jstartDate" :end="jendDate" @change="jbindDateChange">
+							<picker style="width: 100%;" mode="date" :value="jdate" :start="jstartDate" :end="jendDate" @change="jbindDateChange">
 								<view class="uni-input" v-if="jdate==''" style="color:#666;">请选择结束日期</view>
 								<view class="uni-input" v-else>{{jdate}}</view>
 							</picker>
 						</view>
 					</view>
 				</view>
-				
+
 				<view class="bottombtn">
-						<button type="primary"  class="btn btn1" @click="clox">重置</button>
-					<button type="primary" class="btn" @click="getList('search')">确定</button>
-				
+					<button type="primary" class="btn2" @click="guangbi()">取消</button>
+					<button type="primary" class="btn1" @click="clox()">重置</button>
+					<button type="primary" class="btn " @click="getList('search')">确定</button>
+
 				</view>
 			</view>
 		</uni-drawer>
@@ -64,9 +68,9 @@
 				<form @submit="formSubmit">
 					<view class="uni-form-item">
 						<view class=title>取消原因</view>
-					
+
 						<textarea class="uni-inputa" @blur="bindTextAreaBlur" name="refuseReason" placeholder="请输入拒绝原因" />
-					</view>
+						</view>
 					<view class="uni-btn-v">
 						<button class="btn btn1" @click="qx">取消</button>
 						<button form-type="submit" class="btn ">提交</button>
@@ -291,6 +295,14 @@
 			drawer() {
 				this.$refs.drawer.open();
 			},
+			guangbi(){
+				this.$refs.drawer.close();
+				this.e_xqclass = "",
+				this.cfresult = "",
+				this.cfstage = "",
+				this.date = "",
+				this.jdate = ""
+				},
 			//抽屉关闭
 			clox() {
 				this.e_xqclass = "",
@@ -468,21 +480,36 @@
 	color: grey;
 	}
 
-.btn {
+	.btn {
 		width: 50%;
-		height: 100upx;
+		height:100upx;
 		line-height: 100upx;
 		font-size: 28upx;
 		background: #4873c1;
 		border-radius: 0;
 		bottom: 0;
-		color: #fff;
 	}
 
 	.btn1 {
+		height:100upx;
+		line-height: 100upx;
+		font-size: 28upx;
+		background: #4873c1;
+		border-radius: 0;
 		background: #d7e8fc;
+		width: 25%;
 		color: #316fd4;
-	} 
+	}
+	.btn2 {
+		height:100upx;
+		line-height: 100upx;
+		font-size: 28upx;
+		background:url(../../static/a.gif) no-repeat center right #d7e8fc;
+		border-radius: 0;
+		width: 25%;
+		color: #333;
+	}
+
 	.btn1:after{
 		border-radius:0;
 	}

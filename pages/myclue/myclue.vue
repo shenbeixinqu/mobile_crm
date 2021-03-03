@@ -72,7 +72,8 @@
 
 				</view>
 				<view class="bottombtn">
-					<button type="primary" class="btn btn1" @click="clox()">重置</button>
+					<button type="primary" class="btn2" @click="guangbi()">取消</button>
+					<button type="primary" class="btn1" @click="clox()">重置</button>
 					<button type="primary" class="btn " @click="getList('search')">确定</button>
 				</view>
 			</view>
@@ -372,6 +373,17 @@
 			//抽屉打开
 			drawer() {
 				this.$refs.drawer.open();
+			},
+			//关闭
+			guangbi(){
+				this.$refs.drawer.close();
+				this.allChecked = false;
+				this.checkedArr = [];
+				this.value3 = [];
+				this.value4 = [];
+				this.label3 = '';
+				this.label4 = '';
+				this.source_flag = '';
 			},
 			//抽屉关闭
 			clox() {
@@ -978,7 +990,7 @@
 
 	.btn {
 		width: 50%;
-		height: 100upx;
+		height:100upx;
 		line-height: 100upx;
 		font-size: 28upx;
 		background: #4873c1;
@@ -987,8 +999,23 @@
 	}
 
 	.btn1 {
+		height:100upx;
+		line-height: 100upx;
+		font-size: 28upx;
+		background: #4873c1;
+		border-radius: 0;
 		background: #d7e8fc;
+		width: 25%;
 		color: #316fd4;
+	}
+	.btn2 {
+		height:100upx;
+		line-height: 100upx;
+		font-size: 28upx;
+		background:url(../../static/a.gif) no-repeat center right #d7e8fc;
+		border-radius: 0;
+		width: 25%;
+		color: #333;
 	}
 
 	/deep/uni-button:after {

@@ -1,7 +1,7 @@
 <template>
 	<view class="contentk"> 
 
-		<view class="contentk_top">
+		<view class="contentk_top" style="margin-bottom:200upx;">
 			<view class="leftwz">姓名：</view>
 			<view class="rightwz">{{infolist.name}}</view>
 			<view class="leftwz">性别：</view>
@@ -79,39 +79,46 @@
 
 <style>
 	page {
-		height: 100%;
+		
 	}
 	
 	.contentk {
 		width: 100%;
-		height: 100%;
+	
 		display: flex;
 		flex-direction: column;
 		align-items: center;
 	}
-	.rightwzimg{ width:200upx; height:300upx;position: absolute; right:30upx; top:30upx;}
+	.rightwzimg{ width:200upx; height:300upx;position: absolute; right:30upx; top:30upx; border:#fff solid 10upx;}
 	.rightwzimg img{ width: 100%; display: block;}
 	.contentk_top {
-		width:90%;
+		width: 95%;
 		line-height: 60upx;
 		display: flex;
-		justify-content: space-between;
-		flex-wrap: wrap;
-		font-size: 28upx;
+		flex-direction: column;
+		align-items: center;
+		font-size: 24upx;
 		border-bottom: none;
-		padding-top:20upx;
+		margin-bottom: 100upx;
 	}
 	
 	.leftwz {
-		width:25%;
-		padding-left: 2%;
+		width:95%;
+	    color: #666666;
 		display: flex;
 		justify-content: flex-start;
-		font-size: 28upx;
+		font-size:26upx;
+		padding-top:10upx;
 	}
 	
 	.rightwz {
-		width:65%;
+		width:95%;
+		padding-bottom: 10upx;
+		height:60upx;
 		display: flex;
+		color: #000;
+		font-size:34upx;
+		border-bottom: 1px #e5e5e5 solid;
 	}
+	
 </style>
