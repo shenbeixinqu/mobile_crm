@@ -264,25 +264,30 @@
 		width: 95%;
 		line-height: 60upx;
 		display: flex;
-		justify-content: space-between;
-		flex-wrap: wrap;
-		font-size:28upx;
-
+		flex-direction: column;
+		align-items: center;
+		font-size: 24upx;
 		border-bottom: none;
-
+		margin-bottom: 100upx;
 	}
-
+	
 	.leftwz {
-		width: 20%;
-		padding-left: 2%;
+		width:95%;
+	    color: #666666;
 		display: flex;
 		justify-content: flex-start;
-		font-size: 28upx;
+		font-size:26upx;
+		padding-top:10upx;
 	}
-
+	
 	.rightwz {
-		width: 78%;
+		width:95%;
+		padding-bottom: 10upx;
+		height:60upx;
 		display: flex;
+		color: #000;
+		font-size:34upx;
+		border-bottom: 1px #e5e5e5 solid;
 	}
 	
 	.uni-btn-v {

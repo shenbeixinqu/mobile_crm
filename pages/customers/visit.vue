@@ -651,4 +651,5 @@
 		line-height: 80rpx;
 		flex-shrink: 0;
 	}
+		/deep/uni-input-placeholder{ color: #ccc!important;}
 </style>
