@@ -50,8 +50,8 @@
 				uni.request({
 					url:this.$burl + "/api/user/info",
 					header:{
-						// 'Authorization': this.$token
-						'Authorization': "JWT " + getApp().globalData.token
+						'Authorization': this.$token
+						// 'Authorization': "JWT " + getApp().globalData.token
 					},
 					success: (res) => {
 						console.log("res",res)
