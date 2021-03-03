@@ -15,7 +15,9 @@
 				</view>
 			</form>
 		</view>
+		<view class="bttm"></view>
 	</view>
+	
 </template>
 
 <script>
@@ -122,6 +124,7 @@ id:''
 </script>
 
 <style>
+
 	.red {
 		color: #f00;
 		padding-right: 10upx;

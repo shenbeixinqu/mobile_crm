@@ -29,7 +29,7 @@
 			</swiper-item>
 
 		</swiper>
-			<foot-part @openLogin="openLogin"></foot-part>
+			
 	</view>
 </template>
 <script>
@@ -85,7 +85,7 @@
 			uni.getSystemInfo({
 				success: (res) => {
 					// 这个减100，看个人需求可以不要，这里我需要和底部隔开一定距离，变相来讲就是让这个swiper少一点高度，你想想我这个操作
-					let height = res.windowHeight - uni.upx2px(100)
+					let height = res.windowHeight - uni.upx2px(80)
 					console.log(height);
 					this.swiperheight = height;
 				}
@@ -216,5 +216,8 @@
 	.top_tit {
 		width: 100%;
 		line-height: 80upx;
+	}
+	/deep/uni-button:after {
+		border: none
 	}
 </style>

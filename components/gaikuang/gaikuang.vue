@@ -105,6 +105,7 @@
 
 
 </scroll-view>
+<foot-part @openLogin="openLogin"></foot-part>
 	</view>
 
 	</view>

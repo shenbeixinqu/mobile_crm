@@ -1,5 +1,6 @@
 <template>
-	<view class="contentk" >
+	<view class="contentk">
+		
 		<uni-drawer ref="drawer" mode="right" :width="drawWid">
 			<view class="wk_n">
 				<view class="chou_tit">
@@ -10,18 +11,19 @@
 						<view v-for="item in checkboxData" :key="item.value" class="check_box">
 							<label class="lable-box">
 								<checkbox :value="String(item.value)" :checked="checkedArr.includes(String(item.value))" :class="{'checked':checkedArr.includes(String(item.value))}"></checkbox>
-								<text class="cketext">{{item.label}}</text>
+								<text :class="{'cketext':checkedArr.includes(String(item.value))} ">{{item.label}}</text>
 							</label>
 						</view>
 					</checkbox-group>
-					<checkbox-group class="check_box_k1" @change="allChoose">
+					<checkbox-group class="check_box" @change="allChoose">
 						<label class="lable-box">
-							<checkbox value="all" :class="{'checked':allChecked}" :checked="allChecked?true:false"></checkbox><text class="cketext"
-							 style="color:rgb(64, 158, 255);">全选</text>
+							<checkbox value="all" :class="{'checked':allChecked}" :checked="allChecked?true:false"></checkbox><text :class="{'cketext':allChecked}"
+							 style="color:#888;">全选</text>
 						</label>
 					</checkbox-group>
 				</view>
 				
+
 
 				<view class="uni-list">
 					<view class="uni-list-cell">
@@ -49,15 +51,18 @@
 				</view>
 
 
-				<view class="bottombtn">
-					<button type="primary" class="anbtn" @click="fuwu('search')">确定</button>
-					<button type="primary" class="anbtn" @click="clox()">重置</button>
-				</view>
+				
 			</view>
-
+<view class="bottombtn">
+					<button type="primary" class="btn2" @click="guangbi()">取消</button>
+					<button type="primary" class="btn1" @click="clox()">重置</button>
+					<button type="primary" class="btn " @click="fuwu('search')">确定</button>
+				</view>
 		</uni-drawer>
 
-		<view class="tit">销售批注 <button type="primary" size="small" class="shai-btn" @click="drawer()"> </button></view>
+		<view class="tit">销售批注 <button style="float: right;" type="primary" size="small"
+			 class="shai-btn" @click="drawer()">筛选</button></view>
+
 
 		<view class="bottxt" v-for="item in tableList" :key="item.addtime">
 			<view class="bottxt_top">
@@ -71,6 +76,7 @@
 				</view>
 			</view>
 		</view>
+		<foot-part @openLogin="openLogin"></foot-part>
 		
 	</view>
 </template>
@@ -105,9 +111,10 @@
 		data() {
 			return {
 				date: '',
+				jdate: '',
 				startDate: getDate('start'),
 				endDate: getDate('end'),
-				jdate: '',
+
 				jstartDate: getDate('start'),
 				jendDate: getDate('end'),
 				isChecked: false,
@@ -144,7 +151,7 @@
 				isMore: false,
 				isSh: false,
 				tableList: [],
-				
+
 			}
 		},
 		// watch: {
@@ -154,7 +161,7 @@
 		//   },
 		mounted() {
 			this.fuwu();
-		
+
 		},
 		methods: {
 
@@ -163,8 +170,18 @@
 				this.$refs.drawer.open();
 			},
 			//抽屉关闭
-			clox() {
+			guangbi() {
 				this.$refs.drawer.close();
+				this.allChecked = false;
+				this.checkedArr = [];
+				this.date = '';
+				this.jdate = '';
+			},
+			clox() {
+				this.allChecked = false;
+				this.checkedArr = [];
+				this.date = '';
+				this.jdate = '';
 			},
 			//开始日期
 			bindDateChange: function(e) {
@@ -235,9 +252,8 @@
 </script>
 
 <style>
-	page {
-		
-	}
+	page {}
+
 
 	.contentk {
 		width: 100%;
@@ -245,7 +261,7 @@
 		display: flex;
 		flex-direction: column;
 		align-items: center;
-		
+
 	}
 
 	.uni-list-cell-db {
@@ -266,7 +282,9 @@
 		line-height: 70upx;
 		text-align: left;
 		position: relative;
+		
 	}
+
 	.wk_n {
 		width: 96%;
 		margin: 0 auto;
@@ -275,6 +293,7 @@
 		flex-direction: column;
 
 	}
+
 	.bottxt {
 		width: 96%;
 		display: flex;
@@ -332,16 +351,42 @@
 		margin-left: 10upx;
 
 	}
+	.lable-box {
+		width: 100%;
+		display: block;
+	}
+
+	.lable-box text {
+		width: 100%;
+		position: absolute;
+		text-align: center;
+		z-index: 1;
+		color: #888888;
+	}
+
+
+	.cketext {
+		width: 100%;
+		position: absolute;
+		text-align: center;
+		z-index: 1;
+		color: #4873c1 !important;
+	}
 
 	.shai-btn {
-		width: 50upx;
-		height: 50upx;
-		background: url(../../static/shaixun.png) no-repeat;
-		background-size: 70%;
-		background-position: center;
-		position: absolute;
-		right: 0;
-		top: 10upx;
+		width: 15%;
+		height: 60rpx;
+		line-height: 60rpx;
+		font-size: 28upx;
+		color: #bfbcbc;
+		background: url(../../static/shaixun.png) no-repeat #fff;
+		background-size: 40%;
+		background-position: 8upx 5upx;
+		text-indent: 25px;
+		padding-left: 0;
+		padding-right: 0;
+		border-radius: 0;
+		margin-left: 15upx;
 	}
 
 	.shai-btn:after {
@@ -364,44 +409,71 @@
 	.check_bj {
 		width: 100%;
 		display: flex;
+		margin-left: 5upx;
 		justify-content: center;
-		flex-direction: column;
 		line-height: 70upx;
-		margin-bottom: 10upx;
-		align-items: center;
-
+		flex-direction: column;
 	}
+
+
 
 	.check_box_k {
-		width:100%;
+		width: 100%;
 		display: flex;
 		justify-content: flex-start;
-		flex-direction: row;
 		flex-wrap: wrap;
-		align-items: center;
-		
-		justify-content: center;
-	}
-	.check_box_k1 {
-		width:96.5%;
-		padding-left:3.5%;
-		display: flex;
-		justify-content: flex-start;
-		flex-direction: row;
-		flex-wrap: wrap;
-		align-items: center;
-	
-		justify-content:flex-start;
 	}
 
+	.check_box {
+		margin-bottom: 10upx;
+		width: 32%;
+		height: 70upx;
+		line-height: 70upx;
+		display: flex;
+		margin-right: 1%;
+		position: relative;
+	}
+
+
 	.bottombtn {
-		width: 80%;
-left: 0;
-		position: absolute;
-		bottom: 30upx;
+		width: 100%;
+		left: 0;
+		position: fixed;
+		bottom:0upx;
 		display: flex;
 		align-items: center;
 		justify-content: space-between;
+	}
+
+	.btn {
+		width: 50%;
+		height: 100upx;
+		line-height: 100upx;
+		font-size: 28upx;
+		background: #4873c1;
+		border-radius: 0;
+		bottom: 0;
+	}
+
+	.btn1 {
+		height: 100upx;
+		line-height: 100upx;
+		font-size: 28upx;
+		background: #4873c1;
+		border-radius: 0;
+		background: #d7e8fc;
+		width: 25%;
+		color: #316fd4;
+	}
+
+	.btn2 {
+		height: 100upx;
+		line-height: 100upx;
+		font-size: 28upx;
+		background: url(../../static/a.gif) no-repeat center right #d7e8fc;
+		border-radius: 0;
+		width: 25%;
+		color: #333;
 	}
 
 	.anbtn {
@@ -446,7 +518,7 @@ left: 0;
 	/deep/uni-picker {
 		width: 100%;
 	}
-	
+
 	.chou_tit {
 		padding: 10px;
 		color: 666666;

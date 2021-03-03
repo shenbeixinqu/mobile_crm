@@ -24,8 +24,9 @@
 		</view>
 		</view>
 			</z-paging>
+				<foot-part @openLogin="openLogin"></foot-part>
 		</view>
-		
+	
 		
 	</view>
 </template>

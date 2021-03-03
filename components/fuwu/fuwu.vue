@@ -17,6 +17,7 @@
 
 			</view>
 		</view>
+		<foot-part @openLogin="openLogin"></foot-part>
 	</view>
 </template>
 
