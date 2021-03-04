@@ -37,7 +37,7 @@
 							
 							<view class="list-item-bot">
 								<span v-if="item.check_status=='待审核'" @click="delayReview(item)">审核</span>
-								<span v-else @click="delayDetail(item)">查看</span>
+								<span v-else @click="delayDetail(item)">详情</span>
 							</view>
 						</view>
 					</view>
@@ -164,7 +164,8 @@
 		height: 100%;
 	}
 
-
+/deep/.uni-input-input{ font-size: 28upx;}
+/deep/.uni-input-placeholder{font-size: 28upx;color: #ccc;background:#fafafa;}
 
 	.list-dqk {
 		flex-direction: row;

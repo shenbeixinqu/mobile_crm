@@ -10,13 +10,14 @@
 			</view>
 			<view class="fuwutable_bot" v-for="item in tableList" :key="item.value">
 
-				<view>{{item.de_name}}</view>
-				<view>{{item.user_name}}</view>
 				<view>{{item.post}}</view>
+				<view>{{item.user_name}}</view>
+				<view>{{item.de_name}}</view>
 				<view>{{item.officeins}}</view>
 
 			</view>
 		</view>
+		<foot-part @openLogin="openLogin"></foot-part>
 	</view>
 </template>
 
@@ -114,14 +115,15 @@
 		width: 100%;
 		display: flex;
 		flex-wrap: wrap;
-		line-height: 70upx;
+		line-height:80upx;
+	
 		align-items: center;
 		justify-content: center;
 	}
 
 	.fuwutable_top view {
 		width: 24%;
-		font-size: 24upx;
+			font-size: 30upx;
 		display: flex;
 		align-items: center;
 		border: 1px #e4e4e4 solid;
@@ -141,8 +143,8 @@
 	}
 
 	.fuwutable_bot view {
-		line-height: 70upx;
-		height: 70upx;
+		line-height: 80upx;
+		height: 80upx;
 		width: 24%;
 		font-size: 24upx;
 		display: flex;

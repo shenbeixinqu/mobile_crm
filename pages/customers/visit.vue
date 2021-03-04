@@ -541,7 +541,7 @@
 		color: #f00;
 		padding-right: 10upx;
 	}
-.btn1:after{border-radius: 0;}
+
 	.uni-btn-v {
 	width: 100%;
 	left:0;
@@ -568,7 +568,7 @@
 		color: #316fd4;
 		border-radius: 0;
 	}
-
+.btn1:after{border-radius: 0;}
 	.contentk {
 		width: 100%;
 		display: flex;
@@ -651,4 +651,5 @@
 		line-height: 80rpx;
 		flex-shrink: 0;
 	}
+		/deep/uni-input-placeholder{ color: #ccc!important;}
 </style>

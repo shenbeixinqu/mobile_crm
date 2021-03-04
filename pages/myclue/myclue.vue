@@ -72,7 +72,8 @@
 
 				</view>
 				<view class="bottombtn">
-					<button type="primary" class="btn btn1" @click="clox()">重置</button>
+					<button type="primary" class="btn2" @click="guangbi()">取消</button>
+					<button type="primary" class="btn1" @click="clox()">重置</button>
 					<button type="primary" class="btn " @click="getList('search')">确定</button>
 				</view>
 			</view>
@@ -111,7 +112,7 @@
 								</view>
 								<view class="list-dq1">到期时间：</view>
 								<view class="list-dq2">跟踪还剩{{item.dt_link}}天 | 沟通还剩{{item.dt_track}}天</view><view class="list-dq1">审核状态：</view>
-								<view class="list-dq2">审核状态：延期：{{item.delay_status|delayStatus}} | 跟进：{{item.audit_status|numToMean}}</view>
+								<view class="list-dq2">延期：{{item.delay_status|delayStatus}} | 跟进：{{item.audit_status|numToMean}}</view>
 
 
 							</view>
@@ -373,6 +374,17 @@
 			drawer() {
 				this.$refs.drawer.open();
 			},
+			//关闭
+			guangbi(){
+				this.$refs.drawer.close();
+				this.allChecked = false;
+				this.checkedArr = [];
+				this.value3 = [];
+				this.value4 = [];
+				this.label3 = '';
+				this.label4 = '';
+				this.source_flag = '';
+			},
 			//抽屉关闭
 			clox() {
 				// this.$refs.drawer.close();
@@ -556,7 +568,7 @@
 	page {
 		height: 100%;
 	}
-/deep/.uni-input-input{ }
+/deep/.uni-input-input{ font-size: 28upx;}
 /deep/.uni-input-placeholder{font-size: 28upx;color: #ccc;background:#fafafa;}
 
 	.contentk {
@@ -733,7 +745,7 @@
 		height: 60rpx;
 		line-height: 60rpx;
 		font-size: 28upx;
-		color: #bfbcbc;
+		color: #888;
 		background: url(../../static/addj.png) no-repeat #fff;
 		background-size: 40%;
 		background-position: 3upx 5upx;
@@ -978,7 +990,7 @@
 
 	.btn {
 		width: 50%;
-		height: 100upx;
+		height:100upx;
 		line-height: 100upx;
 		font-size: 28upx;
 		background: #4873c1;
@@ -987,8 +999,23 @@
 	}
 
 	.btn1 {
+		height:100upx;
+		line-height: 100upx;
+		font-size: 28upx;
+		background: #4873c1;
+		border-radius: 0;
 		background: #d7e8fc;
+		width: 25%;
 		color: #316fd4;
+	}
+	.btn2 {
+		height:100upx;
+		line-height: 100upx;
+		font-size: 28upx;
+		background:url(../../static/a.gif) no-repeat center right #d7e8fc;
+		border-radius: 0;
+		width: 25%;
+		color: #333;
 	}
 
 	/deep/uni-button:after {

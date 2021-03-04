@@ -9,6 +9,8 @@
 			<view style="flex-direction: column;
 		justify-content: center;
 		align-items: center; display: flex; margin-bottom: 200upx;">
+		
+		
 		<view class="bottxt" v-for="(item,index) in tableList" :key="index">
 			<view class="bottxt_top">
 				<view class="bottxt_top_y"></view>
@@ -22,10 +24,13 @@
 				</view>
 			</view>
 		</view>
+	
+	
 		</view>
 			</z-paging>
+				<foot-part @openLogin="openLogin"></foot-part>
 		</view>
-		
+	
 		
 	</view>
 </template>
@@ -33,8 +38,6 @@
 <script>
 
 	export default {
-	
-		
 		props: {
 			activeId: {
 				type: String // 指定传入的类型
@@ -65,13 +68,12 @@
 					},
 					success: (res) => {
 						console.log("成功res", res)
-						this.$refs.paging.addData(res.data.data.data.data);
+						this.$refs.paging.addData(this.tableList);
 					},
 					fail: (err) => {
 						//console.log(err)
 					}
 				})
-
 			},
 			//抽屉打开
 			drawer() {
@@ -172,7 +174,7 @@
 
 	.bottxt_mid_right {
 		width: 95%;
-		font-size: 28upx;
+		font-size: 30upx;
 		box-shadow: 0 2px 12px 0 rgba(0, 0, 0, .1);
 		padding: 2%;
 		color: #666;
@@ -210,6 +212,7 @@
 		position: absolute;
 		right: 0;
 		top: 10upx;
+		
 	}
 
 	.shai-btn:after {

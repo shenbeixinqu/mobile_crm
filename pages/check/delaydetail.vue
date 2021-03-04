@@ -1,8 +1,8 @@
 <template>
 <view class="contentk">
 	<!-- <view class="contentk_top1">名额使用情况:</view> -->
-		<view class="contentk_top">
-			<view class="leftwz">名额使用情况:</view><view class="rightwz">本年度申请延期客户{{ dataList.sq_cnt }}个，其中已处理通过{{dataList.tg_cnt}}个，还剩{{ dataList.ksq_cnt }}个可延期名额！</view>
+		<view class="contentk_top" style="margin-bottom:150upx;">
+			<view class="leftwz">名额使用情况:</view><view class="rightwz1">本年度申请延期客户{{ dataList.sq_cnt }}个，其中已处理通过{{dataList.tg_cnt}}个，还剩{{ dataList.ksq_cnt }}个可延期名额！</view>
 			<view class="leftwz">申请人:</view><view class="rightwz">{{dataList.addname}}</view>
 			<view class="leftwz">申请时间:</view><view class="rightwz">{{dataList.addtime}}</view>
 			<view class="leftwz">客户名称:</view><view class="rightwz">{{dataList.name}}</view>
@@ -13,6 +13,7 @@
 			<view class="leftwz">计划签单日期:</view><view class="rightwz">{{dataList.do_time}}</view>
 			<view class="leftwz">延期原因:</view><view class="rightwz">{{dataList.reasons}}</view>	
 		</view>
+		<view class="contentk_bottom"><button type="primary" class="btn2" @click="closeDetail">关闭</button></view>
 	</view>
 </template>
 
@@ -59,6 +60,12 @@
 			}
 		},
 		methods:{
+			
+			closeDetail(){
+				uni.navigateTo({
+					url:"./cusdelay"
+				})
+			},
 			delayDetail(_id){
 				uni.request({
 					url: this.$burl + "/api/customer/delay/deal",
@@ -92,9 +99,18 @@
 		font-size: 24upx;
 		background: #4873c1;
 	}
-	
+	.btn2 {
+		width: 100%;
+		height: 100upx;
+		line-height: 100upx;
+		font-size: 28upx;
+		background: #4873c1;
+		border-radius: 0;
+		bottom: 0;
+		color: #fff;
+	}
 	page {
-		height: 100%;
+		
 	}
 	
 	.contentk {
@@ -104,39 +120,53 @@
 		flex-direction: column;
 		align-items: center;
 	}
-	
 	.contentk_bottom {
-		width: 95%;
-		margin-top: 40upx;
+	width: 100%;
+	left:0;
+		position: fixed;
+		bottom: 0;
 		display: flex;
-		flex-direction: row;
 		align-items: center;
+		justify-content: space-between;
 	}
+
 	.contentk_top1{width: 95%; font-weight: bold; font-size:30upx; line-height: 70upx;}
 	.contentk_top {
 		width: 95%;
-	
 		line-height: 60upx;
 		display: flex;
-		justify-content: space-between;
-		flex-wrap: wrap;
+		flex-direction: column;
+		align-items: center;
 		font-size: 24upx;
-	
 		border-bottom: none;
-	
+		margin-bottom: 100upx;
 	}
 	
 	.leftwz {
-		width:30%;
-		padding-left: 2%;
+		width:95%;
+	    color: #666666;
 		display: flex;
 		justify-content: flex-start;
-	
-		font-size: 24upx;
+		font-size:26upx;
+		padding-top:10upx;
 	}
 	
 	.rightwz {
-		width:65%;
+		width:95%;
+		padding-bottom: 10upx;
+		height:60upx;
 		display: flex;
+		color: #000;
+		font-size:34upx;
+		border-bottom: 1px #e5e5e5 solid;
+	}
+	.rightwz1 {
+		width:95%;
+		padding-bottom: 10upx;
+		
+		display: flex;
+		color: #000;
+		font-size:34upx;
+		border-bottom: 1px #e5e5e5 solid;
 	}
 </style>

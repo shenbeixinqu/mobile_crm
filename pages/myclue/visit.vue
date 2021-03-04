@@ -12,7 +12,7 @@
 					<input type="text" name="v_type" v-model="v_type" :value="v_type" hidden="true" />
 					<picker @change="sourceChange" :range="sourceArray" range-key="name">
 						<view class="uni-input" v-if="sourceArray[v_type]">{{sourceArray[v_type].name}}</view>
-						<view class="uni-input" v-else>请选出访类型</view>
+						<view class="uni-input" v-else style="color: #ccc;">请选出访类型</view>
 					</picker>
 				</view>
 				<view class="uni-form-item uni-column">
@@ -25,7 +25,7 @@
 					<input type="text" name="s_xqclass" v-model="s_xqclass" :value="s_xqclass" hidden="true" />
 					<picker @change="tuiguangChange" :range="tgxqArray" range-key="name">
 						<view class="uni-input" v-if="tgxqArray[s_xqclass]">{{tgxqArray[s_xqclass].name}}</view>
-						<view class="uni-input" v-else>请选择出访类型</view>
+						<view class="uni-input" v-else style="color: #ccc;">请选择出访类型</view>
 					</picker>
 				</view>
 				<view class="uni-form-item uni-column">
@@ -33,7 +33,7 @@
 					<input type="text" name="s_wangluo" v-model="s_wangluo" :value="s_wangluo" hidden="true" />
 					<picker @change="kehuChange" :range="wlArray" range-key="name">
 						<view class="uni-input" v-if="wlArray[s_wangluo]">{{wlArray[s_wangluo].name}}</view>
-						<view class="uni-input" v-else>请选择客户网络意识</view>
+						<view class="uni-input" v-else style="color: #ccc;">请选择客户网络意识</view>
 					</picker>
 				</view>
 				<view class="uni-form-item uni-column">
@@ -41,21 +41,21 @@
 					<input type="text" name="v_area" v-model="v_area" :value="v_area" hidden="true" />
 					<picker @change="cfChange" :range="cfArray" range-key="name">
 						<view class="uni-input" v-if="cfArray[v_area]">{{cfArray[v_area].name}}</view>
-						<view class="uni-input" v-else>请选出访区域</view>
+						<view class="uni-input" v-else style="color: #ccc;">请选出访区域</view>
 					</picker>
 				</view>
 				<view class="uni-form-item uni-column">
 					<view class="title"><text class="red">*</text>出访日期</view>
 					<picker mode="date" :value="date" name="date" :start="startDate" :end="endDate" @change="bindDateChange">
-						<view class="uni-input" v-if="date==''" style="color:#666;">请选择出访日期</view>
+						<view class="uni-input" v-if="date==''" style="color:#ccc;">请选择出访日期</view>
 						<view class="uni-input" v-else>{{date}}</view>
 					</picker>
 				</view>
 				<view class="uni-form-item uni-column">
 					<view class="title"><text class="red">*</text>出访时间</view>
 					<picker mode="time" :value="time" name="time" start="08:30" end="21:01" @change="bindTimeChange">
-						<view class="uni-input" v-if="time==''" style="color:#666;">请选择出访时间</view>
-						<view class="uni-input" v-else>{{time}}</view>
+						<view class="uni-input" v-if="time==''" style="color:#ccc;">请选择出访时间</view>
+						<view class="uni-input" v-else >{{time}}</view>
 					</picker>
 				</view>
 				<view class="uni-form-item uni-column">
@@ -63,7 +63,7 @@
 					<input type="text" name="p_class" v-model="p_class" :value="p_class" hidden="true" />
 					<picker @change="qtChange" :range="qtArray" range-key="name">
 						<view class="uni-input" v-if="qtArray[p_class]">{{qtArray[p_class].name}}</view>
-						<view class="uni-input" v-else>请选择洽谈业务</view>
+						<view class="uni-input" v-else style="color: #ccc;">请选择洽谈业务</view>
 					</picker>
 				</view>
 				<view class="uni-form-item uni-column">
@@ -79,7 +79,7 @@
 					<picker v-model="positionvalue" name="position" @change="zwChange" :value="positionvalue" :range="zwArray"
 					 range-key="name">
 						<view class="uni-input" v-if="zwArray[position]">{{zwArray[position].name}}</view>
-						<view class="uni-input" v-else>请选择职务</view>
+						<view class="uni-input" v-else style="color: #ccc;">请选择职务</view>
 
 					</picker>
 				</view>
@@ -114,7 +114,7 @@
 					<input type="text" name="p_typevalue" v-model="p_typevalue" :value="p_typevalue" hidden="true" />
 					<picker @change="pfChange" :range="pfArray" range-key="name">
 						<view class="uni-input" v-if="pfArray[p_type]">{{pfArray[p_type].name}}</view>
-						<view class="uni-input" v-else>请选择洽谈业务</view>
+						<view class="uni-input" v-else style="color: #ccc;">请选择洽谈业务</view>
 					</picker>
 		
 				</view>
@@ -432,7 +432,7 @@
 						name: "tel",
 						checkType: "phoneno",
 						checkRule: "",
-						errorMsg: "请输入正确手机号"
+						errorMsg: "请输入正确联系方式"
 					},
 					{
 						name: "position",
@@ -603,15 +603,16 @@
 	}
 
 	.uni-input {
+		background-color: #fff;
+		border-color: #e4e7ed;
 		height: 50rpx;
 		padding: 15rpx 25rpx;
 		line-height: 50rpx;
-		font-size: 28rpx;
-		background: #FFF;
+		font-size:30rpx;
 		flex: 1;
 		border: 1px #ddd solid;
 		border-radius: 10upx;
-		color: grey;
+		color: #606266;
 	}
 
 	.uni-input1 {
@@ -651,4 +652,6 @@
 		line-height: 80rpx;
 		flex-shrink: 0;
 	}
+	/deep/.uni-input-placeholder{ color: #ccc!important;}
+	.item-placeholder{color: #ccc!important;}
 </style>

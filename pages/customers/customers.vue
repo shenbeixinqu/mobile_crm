@@ -131,8 +131,9 @@
 				</scroll-view>
 			
 			<view class="bottombtn">
-				<button type="primary" class="btn btn1" @click="clox()">重置</button>
-				<button type="primary" class="btn " @click="getList('search')">确定</button>
+			<button type="primary" class="btn2" @click="guangbi()">取消</button>
+			<button type="primary" class="btn1" @click="clox()">重置</button>
+			<button type="primary" class="btn " @click="getList('search')">确定</button>
 			</view>
 
 		</uni-drawer>
@@ -537,6 +538,22 @@
 			drawer() {
 				this.$refs.drawer.open();
 			},
+			//关闭
+			guangbi(){
+				this.$refs.drawer.close();
+				this.allChecked = false;
+				this.checkedArr = [];
+				this.allCheckedzt = false;
+				this.checkedArrzt = [];
+				this.allCheckedztns = false;
+				this.checkedArrztns = [];
+				this.value3 = [];
+				this.value4 = [];
+				this.label3 = '';
+				this.label4 = '';
+				this.jdate = '';
+				this.date = '';
+			},
 			//抽屉关闭
 			clox() {
 				this.allChecked = false;
@@ -717,7 +734,7 @@
 		height: 100%;
 		background: #fff;
 	}
-/deep/.uni-input-input{ }
+/deep/.uni-input-input{ font-size: 28upx;}
 /deep/.uni-input-placeholder{font-size: 28upx;color: #ccc;background:#fafafa;}
 	.contentk {
 		width: 100%;
@@ -877,7 +894,7 @@
 		height: 60rpx;
 		line-height: 60rpx;
 		font-size: 28upx;
-		color: #bfbcbc;
+		color: #888;
 		background: url(../../static/shaixun.png) no-repeat #fff;
 		background-size: 40%;
 		background-position: 8upx 5upx;
@@ -894,7 +911,7 @@
 		height: 60rpx;
 		line-height: 60rpx;
 		font-size: 28upx;
-		color: #bfbcbc;
+	color: #888;
 		background: url(../../static/addj.png) no-repeat #fff;
 		background-size: 40%;
 		background-position: 3upx 5upx;
@@ -959,7 +976,7 @@
 		display: flex;
 		margin-left: 5upx;
 		justify-content: center;
-		min-height: 250upx;
+	
 		flex-direction: column;
 	}
 
@@ -1138,22 +1155,34 @@
 		align-items: center;
 		justify-content: space-between;
 	}
-
 	.btn {
 		width: 50%;
-		height: 100upx;
+		height:100upx;
 		line-height: 100upx;
 		font-size: 28upx;
 		background: #4873c1;
 		border-radius: 0;
 		bottom: 0;
-		z-index: 1;
 	}
 
 	.btn1 {
+		height:100upx;
+		line-height: 100upx;
+		font-size: 28upx;
+		background: #4873c1;
+		border-radius: 0;
 		background: #d7e8fc;
+		width: 25%;
 		color: #316fd4;
-		
+	}
+	.btn2 {
+		height:100upx;
+		line-height: 100upx;
+		font-size: 28upx;
+		background:url(../../static/a.gif) no-repeat center right #d7e8fc;
+		border-radius: 0;
+		width: 25%;
+		color: #333;
 	}
 
 	/deep/uni-button:after {

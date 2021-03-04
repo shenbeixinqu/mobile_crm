@@ -844,7 +844,6 @@
 						'Authorization': this.$token
 					},
 					success: (res) => {
-
 						this.listhy = res.data.data.options;
 					},
 					fail: (err) => {
@@ -1062,7 +1061,7 @@
 	}
 
 	.uni-input1 {
-		background-color: #f5f7fa;
+		background-color: #fff;
 		border-color: #e4e7ed;
 		height: 50rpx;
 		padding: 15rpx 25rpx;

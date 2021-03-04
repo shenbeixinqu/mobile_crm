@@ -1,7 +1,7 @@
 <template>
 	<view class="contentk">
 
-		<e-modal :visible.sync="visible">
+		<e-modal :visible.sync="visible" >
 			<view class="uni-padding-wrap uni-common-mt">
 				<form @submit="formSubmit" @reset="formReset">
 					<view class="uni-form-item uni-column">
@@ -14,24 +14,26 @@
 					</view>
 					<view class="uni-form-item uni-column">
 						<view class="title">职务</view>
-						<input type="text" name="nzw" v-model="source_flag" :value="source_flag"  hidden="true"/>
-						<picker @change="sourceChange" :range="sourceArray"
-						 range-key="name">
+						<input type="text" name="nzw" v-model="source_flag" :value="source_flag" hidden="true" />
+						<picker @change="sourceChange" :range="sourceArray" range-key="name">
 							<view class="uni-input" v-if="sourceArray[source_flag]">{{sourceArray[source_flag].name}}</view>
 							<view class="uni-input" v-else>请选择职务</view>
 						</picker>
 					</view>
 
 					<view class="uni-btn-v">
+						
+						<button class="btn btn1" @click="qx">取消</button>
 						<button form-type="submit" class="btn">提交</button>
-						<button class="btn" @click="qx">取消</button>
+						
+						
 					</view>
 				</form>
 			</view>
 		</e-modal>
-		
-	<uni-drawer ref="drawer" mode="right" :width="drawWid">
-		<scroll-view scroll-y class="wk_n">
+
+		<uni-drawer ref="drawer" mode="right" :width="drawWid">
+			<scroll-view scroll-y class="wk_n">
 				<view class="chou_tit">客户名称：{{ tableList.name}}</view>
 				<view class="list-item" v-for="item in tableDatazi" :key="item.id">
 					<view class="list-itemleft">
@@ -39,75 +41,78 @@
 						<view>上传时间：{{item.addtime}}</view>
 					</view>
 					<view class="list-img">
-						<image style="width: 100%; height:300upx; background-color: #eeeeee;" @click="clickImg(item.scan)" :src="imgurl+item.scan" mode="aspectFit"></image>
+						<image style="width: 100%; height:300upx; background-color: #eeeeee;" @click="clickImg(item.scan)" :src="imgurl+item.scan"
+						 mode="aspectFit"></image>
 					</view>
 				</view>
 				<button type="primary" class="anbtn" @click="clox()">返回</button>
-	</scroll-view>
+			</scroll-view>
 
 		</uni-drawer>
 
-<scroll-view scroll-y class="classbox">
-		<view class="tit">客户的基本资料</view>
-		<view class="bottxt">
-			<view class="divtableleft">
-				<view class="divtext">客户名称：</view>
-				<view class="divright">{{ tableList.name}}</view>
-				<view class="divtext">客户地区：</view>
-				<view class="divright">{{ tableList.loc_lead}}</view>
-				<view class="divtext">详细地址：</view>
-				<view class="divright">{{ tableList.address}}</view>
-				<view class="divtext">企业法人：</view>
-				<view class="divright">{{ tableList.legal}}</view>
-				<view class="divtext">客户电话：</view>
-				<view class="divright">{{ tableList.phone}}</view>
-				<view class="divtext">客户来源：</view>
-				<view class="divright">{{ tableList.source_flag}}</view>
-				<view class="divtext">客户资质：</view>
-				<view class="divright lanse" @click="drawer()"><a>请点击了解</a></view>
-			</view>
-			<view class="divtableleft1" v-if="isMore">
-				<view class="divtext">传真：</view>
-				<view class="divright">{{ tableList.fax }}</view>
-				<view class="divtext">办公邮箱：</view>
-				<view class="divright">{{ tableList.mail }}</view>
-				<view class="divtext"> 邮编：</view>
-				<view class="divright">{{ tableList.zipcode }}</view>
-				<view class="divtext">人员规模：</view>
-				<view class="divright">{{ tableList.employees }}</view>
-				<view class="divtext">成立日期：</view>
-				<view class="divright">{{ tableList.openingdate }}</view>
-				<view class="divtext">注册资金：</view>
-				<view class="divright">{{ tableList.registered }}</view>
-				<view class="divtext">主营业务：</view>
-				<view class="divright">{{ tableList.business }}</view>
-			</view>
-			<view class="divgd" @click="handleMore" v-if="isShow">了解更多客户信息>></view>
-			<view class="divgd" @click="handleShou" v-if="isSh">收回>></view>
-		</view>
-		<view class="tit">联系人 <view class="txtright" @click="openlxr"></view>
-		</view>
-		<view class="contactus" style="margin-bottom:100upx;">
-			<view class="contactus_top">
-				<view>姓名</view>
-				<view>电话号码</view>
-				<view>职务</view>
-			</view>
-			<view class="contactus_bottom" v-for="item in linkmans" :key="item.value" >
-				<view>{{item.realname}}</view>
-				<view @tap.stop="call_phone(item)">{{item.phone}}
-					<image class="tel-img" src="../../static/tel.png" mode="aspectFit"></image>
+		<scroll-view scroll-y class="classbox" style="margin-bottom:100upx;">
+			<view class="tit">客户的基本资料</view>
+			<view class="bottxt">
+				<view class="divtableleft">
+					<view class="divtext">客户名称：</view>
+					<view class="divright">{{ tableList.name}}</view>
+					<view class="divtext">客户地区：</view>
+					<view class="divright">{{ tableList.loc_lead}}</view>
+					<view class="divtext">详细地址：</view>
+					<view class="divright">{{ tableList.address}}</view>
+					<view class="divtext">企业法人：</view>
+					<view class="divright">{{ tableList.legal}}</view>
+					<view class="divtext">客户电话：</view>
+					<view class="divright">{{ tableList.phone}}</view>
+					<view class="divtext">客户来源：</view>
+					<view class="divright">{{ tableList.source_flag}}</view>
+					<view class="divtext">客户资质：</view>
+					<view class="divright lanse" @click="drawer()"><a>请点击了解</a></view>
 				</view>
-				<view>{{item.duty}}</view>
+				<view class="divtableleft1" v-if="isMore">
+					<view class="divtext">传真：</view>
+					<view class="divright">{{ tableList.fax }}</view>
+					<view class="divtext">办公邮箱：</view>
+					<view class="divright">{{ tableList.mail }}</view>
+					<view class="divtext"> 邮编：</view>
+					<view class="divright">{{ tableList.zipcode }}</view>
+					<view class="divtext">人员规模：</view>
+					<view class="divright">{{ tableList.employees }}</view>
+					<view class="divtext">成立日期：</view>
+					<view class="divright">{{ tableList.openingdate }}</view>
+					<view class="divtext">注册资金：</view>
+					<view class="divright">{{ tableList.registered }}</view>
+					<view class="divtext">主营业务：</view>
+					<view class="divright">{{ tableList.business }}</view>
+				</view>
+				<view class="divgd" @click="handleMore" v-if="isShow">了解更多客户信息>></view>
+				<view class="divgd" @click="handleShou" v-if="isSh">收回>></view>
 			</view>
-		</view>
+			<view class="tit">联系人 <view class="txtright" @click="openlxr"></view>
+			</view>
+			<view class="contactus">
+				<view class="contactus_top">
+					<view>姓名</view>
+					<view>电话号码</view>
+					<view>职务</view>
+				</view>
+				<view class="contactus_bottom" v-for="item in linkmans" :key="item.value">
+					<view>{{item.realname}}</view>
+					<view @tap.stop="call_phone(item)">{{item.phone}}
+						<image class="tel-img" src="../../static/tel.png" mode="aspectFit"></image>
+					</view>
+					<view>{{item.duty}}</view>
+				</view>
+			</view>
 
 
 
-</scroll-view>
+		</scroll-view>
+		<foot-part @openLogin="openLogin"></foot-part>
 	</view>
 
-	</view>
+
+
 
 </template>
 
@@ -158,7 +163,7 @@
 				],
 			}
 		},
-		
+
 		mounted() {
 			this.imgurl = this.$imgurl;
 			this.showToast();
@@ -173,7 +178,7 @@
 				this.source_flag = e.detail.value;
 				this.source_flagvalue = this.sourceArray[this.source_flag].value;
 			},
-			
+
 			qx() {
 				this.visible = false;
 			},
@@ -255,7 +260,7 @@
 			formReset: function(e) {
 				console.log('清空数据')
 			},
-		
+
 			//抽屉打开
 			drawer() {
 				this.$refs.drawer.open();
@@ -305,7 +310,7 @@
 						if (res.data.data.status == 200) {
 							this.tableList = res.data.data.data;
 							this.linkmans = res.data.data.data.linkmans;
-							console.log("tabelList",this.tableList)
+							console.log("tabelList", this.tableList)
 						}
 					},
 					fail: (err) => {
@@ -335,7 +340,7 @@
 				})
 			},
 			// 点击资质放大
-			clickImg(logurl){
+			clickImg(logurl) {
 				let imgsArray = []
 				imgsArray[0] = this.imgurl + logurl
 				uni.previewImage({
@@ -360,22 +365,40 @@
 		height: 100%;
 	}
 
-	.uni-btn-v {
-		width: 100%;
-		display: flex;
-		flex-direction: row;
-		justify-content: center;
-		padding-top: 30upx;
-		padding-bottom: 30upx;
+
+	.classbox {
+		width: 95%;
+		height: 100%;
 	}
-    .classbox{ width: 95%;}
+
+	.uni-btn-v {
+		width:90%;
+		margin:30upx auto 30upx auto;
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+	}
+
+
 	.btn {
-		color: #fff;
-		width: 30%;
-		height: 70upx;
-		line-height: 70upx;
-		font-size: 24upx;
+		width: 50%;
+		height: 100upx;
+		line-height: 100upx;
+		font-size: 28upx;
 		background: #4873c1;
+		border-radius: 0;
+		bottom: 0;
+		color: #fff;
+	}
+
+	.btn1 {
+		background: #d7e8fc;
+		color: #316fd4;
+
+	}
+
+	.btn1:after {
+		border-radius: 0;
 	}
 
 	.contentk {
@@ -386,11 +409,11 @@
 	}
 
 	.tit {
-		width:98%;
+		width: 98%;
 		color: #666666;
-		font-size: 30upx;
-		height: 70upx;
-		line-height: 70upx;
+		font-size: 35upx;
+		height: 80upx;
+		line-height: 80upx;
 		text-align: left;
 		display: flex;
 		flex-direction: row;
@@ -413,18 +436,17 @@
 		margin-left: 10upx;
 	}
 
-	.bottxt {
-	
-	}
+	.bottxt {}
 
 	.contactus {
-		width:98%;
+		width: 98%;
 		border-bottom: none;
+		margin-bottom: 150upx;
 	}
 
 	.contactus_top {
-		line-height: 60upx;
-		height: 60upx;
+		line-height: 80upx;
+		height: 80upx;
 		flex-direction: row;
 		display: flex;
 		font-size: 24upx;
@@ -437,6 +459,7 @@
 		border: 1px #e4e4e4 solid;
 		border-bottom: none;
 		margin-left: -1px;
+		font-size: 30upx;
 
 	}
 
@@ -445,11 +468,11 @@
 	}
 
 	.contactus_bottom {
-		line-height: 60upx;
-		height: 60upx;
+		line-height: 80upx;
+		height: 80upx;
 		flex-direction: row;
 		display: flex;
-		font-size: 24upx;
+		font-size: 30upx;
 	}
 
 	.contactus_bottom view {
@@ -470,7 +493,7 @@
 
 	.divtableleft {
 		width: 100%;
-		line-height: 60upx;
+		line-height: 80upx;
 		display: flex;
 		justify-content: space-between;
 		flex-wrap: wrap;
@@ -482,7 +505,7 @@
 
 	.divtableleft1 {
 		width: 100%;
-		line-height: 60upx;
+		line-height: 80upx;
 		display: flex;
 		justify-content: space-between;
 		flex-wrap: wrap;
@@ -496,26 +519,28 @@
 	.divgd {
 		color: #4873c1;
 		width: 100%;
-		font-size: 24upx;
+		font-size: 30upx;
 		line-height: 80upx;
 		text-align: right;
 		height: 80upx;
+
 	}
 
 	.divtext {
-		width: 20%;
+		width: 30%;
 		padding-left: 2%;
 		display: flex;
 		justify-content: flex-start;
 		border-bottom: 1px solid #e4e4e4;
-		font-size: 24upx;
+		font-size: 30upx;
 
 	}
 
 	.divright {
-		width: 78%;
+		width: 68%;
 		border-bottom: 1px solid #e4e4e4;
 		display: flex;
+		font-size: 30upx;
 	}
 
 	.anbtn {
@@ -589,15 +614,17 @@
 
 	/* 表单 */
 	.uni-padding-wrap {
-		width: 90%;
+		width: 100%;
 		padding-top: 20upx;
 		padding-bottom: 20upx;
+	
 
 	}
 
 	.uni-form-item {
 		display: flex;
-		width: 100%;
+		width:90%;
+		margin: 0 auto;
 		padding: 10rpx 0;
 		flex-direction: column;
 	}
@@ -647,4 +674,5 @@
 		line-height: 80rpx;
 		flex-shrink: 0;
 	}
+	/deep/.e-modal-container{height:690upx!important; position:relative; align-items: flex-start!important;}
 </style>
