@@ -85,7 +85,7 @@
 			<view class="fh" @click="fhsy()"></view>
 			<button type="primary" class="search-btn" @click="getList('search')"></button>
 			<input class="se-input" name="nickname" placeholder="请输入客户名称" v-model="kword" @confirm="doSearch('search')" /><button type="primary" size="small"
-			 class="shai-btn" @click="drawer()">筛选</button></button> <button type="primary" size="small" class="shai-btn1"
+			 class="shai-btn" @click="drawer()">筛选</button><button type="primary" size="small" class="shai-btn1"
 			 @click="add()">新增</button></view>
 		<!-- 数据列表 -->
 		<view class="content">
