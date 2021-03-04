@@ -35,7 +35,7 @@
 			<form @submit="formSubmit">
 				<view class="uni-form-item ">
 					<view class="title"><text class="red">*</text>客户名称:</view>
-					<input class="uni-input1" v-model="clueForm.name" name="name" placeholder="请输入客户名称" placeholder-class="placeholder" />
+					<input class="uni-input1" v-model="clueForm.name" name="name" placeholder="请输入客户名称" placeholder-class="placeholder" @blur="nameInput" />
 				</view>
 				<view class="uni-form-item">
 					<radio-group name="is_man" @change="radioChange">
@@ -49,7 +49,7 @@
 				<view class="uni-form-item">
 					<view class="title" style="padding-top:30upx;"><text class="red">*</text>客户电话:</view>
 					<input class="uni-input1" type="number" placeholder="请输入客户电话" v-model="clueForm.phone" name="phone"
-					 placeholder-class="placeholder" />
+					 placeholder-class="placeholder" @blur="phoneInput" />
 				</view>
 				<view class="uni-form-item">
 					<view class="tit">新增联系人<view class="txtright" @click="addman"></view></view>
@@ -199,7 +199,7 @@
 						<view class="uni-input1">
 							<picker v-model="clueForm.employees" @change="employeesChange" :value="clueForm.employees" :range="employeesArray"
 							 range-key="name">
-								<view v-if="clueForm.employees">{{employeesArray[clueForm.employees].name}}</view>
+								<view v-if="employeesArray[clueForm.employees]">{{employeesArray[clueForm.employees].name}}</view>
 								<view v-else style="color: #ccc;">请选择人员规模</view>
 							</picker>
 						</view>
@@ -280,6 +280,8 @@
 				
 				// 自定义验证
 				through:false,
+				yujing: false,
+				yuphone: false,
 				
 				// 新增联系人弹出层
 				gname:"",
@@ -431,7 +433,7 @@
 					addto: '',
 					addto_val:"",
 					radio: "1",
-					employees: 0,
+					// employees: 0,
 					// openingdate: getDate({
 					// 	format: true
 					// }),
@@ -441,6 +443,7 @@
 					zipcode: "",
 					business: "",
 					employees: "",
+					employees_val:"",
 					registered: "",
 				},
 			}
@@ -591,10 +594,70 @@
 			},
 			employeesChange(e) {
 				this.clueForm.employees = e.detail.value;
+				this.clueForm.employees_val = this.employeesArray[this.clueForm.employees].value
 			},
 			openingdateChange(e) {
 				console.log(e)
 				this.clueForm.openingdate = e.detail.value;
+			},
+			nameInput(e){
+				uni.request({
+					url:this.$burl + '/api/customer/alert',
+					header:{
+						'Authorization': this.$token
+					},
+					data:{
+						name: e.detail.value,
+					},
+					success:(res) => {
+						if (res.data.data.status == 200){
+							if ((res.data.data.name_data).length > 0){
+								this.yujing = false
+								uni.showToast({
+									title:"存在相同的客户名称",
+									icon:"none"
+								})
+							} else {
+								this.yujing = true
+							}
+						} else {
+							uni.showToast({
+								title:res.data.msg,
+								icon:"none"
+							})
+						}
+					}
+				})
+				
+			},
+			phoneInput(e){
+				uni.request({
+					url:this.$burl + '/api/customer/alert',
+					header:{
+						'Authorization': this.$token
+					},
+					data:{
+						phone: e.detail.value,
+					},
+					success:(res) => {
+						if (res.data.data.status == 200){
+							if ((res.data.data.phone_data).length > 0){
+								this.yuphone = false
+								uni.showToast({
+									title:"存在相同的电话号码",
+									icon:"none"
+								})
+							} else {
+								this.yuphone = true
+							}
+						} else {
+							uni.showToast({
+								title:res.data.msg,
+								icon:"none"
+							})
+						}
+					}
+				})
 			},
 			formSubmit(e) {
 				if(this.clueForm.radio == '1' && this.imageList.length == 0){
@@ -648,7 +711,7 @@
 				var formData = e.detail.value;
 				var checkRes = graceChecker.check(formData, rule);
 				
-				if (checkRes && this.through) {
+				if (checkRes && this.through && this.yujing && this.yuphone) {
 					const formDatas = new FormData();
 					if (this.linkmans.length > 0){
 						this.objToStr = "";
@@ -700,7 +763,7 @@
 					formDatas.append("zipcode", this.clueForm.zipcode)
 					formDatas.append("email", this.clueForm.email)
 					formDatas.append("business", this.clueForm.business)
-					formDatas.append("employees", this.clueForm.employees)
+					formDatas.append("employees", this.clueForm.employees_val)
 					formDatas.append("openingdate", this.clueForm.openingdate)
 					formDatas.append("registered", this.clueForm.registered)
 					formDatas.append("contacts", this.objToStr)
@@ -730,7 +793,17 @@
 						title:graceChecker.error,
 						icon:"none"
 					})
-				} else {
+				} else if(!this.yujing){
+					uni.showToast({
+						title:"存在相同的客户信息",
+						icon:"none"
+					})
+				} else if (!this.yuphone){
+					uni.showToast({
+						title:"存在相同的客户信息",
+						icon:"none"
+					})
+				} else if(!this.through) {
 					uni.showToast({
 						title:"请上传图片或填写特殊说明",
 						icon:"none"
