@@ -2,7 +2,7 @@
 	<view class="contentk">
 		<view class="topview">
 			<button type="primary" class="search-btn" @click="getList('search')"></button>
-			<input class="se-input" name="nickname" placeholder="请输入客户名称" v-model="kword" />
+			<input class="se-input" name="nickname" placeholder="请输入客户名称"   @confirm="doSearch('search')" v-model="kword" />
 			
 				<picker class="zt" v-model="flag" @change="flagChange" :value="flag" :range="flagArray" range-key="name">
 					<view v-if="flagArray[flag]">{{flagArray[flag].name}}</view>
@@ -67,6 +67,7 @@
 		},
 		onLoad(options){
 			this.getList();
+			this.doSearch();
 		},
 		filters:{
 			dateToYmd(value){
@@ -92,6 +93,34 @@
 					}
 				})
 			},
+			//搜索
+			doSearch(type) {
+				uni.showLoading();
+				uni.request({
+					url:this.$burl + '/api/customer/audit',
+					header: {
+						'Authorization': this.$token
+					},
+					data: {
+						kword: this.kword,
+					},
+					success: (res) => {
+						uni.hideLoading();
+						if (res.data.data.status == 200) {
+							this.dataList = res.data.data.data;
+						}
+						else{
+							uni.showToast({
+								title: res.data.data.msg,
+								icon: "none"
+							});
+						}
+					},
+					fail: (err) => {
+						
+					}
+				})
+			},
 			getList(type){
 				uni.showLoading();
 				uni.request({
@@ -104,23 +133,19 @@
 						kword: this.kword,
 						kcstatus:this.flag_val
 					},
-					success:(res) => {
-						console.log("res",res)
+					success: (res) => {
 						uni.hideLoading();
-						if (res.data.data.status == 200){
+						if (res.data.data.status == 200) {
 							this.dataList = res.data.data.data;
-							if(this.dataList.length == 0){
-								this.showx = true;
-								uni.hideLoading()
-							} else {
-								this.showx = false
-							}
-							setTimeout(function(){
-								uni.hideLoading();
-							},1000)
+						}
+						else{
+							uni.showToast({
+								title: res.data.data.msg,
+								icon: "none"
+							});
 						}
 					},
-					fail: err => {
+					fail: (err) => {
 						
 					}
 				})
@@ -248,6 +273,8 @@
 	.list_tit {
 		display: flex;
 		color: #333;
+		width:70%;
+		line-height:40upx;
 	}
 	
 	.list-xq {

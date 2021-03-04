@@ -82,7 +82,7 @@
 		
 		<view class="topview">
 			<button type="primary" class="search-btn" @click="getList('search')"></button>
-			<input class="se-input" name="nickname" placeholder="请输入客户名称" v-model="kword">
+			<input class="se-input" name="nickname" placeholder="请输入客户名称" v-model="kword" @confirm="doSearch('search')">
 			<button type="primary" size="small" class="shai-btn" @click="drawer()">筛选</button>
 		</view>
 		<view class="content">
@@ -207,7 +207,8 @@
 		onLoad(options){
 			this.token = "JWT " + getApp().globalData.token
 			this.getList();
-			this.dataDict()
+			this.dataDict();
+				this.doSearch();
 		},
 		methods:{
 			queryList(pageNo,pageSize){
@@ -235,6 +236,34 @@
 						// 	content:err
 						// })
 						console.log("cferr",err)
+					}
+				})
+			},
+			//搜索
+			doSearch(type) {
+				uni.showLoading();
+				uni.request({
+						url: this.$burl + '/api/visits/my',
+					header: {
+						'Authorization': this.$token
+					},
+					data: {
+						kword: this.kword,
+					},
+					success: (res) => {
+						uni.hideLoading();
+						if (res.data.data.status == 200) {
+							this.dataList = res.data.data.data;
+						}
+						else{
+							uni.showToast({
+								title: res.data.data.msg,
+								icon: "none"
+							});
+						}
+					},
+					fail: (err) => {
+						
 					}
 				})
 			},
@@ -421,8 +450,8 @@
 	page{
 		height: 100%;
 	}
-	/deep/.uni-input-input{ }
-	/deep/.uni-input-placeholder{font-size: 28upx;color: #ccc;background:#fafafa;}
+/deep/.uni-input-input{ font-size: 28upx;}
+/deep/.uni-input-placeholder{font-size: 28upx;color: #ccc;background:#fafafa;}
 	.anbtn {
 		width: 45%;
 	}

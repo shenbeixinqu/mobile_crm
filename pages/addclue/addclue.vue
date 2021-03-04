@@ -24,8 +24,9 @@
 					</view>
 
 					<view class="uni-btn-v">
+						
+						<button class="btn btn1" @click="qx">取消</button>
 						<button form-type="submit" class="btn">提交</button>
-						<button class="btn" @click="qx">取消</button>
 					</view>
 				</form>
 			</view>
@@ -536,8 +537,8 @@
 				var rule = [{
 						name: "nickname",
 						checkType: "string",
-						checkRule: "1,10",
-						errorMsg: "请输入姓名"
+						checkRule: "1,100",
+						errorMsg: "请输入正确姓名"
 					},
 					{
 						name: "nphone",
@@ -980,6 +981,35 @@
 		width: 100%;
 		padding: 10rpx 0;
 		flex-direction: column;
+	}
+	.uni-btn-v {
+		width:90%;
+		margin:30upx auto 30upx auto;
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+	}
+
+
+	.btn {
+		width: 50%;
+		height: 100upx;
+		line-height: 100upx;
+		font-size: 28upx;
+		background: #4873c1;
+		border-radius: 0;
+		bottom: 0;
+		color: #fff;
+	}
+
+	.btn1 {
+		background: #d7e8fc;
+		color: #316fd4;
+
+	}
+
+	.btn1:after {
+		border-radius: 0;
 	}
 
 	.uni-labe {

@@ -276,6 +276,8 @@
 	.list_tit {
 		display: flex;
 		color: #333;
+		width:70%;
+		line-height:40upx;
 	}
 
 	.list-xq {

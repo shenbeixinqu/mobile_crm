@@ -90,7 +90,7 @@
 		</uni-drawer>
 		<view class="topview">
 			<button type="primary" class="search-btn" @click="getList('search')"></button>
-			<input class="se-input" name="nickname" placeholder="请输入客户名称" v-model="kword" /><button type="primary" size="small"
+			<input class="se-input" name="nickname" placeholder="请输入客户名称"  @confirm="doSearch('search')" v-model="kword" /><button type="primary" size="small"
 			 class="shai-btn" @click="drawer()">筛选</button></button> <button type="primary" size="small" class="shai-btn1"
 			 @click="add()">新增</button></view>
 		<!-- 数据列表 -->
@@ -115,7 +115,7 @@
 						<view class="list-dq2">
 							<view class="list-qd2" v-for="(user, i) in item.track.data" :key="i">
 								<view class="tag_k" v-if="user[0].t_tab">{{user[0].t_tab}}</view>
-								{{user[0].us_name}}
+								<view class="tag_k2">{{user[0].us_name}}</view>
 							</view>
 						</view>
 					</view>
@@ -261,6 +261,7 @@
 			this.tage();
 			this.locations();
 			this.industrys();
+			this.doSearch();
 		},
 
 
@@ -455,7 +456,34 @@
 					url: '/pages/addclue/addclue'
 				})
 			},
-
+            //搜索
+			doSearch(type) {
+				uni.showLoading();
+				uni.request({
+					url: this.$burl + '/api/customer/malist',
+					header: {
+						'Authorization': this.$token
+					},
+					data: {
+						kword: this.kword,
+					},
+					success: (res) => {
+						uni.hideLoading();
+						if (res.data.data.status == 200) {
+							this.dataList = res.data.data.data;
+						}
+						else{
+							uni.showToast({
+								title: res.data.data.msg,
+								icon: "none"
+							});
+						}
+					},
+					fail: (err) => {
+						
+					}
+				})
+			},
 			//列表接口
 			getList(type) {
 				let dq = this.value3.pop() + '';
@@ -477,18 +505,13 @@
 					success: (res) => {
 						uni.hideLoading();
 						if (res.data.data.status == 200) {
-							this.$refs.drawer.close();
 							this.dataList = res.data.data.data;
-							console.log("datalist", this.dataList)
-							if (this.dataList.length == 0) {
-								this.showxs = true;
-								uni.hideLoading();
-							} else {
-								this.showxs = false;
-							}
-							setTimeout(function() {
-								uni.hideLoading();
-							}, 1000)
+						}
+						else{
+							uni.showToast({
+								title: res.data.data.msg,
+								icon: "none"
+							});
 						}
 					},
 					fail: (err) => {
@@ -551,6 +574,7 @@
 		display: flex;
 		flex-direction: column;
 		align-items: center;
+		margin-top:50upx;
 	}
 
 
@@ -623,6 +647,8 @@
 		display: flex;
 		font-size: 32upx;
 		color: #333333;
+		width:70%;
+		line-height:40upx;
 	}
 
 	.hui {
@@ -645,6 +671,17 @@
 		color: #409eff;
 		margin-left: 10upx;
 	}
+	.tag_k2{
+		display: flex;
+	
+		font-size: 20rpx;
+		margin-left: 5rpx;
+		
+		justify-content: center;
+		color: #999;
+		line-height: 40upx;
+		margin-left: 10upx;
+	}
 
 	.tag_k1{
 		display: flex;
@@ -659,6 +696,7 @@
 		color: #e6a23c;
 		margin-left: 10upx;
 	}
+	
 	.list-dq {
 		width: 100%;
 		text-align: left;
@@ -672,6 +710,7 @@
 
 	.list-qd2 {
 		margin-left: 10upx;
+		display: flex;
 	}
 
 	.se-input {
@@ -705,7 +744,7 @@
 		height: 60rpx;
 		line-height: 60rpx;
 		font-size: 28upx;
-		color: #bfbcbc;
+		color: #888;
 		background: url(../../static/shaixun.png) no-repeat #fff;
 		background-size: 40%;
 		background-position: 8upx 5upx;
@@ -742,10 +781,15 @@
 	}
 
 	.topview {
-		width: 96%;
+		width: 98%;
 		display: flex;
 		justify-content: flex-start;
 		align-items: center;
+		position: fixed;
+		z-index: 100000;
+		height: 100upx;
+		background: #fff;
+		top: 0;
 	}
 
 
@@ -757,6 +801,7 @@
 		padding-top: 5upx;
 		padding-bottom: 5upx;
 		display: flex;
+		
 	}
 
 	.list-dq1 {

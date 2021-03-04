@@ -84,7 +84,7 @@
 		<view class="topview">
 			<view class="fh" @click="fhsy()"></view>
 			<button type="primary" class="search-btn" @click="getList('search')"></button>
-			<input class="se-input" name="nickname" placeholder="请输入客户名称" v-model="kword" /><button type="primary" size="small"
+			<input class="se-input" name="nickname" placeholder="请输入客户名称" v-model="kword" @confirm="doSearch('search')" /><button type="primary" size="small"
 			 class="shai-btn" @click="drawer()">筛选</button></button> <button type="primary" size="small" class="shai-btn1"
 			 @click="add()">新增</button></view>
 		<!-- 数据列表 -->
@@ -236,6 +236,7 @@
 			this.tage();
 			this.locations();
 			this.industrys();
+			this.doSearch();
 		},
 		//过滤器
 		filters: {
@@ -459,7 +460,37 @@
 				}
 				return str;
 			},
-
+            //键盘
+			  doSearch(type) {
+			  
+			  	uni.showLoading();
+			  	uni.request({
+			  		url: this.$burl + '/api/customer/clue/my',
+			  		header: {
+			  			'Authorization': this.$token
+			  		},
+			  		data: {
+			  			kword: this.kword,
+			  			
+			  		},
+			  		success: (res) => {
+						console.log()
+			  			uni.hideLoading();
+			  			if (res.data.data.status == 200) {
+			  				this.dataList = res.data.data.data;
+			  			}
+						else{
+							uni.showToast({
+								title: res.data.data.msg,
+								icon: "none"
+							});
+						}
+			  		},
+			  		fail: (err) => {
+			  			//console.log(err)
+			  		}
+			  	})
+			  },
 			//列表接口
 			getList(type) {
 				console.log(this.value3);
@@ -483,15 +514,12 @@
 						if (res.data.data.status == 200) {
 							this.$refs.drawer.close();
 							this.dataList = res.data.data.data;
-							if (this.dataList.length == 0) {
-								this.showxs = true;
-								uni.hideLoading();
-							} else {
-								this.showxs = false;
-							}
-							setTimeout(function() {
-								uni.hideLoading();
-							}, 1000)
+						}
+						else{
+							uni.showToast({
+								title: res.data.data.msg,
+								icon: "none"
+							});
 						}
 					},
 					fail: (err) => {
@@ -729,7 +757,7 @@
 		height: 60rpx;
 		line-height: 60rpx;
 		font-size: 28upx;
-		color: #bfbcbc;
+		color: #888;
 		background: url(../../static/shaixun.png) no-repeat #fff;
 		background-size: 40%;
 		background-position: 8upx 5upx;

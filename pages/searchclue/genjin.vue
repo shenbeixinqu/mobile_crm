@@ -153,11 +153,9 @@
 						// #endif
 						count: this.imageLength - this.imageList.length,
 						success: (res) => {
-								
 							    this.imageList = this.imageList.concat(res.tempFilePaths);
 							    this.files=res.tempFiles[0];
-						
-							
+								console.log('this.files',this.files)
 						}
 					})
 				},
@@ -227,7 +225,6 @@
 						id:this.activeId
 					},
 					success: (res) => {
-					
 						if (res.data.data.status == 200){
 							this.name=res.data.data.data.name;
 							this.address=res.data.data.data.address;
@@ -261,7 +258,7 @@
 					name: "nphone",
 					checkType: "phoneno",
 					checkRule: "",
-					errorMsg: "请输入核实的联系方式"
+					errorMsg: "请输入正确核实的联系方式"
 				},{
 					name: "remark1",
 					checkType: "notnull",
@@ -278,16 +275,26 @@
 				var checkRes = graceChecker.check(formData, rule);
 				
 				if (checkRes) {
+				if(this.files===''){
+					console.log('请上传资料')
+					uni.showToast({
+					    title: '请上传资料',
+					    duration: 2000,
+						icon: "none"
+					});
+				}else{	
+					
 				const formDatas = new FormData();
 				if(this.stage === '待清洗' || this.stage === '线索黑名单'){
-				formDatas.append("files",this.files);
-				formDatas.append("id",this.activeId);
-				formDatas.append("remark", this.remark);
-				formDatas.append("classid", this.classid);
-				formDatas.append("phone",this.phone);}
+					formDatas.append("files",this.files);
+					formDatas.append("id",this.activeId);
+					formDatas.append("remark", this.remark);
+					formDatas.append("phone",this.phone);
+				}
 				else{
 					formDatas.append("id",this.activeId);
 					formDatas.append("remark", this.remark);
+					formDatas.append("classid", this.classid);
 				}
 				axios({
 					method: 'post',
@@ -305,16 +312,17 @@
 							
 						}
 					});
-					setTimeout(function() {
-							uni.redirectTo({
-								url: './searchclue'
-							})
-					}, 2000);
+					// setTimeout(function() {
+					// 		uni.redirectTo({
+					// 			url: './searchclue'
+					// 		})
+					// }, 2000);
 				  
 				  })
 				  .catch(function (error) {
 				    
 				  });
+				  }
 				
 				} else {
 					uni.showToast({
@@ -610,7 +618,7 @@
 	.upload-image-view .add-view {
 		height: 115upx;
 		width: 115upx;
-		margin: 15upx 15upx 15upx 0upx;
+		margin: 15upx 15upx 15upx 15upx;
 		display: flex;
 		align-items: center;
 		justify-content: center;

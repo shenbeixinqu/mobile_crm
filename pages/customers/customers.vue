@@ -1,6 +1,5 @@
 <template>
 	<view class="contentk">
-
 		<uni-drawer ref="drawer" mode="right" :width="drawWid">
 				<scroll-view scroll-y class="wk_n">
 				<view class="chou_tit">
@@ -140,7 +139,7 @@
 
 		<view class="topview">
 			<button type="primary" class="search-btn" @click="getList('search')"></button>
-			<input class="se-input" name="nickname" placeholder="请输入客户名称" v-model="kword" /><button type="primary" size="small"
+			<input class="se-input" name="nickname" placeholder="请输入客户名称"  @confirm="doSearch('search')" v-model="kword" /><button type="primary" size="small"
 			 class="shai-btn" @click="drawer()">筛选</button></button> <button type="primary" size="small" class="shai-btn1" @click="add()">新增</button></view>
 		<!-- 数据列表 -->
 		<view class="content">
@@ -330,6 +329,7 @@
 			this.tage();
 			this.locations();
 			this.industrys();
+				this.doSearch();
 		},
 		//过滤器
 		filters: {
@@ -632,7 +632,34 @@
 				}
 				return str;
 			},
-
+            //搜索
+			doSearch(type) {
+				uni.showLoading();
+				uni.request({
+					url: this.$burl + '/api/customer/my',
+					header: {
+						'Authorization': this.$token
+					},
+					data: {
+						kword: this.kword,
+					},
+					success: (res) => {
+						uni.hideLoading();
+						if (res.data.data.status == 200) {
+							this.dataList = res.data.data.data;
+						}
+						else{
+							uni.showToast({
+								title: res.data.data.msg,
+								icon: "none"
+							});
+						}
+					},
+					fail: (err) => {
+						
+					}
+				})
+			},
 			//列表接口
 			getList(type) {
 				let dq = this.value3.pop() + '';
@@ -659,14 +686,12 @@
 						if (res.data.data.status == 200) {
 							this.$refs.drawer.close();
 							this.dataList = res.data.data.data;
-							if (this.dataList.length == 0) {
-								uni.hideLoading();
-							} else {
-
-							}
-							setTimeout(function() {
-								uni.hideLoading();
-							}, 1000)
+						}
+						else{
+							uni.showToast({
+								title: res.data.data.msg,
+								icon: "none"
+							});
 						}
 					},
 					fail: (err) => {
