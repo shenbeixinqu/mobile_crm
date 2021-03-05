@@ -49,6 +49,11 @@
 						if (res.data.data.status == 200) {
 							this.dataList = res.data.data.data;
 							this.cklogs = res.data.data.data.cklogs
+						} else {
+							uni.showToast({
+								title:res.data.msg,
+								icon:"none"
+							})
 						}
 					},
 					fail: res => {

@@ -376,9 +376,9 @@
 							this.proArray = arr
 							// this.proArray = res.data.data.pro_class
 						} else {
-							uni.showModal({
-								title:"提示",
-								content:res.data.msg
+							uni.showToast({
+								title:res.data.msg,
+								icon:"none"
 							})
 						}
 					}
@@ -422,7 +422,8 @@
 							} else {
 								uni.showModal({
 									title:"提示",
-									content:res.data.msg
+									content:res.data.msg,
+									showCancel:false
 								})
 							}
 						}

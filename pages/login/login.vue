@@ -43,9 +43,8 @@
 						code: code
 					},
 					success: (userInfo) => {
-						this.role = userInfo.data.roles
+						getApp().globalData.roles = userInfo.data.roles
 						getApp().globalData.token = userInfo.data.token
-						getApp().globalData.roles = this.role
 						this.token = getApp().globalData.token
 						if (this.token){
 							uni.navigateTo({

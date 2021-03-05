@@ -55,24 +55,25 @@
 						method:'post',
 						url:this.$burl + '/api/baidu/ocr_bc',
 						headers:{
-						   'Authorization': "JWT " + getApp().globalData.token
-							
+							'Authorization': "JWT " + getApp().globalData.token
 						},
-						data: formDatas
+						data: formDatas,
 					})
 					.then(function(res){
 						if (res.data.data.status == 200){
 						    const info = res.data.data.data
+							console.log("mobile",info.MOBILE)
+							let MOBILE = (info.MOBILE).slice(0,11)
 							let detail = {
 								addr: info.ADDR,
 								company: info.COMPANY,
 								email: info.EMAIL,
 								fax: info.FAX,
-								mobile: info.MOBILE,
+								mobile: MOBILE,
 								name: info.NAME,
 								pc: info.PC,
 								tel: info.TEL,
-								title: info.TITLE
+								title: info.TITLE,
 							}
 							uni.navigateTo({
 								url: "./addclue?detail=" + encodeURIComponent(JSON.stringify(detail)) ,

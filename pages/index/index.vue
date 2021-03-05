@@ -30,14 +30,14 @@
 			</view>
 		</view>
 
-		<view class="indexconent">审核</view>
+		<view class="indexconent" v-if="roles.includes('3037') || roles.includes('3028')">审核</view>
 		<view class="indeximg">
-			<view class="index_n_img" @click="track">
-				<image class="index_image" src="../../static/gjsh.png" mode="aspectFit"></image>
+			<view class="index_n_img" @click="track" v-if="roles.includes('3037')">
+				<image class="index_image" src="../../static/gjsh.png" mode="aspectFit" ></image>
 				<h4>跟进线索审核</h4>
 			</view>
-			<view class="index_n_img" @click="cusdelay">
-				<image class="index_image" src="../../static/wdxs.png" mode="aspectFit"></image>
+			<view class="index_n_img" @click="cusdelay" v-if="roles.includes('3028')">
+				<image class="index_image" src="../../static/wdxs.png" mode="aspectFit" ></image>
 				<h4>线索延期审核</h4>
 			</view>
 		</view>
