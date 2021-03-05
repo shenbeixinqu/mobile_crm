@@ -55,8 +55,8 @@
 						method:'post',
 						url:this.$burl + '/api/baidu/ocr_bc',
 						headers:{
-							'Authorization': this.$token
-							// 'Authorization': "JWT " + getApp().globalData.token
+							// 'Authorization': this.$token
+							'Authorization': "JWT " + getApp().globalData.token
 						},
 						data: formDatas,
 					})
