@@ -82,7 +82,7 @@
 
 
 		<view class="topview">
-			<view class="fh" @click="fhsy()"></view>
+			<!-- <view class="fh" @click="fhsy()"></view> -->
 			<button type="primary" class="search-btn" @click="getList('search')"></button>
 			<input class="se-input" name="nickname" placeholder="请输入客户名称" v-model="kword" @confirm="doSearch('search')" /><button type="primary" size="small"
 			 class="shai-btn" @click="drawer()">筛选</button><button type="primary" size="small" class="shai-btn1"
@@ -726,7 +726,7 @@
 	}
 
 	.se-input {
-		width:55%;
+		width: 65%;
 		height: 60rpx;
 		line-height: 60rpx;
 		font-size: 22upx;
@@ -743,10 +743,9 @@
 		background-size: 70%;
 		background-position: center;
 		position: absolute;
-		left:410rpx;
+		left: 425rpx;
 		border: none;
 	}
-	.fh{ width:60upx;height:60upx;background: url(../../static/fh.png) no-repeat left center; background-size:80%;}
 
 	.search-btn:after {
 		border: none;
@@ -764,6 +763,7 @@
 		text-indent: 25px;
 		padding-left: 0;
 		padding-right: 0;
+
 		border-radius: 0;
 		margin-left: 15upx;
 	}
