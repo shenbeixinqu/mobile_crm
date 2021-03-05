@@ -159,9 +159,9 @@
 									url:"./my"
 								})
 							} else {
-								uni.showModal({
-									title:"提示",
-									content:res.data.msg
+								uni.showToast({
+									title:res.data.msg,
+									icon:"none"
 								})
 							}
 						},

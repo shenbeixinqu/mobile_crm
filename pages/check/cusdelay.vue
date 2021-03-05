@@ -126,7 +126,8 @@
 						} else {
 							uni.showModal({
 								title:"提示",
-								content:res.data.msg
+								content:res.data.msg,
+								showCancel:false
 							})
 						}
 					},

@@ -128,6 +128,11 @@
 					success: (res) => {
 						if (res.data.data.status == 200 ){
 							this.dataList = res.data.data.data
+						} else {
+							uni.showToast({
+								title:res.data.msg,
+								icon:"none"
+							})
 						}
 					},
 					fail: err => {
@@ -181,9 +186,9 @@
 									url:"./my"
 								})
 							} else {
-								uni.showModal({
-									title:"提示",
-									content:res.data.msg
+								uni.showToast({
+									title:res.data.msg,
+									icon:"none"
 								})
 							}
 						}
