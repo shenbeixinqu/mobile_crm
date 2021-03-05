@@ -275,7 +275,7 @@
 				var checkRes = graceChecker.check(formData, rule);
 				
 				if (checkRes) {
-				if(this.files===''){
+				if(this.files===''&& (this.stage === '待清洗' || this.stage === '线索黑名单')){
 					console.log('请上传资料')
 					uni.showToast({
 					    title: '请上传资料',
@@ -312,11 +312,11 @@
 							
 						}
 					});
-					// setTimeout(function() {
-					// 		uni.redirectTo({
-					// 			url: './searchclue'
-					// 		})
-					// }, 2000);
+					setTimeout(function() {
+							uni.redirectTo({
+								url: './searchclue'
+							})
+					}, 2000);
 				  
 				  })
 				  .catch(function (error) {

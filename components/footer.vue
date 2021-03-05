@@ -56,7 +56,9 @@
 	                                        that.nowFoot = 3;
 	                                }else if(nowRoute.indexOf('mydata')!=-1){
 	                                        that.nowFoot = 4;
-	                                }
+	                                }else{
+										that.nowFoot= 0;
+									}
 	                        }
 	                },
 		methods: {
@@ -106,10 +108,11 @@
 		bottom: 0;
 		width: 100%;
 		height: 120rpx;
-		z-index: 9;
+		z-index: 998;
 		border-top: 1px solid #ececec;
 		display: flex;
 		background-color: #fff;
+		
 	}
 
 	.foot-item {

@@ -184,6 +184,7 @@
 						id: this.activeId
 					},
 					success: (res) => {
+						this.tableList=res.data.data.data
 						this.$refs.paging.addData(this.tableList);
 					},
 					fail: (err) => {
@@ -238,7 +239,6 @@
 						let itemVal = String(item.value);
 						if (!this.checkedArr.includes(itemVal)) {
 							this.checkedArr.push(itemVal);
-
 						}
 					}
 

@@ -411,7 +411,7 @@
 	.tit {
 		width: 98%;
 		color: #666666;
-		font-size: 35upx;
+	font-size: 30upx;
 		height: 80upx;
 		line-height: 80upx;
 		text-align: left;
@@ -560,7 +560,7 @@
 	.wk_n {
 		width: 96%;
 		margin: 0 auto;
-		height: 100%;
+		height:95%;
 		display: flex;
 		flex-direction: column;
 

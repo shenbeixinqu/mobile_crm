@@ -67,7 +67,7 @@
 						id: this.activeId
 					},
 					success: (res) => {
-						console.log("成功res", res)
+						this.tableList = res.data.data.data.data;
 						this.$refs.paging.addData(this.tableList);
 					},
 					fail: (err) => {

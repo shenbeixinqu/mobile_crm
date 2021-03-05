@@ -165,7 +165,7 @@
 
 	.uni-tab-item-title {
 		color: #555;
-		font-size: 30rpx;
+		font-size: 35rpx;
 		height: 80rpx;
 		line-height: 80rpx;
 		flex-wrap: nowrap;
