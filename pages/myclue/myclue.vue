@@ -368,7 +368,6 @@
 						let itemVal = String(item.value);
 						if (!this.checkedArr.includes(itemVal)) {
 							this.checkedArr.push(itemVal);
-
 						}
 					}
 

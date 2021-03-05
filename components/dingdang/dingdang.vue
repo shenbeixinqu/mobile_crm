@@ -99,9 +99,18 @@
 							uni.hideLoading();
 							this.tableList = res.data.data.data.data;
 						}
+						else{
+							uni.showToast({
+								title: res.data.data.msg,
+								icon: "none"
+							});
+						}
 					},
 					fail: (err) => {
-						//console.log(err)
+						uni.showToast({
+							title: msg,
+							icon: "none"
+						});
 					}
 				})
 			},
