@@ -98,8 +98,6 @@
 						if (res.data.data.status == 200) {
 							uni.hideLoading();
 							this.tableList = res.data.data.data.data;
-							console.log('我是啥啊',this.tableList);
-							
 						}
 					},
 					fail: (err) => {
