@@ -89,7 +89,7 @@
 				uni.request({
 					url: this.$burl + "/api/customer/delay/list",
 					header: {
-						'Authorization': this.$token
+						'Authorization': "JWT " + getApp().globalData.token
 					},
 					data: {
 						limit: pageSize,
@@ -110,7 +110,7 @@
 				uni.request({
 					url: this.$burl + "/api/customer/delay/list",
 					header: {
-						'Authorization': this.$token
+						'Authorization': "JWT " + getApp().globalData.token
 					},
 					data: {
 						keyword: this.kword,
@@ -120,7 +120,6 @@
 						uni.hideLoading();
 						if (res.data.data.status === 200) {
 							this.dataList = res.data.data.query;
-							console.log("dataList",this.dataList)
 							setTimeout(function() {
 								uni.hideLoading();
 							}, 1000)

@@ -52,7 +52,6 @@
 				reason:"", // 拒绝原因
 				dataList:[],
 				visible:false,
-				token:this.$token
 			}
 		},
 		onLoad(options){
@@ -102,7 +101,7 @@
 									deal_reason: this.reason
 								},
 								header:{
-									'Authorization': this.token
+									'Authorization': "JWT " + getApp().globalData.token
 								},
 								success: res => {
 									if (res.data.data.status === 200){
@@ -125,7 +124,7 @@
 									}
 								},
 								fail:err => {
-									console.log("统一审核失败",err)
+									
 								}
 							})
 						}
@@ -164,20 +163,18 @@
 							deal_reason:this.reason
 						},
 						header:{
-							'Authorization': this.$token
+							'Authorization': "JWT " + getApp().globalData.token
 						},
 						success: res => {
-							console.log("res",res)
 							if(res.data.data.status === 200){
 								this.visible = false
 								uni.navigateTo({
 									url:"./cusdelay"
 								})
 							} else {
-								console.log("已经处理过了")
-								uni.showModal({
-									title:"提示",
-									content:res.data.msg
+								uni.showToast({
+									title:res.data.msg,
+									icon:"none"
 								})
 							}
 					
@@ -198,11 +195,10 @@
 				
 			},
 			delayDetail(_id){
-				console.log("_id", _id)
 				uni.request({
 					url: this.$burl + "/api/customer/delay/deal",
 					header: {
-						'Authorization': this.$token
+						'Authorization': "JWT " + getApp().globalData.token
 					},
 					data:{
 						id:_id,
@@ -211,7 +207,6 @@
 					success: (res) => {
 						if (res.data.data.status == 200){
 							this.dataList = res.data.data
-							console.log("dataList_index",this.dataList)
 						} else {
 							uni.showModal({
 								title:"提示",

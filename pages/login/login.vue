@@ -2,26 +2,6 @@
 	<view class="springboard">
 		<view class="logo"></view>
 		<view class="logowz">客户关系管理系统平台</view>
-			<!-- <button class="LoginBtn" @click="add">授权登录</button> -->
-		<!-- <view class="">
-		code:{{res}}
-		</view>
-		<view class="">
-			用户信息 {{userInfo}}
-		</view>
-		<view>
-			loading: {{loading}}
-		</view>
-		<view>
-			全局变量{{token}}
-		</view>
-		<view>
-			code:{{code}}
-		</view>
-		<view>
-			全部信息: {{role}}
-		</view> -->
-
 	</view>
 </template>
 
@@ -51,7 +31,7 @@
 			getpower() {
 				
 				let url =
-					"https://open.weixin.qq.com/connect/oauth2/authorize?appid=wwe6a967e2bfd97adf&redirect_uri=http%3A%2F%2Fk94tud.natappfree.cc&response_type=code&scope=snsapi_userinfo#wechat_redirect"		
+					"https://open.weixin.qq.com/connect/oauth2/authorize?appid=wwe6a967e2bfd97adf&redirect_uri=http%3A%2F%2Fiib9xh.natappfree.cc&response_type=code&scope=snsapi_userinfo#wechat_redirect"		
 				window.location.href = url
 			},
 			sendCode(code){

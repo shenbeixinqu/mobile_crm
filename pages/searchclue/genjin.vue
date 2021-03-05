@@ -155,7 +155,6 @@
 						success: (res) => {
 							    this.imageList = this.imageList.concat(res.tempFilePaths);
 							    this.files=res.tempFiles[0];
-								console.log('this.files',this.files)
 						}
 					})
 				},
@@ -199,7 +198,7 @@
 				uni.request({
 					url: this.$burl + '/api/getchoices',
 					header: {
-						'Authorization': this.$token
+						'Authorization': "JWT " + getApp().globalData.token
 					},
 					data:{
 						kt:'pro_class'
@@ -219,7 +218,7 @@
 				uni.request({
 					url: this.$burl + '/api/customer/track',
 					header: {
-						'Authorization': this.$token
+						'Authorization': "JWT " + getApp().globalData.token
 					},
 					data:{
 						id:this.activeId
@@ -276,7 +275,6 @@
 				
 				if (checkRes) {
 				if(this.files===''&& (this.stage === '待清洗' || this.stage === '线索黑名单')){
-					console.log('请上传资料')
 					uni.showToast({
 					    title: '请上传资料',
 					    duration: 2000,
@@ -300,7 +298,7 @@
 					method: 'post',
 					url: this.$burl +'/api/customer/track',
 					headers: {
-						'Authorization': this.$token
+						'Authorization': "JWT " + getApp().globalData.token
 					},
 					data: formDatas,
 				})

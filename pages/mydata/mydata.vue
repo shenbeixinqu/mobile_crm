@@ -50,14 +50,12 @@
 				uni.request({
 					url:this.$burl + "/api/user/info",
 					header:{
-						'Authorization': this.$token
-						// 'Authorization': "JWT " + getApp().globalData.token
+						// 'Authorization': this.$token
+						'Authorization': "JWT " + getApp().globalData.token
 					},
 					success: (res) => {
-						console.log("res",res)
 						if(res.data.rc == 0){
 							this.infolist = res.data.data
-							console.log("infolist", this.infolist)
 						} else {
 							uni.showModal({
 								title:"提示",

@@ -64,7 +64,7 @@
 
 		},
 		onReady() {
-			////console.log('我是onReady函数')
+			
 		},
 		onReachBottom() {
 

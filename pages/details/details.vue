@@ -80,13 +80,11 @@
 			}
 		},
 		onLoad: function(option) {
-			console.log(option)
 			this.activeId = option.id
 			uni.getSystemInfo({
 				success: (res) => {
 					// 这个减100，看个人需求可以不要，这里我需要和底部隔开一定距离，变相来讲就是让这个swiper少一点高度，你想想我这个操作
 					let height = res.windowHeight - uni.upx2px(80)
-					console.log(height);
 					this.swiperheight = height;
 				}
 			})
@@ -112,7 +110,6 @@
 					let cacheIndex = this.cacheTab[0];
 					this.clearTabData(cacheIndex);
 					this.cacheTab.splice(0, 1);
-					//console.log("remove cache index:: " + cacheIndex);
 				}
 			},
 			newGuid() {

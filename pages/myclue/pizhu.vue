@@ -45,7 +45,6 @@ id:''
 			},
              bindTextAreaBlur: function (e) {
              this.remark=e.detail.value
-			  console.log('this.remark',this.remark)
 			 },
 
 			//表单
@@ -68,7 +67,7 @@ id:''
 					uni.request({
 						url: this.$burl + '/api/customer/newremark',
 						header: {
-							'Authorization': this.$token
+							'Authorization': "JWT " + getApp().globalData.token
 						},
 						method: "POST",
 						data: {
@@ -102,7 +101,6 @@ id:''
 
 						},
 						fail: (err) => {
-							//console.log(err)
 						}
 					})
 				} else {
@@ -113,7 +111,6 @@ id:''
 				}
 			},
 			formReset: function(e) {
-				console.log('清空数据')
 			},
 			//日期
 
