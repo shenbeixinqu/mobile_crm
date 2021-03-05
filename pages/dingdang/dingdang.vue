@@ -48,7 +48,6 @@
 	
 		mounted() {
 			this.fuwu();
-			console.log(11111)
 		},
 		methods: {
 			queryList(pageNo, pageSize) {
@@ -66,7 +65,6 @@
 						this.$refs.paging.addData(res.data.data.data);
 					},
 					fail: (err) => {
-						//console.log(err)
 					}
 				})
 
@@ -85,7 +83,7 @@
 				uni.request({
 					url: this.$burl + '/api/customer/getOrders',
 					header: {
-						'Authorization': this.token
+						'Authorization': "JWT " + getApp().globalData.token
 					},
 					data: {
 						id:94,
@@ -94,11 +92,10 @@
 						if (res.data.data.status == 200) {
 							uni.hideLoading();
 							this.tableList = res.data.data.data;
-							
 						}
 					},
 					fail: (err) => {
-						//console.log(err)
+						
 					}
 				})
 			},

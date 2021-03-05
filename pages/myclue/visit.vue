@@ -286,13 +286,13 @@
 				uni.request({
 					url: this.$burl + '/api/getDepUsersCascade',
 					header: {
-						'Authorization': this.$token
+						'Authorization': "JWT " + getApp().globalData.token
 					},
 					success: (res) => {
 						this.list1 = res.data.data.options;
 					},
 					fail: (err) => {
-						//console.log(err)
+						
 					}
 				})
 			},
@@ -301,11 +301,11 @@
 				this.$refs[picker].show()
 			},
 			handleChange(e) {
-				console.log('change::', e)
+				
 			},
 			handleConfirm(e) {
 				// 如果存在多个picker，可以在picker上设置dataset属性，confirm中获取，就能区分是哪个picker了
-				console.log('confirm::', e)
+				
 				if (e) {
 					const name = e.dataset.name
 					const label = e.item.map(m => m.label).join('-')
@@ -315,7 +315,7 @@
 				}
 			},
 			handleCancel(e) {
-				console.log('cancel::', e)
+				
 			},
 			//undefined，null转空
 			praseStrEmpty(str) {
@@ -449,7 +449,7 @@
 					uni.request({
 						url: this.$burl + '/api/visits/apply',
 						header: {
-							'Authorization': this.$token
+							'Authorization': "JWT " + getApp().globalData.token
 						},
 						method: "POST",
 						data: {
@@ -485,7 +485,7 @@
 
 						},
 						fail: (err) => {
-							//console.log(err)
+							
 						}
 					})
 				} else {
@@ -496,7 +496,7 @@
 				}
 			},
 			formReset(e) {
-				console.log('清空数据')
+				
 			},
 
 			// 返回列表页
@@ -510,7 +510,7 @@
 				uni.request({
 					url: this.$burl + '/api/getchoices',
 					header: {
-						'Authorization': this.$token
+						'Authorization': "JWT " + getApp().globalData.token
 					},
 					data: {
 						kt: 'pro_class'
@@ -529,7 +529,7 @@
 
 					},
 					fail: (err) => {
-						//console.log(err)
+						
 					}
 				})
 			},

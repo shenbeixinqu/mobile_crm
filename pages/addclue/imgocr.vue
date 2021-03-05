@@ -49,14 +49,13 @@
 			},
 			methods:{
 				imgOcr(){
-					console.log("axios",this.files)
 					const formDatas = new FormData();
 					formDatas.append("imgfile",this.files);
 					axios({
 						method:'post',
-						url:"http://172.18.3.161:8098" + '/api/baidu/ocr_bc',
+						url:this.$burl + '/api/baidu/ocr_bc',
 						headers:{
-							'Authorization': this.$token
+							'Authorization': "JWT " + getApp().globalData.token
 						},
 						data: formDatas
 					})
@@ -77,7 +76,6 @@
 							uni.navigateTo({
 								url: "./addclue?detail=" + encodeURIComponent(JSON.stringify(detail)) ,
 							})
-							console.log("名片", detail)
 							
 						} else {
 							uni.showModal({
@@ -87,26 +85,7 @@
 						}
 					})
 					.catch(function(error){
-						console.log("error",error)
 					})
-					// console.log("发送时的文件", this.files)
-					// const formDatas = new FormData();
-					// formDatas.append("imgfile",this.files)
-					// uni.request({
-					// 	url: "http://172.18.3.161:8098" + '/api/baidu/ocr_bc',
-					// 	method:"POST",
-					// 	header:{
-					// 		'Authorization': this.$token,
-					// 		"content-type": "multipart/form-data"
-					// 	},
-					// 	data: formDatas,
-					// 	success: (res) =>{
-					// 		console.log("图片上传res",res)
-					// 	},
-					// 	fail: (err) => {
-					// 		console.log("失败err", err)
-					// 	}
-					// })
 				},
 				//选择图片
 				chooseImage: async function() {
@@ -117,10 +96,8 @@
 							// #endif
 							count: this.imageLength - this.imageList.length,
 							success: (res) => {
-								console.log("上传文件的数据", res)
 								this.imageList = this.imageList.concat(res.tempFilePaths);
 								this.files = res.tempFiles[0];
-								console.log("files", this.files)
 							}
 						})
 					},

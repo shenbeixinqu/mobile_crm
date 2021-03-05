@@ -70,7 +70,7 @@
 				uni.request({
 					url: this.$burl + "/api/customer/delay/deal",
 					header: {
-						'Authorization': this.$token
+						'Authorization': "JWT " + getApp().globalData.token
 					},
 					data:{
 						id:_id,
@@ -79,11 +79,14 @@
 					success: (res) => {
 						if (res.data.data.status == 200){
 							this.dataList = res.data.data
-							console.log("dataList",this.dataList)
+						} else {
+							uni.showToast({
+								title:res.data.msg,
+								icon:"none"
+							})
 						}
 					},
 					fail: err => {
-						console.log("err",err)
 					}
 				})
 			}

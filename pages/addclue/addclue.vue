@@ -471,7 +471,6 @@
 					// #endif
 					count: this.imageLength - this.imageList.length,
 					success: (res) => {
-						console.log("上传文件的数据", res)
 						this.imageList = this.imageList.concat(res.tempFilePaths);
 						const leng = res.tempFiles.length
 						if (leng === 1) {
@@ -490,12 +489,7 @@
 							this.files4 = res.tempFiles[3]
 						}
 
-						console.log("files1", this.files1)
-						console.log("files2", this.files2)
-						console.log("files3", this.files3)
-						console.log("files4", this.files4)
 						// this.files = res.tempFiles;
-						// console.log("files", this.files)
 					}
 				})
 			},
@@ -581,14 +575,12 @@
 			},
 			zhizhaoChange(evt) {
 				this.clueForm.radio = evt.detail.value
-				console.log("有无执照", this.clueForm.radio)
 			},
 			sourceChange(e) {
 				this.clueForm.source_flag = e.detail.value;
 				this.clueForm.source_flag_val = this.sourceArray[this.clueForm.source_flag].value
 			},
 			addtoChange(e) {
-				console.log("tianjiadao", e)
 				this.clueForm.addto = e.detail.value;
 				this.clueForm.addto_val = this.addtoArray[this.clueForm.addto].value
 			},
@@ -597,14 +589,13 @@
 				this.clueForm.employees_val = this.employeesArray[this.clueForm.employees].value
 			},
 			openingdateChange(e) {
-				console.log(e)
 				this.clueForm.openingdate = e.detail.value;
 			},
 			nameInput(e){
 				uni.request({
 					url:this.$burl + '/api/customer/alert',
 					header:{
-						'Authorization': this.$token
+						'Authorization': "JWT " + getApp().globalData.token
 					},
 					data:{
 						name: e.detail.value,
@@ -634,7 +625,7 @@
 				uni.request({
 					url:this.$burl + '/api/customer/alert',
 					header:{
-						'Authorization': this.$token
+						'Authorization': "JWT " + getApp().globalData.token
 					},
 					data:{
 						phone: e.detail.value,
@@ -770,9 +761,9 @@
 
 					axios({
 							method: 'post',
-							url: "http://172.18.3.161:8098" + '/api/customer',
+							url: this.$burl + '/api/customer',
 							headers: {
-								'Authorization': this.$token
+								'Authorization': "JWT " + getApp().globalData.token
 							},
 							data: formDatas
 						})
@@ -842,13 +833,13 @@
 				uni.request({
 					url: this.$burl + '/api/industrys_cascade',
 					header: {
-						'Authorization': this.$token
+						'Authorization': "JWT " + getApp().globalData.token
 					},
 					success: (res) => {
 						this.listhy = res.data.data.options;
 					},
 					fail: (err) => {
-						//console.log(err)
+						
 					}
 				})
 			},
@@ -857,13 +848,12 @@
 				uni.request({
 					url: this.$burl + '/api/locations_cascade',
 					header: {
-						'Authorization': this.$token
+						'Authorization': "JWT " + getApp().globalData.token
 					},
 					success: (res) => {
 						this.list1 = res.data.data.options;
 					},
 					fail: (err) => {
-						//console.log(err)
 					}
 				})
 			},

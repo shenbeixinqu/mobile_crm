@@ -43,7 +43,7 @@
 				uni.request({
 					url: this.$burl + '/api/customer/audit/' + _id,
 					header: {
-						'Authorization': this.$token
+						'Authorization': "JWT " + getApp().globalData.token
 					},
 					success: res => {
 						if (res.data.data.status == 200) {

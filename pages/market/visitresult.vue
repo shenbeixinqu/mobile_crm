@@ -128,7 +128,6 @@
 			},
 			//表单
 			formSubmit: function(e){
-				console.log("表单验证",e)
 				// 定义表单规则
 				var rule = [
 				{
@@ -145,7 +144,7 @@
 					uni.request({
 						url:this.$burl + '/api/visits/apply/' + this._id,
 						header:{
-							'Authorization': this.$token
+							'Authorization': "JWT " + getApp().globalData.token
 						},
 						method:"PUT",
 						data:{
@@ -167,7 +166,6 @@
 							}
 						},
 						fail: (err) => {
-							console.log("Err",err)
 						}
 					})
 				} else {
@@ -184,7 +182,6 @@
 				})
 			},
 			determine(){
-				console.log("出访结果", this.result)
 				// uni.request({
 				// 	url:this.$burl + '/api/visits/apply/' + this._id,
 				// 	header:{
@@ -210,7 +207,6 @@
 				// 		}
 				// 	},
 				// 	fail: (err) => {
-				// 		console.log("Err",err)
 				// 	}
 				// })
 			},

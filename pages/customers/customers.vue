@@ -391,7 +391,7 @@
 				uni.request({
 					url: this.$burl + '/api/customer/my',
 					header: {
-						'Authorization': this.$token
+						'Authorization': "JWT " + getApp().globalData.token
 					},
 					data: {
 						limit: pageSize,
@@ -401,7 +401,6 @@
 						this.$refs.paging.addData(res.data.data.data);
 					},
 					fail: (err) => {
-						//console.log(err)
 					}
 				})
 
@@ -417,11 +416,10 @@
 				this.$refs[picker].show()
 			},
 			handleChange(e) {
-				console.log('change::', e)
+				
 			},
 			handleConfirm(e) {
 				// 如果存在多个picker，可以在picker上设置dataset属性，confirm中获取，就能区分是哪个picker了
-				console.log('confirm::', e)
 				if (e) {
 					const name = e.dataset.name
 					const label = e.item.map(m => m.label).join('-')
@@ -431,7 +429,6 @@
 				}
 			},
 			handleCancel(e) {
-				console.log('cancel::', e)
 			},
 			checkboxChange(e) {
 				let values = e.detail.value;
@@ -484,7 +481,6 @@
 			},
 			// 全选事件
 			allChoosezt(e) {
-				console.log(e);
 				let chooseItem = e.detail.value;
 				// 全选
 				if (chooseItem[0] == 'all') {
@@ -516,7 +512,6 @@
 			},
 			// 全选事件
 			allChooseztns(e) {
-				console.log(e);
 				let chooseItem = e.detail.value;
 				// 全选
 				if (chooseItem[0] == 'all') {
@@ -575,13 +570,12 @@
 				uni.request({
 					url: this.$burl + '/api/locations_cascade',
 					header: {
-						'Authorization': this.$token
+						'Authorization': "JWT " + getApp().globalData.token
 					},
 					success: (res) => {
 						this.list1 = res.data.data.options;
 					},
 					fail: (err) => {
-						//console.log(err)
 					}
 				})
 			},
@@ -590,14 +584,13 @@
 				uni.request({
 					url: this.$burl + '/api/industrys_cascade',
 					header: {
-						'Authorization': this.$token
+						'Authorization': "JWT " + getApp().globalData.token
 					},
 					success: (res) => {
 
 						this.listhy = res.data.data.options;
 					},
 					fail: (err) => {
-						//console.log(err)
 					}
 				})
 			},
@@ -606,7 +599,7 @@
 				uni.request({
 					url: this.$burl + '/api/get_tags/' + this.usrid,
 					header: {
-						'Authorization': this.$token
+						'Authorization': "JWT " + getApp().globalData.token
 					},
 					success: (res) => {
 						let checklist = res.data.data.data;
@@ -621,7 +614,6 @@
 
 					},
 					fail: (err) => {
-						//console.log(err)
 					}
 				})
 			},
@@ -638,7 +630,7 @@
 				uni.request({
 					url: this.$burl + '/api/customer/my',
 					header: {
-						'Authorization': this.$token
+						'Authorization': "JWT " + getApp().globalData.token
 					},
 					data: {
 						kword: this.kword,
@@ -668,7 +660,7 @@
 				uni.request({
 					url: this.$burl + '/api/customer/my',
 					header: {
-						'Authorization': this.$token
+						'Authorization': "JWT " + getApp().globalData.token
 					},
 					data: {
 						kword: this.kword,
@@ -695,7 +687,7 @@
 						}
 					},
 					fail: (err) => {
-						//console.log(err)
+						
 					}
 				})
 			},
@@ -715,25 +707,22 @@
 				uni.makePhoneCall({
 					phoneNumber: item.phone,
 					success: (res) => {
-						console.log('调用成功!')
+						
 					},
 					// 失败回调
 					fail: (res) => {
-						console.log('调用失败!')
 						this.call_phone(); //重复调用一次
 					}
 				});
 			},
 			// 跳转详情页
 			goDetail(item) {
-				console.log()
 				uni.navigateTo({
 					url: '/pages/details/details?id=' + item._id
 				})
 			},
 			// 跳转出访表单页面
 			chufang(item) {
-				console.log(item)
 				let chufang = {
 					id: item._id,
 					name: item.name,
@@ -745,7 +734,6 @@
 			},
 			//跳转批注页面
 			pizhu(item) {
-				console.log("填写批注")
 				uni.navigateTo({
 					url: '/pages/customers/pizhu?id=' + item._id
 				})

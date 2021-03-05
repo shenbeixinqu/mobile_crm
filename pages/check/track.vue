@@ -79,7 +79,7 @@
 				uni.request({
 					url: this.$burl + '/api/customer/audit',
 					header: {
-						'Authorization': this.$token
+						'Authorization': "JWT " + getApp().globalData.token
 					},
 					data: {
 						limit: pageSize,
@@ -99,7 +99,7 @@
 				uni.request({
 					url:this.$burl + '/api/customer/audit',
 					header: {
-						'Authorization': this.$token
+						'Authorization': "JWT " + getApp().globalData.token
 					},
 					data: {
 						kword: this.kword,
@@ -126,7 +126,7 @@
 				uni.request({
 					url:this.$burl + '/api/customer/audit',
 					header:{
-						'Authorization': this.$token
+						'Authorization': "JWT " + getApp().globalData.token
 					},
 					data: {
 						ktype: '0',

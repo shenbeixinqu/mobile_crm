@@ -123,17 +123,15 @@
 				uni.request({
 					url: this.$burl + '/api/visits/' + _id,
 					header:{
-						'Authorization': this.$token
+						'Authorization': "JWT " + getApp().globalData.token
 					},
 					success: (res) => {
-						console.log("我的出访",res)
 						if (res.data.data.status == 200 ){
 							this.dataList = res.data.data.data
-							console.log("datalist",this.dataList)
 						}
 					},
 					fail: err => {
-						console.log("err",err)
+						
 					}
 				})
 			},
@@ -171,7 +169,7 @@
 					uni.request({
 						url:this.$burl + '/api/visits/' + this._id,
 						header: {
-							'Authorization':this.$token
+							'Authorization': "JWT " + getApp().globalData.token
 						},
 						method:"DELETE",
 						data:{

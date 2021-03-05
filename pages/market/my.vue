@@ -205,17 +205,17 @@
 			}
 		},
 		onLoad(options){
-			this.token = "JWT " + getApp().globalData.token
+			// this.token = "JWT " + getApp().globalData.token
 			this.getList();
 			this.dataDict();
-				this.doSearch();
+			this.doSearch();
 		},
 		methods:{
 			queryList(pageNo,pageSize){
 				uni.request({
 					url: this.$burl + '/api/visits/my',
 					header:{
-						'Authorization': this.$token
+						'Authorization': "JWT " + getApp().globalData.token
 					},
 					data: {
 						limit: pageSize,
@@ -235,7 +235,6 @@
 						// 	title:"提示",
 						// 	content:err
 						// })
-						console.log("cferr",err)
 					}
 				})
 			},
@@ -245,7 +244,7 @@
 				uni.request({
 						url: this.$burl + '/api/visits/my',
 					header: {
-						'Authorization': this.$token
+						'Authorization': "JWT " + getApp().globalData.token
 					},
 					data: {
 						kword: this.kword,
@@ -271,7 +270,7 @@
 				uni.request({
 					url: this.$burl + '/api/visits/my',
 					header:{
-						'Authorization': this.$token
+						'Authorization': "JWT " + getApp().globalData.token
 					},
 					data: {
 						kword:this.kword,
@@ -304,7 +303,6 @@
 						// 	title:"thissss",
 						// 	content:err
 						// })
-						console.log("列表错误结果", err)
 					}
 				})
 				
@@ -350,7 +348,7 @@
 				uni.request({
 					url:this.$burl + "/api/getchoices",
 					header:{
-						'Authorization':this.$token
+						'Authorization': "JWT " + getApp().globalData.token
 					},
 					data:{
 						kt:"pro_class"
@@ -367,7 +365,6 @@
 							}
 							this.proArray = arr
 							// this.proArray = res.data.data.pro_class
-							// console.log("pro_class", this.proArray)
 						} else {
 							uni.showModal({
 								title:"提示",
@@ -378,7 +375,6 @@
 				})
 			},
 			proRequire(e){
-				console.log("产品pro",e)
 				this.e_xqclass = e.detail.value
 				this.e_xqclass_val = this.proArray[this.e_xqclass].value
 			},
@@ -404,7 +400,7 @@
 					uni.request({
 						url:this.$burl + '/api/visits/' + this.id,
 						header: {
-							'Authorization':this.$token
+							'Authorization': "JWT " + getApp().globalData.token
 						},
 						method:"DELETE",
 						data:{

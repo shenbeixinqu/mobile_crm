@@ -58,17 +58,16 @@
 				uni.request({
 					url: this.$burl + '/api/customer/audit/' + _id,
 					header: {
-						'Authorization': this.$token
+						'Authorization': "JWT " + getApp().globalData.token
 					},
 					success: res => {
-						console.log("Res4",res)
 						if (res.data.data.status == 200) {
 							this.dataList = res.data.data.data;
 							this.cklogs = res.data.data.data.cklogs
 						} else {
-							uni.showModal({
-								title:"提示",
-								content:res.data.msg
+							uni.showToast({
+								title:res.data.msg,
+								icon:"none"
 							})
 						}
 					},
@@ -91,7 +90,7 @@
 									act: 0,
 								},
 								header: {
-									'Authorization': this.$token
+									'Authorization': "JWT " + getApp().globalData.token
 								},
 								success: res => {
 									if (res.data.data.status == 200) {
@@ -149,7 +148,7 @@
 							ckremark:this.remark
 						},
 						header:{
-							'Authorization': this.$token
+							'Authorization': "JWT " + getApp().globalData.token
 						},
 						success: res => {
 							if(res.data.data.status == 200){
