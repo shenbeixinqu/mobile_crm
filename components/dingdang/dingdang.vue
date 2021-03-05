@@ -98,12 +98,19 @@
 						if (res.data.data.status == 200) {
 							uni.hideLoading();
 							this.tableList = res.data.data.data.data;
-							console.log('我是啥啊',this.tableList);
-							
+						}
+						else{
+							uni.showToast({
+								title: res.data.data.msg,
+								icon: "none"
+							});
 						}
 					},
 					fail: (err) => {
-						//console.log(err)
+						uni.showToast({
+							title: msg,
+							icon: "none"
+						});
 					}
 				})
 			},

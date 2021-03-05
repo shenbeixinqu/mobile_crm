@@ -64,7 +64,8 @@
 					来源
 				</view>
 				<view class="uni-list-cell-db">
-					<picker style="width: 100%;" v-model="source_flag" @change="sourceChange" :value="source_flag" :range="sourceArray" range-key="name">
+					<picker style="width: 100%;" v-model="source_flag" @change="sourceChange" :value="source_flag" :range="sourceArray"
+					 range-key="name">
 						<view class="uni-input" v-if="sourceArray[source_flag]">{{sourceArray[source_flag].name}}</view>
 						<view class="uni-input" v-else>请选择来源</view>
 
@@ -84,8 +85,8 @@
 		<view class="topview">
 			<!-- <view class="fh" @click="fhsy()"></view> -->
 			<button type="primary" class="search-btn" @click="getList('search')"></button>
-			<input class="se-input" name="nickname" placeholder="请输入客户名称" v-model="kword" @confirm="doSearch('search')" /><button type="primary" size="small"
-			 class="shai-btn" @click="drawer()">筛选</button><button type="primary" size="small" class="shai-btn1"
+			<input class="se-input" name="nickname" placeholder="请输入客户名称" v-model="kword" @confirm="doSearch('search')" /><button
+			 type="primary" size="small" class="shai-btn" @click="drawer()">筛选</button><button type="primary" size="small" class="shai-btn1"
 			 @click="add()">新增</button></view>
 		<!-- 数据列表 -->
 		<view class="content">
@@ -111,7 +112,8 @@
 									<image class="tel-img" src="../../static/tel.png" mode="aspectFit" @tap.stop="call_phone(item)"></image>
 								</view>
 								<view class="list-dq1">到期时间：</view>
-								<view class="list-dq2">跟踪还剩{{item.dt_link}}天 | 沟通还剩{{item.dt_track}}天</view><view class="list-dq1">审核状态：</view>
+								<view class="list-dq2">跟踪还剩{{item.dt_link}}天 | 沟通还剩{{item.dt_track}}天</view>
+								<view class="list-dq1">审核状态：</view>
 								<view class="list-dq2">延期：{{item.delay_status|delayStatus}} | 跟进：{{item.audit_status|numToMean}}</view>
 
 
@@ -125,7 +127,7 @@
 				</view>
 			</z-paging>
 		</view>
-	<foot-part @openLogin="openLogin"></foot-part>
+		<foot-part @openLogin="openLogin"></foot-part>
 	</view>
 </template>
 
@@ -285,7 +287,8 @@
 
 		methods: {
 			queryList(pageNo, pageSize) {
-
+				let dq = this.value3.pop() + '';
+				let hy = this.value4.pop() + '';
 				uni.request({
 					url: this.$burl + '/api/customer/clue/my',
 					header: {
@@ -294,11 +297,21 @@
 					data: {
 						limit: pageSize,
 						pn: pageNo,
+						kword: this.kword,
+						ktags: this.checkedArr.join(','),
+						kloc: this.praseStrEmpty(dq),
+						kind: this.praseStrEmpty(hy),
+						ksource: this.source_flag,
 					},
 					success: (res) => {
+						this.dataList = res.data.data.data;
 						this.$refs.paging.addData(res.data.data.data);
 					},
 					fail: (err) => {
+						uni.showToast({
+							title: msg,
+							icon: "none"
+						});
 					}
 				})
 
@@ -351,7 +364,6 @@
 						let itemVal = String(item.value);
 						if (!this.checkedArr.includes(itemVal)) {
 							this.checkedArr.push(itemVal);
-
 						}
 					}
 
@@ -370,7 +382,7 @@
 				this.$refs.drawer.open();
 			},
 			//关闭
-			guangbi(){
+			guangbi() {
 				this.$refs.drawer.close();
 				this.allChecked = false;
 				this.checkedArr = [];
@@ -403,6 +415,10 @@
 						this.list1 = res.data.data.options;
 					},
 					fail: (err) => {
+					uni.showToast({
+						title: msg,
+						icon: "none"
+					});
 					}
 				})
 			},
@@ -414,10 +430,13 @@
 						'Authorization': "JWT " + getApp().globalData.token
 					},
 					success: (res) => {
-
 						this.listhy = res.data.data.options;
 					},
 					fail: (err) => {
+						uni.showToast({
+							title: msg,
+							icon: "none"
+						});
 					}
 				})
 			},
@@ -441,7 +460,10 @@
 
 					},
 					fail: (err) => {
-						
+						uni.showToast({
+							title: msg,
+							icon: "none"
+						});
 					}
 				})
 			},
@@ -452,35 +474,39 @@
 				}
 				return str;
 			},
-            //键盘
-			  doSearch(type) {
-			  
-			  	uni.showLoading();
-			  	uni.request({
-			  		url: this.$burl + '/api/customer/clue/my',
-			  		header: {
-			  			'Authorization': "JWT " + getApp().globalData.token
-			  		},
-			  		data: {
-			  			kword: this.kword,
-			  			
-			  		},
-			  		success: (res) => {
-			  			uni.hideLoading();
-			  			if (res.data.data.status == 200) {
-			  				this.dataList = res.data.data.data;
-			  			}
-						else{
+			//键盘
+			doSearch(type) {
+
+				uni.showLoading();
+				uni.request({
+					url: this.$burl + '/api/customer/clue/my',
+					header: {
+						'Authorization': this.$token
+					},
+					data: {
+						kword: this.kword,
+
+					},
+					success: (res) => {
+						console.log()
+						uni.hideLoading();
+						if (res.data.data.status == 200) {
+							this.dataList = res.data.data.data;
+						} else {
 							uni.showToast({
 								title: res.data.data.msg,
 								icon: "none"
 							});
 						}
-			  		},
-			  		fail: (err) => {
-			  		}
-			  	})
-			  },
+					},
+					fail: (err) => {
+					uni.showToast({
+						title: msg,
+						icon: "none"
+					});
+					}
+				})
+			},
 			//列表接口
 			getList(type) {
 				let dq = this.value3.pop() + '';
@@ -503,8 +529,7 @@
 						if (res.data.data.status == 200) {
 							this.$refs.drawer.close();
 							this.dataList = res.data.data.data;
-						}
-						else{
+						} else {
 							uni.showToast({
 								title: res.data.data.msg,
 								icon: "none"
@@ -512,6 +537,10 @@
 						}
 					},
 					fail: (err) => {
+						uni.showToast({
+							title: msg,
+							icon: "none"
+						});
 					}
 				})
 			},
@@ -555,21 +584,21 @@
 					url: "./visit?chufang=" + encodeURIComponent(JSON.stringify(chufang)),
 				})
 			},
-			
+
 			//新增
-			add(){
+			add() {
 				uni.navigateTo({
 					url: '/pages/addclue/addclue'
 				})
 			},
-			
+
 			//跳转批注页面
 			pizhu(item) {
 				uni.navigateTo({
 					url: './pizhu?id=' + item._id
 				})
 			},
-			fhsy(){
+			fhsy() {
 				uni.navigateBack();
 			}
 		}
@@ -580,8 +609,16 @@
 	page {
 		height: 100%;
 	}
-/deep/.uni-input-input{ font-size: 28upx;}
-/deep/.uni-input-placeholder{font-size: 28upx;color: #ccc;background:#fafafa;}
+
+	/deep/.uni-input-input {
+		font-size: 28upx;
+	}
+
+	/deep/.uni-input-placeholder {
+		font-size: 28upx;
+		color: #ccc;
+		background: #fafafa;
+	}
 
 	.contentk {
 		width: 100%;
@@ -639,10 +676,10 @@
 
 
 	.list-item-bot {
-		width:98%;
+		width: 98%;
 		display: flex;
 		margin-top: 15upx;
-		justify-content:space-between;
+		justify-content: space-between;
 		color: #4873c1;
 		font-size: 28upx;
 	}
@@ -992,7 +1029,7 @@
 
 	.bottombtn {
 		width: 100%;
-	left:0;
+		left: 0;
 		position: fixed;
 		bottom: 0;
 		display: flex;
@@ -1002,7 +1039,7 @@
 
 	.btn {
 		width: 50%;
-		height:100upx;
+		height: 100upx;
 		line-height: 100upx;
 		font-size: 28upx;
 		background: #4873c1;
@@ -1011,7 +1048,7 @@
 	}
 
 	.btn1 {
-		height:100upx;
+		height: 100upx;
 		line-height: 100upx;
 		font-size: 28upx;
 		background: #4873c1;
@@ -1020,11 +1057,12 @@
 		width: 25%;
 		color: #316fd4;
 	}
+
 	.btn2 {
-		height:100upx;
+		height: 100upx;
 		line-height: 100upx;
 		font-size: 28upx;
-		background:url(../../static/a.gif) no-repeat center right #d7e8fc;
+		background: url(../../static/a.gif) no-repeat center right #d7e8fc;
 		border-radius: 0;
 		width: 25%;
 		color: #333;
