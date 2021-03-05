@@ -1,7 +1,7 @@
 <template>
 	<view class="contentk">
 		<uni-drawer ref="drawer" mode="right" :width="drawWid">
-				<scroll-view scroll-y class="wk_n">
+			<scroll-view scroll-y class="wk_n">
 				<view class="chou_tit">
 					标签
 				</view>
@@ -66,9 +66,9 @@
 						</view>
 
 						<view class="uni-list-cell-db">
-							<picker mode="date" :value="date" :start="startDate" :end="endDate" @change="bindDateChange">
-								<view class="uni-input" v-if="date==''" style="color:#666;">请选择签单开始日期</view>
-								<view class="uni-input" v-else>{{date}}</view>
+							<picker  style="width:100%;" mode="date" :value="date" :start="startDate" :end="endDate" @change="bindDateChange">
+								<view class="uni-input" v-if="date==''" style="color:#ccc;">请选择签单开始日期</view>
+								<view class="uni-input" v-else  >{{date}}</view>
 							</picker>
 						</view>
 
@@ -76,9 +76,9 @@
 							结束日期
 						</view>
 						<view class="uni-list-cell-db">
-							<picker mode="date" :value="jdate" :start="jstartDate" :end="jendDate" @change="jbindDateChange">
-								<view class="uni-input" v-if="jdate==''" style="color:#666;">请选择签单结束日期</view>
-								<view class="uni-input" v-else>{{jdate}}</view>
+							<picker style="width:100%;" mode="date" :value="jdate" :start="jstartDate" :end="jendDate" @change="jbindDateChange">
+								<view class="uni-input" v-if="jdate==''" style="color:#ccc;">请选择签单结束日期</view>
+								<view class="uni-input" v-else >{{jdate}}</view>
 							</picker>
 						</view>
 					</view>
@@ -126,23 +126,25 @@
 
 
 
-			
-				</scroll-view>
-			
+
+			</scroll-view>
+
 			<view class="bottombtn">
-			<button type="primary" class="btn2" @click="guangbi()">取消</button>
-			<button type="primary" class="btn1" @click="clox()">重置</button>
-			<button type="primary" class="btn " @click="getList('search')">确定</button>
+				<button type="primary" class="btn2" @click="guangbi()">取消</button>
+				<button type="primary" class="btn1" @click="clox()">重置</button>
+				<button type="primary" class="btn " @click="getList('search')">确定</button>
 			</view>
 
 		</uni-drawer>
 
 		<view class="topview">
 			<button type="primary" class="search-btn" @click="getList('search')"></button>
-			<input class="se-input" name="nickname" placeholder="请输入客户名称"  @confirm="doSearch('search')" v-model="kword" /><button type="primary" size="small"
-			 class="shai-btn" @click="drawer()">筛选</button></button> <button type="primary" size="small" class="shai-btn1" @click="add()">新增</button></view>
+			<input class="se-input" name="nickname" placeholder="请输入客户名称" @confirm="doSearch('search')" v-model="kword" /><button
+			 type="primary" size="small" class="shai-btn" @click="drawer()">筛选</button></button> <button type="primary" size="small"
+			 class="shai-btn1" @click="add()">新增</button></view>
 		<!-- 数据列表 -->
 		<view class="content">
+			<view v-if="showxs" style="width: 100%; display: flex; color: #ddd; text-align: center; height: 100%; align-items: center; justify-content: center;">----暂无数据----</view>
 			<z-paging ref="paging" @query="queryList" :list.sync="dataList" style="height: calc(100% - 80rpx);">
 				<!-- 设置自定义emptyView组件，非必须。空数据时会自动展示空数据组件，不需要自己处理 -->
 				<empty-view slot="empty"></empty-view>
@@ -174,7 +176,7 @@
 				</view>
 			</z-paging>
 		</view>
-			<foot-part @openLogin="openLogin"></foot-part>
+		<foot-part @openLogin="openLogin"></foot-part>
 	</view>
 </template>
 
@@ -329,65 +331,21 @@
 			this.tage();
 			this.locations();
 			this.industrys();
-				this.doSearch();
+			this.doSearch();
 		},
-		//过滤器
-		filters: {
-			numToMean: function(value) {
-				let audit = ''
-				if (value === 0) {
-					audit = '--'
-					return audit
-				} else if (value === 1) {
-					audit = '体系审核通过'
-					return audit
-				} else if (value === 2) {
-					audit = '体系审核拒绝'
-					return audit
-				} else if (value === 3) {
-					audit = '总经办审核通过'
-					return audit
-				} else if (value === 4) {
-					audit = '总经办审核通过'
-					return audit
-				}
-
-				return audit
-			},
-
-			delayStatus: function(value) {
-				let delay = ''
-				if (value === "-1") {
-					delay = '--'
-					return delay
-				} else if (value === "0") {
-					delay = '待审核'
-					return delay
-				} else if (value === "1") {
-					delay = '审核通过'
-					return delay
-				} else if (value === "2") {
-					delay = '已拒绝'
-					return delay
-				}
-
-				return delay
-			},
-
-		},
-
 
 		methods: {
-			
+
 			//新增
-			add(){
+			add() {
 				uni.navigateTo({
 					url: '/pages/addclue/addclue'
 				})
 			},
-			
-			queryList(pageNo, pageSize) {
 
+			queryList(pageNo, pageSize) {
+				let dq = this.value3.pop() + '';
+				let hy = this.value4.pop() + '';
 				uni.request({
 					url: this.$burl + '/api/customer/my',
 					header: {
@@ -396,23 +354,29 @@
 					data: {
 						limit: pageSize,
 						pn: pageNo,
+						kword: this.kword,
+						ktags: this.checkedArr.join(','),
+						kman: this.checkedArrzt.join(','),
+						kloc: this.praseStrEmpty(dq),
+						kind: this.praseStrEmpty(hy),
+						ksource: this.source_flag,
+						ksdt: this.date,
+						kedt: this.jdate,
+						is_taxpayer: this.checkedArrztns.join(','),
 					},
 					success: (res) => {
-						if(res.data.data==''){
-							uni.showToast({
-								title: res.data.msg,
-								icon: "none"
-							});
-						}
-						else{
-						this.$refs.paging.addData(res.data.data.data);
+						if (res.data.data == '') {
+							console.log(res);
+							this.showxs = true;
+						} else {
+							this.$refs.paging.addData(res.data.data.data);
 						}
 					},
 					fail: (err) => {
-						uni.showToast({
-							title: res.data.msg,
-							icon: "none"
-						});
+						uni.showModal({
+							title: "提示",
+							content: res.data.msg
+						})
 					}
 				})
 
@@ -428,7 +392,7 @@
 				this.$refs[picker].show()
 			},
 			handleChange(e) {
-				
+
 			},
 			handleConfirm(e) {
 				// 如果存在多个picker，可以在picker上设置dataset属性，confirm中获取，就能区分是哪个picker了
@@ -440,8 +404,7 @@
 					}
 				}
 			},
-			handleCancel(e) {
-			},
+			handleCancel(e) {},
 			checkboxChange(e) {
 				let values = e.detail.value;
 				if (values[0] == 1) {
@@ -546,7 +509,7 @@
 				this.$refs.drawer.open();
 			},
 			//关闭
-			guangbi(){
+			guangbi() {
 				this.$refs.drawer.close();
 				this.allChecked = false;
 				this.checkedArr = [];
@@ -587,8 +550,7 @@
 					success: (res) => {
 						this.list1 = res.data.data.options;
 					},
-					fail: (err) => {
-					}
+					fail: (err) => {}
 				})
 			},
 			//行业接口
@@ -602,8 +564,7 @@
 
 						this.listhy = res.data.data.options;
 					},
-					fail: (err) => {
-					}
+					fail: (err) => {}
 				})
 			},
 			//标签接口
@@ -625,8 +586,7 @@
 						}
 
 					},
-					fail: (err) => {
-					}
+					fail: (err) => {}
 				})
 			},
 			//undefined，null转空
@@ -636,7 +596,7 @@
 				}
 				return str;
 			},
-            //搜索
+			//搜索
 			doSearch(type) {
 				uni.showLoading();
 				uni.request({
@@ -651,16 +611,20 @@
 						uni.hideLoading();
 						if (res.data.data.status == 200) {
 							this.dataList = res.data.data.data;
-						}
-						else{
-							uni.showToast({
-								title: res.data.data.msg,
-								icon: "none"
-							});
+						} else {
+							uni.showModal({
+								title: "提示",
+								content: res.data.msg,
+								showCancel: false,
+							})
 						}
 					},
 					fail: (err) => {
-						
+						uni.showModal({
+							title: "提示",
+							content: res.data.msg,
+							showCancel: false,
+						})
 					}
 				})
 			},
@@ -690,16 +654,20 @@
 						if (res.data.data.status == 200) {
 							this.$refs.drawer.close();
 							this.dataList = res.data.data.data;
-						}
-						else{
-							uni.showToast({
-								title: res.data.data.msg,
-								icon: "none"
-							});
+						} else {
+							uni.showModal({
+								title: "提示",
+								content: res.data.msg,
+								showCancel: false,
+							})
 						}
 					},
 					fail: (err) => {
-						
+						uni.showModal({
+							title: "提示",
+							content: res.data.msg,
+
+						})
 					}
 				})
 			},
@@ -719,7 +687,7 @@
 				uni.makePhoneCall({
 					phoneNumber: item.phone,
 					success: (res) => {
-						
+
 					},
 					// 失败回调
 					fail: (res) => {
@@ -759,8 +727,21 @@
 		height: 100%;
 		background: #fff;
 	}
-/deep/.uni-input-input{ font-size: 28upx;}
-/deep/.uni-input-placeholder{font-size: 28upx;color: #ccc;background:#fafafa;}
+     .item-placeholder {
+     	color: #ccc;
+     	font-size: 16px;
+     	
+     }
+	/deep/.uni-input-input {
+		font-size: 28upx;
+	}
+
+	/deep/.uni-input-placeholder {
+		font-size: 28upx;
+		color: #ccc;
+		background: #fafafa;
+	}
+
 	.contentk {
 		width: 100%;
 		height: 100%;
@@ -936,7 +917,7 @@
 		height: 60rpx;
 		line-height: 60rpx;
 		font-size: 28upx;
-	color: #888;
+		color: #888;
 		background: url(../../static/addj.png) no-repeat #fff;
 		background-size: 40%;
 		background-position: 3upx 5upx;
@@ -1001,7 +982,7 @@
 		display: flex;
 		margin-left: 5upx;
 		justify-content: center;
-	
+
 		flex-direction: column;
 	}
 
@@ -1132,7 +1113,7 @@
 	.wk_n {
 		width: 96%;
 		margin: 0 auto;
-		height:90%;
+		height: 90%;
 		overflow-y: scroll;
 		display: flex;
 		flex-direction: column;
@@ -1175,14 +1156,15 @@
 		position: fixed;
 		bottom: 0;
 		z-index: 1;
-		left:0;
+		left: 0;
 		display: flex;
 		align-items: center;
 		justify-content: space-between;
 	}
+
 	.btn {
 		width: 50%;
-		height:100upx;
+		height: 100upx;
 		line-height: 100upx;
 		font-size: 28upx;
 		background: #4873c1;
@@ -1191,7 +1173,7 @@
 	}
 
 	.btn1 {
-		height:100upx;
+		height: 100upx;
 		line-height: 100upx;
 		font-size: 28upx;
 		background: #4873c1;
@@ -1200,11 +1182,12 @@
 		width: 25%;
 		color: #316fd4;
 	}
+
 	.btn2 {
-		height:100upx;
+		height: 100upx;
 		line-height: 100upx;
 		font-size: 28upx;
-		background:url(../../static/a.gif) no-repeat center right #d7e8fc;
+		background: url(../../static/a.gif) no-repeat center right #d7e8fc;
 		border-radius: 0;
 		width: 25%;
 		color: #333;

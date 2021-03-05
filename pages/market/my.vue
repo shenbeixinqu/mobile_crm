@@ -8,8 +8,8 @@
 				<view class="uni-list-cell-db">
 					<picker style="width: 100%;" mode="selector" v-model="cfstage" :value="cfstage" :range="stagesArr" @change="stageRequire"
 					 range-key="name">
-						<view class="uni-input" v-if="!cfstage">请选择出访状态</view>
-						<view class="uni-input" v-else>{{stagesArr[cfstage].name}}</view>
+						<view class="uni-input" v-if="!cfstage" style="color: #ddd;">请选择出访状态</view>
+						<view class="uni-input" v-else >{{stagesArr[cfstage].name}}</view>
 					</picker>
 				</view>
 				<view class="chou_tit">
@@ -18,8 +18,8 @@
 				<view class="uni-list-cell-db">
 					<picker style="width: 100%;" mode="selector" v-model="cfresult" :value="cfresult" :range="resultArr" @change="resultRequire"
 					 range-key="name">
-						<view class="uni-input" v-if="!cfresult">请选择出访结果</view>
-						<view class="uni-input" v-else>{{resultArr[cfresult].name}}</view>
+						<view class="uni-input" v-if="!cfresult" style="color: #ddd;">请选择出访结果</view>
+						<view class="uni-input" v-else >{{resultArr[cfresult].name}}</view>
 					</picker>
 				</view>
 				<view class="chou_tit">
@@ -28,8 +28,8 @@
 				<view class="uni-list-cell-db">
 					<picker style="width: 100%;" mode="selector" v-model="e_xqclass" :value="e_xqclass" :range="proArray" @change="proRequire"
 					 range-key="name">
-						<view class="uni-input" v-if="!e_xqclass">请选择洽谈业务</view>
-						<view class="uni-input" v-else>{{proArray[e_xqclass].name}}</view>
+						<view class="uni-input" v-if="!e_xqclass" style="color: #ddd;">请选择洽谈业务</view>
+						<view class="uni-input" v-else >{{proArray[e_xqclass].name}}</view>
 					</picker>
 				</view>
 				<view class="uni-list">
@@ -38,9 +38,9 @@
 							开始日期
 						</view>
 						<view class="uni-list-cell-db">
-							<picker style="width: 100%;" mode="date" :value="date" :start="startDate" :end="endDate" @change="bindDateChange">
-								<view class="uni-input" v-if="date==''" style="color:#666;">请选择开始日期</view>
-								<view class="uni-input" v-else>{{date}}</view>
+							<picker style="width: 100%; display:block;" mode="date" :value="date" :start="startDate" :end="endDate" @change="bindDateChange">
+								<view class="uni-input" v-if="date==''" style="color:#ddd;">请选择开始日期</view>
+								<view class="uni-input" v-else >{{date}}</view>
 							</picker>
 						</view>
 						<view class="chou_tit">
@@ -48,8 +48,8 @@
 						</view>
 						<view class="uni-list-cell-db">
 							<picker style="width: 100%;" mode="date" :value="jdate" :start="jstartDate" :end="jendDate" @change="jbindDateChange">
-								<view class="uni-input" v-if="jdate==''" style="color:#666;">请选择结束日期</view>
-								<view class="uni-input" v-else>{{jdate}}</view>
+								<view class="uni-input" v-if="jdate==''" style="color:#ddd;">请选择结束日期</view>
+								<view class="uni-input" v-else >{{jdate}}</view>
 							</picker>
 						</view>
 					</view>
@@ -86,6 +86,7 @@
 			<button type="primary" size="small" class="shai-btn" @click="drawer()">筛选</button>
 		</view>
 		<view class="content">
+					<view v-if="showxs" style="width: 100%; display: flex; color: #ddd; text-align: center; height: 100%; align-items: center; justify-content: center;">----暂无数据----</view>
 			<z-paging ref="paging" @query="queryList" :list.sync='dataList' style="height: calc(100% - 80rpx);">
 				<empty-view slot="empty"></empty-view>
 				<view>
@@ -202,6 +203,7 @@
 				proArray:[],
 				checkboxData: [],
 				checkedArrzt: "", //出访状态复选框选中的值
+				showxs: false,
 			}
 		},
 		onLoad(options){
@@ -227,14 +229,19 @@
 						kpc_id: this.e_xqclass_val,
 						kresult: this.cfresult_val
 					},
-					success:(res) => {
-						this.$refs.paging.addData(res.data.data.data);
+					success: (res) => {
+						if (res.data.data == '') {
+							console.log(res);
+							this.showxs = true;
+						} else {
+							this.$refs.paging.addData(res.data.data.data);
+						}
 					},
-					fail:(err) => {
-						// uni.showModal({
-						// 	title:"提示",
-						// 	content:err
-						// })
+					fail: (err) => {
+						uni.showModal({
+							title: "提示",
+							content: res.data.msg
+						})
 					}
 				})
 			},
@@ -255,18 +262,24 @@
 							this.dataList = res.data.data.data;
 						}
 						else{
-							uni.showToast({
-								title: res.data.data.msg,
-								icon: "none"
-							});
+								uni.showModal({
+									title:"提示",
+									content:res.data.msg,
+									 showCancel:false,
+								})
+							}
+						},
+						fail: (err) => {
+							uni.showModal({
+								title:"提示",
+								content:res.data.msg,
+								
+							})
 						}
-					},
-					fail: (err) => {
-						
-					}
 				})
 			},
 			getList(type){
+				uni.showLoading();
 				uni.request({
 					url: this.$burl + '/api/visits/my',
 					header:{
@@ -281,28 +294,25 @@
 						kresult: this.cfresult_val
 					},
 					success:(res) => {
-						uni.showModal({
-							title:"thissss",
-							content:res
-						})
+					uni.hideLoading();
 						if (res.data.data.status === 200){
 							this.$refs.drawer.close();
 							this.dataList = res.data.data.data;
-							setTimeout(function(){
-								uni.hideLoading();
-							}, 1000)
-						} else {
+							
+						} 	else{
 							uni.showModal({
 								title:"提示",
-								content:res.data.msg
+								content:res.data.msg,
+								 showCancel:false,
 							})
 						}
 					},
-					fail: err => {
-						// uni.showModal({
-						// 	title:"thissss",
-						// 	content:err
-						// })
+					fail: (err) => {
+						uni.showModal({
+							title:"提示",
+							content:res.data.msg,
+							
+						})
 					}
 				})
 				

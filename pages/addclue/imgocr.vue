@@ -55,7 +55,8 @@
 						method:'post',
 						url:this.$burl + '/api/baidu/ocr_bc',
 						headers:{
-							'Authorization': "JWT " + getApp().globalData.token
+						   'Authorization': "JWT " + getApp().globalData.token
+							
 						},
 						data: formDatas
 					})
@@ -166,10 +167,10 @@
 	}
 	 
 	.upload-image-view .image-view {
-		height: 300upx;
-		width: 300upx;
+		height:340upx;
+		width: 340upx;
 		position:absolute;
-		margin: 18upx 15upx 15upx -8upx;
+		margin: 15upx 15upx 15upx 15upx;
 		border-radius: 8upx;
 		top:185upx;
 		

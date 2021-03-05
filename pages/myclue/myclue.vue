@@ -64,9 +64,10 @@
 					来源
 				</view>
 				<view class="uni-list-cell-db">
-					<picker style="width: 100%;" v-model="source_flag" @change="sourceChange" :value="source_flag" :range="sourceArray" range-key="name">
+					<picker style="width: 100%;" v-model="source_flag" @change="sourceChange" :value="source_flag" :range="sourceArray"
+					 range-key="name">
 						<view class="uni-input" v-if="sourceArray[source_flag]">{{sourceArray[source_flag].name}}</view>
-						<view class="uni-input" v-else>请选择来源</view>
+						<view class="uni-input" v-else style="color: #ccc;">请选择来源</view>
 
 					</picker>
 
@@ -84,11 +85,12 @@
 		<view class="topview">
 			<!-- <view class="fh" @click="fhsy()"></view> -->
 			<button type="primary" class="search-btn" @click="getList('search')"></button>
-			<input class="se-input" name="nickname" placeholder="请输入客户名称" v-model="kword" @confirm="doSearch('search')" /><button type="primary" size="small"
-			 class="shai-btn" @click="drawer()">筛选</button><button type="primary" size="small" class="shai-btn1"
+			<input class="se-input" name="nickname" placeholder="请输入客户名称" v-model="kword" @confirm="doSearch('search')" /><button
+			 type="primary" size="small" class="shai-btn" @click="drawer()">筛选</button><button type="primary" size="small" class="shai-btn1"
 			 @click="add()">新增</button></view>
 		<!-- 数据列表 -->
 		<view class="content">
+			<view v-if="showxs" style="width: 100%; display: flex; color: #ddd; text-align: center; height: 100%; align-items: center; justify-content: center;">----暂无数据----</view>
 			<z-paging ref="paging" @query="queryList" :list.sync="dataList" style="height: calc(100% - 80rpx);">
 				<!-- 设置自定义emptyView组件，非必须。空数据时会自动展示空数据组件，不需要自己处理 -->
 				<empty-view slot="empty"></empty-view>
@@ -111,8 +113,15 @@
 									<image class="tel-img" src="../../static/tel.png" mode="aspectFit" @tap.stop="call_phone(item)"></image>
 								</view>
 								<view class="list-dq1">到期时间：</view>
-								<view class="list-dq2">跟踪还剩{{item.dt_link}}天 | 沟通还剩{{item.dt_track}}天</view><view class="list-dq1">审核状态：</view>
-								<view class="list-dq2">延期：{{item.delay_status|delayStatus}} | 跟进：{{item.audit_status|numToMean}}</view>
+								<view class="list-dq2">跟踪还剩{{item.dt_link}}天 | 沟通还剩{{item.dt_track}}天</view>
+								<view class="list-dq1">审核状态：</view>
+								<view v-if="item.delay_status==0&&item.audit_status==0" class="list-dq2"></view>
+								<view v-else class="list-dq2">
+									<view v-if="item.delay_status==0"></view>
+									<view v-else>延期：{{item.delay_status|delayStatus}}</view> |<view v-if="item.audit_status==0"></view>
+									<view v-else>跟进：{{item.audit_status|numToMean}}</view>
+								</view>
+
 
 
 							</view>
@@ -125,7 +134,7 @@
 				</view>
 			</z-paging>
 		</view>
-	<foot-part @openLogin="openLogin"></foot-part>
+		<foot-part @openLogin="openLogin"></foot-part>
 	</view>
 </template>
 
@@ -167,6 +176,7 @@
 				// 全选全不选
 				ktags: '',
 				usrid: 2,
+
 				sourceArray: [{
 						name: "个人查找（公共资源)",
 						value: "1"
@@ -245,16 +255,16 @@
 					audit = '--'
 					return audit
 				} else if (value === 1) {
-					audit = '体系审核通过'
+					audit = '待审核'
 					return audit
 				} else if (value === 2) {
-					audit = '体系审核拒绝'
+					audit = '审核通过'
 					return audit
 				} else if (value === 3) {
-					audit = '总经办审核通过'
+					audit = '层审中'
 					return audit
-				} else if (value === 4) {
-					audit = '总经办审核通过'
+				} else if (value === 9) {
+					audit = '审核拒绝'
 					return audit
 				}
 
@@ -276,7 +286,6 @@
 					delay = '已拒绝'
 					return delay
 				}
-
 				return delay
 			},
 
@@ -285,7 +294,8 @@
 
 		methods: {
 			queryList(pageNo, pageSize) {
-
+				let dq = this.value3.pop() + '';
+				let hy = this.value4.pop() + '';
 				uni.request({
 					url: this.$burl + '/api/customer/clue/my',
 					header: {
@@ -294,25 +304,25 @@
 					data: {
 						limit: pageSize,
 						pn: pageNo,
+						kword: this.kword,
+						ktags: this.checkedArr.join(','),
+						kloc: this.praseStrEmpty(dq),
+						kind: this.praseStrEmpty(hy),
+						ksource: this.source_flag,
 					},
 					success: (res) => {
-						
-						if(res.data.data==''){
-							uni.showToast({
-								title: res.data.msg,
-								icon: "none"
-							});
-						}
-						else{
-						this.$refs.paging.addData(res.data.data.data);
+						if (res.data.data == '') {
+							console.log(res);
+							this.showxs = true;
+						} else {
+							this.$refs.paging.addData(res.data.data.data);
 						}
 					},
 					fail: (err) => {
-						uni.showToast({
-							title: res.data.msg,
-							icon: "none"
-						});
-						
+						uni.showModal({
+							title: "提示",
+							content: res.data.msg
+						})
 					}
 				})
 
@@ -321,8 +331,7 @@
 			handleTap(picker) {
 				this.$refs[picker].show()
 			},
-			handleChange(e) {
-			},
+			handleChange(e) {},
 			handleConfirm(e) {
 				// 如果存在多个picker，可以在picker上设置dataset属性，confirm中获取，就能区分是哪个picker了
 				if (e) {
@@ -333,8 +342,7 @@
 					}
 				}
 			},
-			handleCancel(e) {
-			},
+			handleCancel(e) {},
 			checkboxChange(e) {
 				let values = e.detail.value;
 				if (values[0] == 1) {
@@ -384,7 +392,7 @@
 				this.$refs.drawer.open();
 			},
 			//关闭
-			guangbi(){
+			guangbi() {
 				this.$refs.drawer.close();
 				this.allChecked = false;
 				this.checkedArr = [];
@@ -416,8 +424,7 @@
 					success: (res) => {
 						this.list1 = res.data.data.options;
 					},
-					fail: (err) => {
-					}
+					fail: (err) => {}
 				})
 			},
 			//行业接口
@@ -431,8 +438,7 @@
 
 						this.listhy = res.data.data.options;
 					},
-					fail: (err) => {
-					}
+					fail: (err) => {}
 				})
 			},
 			//标签接口
@@ -455,7 +461,7 @@
 
 					},
 					fail: (err) => {
-						
+
 					}
 				})
 			},
@@ -466,35 +472,40 @@
 				}
 				return str;
 			},
-            //键盘
-			  doSearch(type) {
-			  
-			  	uni.showLoading();
-			  	uni.request({
-			  		url: this.$burl + '/api/customer/clue/my',
-			  		header: {
-			  			'Authorization': "JWT " + getApp().globalData.token
-			  		},
-			  		data: {
-			  			kword: this.kword,
-			  			
-			  		},
-			  		success: (res) => {
-			  			uni.hideLoading();
-			  			if (res.data.data.status == 200) {
-			  				this.dataList = res.data.data.data;
-			  			}
-						else{
-							uni.showToast({
-								title: res.data.data.msg,
-								icon: "none"
-							});
+			//键盘
+			doSearch(type) {
+
+				uni.showLoading();
+				uni.request({
+					url: this.$burl + '/api/customer/clue/my',
+					header: {
+						'Authorization': "JWT " + getApp().globalData.token
+					},
+					data: {
+						kword: this.kword,
+
+					},
+					success: (res) => {
+						uni.hideLoading();
+						if (res.data.data.status == 200) {
+							this.dataList = res.data.data.data;
+						} else {
+							uni.showModal({
+								title: "提示",
+								content: res.data.msg,
+								showCancel: false,
+							})
 						}
-			  		},
-			  		fail: (err) => {
-			  		}
-			  	})
-			  },
+					},
+					fail: (err) => {
+						uni.showModal({
+							title: "提示",
+							content: res.data.msg,
+							showCancel: false,
+						})
+					}
+				})
+			},
 			//列表接口
 			getList(type) {
 				let dq = this.value3.pop() + '';
@@ -517,15 +528,20 @@
 						if (res.data.data.status == 200) {
 							this.$refs.drawer.close();
 							this.dataList = res.data.data.data;
-						}
-						else{
-							uni.showToast({
-								title: res.data.data.msg,
-								icon: "none"
-							});
+						} else {
+							uni.showModal({
+								title: "提示",
+								content: res.data.msg,
+								showCancel: false,
+							})
 						}
 					},
 					fail: (err) => {
+						uni.showModal({
+							title: "提示",
+							content: res.data.msg,
+
+						})
 					}
 				})
 			},
@@ -544,8 +560,7 @@
 			call_phone(item) {
 				uni.makePhoneCall({
 					phoneNumber: item.phone,
-					success: (res) => {
-					},
+					success: (res) => {},
 					// 失败回调
 					fail: (res) => {
 						this.call_phone(); //重复调用一次
@@ -569,21 +584,21 @@
 					url: "./visit?chufang=" + encodeURIComponent(JSON.stringify(chufang)),
 				})
 			},
-			
+
 			//新增
-			add(){
+			add() {
 				uni.navigateTo({
 					url: '/pages/addclue/addclue'
 				})
 			},
-			
+
 			//跳转批注页面
 			pizhu(item) {
 				uni.navigateTo({
 					url: './pizhu?id=' + item._id
 				})
 			},
-			fhsy(){
+			fhsy() {
 				uni.navigateBack();
 			}
 		}
@@ -594,8 +609,16 @@
 	page {
 		height: 100%;
 	}
-/deep/.uni-input-input{ font-size: 28upx;}
-/deep/.uni-input-placeholder{font-size: 28upx;color: #ccc;background:#fafafa;}
+
+	/deep/.uni-input-input {
+		font-size: 28upx;
+	}
+
+	/deep/.uni-input-placeholder {
+		font-size: 28upx;
+		color: #ccc;
+		background: #fafafa;
+	}
 
 	.contentk {
 		width: 100%;
@@ -653,10 +676,10 @@
 
 
 	.list-item-bot {
-		width:98%;
+		width: 98%;
 		display: flex;
 		margin-top: 15upx;
-		justify-content:space-between;
+		justify-content: space-between;
 		color: #4873c1;
 		font-size: 28upx;
 	}
@@ -912,8 +935,9 @@
 	}
 
 	.item-placeholder {
-		color: $uni-text-color-grey;
+		color: #ccc;
 		font-size: 16px;
+
 	}
 
 	.tips {
@@ -1006,7 +1030,7 @@
 
 	.bottombtn {
 		width: 100%;
-	left:0;
+		left: 0;
 		position: fixed;
 		bottom: 0;
 		display: flex;
@@ -1016,7 +1040,7 @@
 
 	.btn {
 		width: 50%;
-		height:100upx;
+		height: 100upx;
 		line-height: 100upx;
 		font-size: 28upx;
 		background: #4873c1;
@@ -1025,7 +1049,7 @@
 	}
 
 	.btn1 {
-		height:100upx;
+		height: 100upx;
 		line-height: 100upx;
 		font-size: 28upx;
 		background: #4873c1;
@@ -1034,11 +1058,12 @@
 		width: 25%;
 		color: #316fd4;
 	}
+
 	.btn2 {
-		height:100upx;
+		height: 100upx;
 		line-height: 100upx;
 		font-size: 28upx;
-		background:url(../../static/a.gif) no-repeat center right #d7e8fc;
+		background: url(../../static/a.gif) no-repeat center right #d7e8fc;
 		border-radius: 0;
 		width: 25%;
 		color: #333;

@@ -58,12 +58,15 @@
 
 						if (res.data.data.status == 200) {
 							this.tableList = res.data.data.data;
-							console.log('我是服务', this.tableList);
+						
 
 						}
 					},
 					fail: (err) => {
-						//console.log(err)
+					  uni.showToast({
+					  	title: res.data.msg,
+					  	icon: "none"
+					  });
 					}
 				})
 			},

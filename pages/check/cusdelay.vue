@@ -11,6 +11,7 @@
 			
 		</view>
 		<view class="content">
+			<view v-if="showxs" style="width: 100%; display: flex; color: #ddd; text-align: center; height: 100%; align-items: center; justify-content: center;">----暂无数据----</view>
 			<z-paging ref="paging" @query="queryList" :list.sync="dataList" style="height: calc(100% - 80rpx);">
 				<empty-view slot="empty"></empty-view>
 				<view>
@@ -74,6 +75,7 @@
 				kword: "",
 				flag: "",
 				flag_val:"",
+					showxs: false,
 			}
 		},
 		onLoad(options) {
@@ -97,11 +99,20 @@
 						keyword: this.kword,
 						kstatus: this.flag_val
 					},
+				
 					success: (res) => {
-						this.$refs.paging.addData(res.data.data.query);
+						if (res.data.data == '') {
+							console.log(res);
+							this.showxs = true;
+						} else {
+							this.$refs.paging.addData(res.data.data.query);
+						}
 					},
 					fail: (err) => {
-
+						uni.showModal({
+							title: "提示",
+							content: res.data.msg
+						})
 					}
 				})
 			},
@@ -123,17 +134,19 @@
 							setTimeout(function() {
 								uni.hideLoading();
 							}, 1000)
-						} else {
+						}else {
 							uni.showModal({
-								title:"提示",
-								content:res.data.msg
+								title: "提示",
+								content: res.data.msg,
+								showCancel: false,
 							})
 						}
 					},
 					fail: (err) => {
 						uni.showModal({
-							title:"提示",
-							content:err
+							title: "提示",
+							content: res.data.msg,
+
 						})
 					}
 				})
