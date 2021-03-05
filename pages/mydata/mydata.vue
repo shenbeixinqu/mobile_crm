@@ -14,7 +14,7 @@
 			<view class="leftwz">职务：</view>
 			<view class="rightwz">{{ infolist.post_name }}</view>
 			<view class="leftwz">工号：</view>
-			<view class="rightwz">{{ infolist.id }}</view>
+			<view class="rightwz">{{ infolist.account }}</view>
 			<view class="leftwz">机构：</view>
 			<view class="rightwz">{{ infolist.un_name }}</view>
 			<view class="leftwz">部门：</view>
