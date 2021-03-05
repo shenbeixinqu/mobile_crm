@@ -87,9 +87,21 @@
 						kcstatus:this.flag_val
 					},
 					success: (res) => {
+						if(res.data.data==''){
+							uni.showToast({
+								title: res.data.msg,
+								icon: "none"
+							});
+						}
+						else{
 						this.$refs.paging.addData(res.data.data.data);
+						}
 					},
 					fail: (err) => {
+						uni.showToast({
+							title: res.data.msg,
+							icon: "none"
+						});
 					}
 				})
 			},

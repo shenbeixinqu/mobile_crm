@@ -107,10 +107,7 @@
 						}
 					},
 					fail: (err) => {
-						uni.showToast({
-							title: msg,
-							icon: "none"
-						});
+						//console.log(err)
 					}
 				})
 			},
