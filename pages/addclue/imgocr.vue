@@ -63,7 +63,6 @@
 					.then(function(res){
 						if (res.data.data.status == 200){
 						    const info = res.data.data.data
-							console.log("mobile",info.MOBILE)
 							let MOBILE = (info.MOBILE).slice(0,11)
 							let detail = {
 								addr: info.ADDR,

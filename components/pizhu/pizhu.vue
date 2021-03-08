@@ -267,7 +267,6 @@
 							uni.hideLoading();
 							this.$refs.drawer.close();
 							this.tableList= res.data.data.data;
-							console.log('this.tableList',this.tableList)
 						}
 					},
 					fail: (err) => {

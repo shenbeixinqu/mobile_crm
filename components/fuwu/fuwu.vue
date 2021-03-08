@@ -39,7 +39,6 @@
 		},
 		mounted() {
 			this.fuwu();
-			console.log(11111)
 		},
 		methods: {
 
@@ -57,8 +56,6 @@
 
 						if (res.data.data.status == 200) {
 							this.tableList = res.data.data.data;
-							console.log('我是服务', this.tableList);
-
 						}
 					},
 					fail: (err) => {

@@ -186,7 +186,6 @@
 				this.visible = true;
 			},
 			handleCancel() {
-				console.log('cancel')
 			},
 			//表单
 			formSubmit: function(e) {
@@ -258,7 +257,6 @@
 				}
 			},
 			formReset: function(e) {
-				console.log('清空数据')
 			},
 
 			//抽屉打开
@@ -287,11 +285,9 @@
 				uni.makePhoneCall({
 					phoneNumber: item.phone,
 					success: (res) => {
-						console.log('调用成功!')
 					},
 					// 失败回调
 					fail: (res) => {
-						console.log('调用失败!')
 						this.call_phone(); //重复调用一次
 					}
 				});
@@ -310,7 +306,6 @@
 						if (res.data.data.status == 200) {
 							this.tableList = res.data.data.data;
 							this.linkmans = res.data.data.data.linkmans;
-							console.log("tabelList", this.tableList)
 						}
 					},
 					fail: (err) => {

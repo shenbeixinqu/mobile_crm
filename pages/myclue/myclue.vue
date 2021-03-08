@@ -488,7 +488,6 @@
 
 					},
 					success: (res) => {
-						console.log()
 						uni.hideLoading();
 						if (res.data.data.status == 200) {
 							this.dataList = res.data.data.data;

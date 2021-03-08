@@ -148,10 +148,8 @@
 						// #endif
 						count: this.imageLength - this.imageList.length,
 						success: (res) => {
-							console.log('res',res)
 							this.imageList = this.imageList.concat(res.tempFilePaths);
 							this.files=res.tempFiles[0];
-							console.log('我是什么玩意啊',this.files)
 						
 							
 						}
@@ -189,7 +187,6 @@
 			},
 			bindTextAreaBlur: function(e) {
 				this.remark = e.detail.value
-				console.log('this.remark', this.remark)
 			},
 			//百度产品
 			getchoices(){
@@ -222,7 +219,6 @@
 						id:this.activeId
 					},
 					success: (res) => {
-						console.log(res);
 						if (res.data.data.status == 200){
 							this.name=res.data.data.data.name;
 							this.address=res.data.data.data.address;
@@ -230,7 +226,6 @@
 							this.phoneTxt=res.data.data.data.phone;
 							this.business=res.data.data.data.business;
 							this.classall=res.data.data.data.classall;
-							console.log('this.classall',this.classall)
 							this.optionsgj=res.data.data.data.classids;
 							for(let i in this.optionsgj){
 							 this.optionsgj[i]=this.optionsgj[i].toString();
@@ -285,8 +280,6 @@
 								classid:this.classid,
 					            },
 					            success: (uploadFileRes) => {
-									console.log('我走这了吗')
-					                console.log(uploadFileRes.data);
 					            }
 					        });
 					// uni.request({
@@ -330,7 +323,6 @@
 				}
 			},
 			formReset: function(e) {
-				console.log('清空数据')
 			},
 			//日期
 
