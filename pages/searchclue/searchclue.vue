@@ -95,7 +95,7 @@
 			 @click="add()">新增</button></view>
 		<!-- 数据列表 -->
 		<view class="content">
-
+		<view v-if="showxs" style="width: 100%; display: flex; color: #ddd; text-align: center;align-items: center; justify-content: center;  padding-top: 200upx;">----暂无数据----</view>
 			<view class="list-item" v-for="(item,index) in dataList" :key="index" @tap="goDetail(item)">
 				<view class="list-text">
 					<view class="list_tit">{{item.name}}</view>
@@ -471,16 +471,20 @@
 						uni.hideLoading();
 						if (res.data.data.status == 200) {
 							this.dataList = res.data.data.data;
-						}
-						else{
-							uni.showToast({
-								title: res.data.data.msg,
-								icon: "none"
-							});
+						} else {
+							uni.showModal({
+								title: "提示",
+								content: res.data.msg,
+								showCancel: false,
+							})
 						}
 					},
 					fail: (err) => {
-						
+						uni.showModal({
+							title: "提示",
+							content: res.data.msg,
+							showCancel: false,
+						})
 					}
 				})
 			},
@@ -505,18 +509,22 @@
 					success: (res) => {
 						uni.hideLoading();
 						if (res.data.data.status == 200) {
-							this.$refs.drawer.close();
 							this.dataList = res.data.data.data;
-						}
-						else{
-							uni.showToast({
-								title: res.data.data.msg,
-								icon: "none"
-							});
+						} else {
+							this.showxs=true;
+							uni.showModal({
+								title: "提示",
+								content: res.data.msg,
+								showCancel: false,
+							})
 						}
 					},
 					fail: (err) => {
-						
+						uni.showModal({
+							title: "提示",
+							content: res.data.msg,
+							showCancel: false,
+						})
 					}
 				})
 			},
@@ -557,6 +565,11 @@
 	/deep/.uni-input-input{ font-size: 28upx;}
 	/deep/.uni-input-placeholder{font-size: 28upx;color: #ccc;background:#fafafa;}
 	page {}
+	.item-placeholder {
+		color: #ccc;
+		font-size: 16px;
+		
+	}
 
 	.contentk {
 		width: 100%;

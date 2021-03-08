@@ -56,10 +56,15 @@
 
 						if (res.data.data.status == 200) {
 							this.tableList = res.data.data.data;
+						
+
 						}
 					},
 					fail: (err) => {
-						//console.log(err)
+					  uni.showToast({
+					  	title: res.data.msg,
+					  	icon: "none"
+					  });
 					}
 				})
 			},

@@ -184,11 +184,21 @@
 						id: this.activeId
 					},
 					success: (res) => {
-						this.tableList=res.data.data.data
-						this.$refs.paging.addData(this.tableList);
+						if(res.data.data==''){
+							uni.showToast({
+								title: res.data.msg,
+								icon: "none"
+							});
+						}
+						else{
+						this.$refs.paging.addData(res.data.data.data);
+						}
 					},
 					fail: (err) => {
-						//console.log(err)
+						uni.showToast({
+							title: res.data.msg,
+							icon: "none"
+						});
 					}
 				})
 			},

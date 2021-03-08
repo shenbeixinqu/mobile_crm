@@ -67,7 +67,7 @@
 					<picker style="width: 100%;" v-model="source_flag" @change="sourceChange" :value="source_flag" :range="sourceArray"
 					 range-key="name">
 						<view class="uni-input" v-if="sourceArray[source_flag]">{{sourceArray[source_flag].name}}</view>
-						<view class="uni-input" v-else>请选择来源</view>
+						<view class="uni-input" v-else style="color: #ccc;">请选择来源</view>
 
 					</picker>
 
@@ -90,6 +90,7 @@
 			 @click="add()">新增</button></view>
 		<!-- 数据列表 -->
 		<view class="content">
+			<view v-if="showxs" style="width: 100%; display: flex; color: #ddd; text-align: center; height: 100%; align-items: center; justify-content: center;">----暂无数据----</view>
 			<z-paging ref="paging" @query="queryList" :list.sync="dataList" style="height: calc(100% - 80rpx);">
 				<!-- 设置自定义emptyView组件，非必须。空数据时会自动展示空数据组件，不需要自己处理 -->
 				<empty-view slot="empty"></empty-view>
@@ -114,7 +115,13 @@
 								<view class="list-dq1">到期时间：</view>
 								<view class="list-dq2">跟踪还剩{{item.dt_link}}天 | 沟通还剩{{item.dt_track}}天</view>
 								<view class="list-dq1">审核状态：</view>
-								<view class="list-dq2">延期：{{item.delay_status|delayStatus}} | 跟进：{{item.audit_status|numToMean}}</view>
+								<view v-if="item.delay_status==0&&item.audit_status==0" class="list-dq2"></view>
+								<view v-else class="list-dq2">
+									<view v-if="item.delay_status==0"></view>
+									<view v-else>延期：{{item.delay_status|delayStatus}}</view> |<view v-if="item.audit_status==0"></view>
+									<view v-else>跟进：{{item.audit_status|numToMean}}</view>
+								</view>
+
 
 
 							</view>
@@ -169,6 +176,7 @@
 				// 全选全不选
 				ktags: '',
 				usrid: 2,
+
 				sourceArray: [{
 						name: "个人查找（公共资源)",
 						value: "1"
@@ -247,16 +255,16 @@
 					audit = '--'
 					return audit
 				} else if (value === 1) {
-					audit = '体系审核通过'
+					audit = '待审核'
 					return audit
 				} else if (value === 2) {
-					audit = '体系审核拒绝'
+					audit = '审核通过'
 					return audit
 				} else if (value === 3) {
-					audit = '总经办审核通过'
+					audit = '层审中'
 					return audit
-				} else if (value === 4) {
-					audit = '总经办审核通过'
+				} else if (value === 9) {
+					audit = '审核拒绝'
 					return audit
 				}
 
@@ -278,7 +286,6 @@
 					delay = '已拒绝'
 					return delay
 				}
-
 				return delay
 			},
 
@@ -304,14 +311,18 @@
 						ksource: this.source_flag,
 					},
 					success: (res) => {
-						this.dataList = res.data.data.data;
-						this.$refs.paging.addData(res.data.data.data);
+						if (res.data.data == '') {
+							console.log(res);
+							this.showxs = true;
+						} else {
+							this.$refs.paging.addData(res.data.data.data);
+						}
 					},
 					fail: (err) => {
-						uni.showToast({
-							title: msg,
-							icon: "none"
-						});
+						uni.showModal({
+							title: "提示",
+							content: res.data.msg
+						})
 					}
 				})
 
@@ -320,8 +331,7 @@
 			handleTap(picker) {
 				this.$refs[picker].show()
 			},
-			handleChange(e) {
-			},
+			handleChange(e) {},
 			handleConfirm(e) {
 				// 如果存在多个picker，可以在picker上设置dataset属性，confirm中获取，就能区分是哪个picker了
 				if (e) {
@@ -332,8 +342,7 @@
 					}
 				}
 			},
-			handleCancel(e) {
-			},
+			handleCancel(e) {},
 			checkboxChange(e) {
 				let values = e.detail.value;
 				if (values[0] == 1) {
@@ -364,6 +373,7 @@
 						let itemVal = String(item.value);
 						if (!this.checkedArr.includes(itemVal)) {
 							this.checkedArr.push(itemVal);
+
 						}
 					}
 
@@ -414,12 +424,7 @@
 					success: (res) => {
 						this.list1 = res.data.data.options;
 					},
-					fail: (err) => {
-					uni.showToast({
-						title: msg,
-						icon: "none"
-					});
-					}
+					fail: (err) => {}
 				})
 			},
 			//行业接口
@@ -430,14 +435,10 @@
 						'Authorization': "JWT " + getApp().globalData.token
 					},
 					success: (res) => {
+
 						this.listhy = res.data.data.options;
 					},
-					fail: (err) => {
-						uni.showToast({
-							title: msg,
-							icon: "none"
-						});
-					}
+					fail: (err) => {}
 				})
 			},
 			//标签接口
@@ -460,10 +461,7 @@
 
 					},
 					fail: (err) => {
-						uni.showToast({
-							title: msg,
-							icon: "none"
-						});
+
 					}
 				})
 			},
@@ -481,7 +479,7 @@
 				uni.request({
 					url: this.$burl + '/api/customer/clue/my',
 					header: {
-						'Authorization': this.$token
+						'Authorization': "JWT " + getApp().globalData.token
 					},
 					data: {
 						kword: this.kword,
@@ -492,17 +490,19 @@
 						if (res.data.data.status == 200) {
 							this.dataList = res.data.data.data;
 						} else {
-							uni.showToast({
-								title: res.data.data.msg,
-								icon: "none"
-							});
+							uni.showModal({
+								title: "提示",
+								content: res.data.msg,
+								showCancel: false,
+							})
 						}
 					},
 					fail: (err) => {
-					uni.showToast({
-						title: msg,
-						icon: "none"
-					});
+						uni.showModal({
+							title: "提示",
+							content: res.data.msg,
+							showCancel: false,
+						})
 					}
 				})
 			},
@@ -529,17 +529,19 @@
 							this.$refs.drawer.close();
 							this.dataList = res.data.data.data;
 						} else {
-							uni.showToast({
-								title: res.data.data.msg,
-								icon: "none"
-							});
+							uni.showModal({
+								title: "提示",
+								content: res.data.msg,
+								showCancel: false,
+							})
 						}
 					},
 					fail: (err) => {
-						uni.showToast({
-							title: msg,
-							icon: "none"
-						});
+						uni.showModal({
+							title: "提示",
+							content: res.data.msg,
+
+						})
 					}
 				})
 			},
@@ -558,8 +560,7 @@
 			call_phone(item) {
 				uni.makePhoneCall({
 					phoneNumber: item.phone,
-					success: (res) => {
-					},
+					success: (res) => {},
 					// 失败回调
 					fail: (res) => {
 						this.call_phone(); //重复调用一次
@@ -934,8 +935,9 @@
 	}
 
 	.item-placeholder {
-		color: $uni-text-color-grey;
+		color: #ccc;
 		font-size: 16px;
+
 	}
 
 	.tips {
