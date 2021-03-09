@@ -21,7 +21,6 @@
 		},
 		onLoad(options) {
 			this.id = options.id
-			console.log("ops",options)
 		},
 		methods:{
 			bindTextAreaBlur:function(e){
@@ -58,7 +57,6 @@
 
 								},
 								fail: err => {
-									console.log("err",err)
 								}
 							})
 						} else if (res.cancel){

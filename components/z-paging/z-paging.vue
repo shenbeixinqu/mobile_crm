@@ -378,7 +378,6 @@ setTimeout(()=>{
 					success = data;
 					data = [];
 				} else if (dataType !== '[object Array]') {
-					console.error('addData参数类型不正确，第一个参数类型必须为Array!');
 				}
 				if (this.refresherTriggered) {
 					this.refresherTriggered = false;

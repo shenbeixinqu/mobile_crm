@@ -21,8 +21,6 @@
 	    },
 		onLoad(options){
 			this.id = options.id
-			console.log("url",this.$burl)
-			console.log("id",this.id)
 		},
 	    methods: {
 	        bindTextAreaBlur: function (e) {

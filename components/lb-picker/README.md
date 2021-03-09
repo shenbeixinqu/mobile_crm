@@ -410,7 +410,6 @@ onReady () {
   this.list = [{ label: '测试', value: 1 }] // 动态设置一个list
   setTimeout(() => {
     const info = that.$refs.picker.getColumnsInfo(xx)
-    console.log(info)
   }, 0)
 }
 ```
@@ -449,8 +448,6 @@ onReady () {
 ```javascript
 handleChange (e) {
   if (e.change === 'init') {
-    console.log(e.item.label) // 单选 选项1
-    console.log(e.item.map(item => item.label).join('-')) // 多选 选项1-选项11
   }
 }
 ```

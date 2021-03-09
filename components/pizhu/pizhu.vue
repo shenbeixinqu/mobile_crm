@@ -264,7 +264,7 @@
 				uni.request({
 					url: this.$burl + '/api/customer/remark',
 					header: {
-						'Authorization': this.$token
+						'Authorization': "JWT " + getApp().globalData.token
 					},
 					data: {
 						id: this.activeId,
@@ -277,7 +277,6 @@
 							uni.hideLoading();
 							this.$refs.drawer.close();
 							this.tableList= res.data.data.data;
-							console.log('this.tableList',this.tableList)
 						}
 					},
 					fail: (err) => {

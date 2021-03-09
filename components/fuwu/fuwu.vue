@@ -39,7 +39,6 @@
 		},
 		mounted() {
 			this.fuwu();
-			console.log(11111)
 		},
 		methods: {
 

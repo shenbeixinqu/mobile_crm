@@ -23,10 +23,8 @@ module.exports = {
 				case 'int':
 					var reg = new RegExp('^(-[1-9]|[1-9])[0-9]{' + rule[i].checkRule + '}$');
 					if(!reg.test(data[rule[i].name])) {
-						console.log('111');
 						this.error = rule[i].errorMsg; return false;
 					}else{
-						console.log('222');
 					}
 					break;
 				break;
