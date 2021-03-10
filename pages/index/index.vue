@@ -14,8 +14,8 @@
 				<image class="index_image" src="../../static/wdkh.png" mode="aspectFit"></image>
 				<h4>我的客户</h4>
 			</view>
-			<view class="index_n_img" @click="addClue" style="border-left: 0;margin-left: 1px;">
-				<image class="index_image" src="../../static/addmx.png" mode="aspectFit"></image>
+			<view class="index_n_img" @click="addClue" style="border-left:0;margin-left: 1px;">
+				<image class="index_image" src="../../static/mp1.png" mode="aspectFit"></image>
 				<h4>新增线索</h4>
 			</view>
 
