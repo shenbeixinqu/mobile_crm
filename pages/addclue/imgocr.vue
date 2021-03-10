@@ -55,6 +55,7 @@
 						method:'post',
 						url:this.$burl + '/api/baidu/ocr_bc',
 						headers:{
+							// 'Authorization' : this.$token
 							'Authorization': "JWT " + getApp().globalData.token
 						},
 						data: formDatas,
@@ -62,7 +63,7 @@
 					.then(function(res){
 						if (res.data.data.status == 200){
 						    const info = res.data.data.data
-							let MOBILE = (info.MOBILE).slice(0,11)
+							let MOBILE = (info.MOBILE).split(',')[0].replace('+86','').split('-').join('')
 							let detail = {
 								addr: info.ADDR,
 								company: info.COMPANY,
