@@ -114,16 +114,12 @@
 								</view>
 								<view class="list-dq1">到期时间：</view>
 								<view class="list-dq2">跟踪还剩{{item.dt_link}}天 | 沟通还剩{{item.dt_track}}天</view>
-								<view class="list-dq1">审核状态：</view>
-								<view v-if="item.delay_status==0&&item.audit_status==0" class="list-dq2"></view>
-								<view v-else class="list-dq2">
-									<view v-if="item.delay_status==0"></view>
-									<view v-else>延期：{{item.delay_status|delayStatus}}</view> |<view v-if="item.audit_status==0"></view>
-									<view v-else>跟进：{{item.audit_status|numToMean}}</view>
+								<view class="list-dq1" v-if="item.delay_status== '-1' && item.audit_status== 0" ></view>
+								<view class="list-dq2" v-else>审核状态：
+									<view v-if="item.delay_status== '-1'">跟进{{item.audit_status|numToMean}}</view>
+									<view v-else-if="item.audit_status == 0">延期{{item.delay_status|delayStatus}}</view>
+									<view v-else>延期{{item.delay_status|delayStatus}} | 跟进{{item.audit_status|numToMean}}</view>
 								</view>
-
-
-
 							</view>
 
 						</view>
@@ -252,7 +248,6 @@
 			numToMean: function(value) {
 				let audit = ''
 				if (value === 0) {
-					audit = '--'
 					return audit
 				} else if (value === 1) {
 					audit = '待审核'
@@ -274,7 +269,6 @@
 			delayStatus: function(value) {
 				let delay = ''
 				if (value === "-1") {
-					delay = '--'
 					return delay
 				} else if (value === "0") {
 					delay = '待审核'
@@ -312,7 +306,6 @@
 					},
 					success: (res) => {
 						if (res.data.data == '') {
-							console.log(res);
 							this.showxs = true;
 						} else {
 							this.$refs.paging.addData(res.data.data.data);
@@ -432,6 +425,7 @@
 				uni.request({
 					url: this.$burl + '/api/industrys_cascade',
 					header: {
+						
 						'Authorization': "JWT " + getApp().globalData.token
 					},
 					success: (res) => {
@@ -446,6 +440,7 @@
 				uni.request({
 					url: this.$burl + '/api/get_tags/' + this.usrid,
 					header: {
+						
 						'Authorization': "JWT " + getApp().globalData.token
 					},
 					success: (res) => {
@@ -479,6 +474,7 @@
 				uni.request({
 					url: this.$burl + '/api/customer/clue/my',
 					header: {
+						
 						'Authorization': "JWT " + getApp().globalData.token
 					},
 					data: {
@@ -514,6 +510,7 @@
 				uni.request({
 					url: this.$burl + '/api/customer/clue/my',
 					header: {
+						
 						'Authorization': "JWT " + getApp().globalData.token
 					},
 					data: {

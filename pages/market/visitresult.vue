@@ -178,7 +178,7 @@
 			},
 			back(){
 				uni.navigateTo({
-					url:'./mydetail?id='+ this._id
+					url:'./my'
 				})
 			},
 			determine(){

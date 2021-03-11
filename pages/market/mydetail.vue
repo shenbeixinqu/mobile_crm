@@ -39,12 +39,13 @@
 			<view class="leftwz">是否无效出访:</view><view class="rightwz">{{dataList.wuxiao}}</view>
 			<view class="leftwz">取消原因:</view><view class="rightwz">{{dataList.cancel_reason}}</view>
 		</view>
-		<view class="contentk_bottom" v-if="!dataList.result && !dataList.cancel_reason">
-			<button type="primary" @click="openBox"class="btn btn1" >取消出访</button>
-			<button type="primary" class="btn" @click="visitResult">填写出访结果</button>
+		<view class="contentk_bottom" v-if="btn_show">
+			<button type="primary" class="btn2" @click="closeDetail">关闭</button>
 		</view>
 		<view class="contentk_bottom" v-else>
-			<button type="primary" class="btn2" @click="closeDetail">关闭</button>
+			<button type="primary" @click="back"class="btn4" >返回</button>
+			<button type="primary" @click="openBox"class="btn3" >取消出访</button>
+			<button type="primary" class="btn" @click="visitResult">填写出访结果</button>
 		</view>
 	</view>
 </template>
@@ -57,7 +58,8 @@
 				_id: "",
 				dataList: [],
 				visible:false,
-				reason:""
+				reason:"",
+				btn_show:false
 			}
 		},
 		onLoad(options){
@@ -123,11 +125,15 @@
 				uni.request({
 					url: this.$burl + '/api/visits/' + _id,
 					header:{
+						
 						'Authorization': "JWT " + getApp().globalData.token
 					},
 					success: (res) => {
 						if (res.data.data.status == 200 ){
 							this.dataList = res.data.data.data
+							if (this.dataList.result || this.dataList.cancel_reason){
+								this.btn_show = true
+							}
 						} else {
 							uni.showToast({
 								title:res.data.msg,
@@ -160,6 +166,11 @@
 			qx(){
 				this.visible = false
 			},
+			back(){
+				uni.navigateTo({
+					url:"./my"
+				})
+			},
 			formSubmit: function(e){
 				var rule = [{
 					name:"cancelReason",
@@ -174,6 +185,7 @@
 					uni.request({
 						url:this.$burl + '/api/visits/' + this._id,
 						header: {
+							
 							'Authorization': "JWT " + getApp().globalData.token
 						},
 						method:"DELETE",
@@ -222,6 +234,38 @@
 		bottom: 0;
 		color: #fff;
 	}
+	
+	.btn3 {
+		height:100upx;
+		line-height: 100upx;
+		font-size: 28upx;
+		background: #4873c1;
+		border-radius: 0;
+		background: #d7e8fc;
+		width: 25%;
+		color: #316fd4;
+	}
+	
+	.btn3:after{
+		border-radius:0;
+			border: none;
+	}
+	
+	.btn4 {
+		height:100upx;
+		line-height: 100upx;
+		font-size: 28upx;
+		background:url(../../static/a.gif) no-repeat center right #d7e8fc;
+		border-radius: 0;
+		width: 25%;
+		color: #333;
+	}
+	
+	.btn4:after{
+		border-radius:0;
+		border: none;
+	}
+	
 	.uni-input {
 		height:100rpx;
 		width:90%;
