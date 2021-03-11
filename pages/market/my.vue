@@ -157,7 +157,6 @@
 				visible:false,
 				reason: "",
 				id: "",
-				token:"",
 				// 抽屉需要用到的值
 				date: '',
 				startDate: getDate('start'),
@@ -207,7 +206,6 @@
 			}
 		},
 		onLoad(options){
-			// this.token = "JWT " + getApp().globalData.token
 			this.getList();
 			this.dataDict();
 			this.doSearch();
@@ -217,6 +215,7 @@
 				uni.request({
 					url: this.$burl + '/api/visits/my',
 					header:{
+						
 						'Authorization': "JWT " + getApp().globalData.token
 					},
 					data: {
@@ -231,7 +230,6 @@
 					},
 					success: (res) => {
 						if (res.data.data == '') {
-							console.log(res);
 							this.showxs = true;
 						} else {
 							this.$refs.paging.addData(res.data.data.data);
@@ -251,6 +249,7 @@
 				uni.request({
 						url: this.$burl + '/api/visits/my',
 					header: {
+						
 						'Authorization': "JWT " + getApp().globalData.token
 					},
 					data: {
@@ -283,6 +282,7 @@
 				uni.request({
 					url: this.$burl + '/api/visits/my',
 					header:{
+						
 						'Authorization': "JWT " + getApp().globalData.token
 					},
 					data: {
@@ -358,6 +358,7 @@
 				uni.request({
 					url:this.$burl + "/api/getchoices",
 					header:{
+						
 						'Authorization': "JWT " + getApp().globalData.token
 					},
 					data:{
@@ -410,6 +411,7 @@
 					uni.request({
 						url:this.$burl + '/api/visits/' + this.id,
 						header: {
+							
 							'Authorization': "JWT " + getApp().globalData.token
 						},
 						method:"DELETE",
