@@ -70,12 +70,14 @@
     },
     "h5" : {
         "router" : {
-            "mode" : "history"
+            "mode" : "history",
+            "base" : ""
         },
         "devServer" : {
             "https" : false,
             "disableHostCheck" : true
         },
-        "title" : "CRM"
+        "title" : "CRM",
+        "domain" : "http://0001502.ks.panguweb.cn"
     }
 }
