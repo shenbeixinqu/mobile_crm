@@ -215,7 +215,6 @@
 				uni.request({
 					url: this.$burl + '/api/visits/my',
 					header:{
-						
 						'Authorization': "JWT " + getApp().globalData.token
 					},
 					data: {
@@ -282,7 +281,7 @@
 				uni.request({
 					url: this.$burl + '/api/visits/my',
 					header:{
-						
+	
 						'Authorization': "JWT " + getApp().globalData.token
 					},
 					data: {

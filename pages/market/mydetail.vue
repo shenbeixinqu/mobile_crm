@@ -125,7 +125,6 @@
 				uni.request({
 					url: this.$burl + '/api/visits/' + _id,
 					header:{
-						
 						'Authorization': "JWT " + getApp().globalData.token
 					},
 					success: (res) => {

@@ -30,7 +30,7 @@
 		
 		<view class="bottombtn">
 			<button type="primary" class="btn btn1" @click="cancel">拒绝</button>
-			<button type="primary" class="btn "@click="confirm">同意</button>
+			<button type="primary" class="btn " @click="confirm">同意</button>
 		</view>
 	</view>
 </template>
@@ -237,7 +237,7 @@
 		align-items: center;
 		justify-content: space-between;
 	}
-.btn1:after{border-radius: 0;}
+     .btn1:after{border-radius: 0;}
 	.btn {
 		width: 50%;
 		height: 100upx;
