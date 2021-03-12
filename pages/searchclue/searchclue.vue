@@ -1,5 +1,6 @@
 <template>
 	<view class="contentk">
+		
 		<uni-drawer ref="drawer" mode="right" :width="drawWid">
 			<view class="wk_n">
 				<view class="chou_tit">
@@ -257,11 +258,11 @@
 			}
 		},
 		onShow() {
-			this.getList();
+			this.showxs=true;
 			this.tage();
 			this.locations();
 			this.industrys();
-			this.doSearch();
+			
 		},
 
 
@@ -390,7 +391,7 @@
 				uni.request({
 					url: this.$burl + '/api/locations_cascade',
 					header: {
-						'Authorization': "JWT " + getApp().globalData.token
+						'Authorization':"JWT " + getApp().globalData.token
 					},
 					success: (res) => {
 
@@ -406,7 +407,7 @@
 				uni.request({
 					url: this.$burl + '/api/industrys_cascade',
 					header: {
-						'Authorization': "JWT " + getApp().globalData.token
+						'Authorization':"JWT " + getApp().globalData.token
 					},
 					success: (res) => {
 
@@ -422,7 +423,7 @@
 				uni.request({
 					url: this.$burl + '/api/get_tags/' + this.usrid,
 					header: {
-						'Authorization': "JWT " + getApp().globalData.token
+						'Authorization':"JWT " + getApp().globalData.token
 					},
 					success: (res) => {
 						let checklist = res.data.data.data;
@@ -458,18 +459,21 @@
 			},
             //搜索
 			doSearch(type) {
+				
 				uni.showLoading();
 				uni.request({
 					url: this.$burl + '/api/customer/malist',
 					header: {
-						'Authorization': "JWT " + getApp().globalData.token
+						'Authorization':"JWT " + getApp().globalData.token
 					},
 					data: {
 						kword: this.kword,
 					},
 					success: (res) => {
+					
 						uni.hideLoading();
 						if (res.data.data.status == 200) {
+							this.showxs=false;
 							this.dataList = res.data.data.data;
 						} else {
 							uni.showModal({
@@ -496,7 +500,7 @@
 				uni.request({
 					url: this.$burl + '/api/customer/malist',
 					header: {
-						'Authorization': "JWT " + getApp().globalData.token
+						'Authorization':"JWT " + getApp().globalData.token
 					},
 					data: {
 						kword: this.kword,
@@ -546,7 +550,7 @@
 				uni.request({
 					url: this.$burl + '/api/customer/have?id='+item._id,
 					header: {
-						'Authorization': "JWT " + getApp().globalData.token
+						'Authorization':"JWT " + getApp().globalData.token
 					},
 					success: (res) => {
 					
