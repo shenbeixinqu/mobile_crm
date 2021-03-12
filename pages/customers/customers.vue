@@ -389,7 +389,7 @@
 					uni.request({
 						url: this.$burl + '/api/customer/newremark',
 						header: {
-							'Authorization':this.$token
+							'Authorization':"JWT " + getApp().globalData.token
 						},
 						method: "POST",
 						data: {
@@ -731,7 +731,7 @@
 				uni.request({
 					url: this.$burl + '/api/customer/my',
 					header: {
-						'Authorization':this.$token
+						'Authorization':"JWT " + getApp().globalData.token
 					},
 					data: {
 						kword: this.kword,
