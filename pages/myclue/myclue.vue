@@ -1,5 +1,24 @@
 <template>
 	<view class="contentk">
+		<e-modal :visible.sync="visible">
+			<view class="uni-padding-wrap uni-common-mt">
+				<form @submit="formSubmit" @reset="formReset">
+					<view class="uni-form-item uni-column">
+						<view class="title"><text class="red">*</text>请填写批注</view>
+						<textarea class="uni-input1" @blur="bindTextAreaBlur" name="remark" placeholder="请填写批注"
+							:vlaue="remark" />
+
+					</view>
+
+					<view class="uni-btn-v">
+
+						<button class="btn3 btn" @click="qx">关闭</button>
+						<button form-type="submit" class="btn" style="color: #fff;">提交</button>
+					</view>
+				</form>
+			</view>
+		</e-modal>
+
 		<uni-drawer ref="drawer" mode="right" :width="drawWid">
 			<view class="wk_n">
 				<view class="chou_tit">
@@ -9,15 +28,17 @@
 					<checkbox-group class="check_box_k" @change="changeCheckbox">
 						<view v-for="item in checkboxData" :key="item.value" class="check_box">
 							<label class="lable-box">
-								<checkbox :value="String(item.value)" :checked="checkedArr.includes(String(item.value))" :class="{'checked':checkedArr.includes(String(item.value))}"></checkbox>
-								<text :class="{'cketext':checkedArr.includes(String(item.value))} ">{{item.label}}</text>
+								<checkbox :value="String(item.value)" :checked="checkedArr.includes(String(item.value))"
+									:class="{'checked':checkedArr.includes(String(item.value))}"></checkbox>
+								<text
+									:class="{'cketext':checkedArr.includes(String(item.value))} ">{{item.label}}</text>
 							</label>
 						</view>
 					</checkbox-group>
 					<checkbox-group class="check_box" @change="allChoose">
 						<label class="lable-box">
-							<checkbox value="all" :class="{'checked':allChecked}" :checked="allChecked?true:false"></checkbox><text :class="{'cketext':allChecked}"
-							 style="color:#888;">全选</text>
+							<checkbox value="all" :class="{'checked':allChecked}" :checked="allChecked?true:false">
+							</checkbox><text :class="{'cketext':allChecked}" style="color:#888;">全选</text>
 						</label>
 					</checkbox-group>
 				</view>
@@ -35,8 +56,9 @@
 								<text v-if="!label3" class="item-placeholder">请选择地区</text>
 							</view>
 						</view>
-						<lb-picker ref="picker3" v-model="value3" mode="multiSelector" :list="list1" :level="3" :dataset="{ name: 'label3' }"
-						 @change="handleChange" @confirm="handleConfirm" @cancel="handleCancel">
+						<lb-picker ref="picker3" v-model="value3" mode="multiSelector" :list="list1" :level="3"
+							:dataset="{ name: 'label3' }" @change="handleChange" @confirm="handleConfirm"
+							@cancel="handleCancel">
 						</lb-picker>
 					</view>
 					<view class="grey-block"></view>
@@ -54,8 +76,9 @@
 								<text v-if="!label4" class="item-placeholder">请选择行业</text>
 							</view>
 						</view>
-						<lb-picker ref="picker4" v-model="value4" mode="multiSelector" :list="listhy" :level="3" :dataset="{ name: 'label4' }"
-						 @change="handleChange" @confirm="handleConfirm" @cancel="handleCancel">
+						<lb-picker ref="picker4" v-model="value4" mode="multiSelector" :list="listhy" :level="3"
+							:dataset="{ name: 'label4' }" @change="handleChange" @confirm="handleConfirm"
+							@cancel="handleCancel">
 						</lb-picker>
 					</view>
 					<view class="grey-block"></view>
@@ -64,8 +87,8 @@
 					来源
 				</view>
 				<view class="uni-list-cell-db">
-					<picker style="width: 100%;" v-model="source_flag" @change="sourceChange" :value="source_flag" :range="sourceArray"
-					 range-key="name">
+					<picker style="width: 100%;" v-model="source_flag" @change="sourceChange" :value="source_flag"
+						:range="sourceArray" range-key="name">
 						<view class="uni-input" v-if="sourceArray[source_flag]">{{sourceArray[source_flag].name}}</view>
 						<view class="uni-input" v-else style="color: #ccc;">请选择来源</view>
 
@@ -85,12 +108,16 @@
 		<view class="topview">
 			<!-- <view class="fh" @click="fhsy()"></view> -->
 			<button type="primary" class="search-btn" @click="getList('search')"></button>
-			<input class="se-input" name="nickname" placeholder="请输入客户名称" v-model="kword" @confirm="doSearch('search')" /><button
-			 type="primary" size="small" class="shai-btn" @click="drawer()">筛选</button><button type="primary" size="small" class="shai-btn1"
-			 @click="add()">新增</button></view>
+			<input class="se-input" name="nickname" placeholder="请输入客户名称" v-model="kword"
+				@confirm="doSearch('search')" /><button type="primary" size="small" class="shai-btn"
+				@click="drawer()">筛选</button><button type="primary" size="small" class="shai-btn1"
+				@click="add()">新增</button>
+		</view>
 		<!-- 数据列表 -->
 		<view class="content">
-			<view v-if="showxs" style="width: 100%; display: flex; color: #ddd; text-align: center; height: 100%; align-items: center; justify-content: center;">----暂无数据----</view>
+			<view v-if="showxs"
+				style="width: 100%; display: flex; color: #ddd; text-align: center; height: 100%; align-items: center; justify-content: center;">
+				----暂无数据----</view>
 			<z-paging ref="paging" @query="queryList" :list.sync="dataList" style="height: calc(100% - 80rpx);">
 				<!-- 设置自定义emptyView组件，非必须。空数据时会自动展示空数据组件，不需要自己处理 -->
 				<empty-view slot="empty"></empty-view>
@@ -110,21 +137,24 @@
 								<view class="list-dq2">{{item.linkman.txt}}</view>
 								<view class="list-dq1">电话：</view>
 								<view class="list-dq2">{{item.phone}}
-									<image class="tel-img" src="../../static/tel.png" mode="aspectFit" @tap.stop="call_phone(item)"></image>
+									<image class="tel-img" src="../../static/tel.png" mode="aspectFit"
+										@tap.stop="call_phone(item)"></image>
 								</view>
 								<view class="list-dq1">到期时间：</view>
 								<view class="list-dq2">跟踪还剩{{item.dt_link}}天 | 沟通还剩{{item.dt_track}}天</view>
-								<view class="list-dq1" v-if="item.delay_status== '-1' && item.audit_status== 0" ></view>
+								<view class="list-dq1" v-if="item.delay_status== '-1' && item.audit_status== 0"></view>
 								<view class="list-dq2" v-else>审核状态：
 									<view v-if="item.delay_status== '-1'">跟进{{item.audit_status|numToMean}}</view>
 									<view v-else-if="item.audit_status == 0">延期{{item.delay_status|delayStatus}}</view>
-									<view v-else>延期{{item.delay_status|delayStatus}} | 跟进{{item.audit_status|numToMean}}</view>
+									<view v-else>延期{{item.delay_status|delayStatus}} | 跟进{{item.audit_status|numToMean}}
+									</view>
 								</view>
 							</view>
 
 						</view>
 						<view class="list-item-bot">
-							<span @tap.stop="pizhu(item)">填写批注</span> <span @tap.stop="chufang(item)">出访申请</span> <span>详情</span>
+							<span @tap.stop="openlxr(item)">填写批注</span> <span @tap.stop="chufang(item)">出访申请</span>
+							<span>详情</span>
 						</view>
 					</view>
 				</view>
@@ -136,6 +166,7 @@
 
 <script>
 	import uniDrawer from "@/components/uni-drawer/uni-drawer.vue"
+	var graceChecker = require("../../js_sdk/graceui-dataChecker/graceChecker.js")
 	export default {
 		components: {
 			uniDrawer
@@ -172,6 +203,9 @@
 				// 全选全不选
 				ktags: '',
 				usrid: 2,
+				remark: '',
+				id: '',
+				visible: false,
 
 				sourceArray: [{
 						name: "个人查找（公共资源)",
@@ -287,13 +321,88 @@
 
 
 		methods: {
+			qx() {
+				this.visible = false;
+			},
+			openlxr(value) {
+				console.log('value', value)
+				this.visible = true;
+			    this.id=value._id
+			},
+			bindTextAreaBlur: function(e) {
+				this.remark = e.detail.value
+			},
+			//表单
+			formSubmit: function(e) {
+				//定义表单规则
+				var rule = [{
+					name: "remark",
+					checkType: "notnull",
+					checkRule: "",
+					errorMsg: "请输入批注内容",
+				}];
+				//进行表单检查
+				var formData = e.detail.value;
+				var checkRes = graceChecker.check(formData, rule);
+				if (checkRes) {
+					uni.showToast({
+						title: "验证通过!",
+						icon: "none"
+					});
+					uni.request({
+						url: this.$burl + '/api/customer/newremark',
+						header: {
+							'Authorization':"JWT " + getApp().globalData.token
+						},
+						method: "POST",
+						data: {
+							id: this.id,
+							ltype: 8,
+							event: 1,
+							remark: this.remark,
+
+						},
+						success: (res) => {
+							if (res.data.data.status == 200) {
+								uni.navigateTo({
+									url: './myclue'
+								})
+								uni.showToast({
+									title: res.data.msg,
+									icon: "none"
+								});
+
+
+							} else {
+								uni.showToast({
+									title: res.data.msg,
+									icon: "none"
+								});
+
+							}
+
+
+
+
+						},
+						fail: (err) => {}
+					})
+				} else {
+					uni.showToast({
+						title: graceChecker.error,
+						icon: "none"
+					});
+				}
+			},
+			formReset: function(e) {},
+
 			queryList(pageNo, pageSize) {
 				let dq = this.value3.pop() + '';
 				let hy = this.value4.pop() + '';
 				uni.request({
 					url: this.$burl + '/api/customer/clue/my',
 					header: {
-						'Authorization': "JWT " + getApp().globalData.token
+						'Authorization':"JWT " + getApp().globalData.token
 					},
 					data: {
 						limit: pageSize,
@@ -412,7 +521,7 @@
 				uni.request({
 					url: this.$burl + '/api/locations_cascade',
 					header: {
-						'Authorization': "JWT " + getApp().globalData.token
+						'Authorization':"JWT " + getApp().globalData.token
 					},
 					success: (res) => {
 						this.list1 = res.data.data.options;
@@ -425,8 +534,8 @@
 				uni.request({
 					url: this.$burl + '/api/industrys_cascade',
 					header: {
-						
-						'Authorization': "JWT " + getApp().globalData.token
+
+						'Authorization':"JWT " + getApp().globalData.token
 					},
 					success: (res) => {
 
@@ -440,8 +549,8 @@
 				uni.request({
 					url: this.$burl + '/api/get_tags/' + this.usrid,
 					header: {
-						
-						'Authorization': "JWT " + getApp().globalData.token
+
+						'Authorization':"JWT " + getApp().globalData.token
 					},
 					success: (res) => {
 						let checklist = res.data.data.data;
@@ -474,8 +583,8 @@
 				uni.request({
 					url: this.$burl + '/api/customer/clue/my',
 					header: {
-						
-						'Authorization': "JWT " + getApp().globalData.token
+
+						'Authorization':"JWT " + getApp().globalData.token
 					},
 					data: {
 						kword: this.kword,
@@ -510,8 +619,8 @@
 				uni.request({
 					url: this.$burl + '/api/customer/clue/my',
 					header: {
-						
-						'Authorization': "JWT " + getApp().globalData.token
+
+						'Authorization':"JWT " + getApp().globalData.token
 					},
 					data: {
 						kword: this.kword,
@@ -1025,6 +1134,18 @@
 		color: #666666;
 	}
 
+	.uni-input1 {
+		color: #666666;
+		height: 250upx;
+		line-height:30upx;
+		border: 1px #ddd solid;
+		border-radius: 5px;
+		color: grey;
+		text-indent:10upx;
+		padding-top: 2%;
+		padding-bottom: 2%;	
+	}
+
 	.bottombtn {
 		width: 100%;
 		left: 0;
@@ -1044,7 +1165,18 @@
 		border-radius: 0;
 		bottom: 0;
 	}
-
+	
+	.btn3{
+		height: 100upx;
+		line-height: 100upx;
+		font-size: 28upx;
+		background: #4873c1;
+		border-radius: 0;
+		background: #d7e8fc;
+		
+		color: #316fd4;
+	}
+  
 	.btn1 {
 		height: 100upx;
 		line-height: 100upx;
@@ -1085,5 +1217,25 @@
 
 	/deep/.uni-checkbox-input-checked:before {
 		display: none;
+	}
+    /deep/.e-modal-container{ height: 500upx;align-items: flex-start; position:relative;}
+	.title {
+		width: 90%;
+		padding: 10px 0;
+	}
+
+	.red {
+		color: #f00;
+		padding-right: 10upx;
+	}
+
+	.uni-btn-v {
+		width: 100%;
+		left: 0;
+		position: absolute;
+		bottom: 0;
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
 	}
 </style>

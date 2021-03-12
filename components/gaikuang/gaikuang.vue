@@ -220,7 +220,7 @@
 					uni.request({
 						url: this.$burl + '/api/customer/' + this.activeId + '/linkman',
 						header: {
-							'Authorization': this.$token
+							'Authorization': "JWT " + getApp().globalData.token
 						},
 						method: "POST",
 						data: {
@@ -246,7 +246,11 @@
 
 						},
 						fail: (err) => {
-							//console.log(err)
+							uni.showModal({
+								title: "提示",
+								content: res.data.msg,
+								showCancel: false,
+							})
 						}
 					})
 				} else {
@@ -297,19 +301,24 @@
 				uni.request({
 					url: this.$burl + '/api/customer/info',
 					header: {
-						'Authorization': this.$token
+						'Authorization': "JWT " + getApp().globalData.token
 					},
 					data: {
 						id: this.activeId
 					},
 					success: (res) => {
+						uni.hideLoading();
 						if (res.data.data.status == 200) {
 							this.tableList = res.data.data.data;
 							this.linkmans = res.data.data.data.linkmans;
 						}
 					},
 					fail: (err) => {
-						//console.log(err)
+						uni.showModal({
+							title: "提示",
+							content: res.data.msg,
+							showCancel: false,
+						})
 					}
 				})
 			},
@@ -319,18 +328,23 @@
 				uni.request({
 					url: this.$burl + '/api/customers_quals/' + this.activeId,
 					header: {
-						'Authorization': this.$token
+						'Authorization': "JWT " + getApp().globalData.token
 					},
 					data: {
 
 					},
 					success: (res) => {
+						uni.hideLoading();
 						if (res.data.data.status == 200) {
 							this.tableDatazi = res.data.data.data;
 						}
 					},
 					fail: (err) => {
-						//console.log(err)
+						uni.showModal({
+							title: "提示",
+							content: res.data.msg,
+							showCancel: false,
+						})
 					}
 				})
 			},
