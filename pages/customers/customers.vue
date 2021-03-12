@@ -1,5 +1,24 @@
 <template>
 	<view class="contentk">
+			<e-modal :visible.sync="visible">
+			<view class="uni-padding-wrap uni-common-mt">
+				<form @submit="formSubmit" @reset="formReset">
+					<view class="uni-form-item uni-column">
+						<view class="title"><text class="red">*</text>请填写批注</view>
+						<textarea class="uni-input1" @blur="bindTextAreaBlur" name="remark" placeholder="请填写批注"
+							:vlaue="remark" />
+
+					</view>
+
+					<view class="uni-btn-v">
+
+						<button class="btn3 btn" @click="qx">关闭</button>
+						<button form-type="submit" class="btn" style="color: #fff;">提交</button>
+					</view>
+				</form>
+			</view>
+		</e-modal>
+
 		<uni-drawer ref="drawer" mode="right" :width="drawWid">
 			<scroll-view scroll-y class="wk_n">
 				<view class="chou_tit">
@@ -140,7 +159,7 @@
 		<view class="topview">
 			<button type="primary" class="search-btn" @click="getList('search')"></button>
 			<input class="se-input" name="nickname" placeholder="请输入客户名称" @confirm="doSearch('search')" v-model="kword" /><button
-			 type="primary" size="small" class="shai-btn" @click="drawer()">筛选</button></button> <button type="primary" size="small"
+			 type="primary" size="small" class="shai-btn" @click="drawer()">筛选</button><button type="primary" size="small"
 			 class="shai-btn1" @click="add()">新增</button></view>
 		<!-- 数据列表 -->
 		<view class="content">
@@ -170,7 +189,7 @@
 							</view>
 						</view>
 						<view class="list-item-bot">
-							<span @tap.stop="pizhu(item)">填写批注</span> <span @tap.stop="chufang(item)">出访申请</span> <span>详情</span>
+							<span @tap.stop="openlxr(item)">填写批注</span> <span @tap.stop="chufang(item)">出访申请</span> <span>详情</span>
 						</view>
 					</view>
 				</view>
@@ -198,6 +217,8 @@
 		return `${year}-${month}-${day}`;
 	}
 	import uniDrawer from "@/components/uni-drawer/uni-drawer.vue"
+	var graceChecker = require("../../js_sdk/graceui-dataChecker/graceChecker.js")
+	
 	export default {
 		components: {
 			uniDrawer
@@ -263,6 +284,9 @@
 				// 全选全不选
 				ktags: '',
 				usrid: 2,
+				remark: '',
+				id: '',
+						visible: false,
 				sourceArray: [{
 						name: "个人查找（公共资源)",
 						value: "1"
@@ -335,7 +359,79 @@
 		},
 
 		methods: {
+			bindTextAreaBlur: function(e) {
+				this.remark = e.detail.value
+			},
+			 qx() {
+				this.visible = false;
+			},
+			openlxr(value) {
+				this.visible = true;
+			    this.id=value._id
+			},
+            	//表单
+			formSubmit: function(e) {
+				//定义表单规则
+				var rule = [{
+					name: "remark",
+					checkType: "notnull",
+					checkRule: "",
+					errorMsg: "请输入批注内容",
+				}];
+				//进行表单检查
+				var formData = e.detail.value;
+				var checkRes = graceChecker.check(formData, rule);
+				if (checkRes) {
+					uni.showToast({
+						title: "验证通过!",
+						icon: "none"
+					});
+					uni.request({
+						url: this.$burl + '/api/customer/newremark',
+						header: {
+							'Authorization':this.$token
+						},
+						method: "POST",
+						data: {
+							id: this.id,
+							ltype: 8,
+							event: 1,
+							remark: this.remark,
 
+						},
+						success: (res) => {
+							if (res.data.data.status == 200) {
+								uni.navigateTo({
+									url: './myclue'
+								})
+								uni.showToast({
+									title: res.data.msg,
+									icon: "none"
+								});
+
+
+							} else {
+								uni.showToast({
+									title: res.data.msg,
+									icon: "none"
+								});
+
+							}
+
+
+
+
+						},
+						fail: (err) => {}
+					})
+				} else {
+					uni.showToast({
+						title: graceChecker.error,
+						icon: "none"
+					});
+				}
+			},
+			formReset: function(e) {},
 			//新增
 			add() {
 				uni.navigateTo({
@@ -349,7 +445,7 @@
 				uni.request({
 					url: this.$burl + '/api/customer/my',
 					header: {
-						'Authorization': "JWT " + getApp().globalData.token
+						'Authorization':"JWT " + getApp().globalData.token
 					},
 					data: {
 						limit: pageSize,
@@ -544,7 +640,7 @@
 				uni.request({
 					url: this.$burl + '/api/locations_cascade',
 					header: {
-						'Authorization': "JWT " + getApp().globalData.token
+						'Authorization':"JWT " + getApp().globalData.token
 					},
 					success: (res) => {
 						this.list1 = res.data.data.options;
@@ -557,7 +653,7 @@
 				uni.request({
 					url: this.$burl + '/api/industrys_cascade',
 					header: {
-						'Authorization': "JWT " + getApp().globalData.token
+						'Authorization':"JWT " + getApp().globalData.token
 					},
 					success: (res) => {
 
@@ -571,7 +667,7 @@
 				uni.request({
 					url: this.$burl + '/api/get_tags/' + this.usrid,
 					header: {
-						'Authorization': "JWT " + getApp().globalData.token
+						'Authorization':"JWT " + getApp().globalData.token
 					},
 					success: (res) => {
 						let checklist = res.data.data.data;
@@ -601,7 +697,7 @@
 				uni.request({
 					url: this.$burl + '/api/customer/my',
 					header: {
-						'Authorization': "JWT " + getApp().globalData.token
+						'Authorization':"JWT " + getApp().globalData.token
 					},
 					data: {
 						kword: this.kword,
@@ -635,7 +731,7 @@
 				uni.request({
 					url: this.$burl + '/api/customer/my',
 					header: {
-						'Authorization': "JWT " + getApp().globalData.token
+						'Authorization':this.$token
 					},
 					data: {
 						kword: this.kword,
@@ -1112,7 +1208,7 @@
 	.wk_n {
 		width: 96%;
 		margin: 0 auto;
-		height: 90%;
+		height:96%;
 		overflow-y: scroll;
 		display: flex;
 		flex-direction: column;
@@ -1212,4 +1308,59 @@
 	/deep/.uni-checkbox-input-checked:before {
 		display: none;
 	}
+	
+	.btn3{
+		height: 100upx;
+		line-height: 100upx;
+		font-size: 28upx;
+		background: #4873c1;
+		border-radius: 0;
+		background: #d7e8fc;
+		color: #316fd4;
+	}
+	  .red {
+	  	color: #f00;
+	  	padding-right: 10upx;
+	  }
+	  
+	  .uni-btn-v {
+	  	width: 100%;
+	  	left: 0;
+	  	position: absolute;
+	  	bottom: 0;
+	  	display: flex;
+	  	align-items: center;
+	  	justify-content: space-between;
+	  }
+	  .uni-input1 {
+	  	color: #666666;
+	  	height: 250upx;
+	  	line-height:30upx;
+	  	border: 1px #ddd solid;
+	  	border-radius: 5px;
+	  	color: grey;
+	  	text-indent:10upx;
+	  	padding-top: 2%;
+	  	padding-bottom: 2%;	
+	  }
+	  /deep/.e-modal-container{ height: 500upx;align-items: flex-start; position:relative;}
+	  .title {
+	  	width: 90%;
+	  	padding: 10px 0;
+	  }
+	  
+	  .red {
+	  	color: #f00;
+	  	padding-right: 10upx;
+	  }
+	  
+	  .uni-btn-v {
+	  	width: 100%;
+	  	left: 0;
+	  	position: absolute;
+	  	bottom: 0;
+	  	display: flex;
+	  	align-items: center;
+	  	justify-content: space-between;
+	  }
 </style>

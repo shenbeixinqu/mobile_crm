@@ -1015,9 +1015,9 @@
 	}
 
 	.item-content {
-		/* #ifndef APP-NVUE */
+	
 		display: flex;
-		/* #endif */
+	
 		flex-direction: row;
 		align-items: center;
 		justify-content: space-between;
@@ -1172,7 +1172,6 @@
 		background: #4873c1;
 		border-radius: 0;
 		background: #d7e8fc;
-		
 		color: #316fd4;
 	}
   

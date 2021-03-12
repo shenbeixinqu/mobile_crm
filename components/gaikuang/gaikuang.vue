@@ -50,7 +50,7 @@
 
 		</uni-drawer>
 
-		<scroll-view scroll-y class="classbox" style="margin-bottom:100upx;">
+		<scroll-view scroll-y  class="classbox" >
 			<view class="tit">客户的基本资料</view>
 			<view class="bottxt">
 				<view class="divtableleft">
@@ -105,9 +105,11 @@
 				</view>
 			</view>
 
-
+<view style="height:100upx;"></view>
 
 		</scroll-view>
+		
+		
 		<foot-part @openLogin="openLogin"></foot-part>
 	</view>
 
@@ -220,7 +222,7 @@
 					uni.request({
 						url: this.$burl + '/api/customer/' + this.activeId + '/linkman',
 						header: {
-							'Authorization': "JWT " + getApp().globalData.token
+							'Authorization':"JWT " + getApp().globalData.token
 						},
 						method: "POST",
 						data: {
@@ -301,7 +303,7 @@
 				uni.request({
 					url: this.$burl + '/api/customer/info',
 					header: {
-						'Authorization': "JWT " + getApp().globalData.token
+						'Authorization':"JWT " + getApp().globalData.token
 					},
 					data: {
 						id: this.activeId
@@ -328,7 +330,7 @@
 				uni.request({
 					url: this.$burl + '/api/customers_quals/' + this.activeId,
 					header: {
-						'Authorization': "JWT " + getApp().globalData.token
+						'Authorization':"JWT " + getApp().globalData.token
 					},
 					data: {
 
@@ -378,6 +380,9 @@
 	.classbox {
 		width: 95%;
 		height: 100%;
+		overflow: hidden;
+		
+
 	}
 
 	.uni-btn-v {
@@ -569,7 +574,9 @@
 	.wk_n {
 		width: 96%;
 		margin: 0 auto;
-		height:95%;
+		height:100%;
+		overflow: hidden;
+		margin-bottom:100upx;
 		display: flex;
 		flex-direction: column;
 
