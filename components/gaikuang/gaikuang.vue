@@ -220,7 +220,7 @@
 					uni.request({
 						url: this.$burl + '/api/customer/' + this.activeId + '/linkman',
 						header: {
-							'Authorization': "JWT " + getApp().globalData.token
+							'Authorization': this.$token
 						},
 						method: "POST",
 						data: {
@@ -297,7 +297,7 @@
 				uni.request({
 					url: this.$burl + '/api/customer/info',
 					header: {
-						'Authorization': "JWT " + getApp().globalData.token
+						'Authorization': this.$token
 					},
 					data: {
 						id: this.activeId
@@ -319,7 +319,7 @@
 				uni.request({
 					url: this.$burl + '/api/customers_quals/' + this.activeId,
 					header: {
-						'Authorization': "JWT " + getApp().globalData.token
+						'Authorization': this.$token
 					},
 					data: {
 

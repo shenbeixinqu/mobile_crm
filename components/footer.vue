@@ -1,10 +1,20 @@
 <template>
 	<view class="footer-part">
-		<view :class="['foot-item',nowFoot==1?'now-foot':'']" @tap="goHome()">
+		
+		
+		<view v-if="seen" :class="['foot-item',nowFoot==1?'now-foot':'']" @tap="goHome()">
 			<image class="img" v-if="nowFoot==1" src="../static/home1.png" mode="aspectFit"></image>
 			<image class="img" v-if="nowFoot!=1" src="../static/home.png" mode="aspectFit"></image>
 			<view class="text">首页</view>
 		</view>
+		
+		<view  v-else :class="['foot-item',nowFoot==1?'now-foot':'']" @tap="fh()">
+			<image class="img" v-if="nowFoot==1" src="../static/fff.png" mode="aspectFit"></image>
+			<image class="img" v-if="nowFoot!=1" src="../static/fff.png" mode="aspectFit"></image>
+			<view class="text">返回</view>
+		</view>
+		
+		
 	
 		<view :class="['foot-item',nowFoot==2?'now-foot':'']" @tap="goClue()">
 			<image class="img" v-if="nowFoot==2" src="../static/xian1.png" mode="aspectFit"></image>
@@ -36,6 +46,7 @@
 				user_name: '',
 				user_phone: '',
 				nowFoot: 1,
+				seen: true,
 			}
 		},
 	mounted() {
@@ -50,14 +61,21 @@
 	                        if(nowRoute){
 	                                if(nowRoute.indexOf('index/index')!=-1) {
 	                                        that.nowFoot = 1;
+											that.seen=true
 	                                }else if(nowRoute.indexOf('myclue')!=-1) {
 	                                        that.nowFoot = 2;
+											that.seen=true
 	                                }else if(nowRoute.indexOf('customers')!=-1){
 	                                        that.nowFoot = 3;
+											that.seen=true
 	                                }else if(nowRoute.indexOf('mydata')!=-1){
 	                                        that.nowFoot = 4;
+											that.seen=true
 	                                }else{
 										that.nowFoot= 0;
+										if(nowRoute.indexOf('details')!=-1||nowRoute.indexOf('addclue')!=-1){
+											that.seen=false
+										}
 									}
 	                        }
 	                },
@@ -68,6 +86,13 @@
 					uni.navigateTo({
 						url: '../index/index'
 					});
+					this.nowFoot = 1
+				}
+			},
+			
+			fh() {
+				if (this.nowFoot!= 1) {
+					uni.navigateBack();
 					this.nowFoot = 1
 				}
 			},

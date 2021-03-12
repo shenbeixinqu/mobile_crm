@@ -542,10 +542,38 @@
 			},
 
 			// 跳转详情页
-			goDetail(item) {
-				uni.navigateTo({
-					url: '/pages/details/details?id=' + item._id
+			goDetail(item) {	
+				uni.request({
+					url: this.$burl + '/api/customer/have?id='+item._id,
+					header: {
+						'Authorization': "JWT " + getApp().globalData.token
+					},
+					success: (res) => {
+					
+						  if (res.data.data.info === 1) {
+							 uni.navigateTo({
+							 	url: '/pages/details/details?id=' + item._id
+							 }) 
+						  }
+						  else{
+							uni.showModal({
+								title: "提示",
+								content: '只能查看您申领或跟进的客户详情',
+								showCancel: false,
+							})  
+						  }
+					},
+					fail: (err) => {
+						uni.showModal({
+							title: "提示",
+							content: res.data.msg,
+							showCancel: false,
+						})
+					}
 				})
+				
+			
+				
 			},
 			// 跳转出访表单页面
 			genjin(item) {
