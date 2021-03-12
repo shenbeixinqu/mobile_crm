@@ -102,7 +102,6 @@
 				
 					success: (res) => {
 						if (res.data.data == '') {
-							console.log(res);
 							this.showxs = true;
 						} else {
 							this.$refs.paging.addData(res.data.data.query);

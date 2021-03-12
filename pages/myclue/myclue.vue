@@ -325,7 +325,6 @@
 				this.visible = false;
 			},
 			openlxr(value) {
-				console.log('value', value)
 				this.visible = true;
 			    this.id=value._id
 			},

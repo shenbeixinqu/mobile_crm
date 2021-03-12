@@ -54,8 +54,9 @@
 				uni.request({
 					url: this.$burl + '/api/customer/getOrders',
 					header: {
-						'Authorization': this.token
-					},
+						// 'Authorization': this.token
+						'Authorization': "JWT " + getApp().globalData.token
+},
 					data: {
 						limit: pageSize,
 						pn: pageNo,
