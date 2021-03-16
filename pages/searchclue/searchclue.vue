@@ -8,7 +8,7 @@
 				</view>
 				<view class="check_bj">
 					<checkbox-group class="check_box_k" @change="changeCheckboxzt">
-						<view v-for="item in stagesArr" :key="item.value" class="check_box">
+						<view v-for="(item,index)  in stagesArr" :key="index+'a'" class="check_box">
 							<label class="lable-box">
 								<checkbox :value="String(item.value)" :checked="checkedArrzt.includes(String(item.value))" :class="{'checked':checkedArrzt.includes(String(item.value))}"></checkbox>
 								<text :class=" {'cketext':checkedArrzt.includes(String(item.value))} ">{{item.label}}</text>
@@ -27,7 +27,7 @@
 				</view>
 				<view class="check_bj">
 					<checkbox-group class="check_box_k" @change="changeCheckbox">
-						<view v-for="item in checkboxData" :key="item.value" class="check_box">
+						<view v-for="(item,index) in checkboxData" :key="index+'b'" class="check_box">
 							<label class="lable-box">
 								<checkbox :value="String(item.value)" :checked="checkedArr.includes(String(item.value))" :class="{'checked':checkedArr.includes(String(item.value))}"></checkbox>
 								<text :class="{'cketext':checkedArr.includes(String(item.value))} ">{{item.label}}</text>
@@ -97,10 +97,10 @@
 		<!-- 数据列表 -->
 		<view class="content">
 		<view v-if="showxs" style="width: 100%; display: flex; color: #ddd; text-align: center;align-items: center; justify-content: center;  padding-top: 200upx;">----暂无数据----</view>
-			<view class="list-item" v-for="(item,index) in dataList" :key="index" @tap="goDetail(item)">
+			<view class="list-item" v-for="(item,index) in dataList" :key="index+'b'" @tap="goDetail(item)">
 				<view class="list-text">
 					<view class="list_tit">{{item.name}}</view>
-					<view class="tag_k" v-for="(user, i) in item.tags.data" :key="i">
+					<view class="tag_k" v-for="(user, i) in item.tags.data" :key="i+'d'">
 						{{user.t_tab}}
 					</view>
 					<view class="tag_k1" v-if="item.dis_track">弃</view>
@@ -114,7 +114,7 @@
 						<view class="list-dq2">{{item.ind_lead}}</view>
 						<view class="list-dq1">跟进人：</view>
 						<view class="list-dq2">
-							<view class="list-qd2" v-for="(user, i) in item.track.data" :key="i">
+							<view class="list-qd2" v-for="(user, i) in item.track.data" :key="i+'c'">
 								<view class="tag_k" v-if="user[0].t_tab">{{user[0].t_tab}}</view>
 								<view class="tag_k2">{{user[0].us_name}}</view>
 							</view>
@@ -257,7 +257,8 @@
 
 			}
 		},
-		onShow() {
+		onLoad() {
+			this.showxs=true;
 			this.tage();
 			this.locations();
 			this.industrys();
@@ -435,7 +436,7 @@
 								'label': checklist[key].tab
 							})
 						}
-
+                     console.log('this.checkboxData',this.checkboxData)
 					},
 					fail: (err) => {
 						
