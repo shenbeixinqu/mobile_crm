@@ -36,7 +36,7 @@
 				</view>
 				<view class="uni-form-item uni-column">
 					<view class="title"><text class="red">*</text>出访结果</view>
-					<input  class="uni-input1"  type="text" name="visitResult" v-model="result" placeholder-class="placeholder" />
+					<input  class="uni-input1"  type="text" name="visitResult" v-model="result"  :input="changeEmoji" placeholder-class="placeholder" />
 				</view>
 			<view class="contentk_bottom">
 				<button type="primary" class="btn btn1" @click="back">返回</button>
@@ -126,6 +126,19 @@
 			endtimeChange(e){
 				this.endtime = e.detail.value
 			},
+			// 过滤表情
+			changeEmoji(){
+				// var patt=/[\uD800-\uDBFF][\uDC00-\uDFFF]/g
+				// 	this.result = this.result.replace(patt, function(char){
+				// 	  if (char.length===2) {
+				// 		return ''
+				// 	  } else {
+				// 		return char 
+				// 	  } 
+				// 	})
+				console.log("thissssss", this.result)
+				this.result = this.result.replace(/[\uD83C|\uD83D|\uD83E][\uDC00-\uDFFF][\u200D|\uFE0F]|[\uD83C|\uD83D|\uD83E][\uDC00-\uDFFF]|[0-9|*|#]\uFE0F\u20E3|[0-9|#]\u20E3|[\u203C-\u3299]\uFE0F\u200D|[\u203C-\u3299]\uFE0F|[\u2122-\u2B55]|\u303D|[\A9|\AE]\u3030|\uA9|\uAE|\u3030/ig, '');
+			},
 			//表单
 			formSubmit: function(e){
 				// 定义表单规则
@@ -144,7 +157,7 @@
 					uni.request({
 						url:this.$burl + '/api/visits/apply/' + this._id,
 						header:{
-							'Authorization': "JWT " + getApp().globalData.token
+							'Authorization': "JWT " + getApp().globalData.token,
 						},
 						method:"PUT",
 						data:{
@@ -185,7 +198,7 @@
 				// uni.request({
 				// 	url:this.$burl + '/api/visits/apply/' + this._id,
 				// 	header:{
-				// 		'Authorization': this.$token
+				// 		'Authorization': "JWT " + getApp().globalData.token
 				// 	},
 				// 	method:"PUT",
 				// 	data:{

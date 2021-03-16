@@ -219,7 +219,7 @@
 					</view>
 				</view>
 				<view>
-					<button class="add-btn" formType="submit" style="margin-bottom:200upx;">提交</button>
+					<button class="add-btn" formType="submit" style="margin-bottom:200upx;" :disabled="disabled">提交</button>
 				</view>
 			</form>
 		</view>
@@ -277,6 +277,7 @@
 				files4: "",
 				num: "",
 				visible: false,
+				disabled:false,//是否禁用
 				
 				// 自定义验证
 				through:false,
@@ -706,6 +707,7 @@
 				var checkRes = graceChecker.check(formData, rule);
 				
 				if (checkRes && this.through && this.yujing && this.yuphone) {
+					this.disabled = true
 					const formDatas = new FormData();
 					if (this.linkmans.length > 0){
 						this.objToStr = "";
@@ -770,7 +772,7 @@
 							},
 							data: formDatas
 						})
-						.then(function(res) {
+						.then(res => {
 							if (res.data.data.status == 200) {
 								uni.navigateTo({
 									url: "../index/index",
@@ -789,12 +791,12 @@
 					})
 				} else if(!this.yujing){
 					uni.showToast({
-						title:"存在相同的客户信息",
+						title:"存在相同的客户名称",
 						icon:"none"
 					})
 				} else if (!this.yuphone){
 					uni.showToast({
-						title:"存在相同的客户信息",
+						title:"存在相同的客户电话",
 						icon:"none"
 					})
 				} else if(!this.through) {

@@ -389,7 +389,7 @@
 					uni.request({
 						url: this.$burl + '/api/customer/newremark',
 						header: {
-							'Authorization':"JWT " + getApp().globalData.token
+							'Authorization': "JWT " + getApp().globalData.token
 						},
 						method: "POST",
 						data: {
@@ -402,7 +402,7 @@
 						success: (res) => {
 							if (res.data.data.status == 200) {
 								uni.navigateTo({
-									url: './myclue'
+									url: './customers'
 								})
 								uni.showToast({
 									title: res.data.msg,
@@ -445,7 +445,7 @@
 				uni.request({
 					url: this.$burl + '/api/customer/my',
 					header: {
-						'Authorization':"JWT " + getApp().globalData.token
+						'Authorization': "JWT " + getApp().globalData.token
 					},
 					data: {
 						limit: pageSize,
@@ -640,7 +640,7 @@
 				uni.request({
 					url: this.$burl + '/api/locations_cascade',
 					header: {
-						'Authorization':"JWT " + getApp().globalData.token
+						'Authorization': "JWT " + getApp().globalData.token
 					},
 					success: (res) => {
 						this.list1 = res.data.data.options;
@@ -653,7 +653,7 @@
 				uni.request({
 					url: this.$burl + '/api/industrys_cascade',
 					header: {
-						'Authorization':"JWT " + getApp().globalData.token
+						'Authorization': "JWT " + getApp().globalData.token
 					},
 					success: (res) => {
 
@@ -667,7 +667,7 @@
 				uni.request({
 					url: this.$burl + '/api/get_tags/' + this.usrid,
 					header: {
-						'Authorization':"JWT " + getApp().globalData.token
+						'Authorization': "JWT " + getApp().globalData.token
 					},
 					success: (res) => {
 						let checklist = res.data.data.data;
@@ -697,7 +697,7 @@
 				uni.request({
 					url: this.$burl + '/api/customer/my',
 					header: {
-						'Authorization':"JWT " + getApp().globalData.token
+						'Authorization': "JWT " + getApp().globalData.token
 					},
 					data: {
 						kword: this.kword,
@@ -709,7 +709,7 @@
 						} else {
 							uni.showModal({
 								title: "提示",
-								content: res.data.msg,
+								content: res.data.msg ,
 								showCancel: false,
 							})
 						}
@@ -725,46 +725,54 @@
 			},
 			//列表接口
 			getList(type) {
-				let dq = this.value3.pop() + '';
-				let hy = this.value4.pop() + '';
-				uni.showLoading();
-				uni.request({
-					url: this.$burl + '/api/customer/my',
-					header: {
-						'Authorization':"JWT " + getApp().globalData.token
-					},
-					data: {
-						kword: this.kword,
-						ktags: this.checkedArr.join(','),
-						kman: this.checkedArrzt.join(','),
-						kloc: this.praseStrEmpty(dq),
-						kind: this.praseStrEmpty(hy),
-						ksource: this.source_flag,
-						ksdt: this.date,
-						kedt: this.jdate,
-						is_taxpayer: this.checkedArrztns.join(','),
-					},
-					success: (res) => {
-						uni.hideLoading();
-						if (res.data.data.status == 200) {
-							this.$refs.drawer.close();
-							this.dataList = res.data.data.data;
-						} else {
+				if (this.date && this.jdate && this.jdate < this.date){
+					uni.showModal({
+						title:"提示",
+						content:"结束日期小于开始日期",
+						showCancel:false
+					})
+				} else {
+					let dq = this.value3.pop() + '';
+					let hy = this.value4.pop() + '';
+					uni.showLoading();
+					uni.request({
+						url: this.$burl + '/api/customer/my',
+						header: {
+							'Authorization': "JWT " + getApp().globalData.token
+						},
+						data: {
+							kword: this.kword,
+							ktags: this.checkedArr.join(','),
+							kman: this.checkedArrzt.join(','),
+							kloc: this.praseStrEmpty(dq),
+							kind: this.praseStrEmpty(hy),
+							ksource: this.source_flag,
+							ksdt: this.date,
+							kedt: this.jdate,
+							is_taxpayer: this.checkedArrztns.join(','),
+						},
+						success: (res) => {
+							uni.hideLoading();
+							if (res.data.data.status == 200) {
+								this.$refs.drawer.close();
+								this.dataList = res.data.data.data;
+							} else {
+								uni.showModal({
+									title: "提示",
+									content: res.data.msg,
+									showCancel: false,
+								})
+							}
+						},
+						fail: (err) => {
 							uni.showModal({
 								title: "提示",
 								content: res.data.msg,
-								showCancel: false,
+					
 							})
 						}
-					},
-					fail: (err) => {
-						uni.showModal({
-							title: "提示",
-							content: res.data.msg,
-
-						})
-					}
-				})
+					})
+				}
 			},
 
 
