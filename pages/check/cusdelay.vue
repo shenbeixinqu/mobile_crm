@@ -6,7 +6,7 @@
 		
 				<picker class="zt" v-model="flag" @change="flagChange" :value="flag" :range="flagArray" range-key="name">
 					<view v-if="flagArray[flag]">{{flagArray[flag].name}}</view>
-					<view v-else>请选择状态</view>
+					<view v-else class="selec-input">请选择状态</view>
 				</picker>
 			
 		</view>
@@ -300,6 +300,10 @@
 		text-indent: 1rem;
 		border: 1px #e4e4e4 solid;
 		border-radius: 10upx;
+	}
+	
+	.selec-input{
+		font-size: 26upx;
 	}
 
 

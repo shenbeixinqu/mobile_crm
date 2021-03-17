@@ -258,7 +258,7 @@
 			}
 		},
 		onLoad() {
-			this.showxs=true;
+			// this.showxs=true;
 			this.tage();
 			this.locations();
 			this.industrys();

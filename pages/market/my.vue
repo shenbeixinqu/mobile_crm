@@ -8,8 +8,8 @@
 				<view class="uni-list-cell-db">
 					<picker style="width: 100%;" mode="selector" v-model="cfstage" :value="cfstage" :range="stagesArr" @change="stageRequire"
 					 range-key="name">
-						<view class="uni-input" v-if="!cfstage" style="color: #ddd;">请选择出访状态</view>
-						<view class="uni-input" v-else >{{stagesArr[cfstage].name}}</view>
+						<view class="uni-input" v-if="stagesArr[cfstage]" >{{stagesArr[cfstage].name}}</view>
+						<view class="uni-input" v-else style="color: #ddd;">请选择出访状态</view>
 					</picker>
 				</view>
 				<view class="chou_tit">
@@ -18,8 +18,8 @@
 				<view class="uni-list-cell-db">
 					<picker style="width: 100%;" mode="selector" v-model="cfresult" :value="cfresult" :range="resultArr" @change="resultRequire"
 					 range-key="name">
-						<view class="uni-input" v-if="!cfresult" style="color: #ddd;">请选择出访结果</view>
-						<view class="uni-input" v-else >{{resultArr[cfresult].name}}</view>
+						<view class="uni-input" v-if="resultArr[cfresult]" >{{resultArr[cfresult].name}}</view>
+						<view class="uni-input" v-else style="color: #ddd;">请选择出访结果</view>
 					</picker>
 				</view>
 				<view class="chou_tit">
@@ -29,7 +29,7 @@
 					<picker style="width: 100%;" mode="selector" v-model="e_xqclass" :value="e_xqclass" :range="proArray" @change="proRequire"
 					 range-key="name">
 						<view class="uni-input" v-if="proArray[e_xqclass]" style="color: #ddd;">{{proArray[e_xqclass].name}}</view>
-						<view class="uni-input" v-else style="color: #ddd;">请选择洽谈业务</view>
+						<view class="uni-input" v-else>请选择洽谈业务</view>
 					</picker>
 				</view>
 				<view class="uni-list">
