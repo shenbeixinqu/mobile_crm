@@ -562,8 +562,13 @@
 					info['realname'] = this.gname
 					info['phone'] = this.gphone
 					info['duty'] = this.positionArray[this.gposition].name
+					info['duty_val'] = this.positionArray[this.gposition].value
 					this.linkmans.push(info)
 					this.visible = false
+					this.gname = ''
+					this.gphone = ''
+					this.gposition = ''
+					
 				} else {
 					uni.showToast({
 						title:graceChecker.error,
@@ -715,17 +720,17 @@
 							this.objToStr = 
 								this.objToStr === ""
 									? this.objToStr + 
-									item.name + 
+									item.realname + 
 									",-1,," + 
-									item.duty +
+									item.duty_val +
 									',,,,,,' +
 									item.phone +
 									","
 									: this.objToStr +
 									"|" + 
-									item.name +
+									item.realname +
 									",-1,," + 
-									item.duty +
+									item.duty_val +
 									',,,,,,' +
 									item.phone +
 									","	

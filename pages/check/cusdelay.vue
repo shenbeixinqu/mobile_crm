@@ -33,9 +33,6 @@
 								<view class="list-dq1">申请原因:</view>
 								<view class="list-dq2"> {{item.reasons}}</view>
 							</view>
-							
-							
-							
 							<view class="list-item-bot">
 								<span v-if="item.check_status=='待审核'" @click="delayReview(item)">审核</span>
 								<span v-else @click="delayDetail(item)">详情</span>
@@ -75,7 +72,7 @@
 				kword: "",
 				flag: "",
 				flag_val:"",
-					showxs: false,
+				showxs: false,
 			}
 		},
 		onLoad(options) {
@@ -152,8 +149,8 @@
 			},
 			flagChange(e) {
 				this.flag = e.detail.value,
-				this.flag_val = this.flagArray[this.flag].value,
-				this.getList()
+				this.flag_val = this.flagArray[this.flag].value
+				this.queryList()
 			},
 			delayReview(item) {
 				uni.navigateTo({

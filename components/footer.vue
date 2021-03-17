@@ -11,7 +11,7 @@
 		<view  v-else :class="['foot-item',nowFoot==1?'now-foot':'']" @tap="fh()">
 			<image class="img" v-if="nowFoot==1" src="../static/fanhui.png" mode="aspectFit"></image>
 			<image class="img" v-if="nowFoot!=1" src="../static/fanhui.png" mode="aspectFit"></image>
-			<view class="text">返回</view>
+			<view class="text" style="color: #4873c1;">返回</view>
 		</view>
 		
 		
