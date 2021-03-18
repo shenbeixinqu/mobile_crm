@@ -28,8 +28,8 @@
 				<view class="uni-list-cell-db">
 					<picker style="width: 100%;" mode="selector" v-model="e_xqclass" :value="e_xqclass" :range="proArray" @change="proRequire"
 					 range-key="name">
-						<view class="uni-input" v-if="proArray[e_xqclass]" style="color: #ddd;">{{proArray[e_xqclass].name}}</view>
-						<view class="uni-input" v-else>请选择洽谈业务</view>
+						<view class="uni-input" v-if="proArray[e_xqclass]" >{{proArray[e_xqclass].name}}</view>
+						<view class="uni-input" v-else style="color: #ddd;">请选择洽谈业务</view>
 					</picker>
 				</view>
 				<view class="uni-list">

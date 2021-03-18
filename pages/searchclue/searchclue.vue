@@ -436,7 +436,6 @@
 								'label': checklist[key].tab
 							})
 						}
-                     console.log('this.checkboxData',this.checkboxData)
 					},
 					fail: (err) => {
 						

@@ -260,29 +260,37 @@
 			},
 			//客户概况接口
 			fuwu(type) {
-				uni.showLoading();
-				uni.request({
-					url: this.$burl + '/api/customer/remark',
-					header: {
-						'Authorization': "JWT " + getApp().globalData.token
-					},
-					data: {
-						id: this.activeId,
-						ltypes: this.checkedArr.join(','),
-						sTime: this.date,
-						eTime: this.jdate,
-					},
-					success: (res) => {
-						if (res.data.data.status == 200) {
-							uni.hideLoading();
-							this.$refs.drawer.close();
-							this.tableList= res.data.data.data;
+				if (this.date && this.jdate && this.jdate < this.date){
+					uni.showModal({
+						title:"提示",
+						content:"结束日期小于开始日期",
+						showCancel:false
+					})
+				} else {
+					uni.showLoading();
+					uni.request({
+						url: this.$burl + '/api/customer/remark',
+						header: {
+							'Authorization': "JWT " + getApp().globalData.token
+						},
+						data: {
+							id: this.activeId,
+							ltypes: this.checkedArr.join(','),
+							sTime: this.date,
+							eTime: this.jdate,
+						},
+						success: (res) => {
+							if (res.data.data.status == 200) {
+								uni.hideLoading();
+								this.$refs.drawer.close();
+								this.tableList= res.data.data.data;
+							}
+						},
+						fail: (err) => {
+							//console.log(err)
 						}
-					},
-					fail: (err) => {
-						//console.log(err)
-					}
-				})
+					})
+				}
 			},
 		}
 	}
