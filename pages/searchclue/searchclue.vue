@@ -719,11 +719,11 @@
 	.tag_k2{
 		display: flex;
 	
-		font-size: 32upx;
+		font-size: 28upx;
 		margin-left: 5rpx;
 		
 		justify-content: center;
-		color: #999;
+		/* color: #999; */
 		line-height: 40upx;
 		margin-left: 10upx;
 	}
