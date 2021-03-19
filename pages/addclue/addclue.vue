@@ -136,12 +136,16 @@
 				<view class="uni-form-item">
 					<radio-group name="addto" @change="addtoChange">
 						<view class="title" style="padding-top:30upx;"><text class="red">*</text>添加到:</view>
-						<label class="uni-labe" style="margin-top:5upx; display: block;line-height:60upx;" > 
+						<label class="uni-labe" style="margin-top:5upx; display: block;line-height:80upx;" > 
 							<radio  value="10" checked="checked" /><text>公共线索库</text>
 							<radio value="20"  style="margin-left: 30upx;" /><text>普通跟进(占用跟踪数量)</text><br/>
 							<radio value="25" /><text>签单跟进(占用跟踪数量)</text>
-							<radio value="50" style="margin-left: 30upx;"  v-if="departtype === 50 || departtype === 51 || departtype === 55"/><text>客户</text><br/>
-							<radio value="35" v-if="departtype === 15" /><text>快速录入(搜索营销)</text>
+							<view  v-if="departtype === 50 || departtype === 51 || departtype === 55">
+								<radio value="50"/><text>客户</text><br/>
+							</view>
+							<view v-if="departtype === 15">
+								<radio value="35"/><text>快速录入(搜索营销)</text>
+							</view>
 						</label>
 					</radio-group>
 				</view>
