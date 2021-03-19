@@ -391,7 +391,7 @@
 				uni.request({
 					url: this.$burl + '/api/locations_cascade',
 					header: {
-						'Authorization':"JWT " + getApp().globalData.token
+							'Authorization':"JWT " + getApp().globalData.token
 					},
 					success: (res) => {
 
@@ -407,7 +407,7 @@
 				uni.request({
 					url: this.$burl + '/api/industrys_cascade',
 					header: {
-						'Authorization':"JWT " + getApp().globalData.token
+							'Authorization':"JWT " + getApp().globalData.token
 					},
 					success: (res) => {
 
@@ -423,7 +423,7 @@
 				uni.request({
 					url: this.$burl + '/api/get_tags/' + this.usrid,
 					header: {
-						'Authorization':"JWT " + getApp().globalData.token
+							'Authorization':"JWT " + getApp().globalData.token
 					},
 					success: (res) => {
 						let checklist = res.data.data.data;
@@ -464,7 +464,7 @@
 				uni.request({
 					url: this.$burl + '/api/customer/malist',
 					header: {
-						'Authorization':"JWT " + getApp().globalData.token
+							'Authorization':"JWT " + getApp().globalData.token
 					},
 					data: {
 						kword: this.kword,
@@ -500,7 +500,7 @@
 				uni.request({
 					url: this.$burl + '/api/customer/malist',
 					header: {
-						'Authorization':"JWT " + getApp().globalData.token
+							'Authorization':"JWT " + getApp().globalData.token
 					},
 					data: {
 						kword: this.kword,
@@ -550,7 +550,7 @@
 				uni.request({
 					url: this.$burl + '/api/customer/have?id='+item._id,
 					header: {
-						'Authorization':"JWT " + getApp().globalData.token
+							'Authorization':"JWT " + getApp().globalData.token
 					},
 					success: (res) => {
 					
@@ -720,10 +720,8 @@
 	}
 	.tag_k2{
 		display: flex;
-	
-		font-size: 20rpx;
+		font-size: 28upx;
 		margin-left: 5rpx;
-		
 		justify-content: center;
 		color: #999;
 		line-height: 40upx;
@@ -733,7 +731,7 @@
 	.tag_k1{
 		display: flex;
 		background-color:#fdf6ec;
-		font-size: 20rpx;
+		font-size: 28upx;
 		margin-left: 5rpx;
 		width: 40rpx;
 		height: 40rpx;
@@ -918,10 +916,10 @@
 
 	}
 
-	.sub-title {
+	/* .sub-title {
 		color: $uni-text-color-grey;
 		font-size: 12px;
-	}
+	} */
 
 	.item-title {
 		font-size: 16px;
