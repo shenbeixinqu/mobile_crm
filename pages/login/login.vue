@@ -45,6 +45,7 @@
 					success: (userInfo) => {
 						getApp().globalData.roles = userInfo.data.roles
 						getApp().globalData.token = userInfo.data.token
+						getApp().globalData.departtype = userInfo.data.departtype
 						this.token = getApp().globalData.token
 						if (this.token){
 							uni.navigateTo({

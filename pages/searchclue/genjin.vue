@@ -180,8 +180,8 @@
 			},
 			// 返回列表页
 			qx() {
-				uni.navigateTo({
-					url: './searchclue'
+				uni.navigateBack({
+					delta:1
 				})
 			},
 			bindTextAreaBlur1: function(e) {

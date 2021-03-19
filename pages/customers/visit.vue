@@ -498,7 +498,7 @@
 			// 返回列表页
 			qx() {
 				uni.navigateTo({
-					url: './myclue'
+					url: './customers'
 				})
 			},
 			//出访洽谈业务

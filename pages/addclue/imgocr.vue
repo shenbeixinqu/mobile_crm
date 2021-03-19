@@ -12,7 +12,7 @@
 			<view class="add-view" v-if="imageList.length < imageLength" @tap="chooseImage">
 				<view class="cross">
 					<!-- <view class="transverse-line"></view>-->
-					<view class="vertical-line">名片扫描</view> 
+					<view class="vertical-line">名片识别</view> 
 				</view>
 			</view>
 		</view>

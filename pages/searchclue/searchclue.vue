@@ -258,7 +258,7 @@
 			}
 		},
 		onLoad() {
-			this.showxs=true;
+			// this.showxs=true;
 			this.tage();
 			this.locations();
 			this.industrys();
@@ -391,7 +391,8 @@
 				uni.request({
 					url: this.$burl + '/api/locations_cascade',
 					header: {
-							'Authorization':"JWT " + getApp().globalData.token
+						'Authorization': "JWT " + getApp().globalData.token,
+						
 					},
 					success: (res) => {
 
@@ -407,7 +408,7 @@
 				uni.request({
 					url: this.$burl + '/api/industrys_cascade',
 					header: {
-							'Authorization':"JWT " + getApp().globalData.token
+						'Authorization': "JWT " + getApp().globalData.token
 					},
 					success: (res) => {
 
@@ -423,7 +424,7 @@
 				uni.request({
 					url: this.$burl + '/api/get_tags/' + this.usrid,
 					header: {
-							'Authorization':"JWT " + getApp().globalData.token
+						'Authorization': "JWT " + getApp().globalData.token
 					},
 					success: (res) => {
 						let checklist = res.data.data.data;
@@ -435,7 +436,6 @@
 								'label': checklist[key].tab
 							})
 						}
-                     console.log('this.checkboxData',this.checkboxData)
 					},
 					fail: (err) => {
 						
@@ -464,7 +464,7 @@
 				uni.request({
 					url: this.$burl + '/api/customer/malist',
 					header: {
-							'Authorization':"JWT " + getApp().globalData.token
+						'Authorization': "JWT " + getApp().globalData.token
 					},
 					data: {
 						kword: this.kword,
@@ -473,7 +473,6 @@
 					
 						uni.hideLoading();
 						if (res.data.data.status == 200) {
-							this.showxs=false;
 							this.dataList = res.data.data.data;
 						} else {
 							uni.showModal({
@@ -500,7 +499,7 @@
 				uni.request({
 					url: this.$burl + '/api/customer/malist',
 					header: {
-							'Authorization':"JWT " + getApp().globalData.token
+						'Authorization': "JWT " + getApp().globalData.token
 					},
 					data: {
 						kword: this.kword,
@@ -516,7 +515,6 @@
 							this.$refs.drawer.close();
 							this.dataList = res.data.data.data;
 						} else {
-							this.showxs=true;
 							uni.showModal({
 								title: "提示",
 								content: res.data.msg,
@@ -550,7 +548,7 @@
 				uni.request({
 					url: this.$burl + '/api/customer/have?id='+item._id,
 					header: {
-							'Authorization':"JWT " + getApp().globalData.token
+						'Authorization': "JWT " + getApp().globalData.token
 					},
 					success: (res) => {
 					

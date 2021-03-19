@@ -8,8 +8,8 @@
 				<view class="uni-list-cell-db">
 					<picker style="width: 100%;" mode="selector" v-model="cfstage" :value="cfstage" :range="stagesArr" @change="stageRequire"
 					 range-key="name">
-						<view class="uni-input" v-if="!cfstage" style="color: #ddd;">请选择出访状态</view>
-						<view class="uni-input" v-else >{{stagesArr[cfstage].name}}</view>
+						<view class="uni-input" v-if="stagesArr[cfstage]" >{{stagesArr[cfstage].name}}</view>
+						<view class="uni-input" v-else style="color: #ddd;">请选择出访状态</view>
 					</picker>
 				</view>
 				<view class="chou_tit">
@@ -18,8 +18,8 @@
 				<view class="uni-list-cell-db">
 					<picker style="width: 100%;" mode="selector" v-model="cfresult" :value="cfresult" :range="resultArr" @change="resultRequire"
 					 range-key="name">
-						<view class="uni-input" v-if="!cfresult" style="color: #ddd;">请选择出访结果</view>
-						<view class="uni-input" v-else >{{resultArr[cfresult].name}}</view>
+						<view class="uni-input" v-if="resultArr[cfresult]" >{{resultArr[cfresult].name}}</view>
+						<view class="uni-input" v-else style="color: #ddd;">请选择出访结果</view>
 					</picker>
 				</view>
 				<view class="chou_tit">
@@ -28,8 +28,8 @@
 				<view class="uni-list-cell-db">
 					<picker style="width: 100%;" mode="selector" v-model="e_xqclass" :value="e_xqclass" :range="proArray" @change="proRequire"
 					 range-key="name">
-						<view class="uni-input" v-if="!e_xqclass" style="color: #ddd;">请选择洽谈业务</view>
-						<view class="uni-input" v-else >{{proArray[e_xqclass].name}}</view>
+						<view class="uni-input" v-if="proArray[e_xqclass]" >{{proArray[e_xqclass].name}}</view>
+						<view class="uni-input" v-else style="color: #ddd;">请选择洽谈业务</view>
 					</picker>
 				</view>
 				<view class="uni-list">
@@ -59,7 +59,6 @@
 					<button type="primary" class="btn2" @click="guangbi()">取消</button>
 					<button type="primary" class="btn1" @click="clox()">重置</button>
 					<button type="primary" class="btn " @click="getList('search')">确定</button>
-
 				</view>
 			</view>
 		</uni-drawer>
@@ -277,44 +276,51 @@
 				})
 			},
 			getList(type){
-				uni.showLoading();
-				uni.request({
-					url: this.$burl + '/api/visits/my',
-					header:{
-	
-						'Authorization': "JWT " + getApp().globalData.token
-					},
-					data: {
-						kword:this.kword,
-						kstatus: this.cfstage_val,
-						ksdt: this.date,
-						kedt: this.jdate,
-						kpc_id: this.e_xqclass_val,
-						kresult: this.cfresult_val
-					},
-					success:(res) => {
-					uni.hideLoading();
-						if (res.data.data.status === 200){
-							this.$refs.drawer.close();
-							this.dataList = res.data.data.data;
-							
-						} 	else{
+				if (this.date && this.jdate && this.jdate < this.date){
+					uni.showModal({
+						title:"提示",
+						content:"结束日期小于开始日期",
+						showCancel:false
+					})
+				} else {
+					uni.showLoading();
+					uni.request({
+						url: this.$burl + '/api/visits/my',
+						header:{
+						
+							'Authorization': "JWT " + getApp().globalData.token
+						},
+						data: {
+							kword:this.kword,
+							kstatus: this.cfstage_val,
+							ksdt: this.date,
+							kedt: this.jdate,
+							kpc_id: this.e_xqclass_val,
+							kresult: this.cfresult_val
+						},
+						success:(res) => {
+						uni.hideLoading();
+							if (res.data.data.status === 200){
+								this.$refs.drawer.close();
+								this.dataList = res.data.data.data;
+								
+							} 	else{
+								uni.showModal({
+									title:"提示",
+									content:res.data.msg,
+									 showCancel:false,
+								})
+							}
+						},
+						fail: (err) => {
 							uni.showModal({
 								title:"提示",
 								content:res.data.msg,
-								 showCancel:false,
+								
 							})
 						}
-					},
-					fail: (err) => {
-						uni.showModal({
-							title:"提示",
-							content:res.data.msg,
-							
-						})
-					}
-				})
-				
+					})
+				}
 			},
 			qx(){
 				this.visible = false
