@@ -11,7 +11,8 @@
 		},
 		globalData:{
 			token: "",
-			roles:[]
+			roles:[],
+			departtype:"",
 		}
 	}
 </script>

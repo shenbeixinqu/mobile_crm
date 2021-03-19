@@ -123,7 +123,7 @@
 					</view>
 
 				</view>
-				<view class="uni-form-item">
+				<!-- <view class="uni-form-item">
 					<view class="title" style="padding-top:30upx;"><text class="red">*</text>添加到:</view>
 					<input type="text" name="addto" v-model="clueForm.addto" :value="clueForm.addto" hidden="true" />
 					<view class="uni-input1">
@@ -132,8 +132,20 @@
 							<view v-else style="color: #ccc;">请选择添加到</view>
 						</picker>
 					</view>
-
+				</view> -->
+				<view class="uni-form-item">
+					<radio-group name="addto" @change="addtoChange">
+						<view class="title" style="padding-top:30upx;"><text class="red">*</text>添加到:</view>
+						<label class="uni-labe" style="margin-top:5upx; display: block;line-height:60upx;" > 
+							<radio  value="10" checked="checked" /><text>公共线索库</text>
+							<radio value="20"  style="margin-left: 30upx;" /><text>普通跟进(占用跟踪数量)</text><br/>
+							<radio value="25" /><text>签单跟进(占用跟踪数量)</text>
+							<radio value="50" style="margin-left: 30upx;"  v-if="getApp().globalData.departtype === 50 || getApp().globalData.departtype === 51 || getApp().globalData.departtype === 55"/><text>客户</text><br/>
+							<radio value="35" v-if="getApp().globalData.departtype === 15" /><text>快速录入(搜索营销)</text>
+						</label>
+					</radio-group>
 				</view>
+				
 				<view>
 					<view class="uni-form-item">
 						<radio-group name="radio" v-model="clueForm.radio" @change="zhizhaoChange">
@@ -388,7 +400,7 @@
 						value: "25"
 					},
 					{
-						name: "进快速录入(搜索营销)",
+						name: "快速录入(搜索营销)",
 						value: "35"
 					},
 				],
@@ -590,8 +602,9 @@
 				this.clueForm.source_flag_val = this.sourceArray[this.clueForm.source_flag].value
 			},
 			addtoChange(e) {
-				this.clueForm.addto = e.detail.value;
-				this.clueForm.addto_val = this.addtoArray[this.clueForm.addto].value
+				this.clueForm.addto = e.detail.value
+				// this.clueForm.addto = e.detail.value;
+				// this.clueForm.addto_val = this.addtoArray[this.clueForm.addto].value
 			},
 			employeesChange(e) {
 				this.clueForm.employees = e.detail.value;
@@ -756,7 +769,7 @@
 					formDatas.append("industry_depict", (this.clueForm.select[1]).toString())
 					formDatas.append("industry_lead", this.label4)
 					formDatas.append("source_flag", this.clueForm.source_flag_val)
-					formDatas.append("addto", this.clueForm.addto_val)
+					formDatas.append("addto", this.clueForm.addto)
 					
 					formDatas.append("address", this.clueForm.address)
 					formDatas.append("legal", this.clueForm.legal)
