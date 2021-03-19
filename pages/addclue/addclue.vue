@@ -140,8 +140,8 @@
 							<radio  value="10" checked="checked" /><text>公共线索库</text>
 							<radio value="20"  style="margin-left: 30upx;" /><text>普通跟进(占用跟踪数量)</text><br/>
 							<radio value="25" /><text>签单跟进(占用跟踪数量)</text>
-							<radio value="50" style="margin-left: 30upx;"  v-if="getApp().globalData.departtype === 50 || getApp().globalData.departtype === 51 || getApp().globalData.departtype === 55"/><text>客户</text><br/>
-							<radio value="35" v-if="getApp().globalData.departtype === 15" /><text>快速录入(搜索营销)</text>
+							<radio value="50" style="margin-left: 30upx;"  v-if="departtype === 50 || departtype === 51 || departtype === 55"/><text>客户</text><br/>
+							<radio value="35" v-if="departtype === 15" /><text>快速录入(搜索营销)</text>
 						</label>
 					</radio-group>
 				</view>
@@ -277,6 +277,7 @@
 				label4: '',
 				listhy: [],
 				list1: [],
+				departtype: getApp().globalData.departtype,
 
 				imageList: [], //保存图片路径集合
 				imageLength: 4, //限制图片张数

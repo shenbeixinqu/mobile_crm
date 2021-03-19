@@ -51,7 +51,7 @@
 		</uni-drawer>
 
 		<scroll-view scroll-y  class="classbox" >
-			<view class="tit">客户的基本资料</view>
+			<view class="tit">基本资料</view>
 			<view class="bottxt">
 				<view class="divtableleft">
 					<view class="divtext">客户名称：</view>
@@ -202,7 +202,7 @@
 						name: "nphone",
 						checkType: "phoneno",
 						checkRule: "",
-						errorMsg: "请输入正确手机号"
+						errorMsg: "请输入正确联系方式"
 					},
 					{
 						name: "nzw",
