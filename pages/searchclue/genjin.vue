@@ -311,8 +311,8 @@
 						}
 					});
 					setTimeout(function() {
-							uni.redirectTo({
-								url: './searchclue'
+							uni.navigateBack({
+								delta: 1
 							})
 					}, 2000);
 				  

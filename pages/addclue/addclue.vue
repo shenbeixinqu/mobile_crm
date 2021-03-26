@@ -701,7 +701,7 @@
 					},
 					{
 						name: "phone",
-						checkType: "null",
+						checkType: "phoneno",
 						errorMsg: "请输入客户电话"
 					},
 					{
