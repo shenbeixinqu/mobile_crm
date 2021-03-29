@@ -123,16 +123,6 @@
 					</view>
 
 				</view>
-				<!-- <view class="uni-form-item">
-					<view class="title" style="padding-top:30upx;"><text class="red">*</text>添加到:</view>
-					<input type="text" name="addto" v-model="clueForm.addto" :value="clueForm.addto" hidden="true" />
-					<view class="uni-input1">
-						<picker @change="addtoChange" :range="addtoArray" range-key="name">
-							<view v-if="addtoArray[clueForm.addto]">{{addtoArray[clueForm.addto].name}}</view>
-							<view v-else style="color: #ccc;">请选择添加到</view>
-						</picker>
-					</view>
-				</view> -->
 				<view class="uni-form-item">
 					<radio-group name="addto" @change="addtoChange">
 						<view class="title" style="padding-top:30upx;"><text class="red">*</text>添加到:</view>
@@ -143,7 +133,7 @@
 							<radio value="50" style="margin-left: 30upx;"  v-if="getApp().globalData.departtype === 50 || getApp().globalData.departtype === 51 || getApp().globalData.departtype === 55"/><text>客户</text><br/>
 							<radio value="35" v-if="getApp().globalData.departtype === 15" /><text>快速录入(搜索营销)</text>
 						</label>
-					</radio-group>
+					</radio-group> 
 				</view>
 				
 				<view>
@@ -227,7 +217,9 @@
 					</view>
 					<view class="uni-form-item">
 						<label class="title" style="padding-top:30upx;">注册资金:</label>
-						<input class="uni-input1" placeholder="请输入注册资金" type="number" v-model="clueForm.registered" placeholder-class="placeholder" />
+						<view style="display: flex; align-items: center; justify-content: space-between;">
+						<input class="uni-input1a"  placeholder="请输入注册资金" type="number" v-model="clueForm.registered" placeholder-class="placeholder" /> <span style=" text-align:left; text-indent: 10upx; color: #444444;  font-size: 24upx;">万元</span>
+						</view>
 					</view>
 				</view>
 				<view>
@@ -1116,6 +1108,19 @@
 		color: #606266;
 	}
 	
+	.uni-input1a {
+		
+		background-color: #fff;
+		border-color: #e4e7ed;
+		height: 50rpx;
+		padding: 15rpx 25rpx;
+		line-height: 50rpx;
+		font-size:30rpx;
+		flex: 1;
+		border: 1px #ddd solid;
+		border-radius: 10upx;
+		color: #606266;
+	}
 	.item-placeholder{ color: #ccc;}
 	.uni-input1 span{color:#606266!important;}
 	.uni-padding-wrap {
