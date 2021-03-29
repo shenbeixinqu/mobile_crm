@@ -85,8 +85,8 @@
 				</view>
 
 				<view class="uni-form-item uni-column">
-					<view class="title">客户地址</view>
-					<input class="uni-input1" v-model="address" name="address" placeholder="请输入客户地址" :disabled="true" />
+					<view class="title"><text class="red">*</text>客户地址</view>
+					<input class="uni-input1" v-model="address" name="address" placeholder="请输入客户地址" />
 				</view>
 				<view class="uni-form-item uni-column">
 					<view class="title">陪访人</view>
@@ -439,6 +439,12 @@
 						checkType: "null",
 						checkRule: "",
 						errorMsg: "职务不能为空"
+					},
+					{
+						name: "address",
+						checkType: "null",
+						checkRule: "",
+						errorMsg: "客户地址不能为空"
 					}
 
 				];

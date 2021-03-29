@@ -729,7 +729,7 @@
 	.tag_k1{
 		display: flex;
 		background-color:#fdf6ec;
-		font-size: 20rpx;
+		font-size: 32upx;
 		margin-left: 5rpx;
 		width: 40rpx;
 		height: 40rpx;
