@@ -68,7 +68,7 @@
 					<view class="uni-form-item">
 						<view class=title>取消原因</view>
 
-						<textarea class="uni-inputa" @blur="bindTextAreaBlur" name="refuseReason" placeholder="请输入拒绝原因" />
+						<textarea class="uni-inputa" @blur="bindTextAreaBlur" name="refuseReason" placeholder="请输入取消原因" />
 						</view>
 					<view class="uni-btn-v">
 						<button class="btn btn1" @click="qx">取消</button>
