@@ -1,7 +1,6 @@
 <template>
 	<view class="contentk">
-
-		<e-modal :visible.sync="visible" >
+		<e-modal :visible.sync="visible">
 			<view class="uni-padding-wrap uni-common-mt">
 				<form @submit="formSubmit" @reset="formReset">
 					<view class="uni-form-item uni-column">
@@ -10,23 +9,23 @@
 					</view>
 					<view class="uni-form-item uni-column">
 						<view class="title">电话号码</view>
-						<input class="uni-input" v-model="gphone" name="nphone" placeholder="格式参考：024-12345678或13612345678" />
+						<input class="uni-input" v-model="gphone" name="nphone"
+							placeholder="格式参考：024-12345678或13612345678" />
 					</view>
 					<view class="uni-form-item uni-column">
 						<view class="title">职务</view>
 						<input type="text" name="nzw" v-model="source_flag" :value="source_flag" hidden="true" />
 						<picker @change="sourceChange" :range="sourceArray" range-key="name">
-							<view class="uni-input" v-if="sourceArray[source_flag]">{{sourceArray[source_flag].name}}</view>
+							<view class="uni-input" v-if="sourceArray[source_flag]">{{
+                sourceArray[source_flag].name
+              }}</view>
 							<view class="uni-input" v-else>请选择职务</view>
 						</picker>
 					</view>
 
 					<view class="uni-btn-v">
-						
 						<button class="btn btn1" @click="qx">取消</button>
 						<button form-type="submit" class="btn">提交</button>
-						
-						
 					</view>
 				</form>
 			</view>
@@ -34,38 +33,37 @@
 
 		<uni-drawer ref="drawer" mode="right" :width="drawWid">
 			<scroll-view scroll-y class="wk_n">
-				<view class="chou_tit">客户名称：{{ tableList.name}}</view>
+				<view class="chou_tit">客户名称：{{ tableList.name }}</view>
 				<view class="list-item" v-for="item in tableDatazi" :key="item.id">
 					<view class="list-itemleft">
-						<view>资质类型：{{item.qualstype}}</view>
-						<view>上传时间：{{item.addtime}}</view>
+						<view>资质类型：{{ item.qualstype }}</view>
+						<view>上传时间：{{ item.addtime }}</view>
 					</view>
 					<view class="list-img">
-						<image style="width: 100%; height:300upx; background-color: #eeeeee;" @click="clickImg(item.scan)" :src="imgurl+item.scan"
-						 mode="aspectFit"></image>
+						<image style="width: 100%; height: 300upx; background-color: #eeeeee"
+							@click="clickImg(item.scan)" :src="imgurl + item.scan" mode="aspectFit"></image>
 					</view>
 				</view>
 				<button type="primary" class="anbtn" @click="clox()">返回</button>
 			</scroll-view>
-
 		</uni-drawer>
 
-		<scroll-view scroll-y  class="classbox" >
+		<scroll-view scroll-y class="classbox">
 			<view class="tit">基本资料</view>
 			<view class="bottxt">
 				<view class="divtableleft">
 					<view class="divtext">客户名称：</view>
-					<view class="divright">{{ tableList.name}}</view>
+					<view class="divright">{{ tableList.name }}</view>
 					<view class="divtext">客户地区：</view>
-					<view class="divright">{{ tableList.loc_lead}}</view>
+					<view class="divright">{{ tableList.loc_lead }}</view>
 					<view class="divtext">详细地址：</view>
-					<view class="divright">{{ tableList.address}}</view>
+					<view class="divright">{{ tableList.address }}</view>
 					<view class="divtext">企业法人：</view>
-					<view class="divright">{{ tableList.legal}}</view>
+					<view class="divright">{{ tableList.legal }}</view>
 					<view class="divtext">客户电话：</view>
-					<view class="divright">{{ tableList.phone}}</view>
+					<view class="divright">{{ tableList.phone }}</view>
 					<view class="divtext">客户来源：</view>
-					<view class="divright">{{ tableList.source_flag}}</view>
+					<view class="divright">{{ tableList.source_flag }}</view>
 					<view class="divtext">客户资质：</view>
 					<view class="divright lanse" @click="drawer()"><a>请点击了解</a></view>
 				</view>
@@ -97,83 +95,80 @@
 					<view>职务</view>
 				</view>
 				<view class="contactus_bottom" v-for="item in linkmans" :key="item.value">
-					<view>{{item.realname}}</view>
-					<view @tap.stop="call_phone(item)">{{item.phone}}
+					<view>{{ item.realname }}</view>
+					<view @tap.stop="call_phone(item)">{{ item.phone }}
 						<image class="tel-img" src="../../static/tel.png" mode="aspectFit"></image>
 					</view>
-					<view>{{item.duty}}</view>
+					<view>{{ item.duty }}</view>
 				</view>
 			</view>
 
-<view style="height:100upx;"></view>
-
+			<view style="height: 100upx"></view>
 		</scroll-view>
-		
-		
+
 		<foot-part @openLogin="openLogin"></foot-part>
 	</view>
-
-
-
-
 </template>
 
 <script>
-	import uniDrawer from "@/components/uni-drawer/uni-drawer.vue"
-	var graceChecker = require("../../js_sdk/graceui-dataChecker/graceChecker.js")
+	import uniDrawer from "@/components/uni-drawer/uni-drawer.vue";
+	var graceChecker = require("../../js_sdk/graceui-dataChecker/graceChecker.js");
 	export default {
+
 		components: {
-			uniDrawer
+			uniDrawer,
 		},
 		props: {
 			activeId: {
-				type: String // 指定传入的类型
+				type: String, // 指定传入的类型
 			}
 		},
 		data() {
 			return {
-				value: '',
+				value: "",
 				visible: false,
-				gname: '',
-				gphone: '',
-				drawWid: '100%',
+				gname: "",
+				gphone: "",
+				drawWid: "100%",
 				isShow: true,
 				isMore: false,
 				isSh: false,
 				tableList: [],
 				tableDatazi: [],
 				linkmans: [],
-				nzw: '',
-				source_flag: '',
-				source_flagvalue: '',
+				nzw: "",
+				source_flag: "",
+				source_flagvalue: "",
 				sourceArray: [{
 						name: "老板/总经理",
-						value: "1"
+						value: "1",
 					},
 					{
 						name: "部门经理/主管",
-						value: "2"
+						value: "2",
 					},
 					{
 						name: "职员",
-						value: "9"
+						value: "9",
 					},
 					{
 						name: "其他",
-						value: "0"
+						value: "0",
 					},
 				],
-			}
+			};
 		},
 
 		mounted() {
+			
+
+
 			this.imgurl = this.$imgurl;
 			this.showToast();
 			this.kehu();
 			this.zizhi();
-
-
 		},
+
 		methods: {
 			//职务
 			sourceChange(e) {
@@ -187,8 +182,7 @@
 			openlxr() {
 				this.visible = true;
 			},
-			handleCancel() {
-			},
+			handleCancel() {},
 			//表单
 			formSubmit: function(e) {
 				//定义表单规则
@@ -196,20 +190,20 @@
 						name: "nickname",
 						checkType: "string",
 						checkRule: "1,10",
-						errorMsg: "请输入姓名"
+						errorMsg: "请输入姓名",
 					},
 					{
 						name: "nphone",
 						checkType: "phoneno",
 						checkRule: "",
-						errorMsg: "请输入正确联系方式"
+						errorMsg: "请输入正确联系方式",
 					},
 					{
 						name: "nzw",
 						checkType: "null",
 						checkRule: "",
-						errorMsg: "职务不能为空"
-					}
+						errorMsg: "职务不能为空",
+					},
 				];
 				//进行表单检查
 				var formData = e.detail.value;
@@ -217,12 +211,12 @@
 				if (checkRes) {
 					uni.showToast({
 						title: "验证通过!",
-						icon: "none"
+						icon: "none",
 					});
 					uni.request({
-						url: this.$burl + '/api/customer/' + this.activeId + '/linkman',
+						url: this.$burl + "/api/customer/" + this.activeId + "/linkman",
 						header: {
-								'Authorization':"JWT " + getApp().globalData.token
+								'Authorization': "JWT " + getApp().globalData.token,
 						},
 						method: "POST",
 						data: {
@@ -234,45 +228,47 @@
 							if (res.data.data.status == 200) {
 								uni.showToast({
 									title: res.data.msg,
-									icon: "none"
+									icon: "none",
 								});
 								this.kehu();
 								this.visible = false;
 							} else {
 								uni.showToast({
 									title: res.data.msg,
-									icon: "none"
+									icon: "none",
 								});
 								this.visible = false;
 							}
-
 						},
 						fail: (err) => {
 							uni.showModal({
 								title: "提示",
 								content: res.data.msg,
 								showCancel: false,
-							})
-						}
-					})
+							});
+						},
+					});
 				} else {
 					uni.showToast({
 						title: graceChecker.error,
-						icon: "none"
+						icon: "none",
 					});
 				}
 			},
-			formReset: function(e) {
-			},
+			formReset: function(e) {},
 
 			//抽屉打开
 			drawer() {
 				this.$refs.drawer.open();
 			},
+			
+			
 			//抽屉关闭
 			clox() {
 				this.$refs.drawer.close();
 			},
+			
+			
 			//更多
 			handleMore() {
 				this.isMore = !this.isMore;
@@ -281,7 +277,6 @@
 			},
 			//收回
 			handleShou() {
-
 				this.isMore = false;
 				this.isSh = false;
 				this.isShow = true;
@@ -290,23 +285,22 @@
 			call_phone(item) {
 				uni.makePhoneCall({
 					phoneNumber: item.phone,
-					success: (res) => {
-					},
+					success: (res) => {},
 					// 失败回调
 					fail: (res) => {
 						this.call_phone(); //重复调用一次
-					}
+					},
 				});
 			},
 			//客户概况接口
 			kehu() {
 				uni.request({
-					url: this.$burl + '/api/customer/info',
+					url: this.$burl + "/api/customer/info",
 					header: {
-							'Authorization':"JWT " + getApp().globalData.token
+						Authorization: this.$token
 					},
 					data: {
-						id: this.activeId
+						id: this.activeId,
 					},
 					success: (res) => {
 						uni.hideLoading();
@@ -320,21 +314,19 @@
 							title: "提示",
 							content: res.data.msg,
 							showCancel: false,
-						})
-					}
-				})
+						});
+					},
+				});
 			},
 
 			//资质
 			zizhi() {
 				uni.request({
-					url: this.$burl + '/api/customers_quals/' + this.activeId,
+					url: this.$burl + "/api/customers_quals/" + this.activeId,
 					header: {
-							'Authorization':"JWT " + getApp().globalData.token
+						Authorization: this.$token
 					},
-					data: {
-
-					},
+					data: {},
 					success: (res) => {
 						uni.hideLoading();
 						if (res.data.data.status == 200) {
@@ -346,29 +338,29 @@
 							title: "提示",
 							content: res.data.msg,
 							showCancel: false,
-						})
-					}
-				})
+						});
+					},
+				});
 			},
 			// 点击资质放大
 			clickImg(logurl) {
-				let imgsArray = []
-				imgsArray[0] = this.imgurl + logurl
+				let imgsArray = [];
+				imgsArray[0] = this.imgurl + logurl;
 				uni.previewImage({
 					current: 0,
-					urls: imgsArray
-				})
+					urls: imgsArray,
+				});
 			},
 			//表单提交
 
 			showToast(title) {
 				uni.showToast({
 					title: title,
-					icon: 'none'
+					icon: "none",
 				});
 			},
-		}
-	}
+		},
+	};
 </script>
 
 <style scoped>
@@ -376,23 +368,19 @@
 		height: 100%;
 	}
 
-
 	.classbox {
 		width: 95%;
 		height: 100%;
 		overflow: hidden;
-		
-
 	}
 
 	.uni-btn-v {
-		width:90%;
-		margin:30upx auto 30upx auto;
+		width: 90%;
+		margin: 30upx auto 30upx auto;
 		display: flex;
 		align-items: center;
 		justify-content: space-between;
 	}
-
 
 	.btn {
 		width: 50%;
@@ -408,7 +396,6 @@
 	.btn1 {
 		background: #d7e8fc;
 		color: #316fd4;
-
 	}
 
 	.btn1:after {
@@ -425,7 +412,7 @@
 	.tit {
 		width: 98%;
 		color: #666666;
-	font-size: 30upx;
+		font-size: 30upx;
 		height: 80upx;
 		line-height: 80upx;
 		text-align: left;
@@ -474,7 +461,6 @@
 		border-bottom: none;
 		margin-left: -1px;
 		font-size: 30upx;
-
 	}
 
 	.contactus_top view:nth-child(2) {
@@ -537,7 +523,6 @@
 		line-height: 80upx;
 		text-align: right;
 		height: 80upx;
-
 	}
 
 	.divtext {
@@ -547,7 +532,6 @@
 		justify-content: flex-start;
 		border-bottom: 1px solid #e4e4e4;
 		font-size: 30upx;
-
 	}
 
 	.divright {
@@ -574,12 +558,11 @@
 	.wk_n {
 		width: 96%;
 		margin: 0 auto;
-		height:100%;
+		height: 100%;
 		overflow: hidden;
-		margin-bottom:100upx;
+		margin-bottom: 100upx;
 		display: flex;
 		flex-direction: column;
-
 	}
 
 	.chou_tit {
@@ -621,25 +604,20 @@
 	}
 
 	.list-img {
-
 		width: 35%;
 		display: flex;
 	}
-
-
 
 	/* 表单 */
 	.uni-padding-wrap {
 		width: 100%;
 		padding-top: 20upx;
 		padding-bottom: 20upx;
-	
-
 	}
 
 	.uni-form-item {
 		display: flex;
-		width:90%;
+		width: 90%;
 		margin: 0 auto;
 		padding: 10rpx 0;
 		flex-direction: column;
@@ -661,7 +639,7 @@
 		padding: 15rpx 25rpx;
 		line-height: 50rpx;
 		font-size: 28rpx;
-		background: #FFF;
+		background: #fff;
 		flex: 1;
 		border: 1px #ddd solid;
 		border-radius: 10upx;
@@ -681,7 +659,7 @@
 	.uni-form-item .with-fun {
 		display: flex;
 		flex-wrap: nowrap;
-		background: #FFFFFF;
+		background: #ffffff;
 	}
 
 	.uni-form-item .with-fun .uni-icon {
@@ -690,5 +668,10 @@
 		line-height: 80rpx;
 		flex-shrink: 0;
 	}
-	/deep/.e-modal-container{height:690upx!important; position:relative; align-items: flex-start!important;}
+
+	/deep/.e-modal-container {
+		height: 690upx !important;
+		position: relative;
+		align-items: flex-start !important;
+	}
 </style>
