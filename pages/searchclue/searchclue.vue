@@ -391,7 +391,7 @@
 				uni.request({
 					url: this.$burl + '/api/locations_cascade',
 					header: {
-						'Authorization':"JWT " + getApp().globalData.token
+							'Authorization': "JWT " + getApp().globalData.token,
 						
 					},
 					success: (res) => {
