@@ -477,8 +477,11 @@
 						},
 						success: (res) => {
 							if (res.data.data.status == 200) {
-								uni.navigateTo({
-									url:'./myclue'
+								// uni.navigateTo({
+								// 	url:'./myclue'
+								// })
+								uni.navigateBack({
+									delta:1
 								})
 
 							} else {

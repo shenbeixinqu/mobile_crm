@@ -166,8 +166,11 @@
 				this.visible = false
 			},
 			back(){
-				uni.navigateTo({
-					url:"./my"
+				// uni.navigateTo({
+				// 	url:"./my"
+				// })
+				uni.navigateBack({
+					delta:1
 				})
 			},
 			formSubmit: function(e){

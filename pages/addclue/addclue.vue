@@ -789,9 +789,19 @@
 						})
 						.then(res => {
 							if (res.data.data.status == 200) {
-								uni.navigateTo({
-									url: "../index/index",
+								uni.showModal({
+									title:"提示",
+									content:"添加成功",
+									showCancel:false,
+									success: function(res){
+										if (res.confirm){
+											uni.navigateTo({
+												url: "../index/index",
+											})
+										}
+									}
 								})
+								
 							} else {
 								uni.showModal({
 									title: "提示",

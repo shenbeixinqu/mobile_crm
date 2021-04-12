@@ -205,9 +205,12 @@
 			}
 		},
 		onLoad(options){
-			this.getList();
+			// this.getList();
 			this.dataDict();
 			this.doSearch();
+		},
+		onShow() {
+			this.getList('search');
 		},
 		methods:{
 			queryList(pageNo,pageSize){
@@ -247,7 +250,6 @@
 				uni.request({
 						url: this.$burl + '/api/visits/my',
 					header: {
-						
 						'Authorization': "JWT " + getApp().globalData.token
 					},
 					data: {
@@ -287,7 +289,6 @@
 					uni.request({
 						url: this.$burl + '/api/visits/my',
 						header:{
-						
 							'Authorization': "JWT " + getApp().globalData.token
 						},
 						data: {
@@ -363,7 +364,6 @@
 				uni.request({
 					url:this.$burl + "/api/getchoices",
 					header:{
-						
 						'Authorization': "JWT " + getApp().globalData.token
 					},
 					data:{
@@ -416,7 +416,6 @@
 					uni.request({
 						url:this.$burl + '/api/visits/' + this.id,
 						header: {
-							
 							'Authorization': "JWT " + getApp().globalData.token
 						},
 						method:"DELETE",
@@ -426,6 +425,7 @@
 						success: (res) => {
 							if (res.data.data.status == 200){
 								this.visible = false
+								this.getList('search')
 							} else {
 								uni.showModal({
 									title:"提示",

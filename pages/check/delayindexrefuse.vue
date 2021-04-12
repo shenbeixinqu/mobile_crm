@@ -46,7 +46,7 @@
 									deal_reason:this.reason
 								},
 								header:{
-									'Authorization': this.$token
+									'Authorization': "JWT " + getApp().globalData.token
 								},
 								succcess: res => {
 									if(res.data.data.status === 200){

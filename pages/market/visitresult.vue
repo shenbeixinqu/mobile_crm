@@ -10,16 +10,16 @@
 					<view class="title">出访后推广需求</view>
 					<input type="text" v-model="e_xqclass" :value="e_xqclass" hidden="true">
 					<picker mode="selector" :range="promoteArray" @change="promoteRequire" range-key="name">
-						<view class="uni-input" v-if="!e_xqclass">请选择推广需求</view>
-						<view class="uni-input" v-else>{{promoteArray[e_xqclass].name}}</view>
+						<view class="uni-input" v-if="promoteArray[e_xqclass]">{{promoteArray[e_xqclass].name}}</view>
+						<view class="uni-input" v-else>请选择推广需求</view>
 					</picker>
 				</view>
 				<view class="uni-form-item uni-column">
 					<view class="title">出访后网络意识</view>
 					<input type="text" v-model="e_wangluo" :value="e_wangluo" hidden="true">
 					<picker mode="selector" :range="netArray" @change="netRequire" range-key="name">
-						<view v-if="!e_wangluo" class="uni-input">请选择网络意识</view>
-						<view v-else class="uni-input">{{netArray[e_wangluo].name}}</view>
+						<view v-if="netArray[e_wangluo]" class="uni-input">{{netArray[e_wangluo].name}}</view>
+						<view v-else class="uni-input">请选择网络意识</view>
 					</picker>
 				</view>
 				<view class="uni-form-item uni-column">
@@ -167,9 +167,13 @@
 						},
 						success: (res) => {
 							if (res.data.data.status == 200){
-								uni.navigateTo({
-									url:"./my"
+								// uni.navigateTo({
+								// 	url:"./my"
+								// })
+								uni.navigateBack({
+									delta:1
 								})
+								
 							} else {
 								uni.showToast({
 									title:res.data.msg,
@@ -189,9 +193,12 @@
 				
 			},
 			back(){
-				uni.navigateTo({
-					url:'./my'
+				uni.navigateBack({
+					delta:1
 				})
+				// uni.navigateTo({
+				// 	url:'./my'
+				// })
 			},
 			determine(){
 				// uni.request({

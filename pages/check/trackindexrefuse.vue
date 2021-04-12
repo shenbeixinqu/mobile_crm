@@ -45,7 +45,7 @@
 									ckremark:this.remark
 								},
 								header:{
-									'Authorization': this.$token
+									'Authorization': "JWT " + getApp().globalData.token
 								},
 								success: res => {
 									if(res.data.data.status == 200){

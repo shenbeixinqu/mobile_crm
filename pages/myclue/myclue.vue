@@ -363,13 +363,14 @@
 						},
 						success: (res) => {
 							if (res.data.data.status == 200) {
-								uni.navigateTo({
-									url: './myclue'
-								})
+								// uni.navigateTo({
+								// 	url: './myclue'
+								// })
 								uni.showToast({
 									title: res.data.msg,
 									icon: "none"
 								});
+								this.qx()
 
 
 							} else {

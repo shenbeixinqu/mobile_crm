@@ -53,7 +53,8 @@
 		data() {
 			return {
 				dataList: [],
-				flagArray: [{
+				flagArray: [
+					{
 						name: "全部",
 						value: ""
 					},
@@ -186,7 +187,7 @@
 			flagChange(e) {
 				this.flag = e.detail.value
 				this.flag_val = this.flagArray[this.flag].value
-				this.getList()
+				this.queryList()
 			},
 
 			clueReview(item) {

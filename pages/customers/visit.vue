@@ -471,12 +471,14 @@
 							p_type: this.p_typevalue,
 						},
 						success: (res) => {
-							if (res.data.data.status == 200) {
-								uni.navigateTo({
-									url:"./customers"
+							if (res.data.data.status === 200) {
+								// uni.showToast({
+								// 	title: res.data.msg,
+								// 	icon: "none"
+								// });
+								uni.navigateBack({
+									delta:1
 								})
-
-
 							} else {
 								uni.showToast({
 									title: res.data.msg,

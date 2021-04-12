@@ -7,7 +7,6 @@
 						<view class="title"><text class="red">*</text>请填写批注</view>
 						<textarea class="uni-input1" @blur="bindTextAreaBlur" name="remark" placeholder="请填写批注"
 							:vlaue="remark" />
-
 					</view>
 
 					<view class="uni-btn-v">
@@ -362,7 +361,7 @@
 			bindTextAreaBlur: function(e) {
 				this.remark = e.detail.value
 			},
-			 qx() {
+			qx() {
 				this.visible = false;
 			},
 			openlxr(value) {
@@ -401,13 +400,15 @@
 						},
 						success: (res) => {
 							if (res.data.data.status == 200) {
-								uni.navigateTo({
-									url: './customers'
-								})
+								// uni.navigateTo({
+								// 	url: './customers'
+								// })
+								
 								uni.showToast({
 									title: res.data.msg,
 									icon: "none"
 								});
+								this.qx()
 
 
 							} else {
